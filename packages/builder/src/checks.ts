@@ -193,8 +193,10 @@ const isAiring = (w: WorkFile) => w.status === 'airing';
 
 function checkWork(w: MergedWork, knownWorks: Set<string>, reporter: Reporter): void {
   const d = w.data;
-  // Bounds problems are errors for works with a manual file, warnings for seed-only works (Xwolv decision 3).
-  const boundsSeverity: Severity = w.isManual ? 'error' : 'warning';
+  // Bounds problems are errors for works with a manual file and warnings for seed-only works
+  // (Xwolv decision 3). Movies are matched by ID and AniDB numbers their parts, so for them a
+  // range past the count is only informational (decision S3.8).
+  const boundsSeverity: Severity = d.type === 'movie' ? 'info' : w.isManual ? 'error' : 'warning';
   const at: At = (path, code, msg, severity) => reporter.report(w.loc, code, path, msg, { work: w.id, ...(severity && { severity }) });
 
   for (const key of ['type', 'episodes'] as const) {

@@ -15,7 +15,7 @@ Commands:
 
 Options:
   --data <dir>           Data directory with works/, sequences/, groups/, seeds/ (default: data)
-  --warnings             List every warning, not just counts by code
+  --warnings             List every warning and info note, not just counts by code
   --out <path>           SQLite output (compile) or shard directory (shards)
   --from <file>          Compiled dump to read (shards)
   --data-version <v>     Override data_version (default: ISO year.week, e.g. 2026.42)
@@ -25,6 +25,7 @@ Options:
 
 const errors = (r: ValidateResult) => r.diagnostics.filter((d) => d.severity === 'error');
 const warningsOf = (r: ValidateResult) => r.diagnostics.filter((d) => d.severity === 'warning');
+const infoOf = (r: ValidateResult) => r.diagnostics.filter((d) => d.severity === 'info');
 const warningNote = (r: ValidateResult) => {
   const n = warningsOf(r).length;
   return n === 0 ? '' : ` (${n} warning(s); --warnings lists them)`;
@@ -35,12 +36,15 @@ function printDiagnostics(r: ValidateResult, listWarnings: boolean): void {
   for (const d of errors(r)) console.error(formatDiagnostic(d));
   const warnings = warningsOf(r);
   if (listWarnings) {
-    for (const d of warnings) console.error(formatDiagnostic(d));
+    for (const d of [...warnings, ...infoOf(r)]) console.error(formatDiagnostic(d));
     return;
   }
   const byCode = new Map<Diagnostic['code'], number>();
   for (const d of warnings) byCode.set(d.code, (byCode.get(d.code) ?? 0) + 1);
   for (const [code, n] of [...byCode].sort()) console.error(`warning ${code}: ${n}`);
+  const info = new Map<Diagnostic['code'], number>();
+  for (const d of infoOf(r)) info.set(d.code, (info.get(d.code) ?? 0) + 1);
+  for (const [code, n] of [...info].sort()) console.error(`info ${code}: ${n}`);
 }
 
 async function main(argv: string[]): Promise<number> {

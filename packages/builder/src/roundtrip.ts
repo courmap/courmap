@@ -26,7 +26,7 @@ function samples(work: WorkRecord): { kind: EpisodeKind; e: number }[] {
   const out = new Map<string, { kind: EpisodeKind; e: number }>();
   const add = (kind: EpisodeKind, e: number) => {
     if (e < 1) return;
-    if (kind === 'regular' && work.episodes !== null && e > work.episodes) return;
+    if (kind === 'regular' && work.type !== 'movie' && work.episodes !== null && e > work.episodes) return;
     if (kind === 'special' && work.specials !== null && e > work.specials) return;
     out.set(`${kind}${e}`, { kind, e });
   };

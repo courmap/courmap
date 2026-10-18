@@ -140,6 +140,8 @@ function single(works: WorkRecord[], what: string): WorkRecord {
 }
 
 function checkBounds(work: WorkRecord, kind: EpisodeKind, e: number): void {
+  // A movie's parts (AniDB numbers them) may exceed its episode count of 1 (decision S3.8).
+  if (work.type === 'movie' && kind === 'regular') return;
   const limit = kind === 'regular' ? work.episodes : kind === 'special' ? work.specials : null;
   if (limit !== null && e > limit) {
     throw new CourmapError('invalid_input', `${work.id} has ${limit} ${kind} episodes; ${formatSpan({ kind, from: e, to: e })} is out of range`, {

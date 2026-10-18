@@ -41,6 +41,7 @@ export function renderReport(previousManifest: string | null, nextManifest: stri
     ...table('Provider refs', p?.provider_refs as Record<string, number>, n.provider_refs as Record<string, number>),
     ...table('Projection rows', p?.projection_rows as Record<string, number>, n.projection_rows as Record<string, number>),
     ...table('Validation warnings', p?.warnings, n.warnings),
+    ...table('Informational (movie part counts)', p?.info, n.info),
     ...table('Dropped or defaulted (conflicts.jsonl)', p?.conflicts, n.conflicts),
     'The seed job ran `pnpm seed --verify` (two runs, byte-identical), `pnpm validate`, `pnpm compile` and `pnpm test` before opening this PR. No file in `data/works/` is changed by a seed run.',
     '',

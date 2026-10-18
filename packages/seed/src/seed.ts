@@ -55,6 +55,7 @@ export interface SeedSummary {
   projection_blocks: Partial<Record<ProjectionProvider, number>>;
   partial_blocks: Partial<Record<ProjectionProvider, number>>;
   warnings: Record<string, number>;
+  info: Record<string, number>;
   conflicts: Record<string, number>;
   offline_db_entries_without_anidb: number;
   anime_lists_entries_without_offline_db: number;
@@ -354,6 +355,7 @@ function summarize(
     projection_blocks: {},
     partial_blocks: {},
     warnings: {},
+    info: {},
     conflicts: {},
     offline_db_entries_without_anidb: withoutAnidb,
     anime_lists_entries_without_offline_db: listsWithoutOffline,
@@ -370,7 +372,11 @@ function summarize(
       if (!Array.isArray(b) && b.coverage === 'partial') inc(s.partial_blocks, p);
     }
   }
-  for (const d of reporter.diagnostics) if (d.severity === 'warning') s.warnings[d.code] = (s.warnings[d.code] ?? 0) + 1;
+  for (const d of reporter.diagnostics) {
+    if (d.severity === 'warning') s.warnings[d.code] = (s.warnings[d.code] ?? 0) + 1;
+    if (d.severity === 'info') s.info[d.code] = (s.info[d.code] ?? 0) + 1;
+  }
+  s.info = Object.fromEntries(Object.entries(s.info).sort());
   for (const c of conflicts) s.conflicts[c.reason] = (s.conflicts[c.reason] ?? 0) + 1;
   s.warnings = Object.fromEntries(Object.entries(s.warnings).sort());
   s.conflicts = Object.fromEntries(Object.entries(s.conflicts).sort());

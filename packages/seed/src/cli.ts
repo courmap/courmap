@@ -103,7 +103,7 @@ function report(out: SeedOutput): void {
   console.log(`Works: ${s.works} (repair rounds: ${s.repair_rounds})`);
   console.log(`Provider refs: ${JSON.stringify(s.provider_refs)}`);
   console.log(`Projection rows: ${JSON.stringify(s.projection_rows)}; blocks: ${JSON.stringify(s.projection_blocks)}; partial: ${JSON.stringify(s.partial_blocks)}`);
-  console.log(`Warnings: ${JSON.stringify(s.warnings)}`);
+  console.log(`Warnings: ${JSON.stringify(s.warnings)}; info: ${JSON.stringify(s.info)}`);
   console.log(`Conflicts: ${JSON.stringify(s.conflicts)}`);
 }
 

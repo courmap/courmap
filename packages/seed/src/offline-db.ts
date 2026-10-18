@@ -36,26 +36,12 @@ interface RawEntry {
   synonyms?: string[];
 }
 
-const EM_DASH = String.fromCharCode(0x2014);
-
-/**
- * The project bans em dashes everywhere, data/ included, so upstream titles get a plain
- * hyphen instead (spacing kept). Matching is unaffected: normalizeTitle drops both.
- */
-export function replaceEmDashes(s: string, counter: { n: number }): string {
-  if (!s.includes(EM_DASH)) return s;
-  counter.n++;
-  return s.split(EM_DASH).join('-');
-}
-
 export interface OfflineDb {
   /** The `lastUpdate` from the dataset header. */
   lastUpdate: string | null;
   entries: Map<number, OfflineEntry>;
   /** Entries without an AniDB source (not seeded). */
   withoutAnidb: number;
-  /** Titles and synonyms whose em dashes were replaced. */
-  emDashesReplaced: number;
 }
 
 /**
@@ -67,12 +53,9 @@ export function parseOfflineDb(jsonl: string, conflicts: Conflict[]): OfflineDb 
   const header = JSON.parse(lines[0] ?? '{}') as { lastUpdate?: string };
   const entries = new Map<number, OfflineEntry>();
   let withoutAnidb = 0;
-  const dashes = { n: 0 };
 
   for (const line of lines.slice(1)) {
     const raw = JSON.parse(line) as RawEntry;
-    raw.title = replaceEmDashes(raw.title, dashes);
-    raw.synonyms = (raw.synonyms ?? []).map((s) => replaceEmDashes(s, dashes));
     const ids: Record<string, number[]> = { anidb: [], anilist: [], mal: [], kitsu: [] };
     for (const s of raw.sources) {
       const m = /^https?:\/\/([^/]+)\/anime\/(\d+)$/.exec(s);
@@ -118,5 +101,5 @@ export function parseOfflineDb(jsonl: string, conflicts: Conflict[]): OfflineDb 
     entry.synonyms = [...new Set((raw.synonyms ?? []).filter((s) => s.trim() !== '' && s !== raw.title))];
     entries.set(anidb, entry);
   }
-  return { lastUpdate: header.lastUpdate ?? null, entries, withoutAnidb, emDashesReplaced: dashes.n };
+  return { lastUpdate: header.lastUpdate ?? null, entries, withoutAnidb };
 }

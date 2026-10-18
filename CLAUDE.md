@@ -9,7 +9,7 @@ Instructions for agents working in this repo. `docs/SPEC.md` is the source of tr
 - TMDB API responses are used only in CI checks and never enter `data/` or any dump. TMDB IDs and offsets that come from Anime-Lists are allowed (they are Anime-Lists data, stored with `origin: anime-lists`).
 - No AniList or TMDB API calls outside the packages the spec names (bots for AniList, CI checks for TMDB). The seed job downloads only the two seed datasets from GitHub.
 - Never guess a provider ID. Use real IDs only when verified from the seed datasets (cedya77/anime-offline-database, Anime-Lists/anime-lists). Otherwise use clearly fake placeholder IDs and add `notes: placeholder IDs, verify before release` to the file.
-- No em dashes (U+2014) anywhere: code, comments, docs, commit messages, generated text. `pnpm check:dashes` enforces this for files; check commit messages yourself.
+- No em dashes (U+2014) in anything we author: code, comments, docs, commit messages, manual YAML, generated reports. `pnpm check:dashes` enforces this for files (it skips `data/seeds/`, which keeps upstream titles verbatim); check commit messages yourself.
 - Licensing: code is Apache-2.0 (`LICENSE`); `data/` and every dump are ODbL 1.0 + DbCL 1.0 (`DATA_LICENSE`). Credit upstreams in `ATTRIBUTION.md`.
 
 ## Working agreements

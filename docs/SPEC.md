@@ -1,6 +1,6 @@
 # Courmap: Anime Episode Resolution Spec
 
-Build spec for Claude Code. Last updated 2026-10-17. Owner: Dan (GitHub org `courmap`).
+Build spec for Claude Code. Last updated 2026-10-18. Owner: Xwolv (GitHub org `courmap`).
 
 ## Goals and non-goals
 
@@ -534,7 +534,7 @@ Build in the order below; each step ends with a check that runs in CI, so a step
 
 **Naming:** project Courmap; GitHub org `courmap`, main repo `courmap/courmap`; npm packages under the `@courmap` scope (`@courmap/client`, `@courmap/proxy`, `@courmap/builder`); Docker image `ghcr.io/courmap/proxy`; shards and docs on a courmap domain once registered.
 
-**Brand assets:** `assets/logo.svg` (master), `assets/logo.png` (1024 px avatar) and `assets/banner.png` (1600 x 400 README header) are provided by Dan. Wordmark font is Space Grotesk (SIL OFL). Colors: ink `#16181D`, paper `#F4F1EA`, vermilion `#E04E39`, muted text `#A9A59C`.
+**Brand assets:** `assets/logo.svg` (master), `assets/logo.png` (1024 px avatar) and `assets/banner.png` (1600 x 400 README header) are provided by Xwolv. Wordmark font is Space Grotesk (SIL OFL). Colors: ink `#16181D`, paper `#F4F1EA`, vermilion `#E04E39`, muted text `#A9A59C`.
 
 **Repository layout (pnpm monorepo)**
 

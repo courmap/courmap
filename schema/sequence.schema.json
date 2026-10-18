@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/courmap/courmap/main/schema/sequence.schema.json",
+  "title": "SequenceFile",
+  "description": "An absolute sequence: an ordered chain of works numbered continuously, the way fansubs number long series. data/sequences/<id>.yaml.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "members"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "#/$defs/slug"
+    },
+    "members": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "title": "SequenceMember",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "work",
+          "episodes",
+          "absolute_start"
+        ],
+        "properties": {
+          "work": {
+            "$ref": "#/$defs/slug"
+          },
+          "episodes": {
+            "$ref": "#/$defs/episodeRange",
+            "description": "Regular canonical episodes of the work covered by this member."
+          },
+          "absolute_start": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "Absolute number of the first episode in the range."
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string"
+    },
+    "sources": {
+      "$ref": "#/$defs/sources"
+    }
+  },
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "description": "Lowercase letters and digits, separated by single hyphens (for example sousou-no-frieren).",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "maxLength": 120
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri",
+        "pattern": "^https?://"
+      }
+    },
+    "episodeRange": {
+      "title": "EpisodeRange",
+      "description": "A single episode (12, \"S3\") or a range (\"1-12\", \"S1-S2\", \"892-\" for open-ended). Prefix S = special, C = credit, T = trailer, P = parody; no prefix = regular.",
+      "oneOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "string",
+          "pattern": "^([SCTP]?)[1-9][0-9]*(-(\\1?[1-9][0-9]*)?)?$"
+        }
+      ]
+    }
+  }
+}

@@ -37,3 +37,12 @@ Choices made where `docs/SPEC.md` was ambiguous, silent or seemed wrong. One ent
 - **The group override uses a fictional group** (`examplesubs`, marked placeholder). Rationale: neither seed documents real group numbering quirks, and a real group's behaviour must not be guessed.
 - **Slugs come from the romaji title** (cedya77 main title), for example `shingeki-no-kyojin`. Rationale: stable and source-derived; English titles change between releases and regions.
 - **Titles and aliases come only from cedya77 synonyms,** never from AniDB or the `<name>` elements in Anime-Lists. Rationale: the AniDB title license conflicts with ODbL.
+
+## Compile (SQLite)
+
+- **SQL is the spec's DDL verbatim, minus column comments.** Rationale: "using the schema in the spec"; deviations are proposed in the spec instead (see the end of this file).
+- **Titles become aliases.** The `aliases` table holds the romaji, English and native titles plus `aliases:`, deduplicated, each with `normalized` from `normalizeTitle`. Rationale: the resolver matches against one index, and titles are the most common release names.
+- **`normalized` strips filler words** (the, season, part, cour), using the same function the resolver will apply to parsed titles. Rationale: exact matches only work when both sides normalize identically.
+- **`data_version` defaults to the ISO week of the build,** formatted `YYYY.WW` with a two-digit week (`2026.42`, `2026.05`). Rationale: matches the spec's example and the `data-YYYY.WW` release tags.
+- **Expected row counts come from the YAML, not the records.** The compiler counts rows straight from the parsed files and compares them with the table counts, so a bug in record conversion cannot hide itself. Rationale: the step 3 check is "row counts match the YAML".
+- **`specials` NULL means unknown,** even though the column has `DEFAULT 0`. Rationale: see the data format entry on `specials`; the compiler always writes the value explicitly.

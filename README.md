@@ -9,7 +9,7 @@ Courmap maps anime episode numbering across AniDB, AniList, MAL, Kitsu, TVDB, TM
 ```sh
 pnpm install
 pnpm validate
-pnpm compile -- --out out/courmap.sqlite
+pnpm compile --out out/courmap.sqlite
 pnpm test
 ```
 

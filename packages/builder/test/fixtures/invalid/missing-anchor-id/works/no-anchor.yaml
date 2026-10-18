@@ -1,0 +1,9 @@
+id: no-anchor
+type: tv
+episodes: 12
+ids:
+  kitsu: 900031
+  tvdb_show: 900101
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-12 }

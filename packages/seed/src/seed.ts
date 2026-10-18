@@ -22,9 +22,9 @@ import {
 } from '@courmap/builder';
 import { parseAnimeLists, type ALEntry } from './anime-lists.js';
 import { sortConflicts, type Conflict } from './conflicts.js';
-import { parseOfflineDb, type OfflineEntry } from './offline-db.js';
+import { ANCHORS, parseOfflineDb, type OfflineEntry } from './offline-db.js';
 import { buildEpisodeMap, emitBlock, type EmittedRow, type EpisodeMap } from './projections.js';
-import { assignSlugs, type SlugEntry } from './slugs.js';
+import { assignSlugs, type ManualClaim, type SlugEntry } from './slugs.js';
 
 export const SHARD_COUNT = 16;
 /** Repair rounds before giving up; each round only removes data, so this is a safety net. */
@@ -57,7 +57,12 @@ export interface SeedSummary {
   warnings: Record<string, number>;
   info: Record<string, number>;
   conflicts: Record<string, number>;
-  offline_db_entries_without_anidb: number;
+  /** cedya77 entries with none of anidb, anilist, mal (not seeded). */
+  offline_db_entries_without_anchor: number;
+  /** Works seeded from an AniList or MAL anchor because cedya77 has no AniDB source (decision S3.9). */
+  seeded_without_anidb: number;
+  /** Of those, how many have a projection (only possible through a manual file). */
+  seeded_without_anidb_with_projections: number;
   anime_lists_entries_without_offline_db: number;
   repair_rounds: number;
 }
@@ -108,29 +113,40 @@ export async function runSeed(inputs: SeedInputs): Promise<SeedOutput> {
   const offline = parseOfflineDb(inputs.offlineDbJsonl, conflicts);
   const lists = parseAnimeLists(inputs.animeListsXml, conflicts);
 
-  // Manual works claim slugs for their AniDB IDs; every manual id is reserved.
+  // Manual works claim slugs for their anchor IDs; every manual id is reserved.
   const manualWorks = inputs.manual.files.filter((f) => f.kind === 'work');
-  const manualByAnidb = new Map<number, string>();
+  const claims: ManualClaim[] = [];
   const reserved = new Set<string>();
   for (const f of manualWorks) {
-    const d = f.data as { id?: unknown; ids?: { anidb?: unknown } } | null;
+    const d = f.data as { id?: unknown; ids?: Record<string, unknown> } | null;
     if (typeof d?.id !== 'string') continue;
     reserved.add(d.id);
-    if (typeof d.ids?.anidb === 'number') manualByAnidb.set(d.ids.anidb, d.id);
+    const claim: ManualClaim = { id: d.id };
+    for (const a of ANCHORS) if (typeof d.ids?.[a] === 'number') claim[a] = d.ids[a] as number;
+    claims.push(claim);
   }
-  const slugs = assignSlugs(
-    [...offline.entries.values()].map((e) => ({ anidb: e.anidb, title: e.title, type: e.type, ...(e.year !== undefined && { year: e.year }) })),
+  const { slugs, registry } = assignSlugs(
+    [...offline.entries.values()].map((e) => ({
+      key: e.key,
+      ...(e.anidb !== undefined && { anidb: e.anidb }),
+      ...(e.anilist !== undefined && { anilist: e.anilist }),
+      ...(e.mal !== undefined && { mal: e.mal }),
+      title: e.title,
+      type: e.type,
+      ...(e.year !== undefined && { year: e.year }),
+    })),
     inputs.registry,
-    manualByAnidb,
+    claims,
     reserved,
   );
 
   const drafts = new Map<string, Draft>();
-  for (const entry of [...offline.entries.values()].sort((a, b) => a.anidb - b.anidb)) {
-    const al = lists.get(entry.anidb);
+  for (const entry of offline.entries.values()) {
+    // Anime-Lists is keyed by AniDB, so works anchored elsewhere get IDs but no projections.
+    const al = entry.anidb !== undefined ? lists.get(entry.anidb) : undefined;
     const draft: Draft = {
       entry,
-      slug: slugs.get(entry.anidb)!,
+      slug: slugs.get(entry.key)!,
       al,
       ids: {},
       idOrigin: {},
@@ -155,13 +171,13 @@ export async function runSeed(inputs: SeedInputs): Promise<SeedOutput> {
       setId('tmdb_movie', al.tmdbMovie, 'anime-lists');
       setId('imdb', al.imdb, 'anime-lists');
       for (const p of PROJECTION_PROVIDERS) {
-        const map = buildEpisodeMap(al, p, entry.episodes, conflicts);
+        const map = buildEpisodeMap(al, p, entry.episodes ?? 0, conflicts);
         if (map) draft.maps[p] = map;
       }
     }
     drafts.set(draft.slug, draft);
   }
-  const listsWithoutOffline = [...lists.keys()].filter((anidb) => !offline.entries.has(anidb)).length;
+  const listsWithoutOffline = [...lists.keys()].filter((anidb) => !offline.entries.has(`anidb:${anidb}`)).length;
 
   // Validate and repair until clean.
   let rounds = 0;
@@ -188,16 +204,19 @@ export async function runSeed(inputs: SeedInputs): Promise<SeedOutput> {
   const files = new Map<string, string>();
   shards.forEach((lines, i) => files.set(shardName(i), lines.length ? `${lines.join('\n')}\n` : ''));
 
-  const registry = new Map<number, string>(inputs.registry.map((r) => [r.anidb, r.slug]));
-  for (const d of live) registry.set(d.entry.anidb, d.slug);
-  const slugLines = [...registry].sort((a, b) => a[0] - b[0]).map(([anidb, slug]) => JSON.stringify({ anidb, slug }));
+  // Fixed field order per row, so the file is byte-stable.
+  const slugLines = registry.map((r) => JSON.stringify({ ...(r.anidb !== undefined && { anidb: r.anidb }), ...(r.anilist !== undefined && { anilist: r.anilist }), ...(r.mal !== undefined && { mal: r.mal }), slug: r.slug }));
   files.set('slugs.jsonl', `${slugLines.join('\n')}\n`);
 
-  const bySlug = new Map([...drafts.values()].map((d) => [d.entry.anidb, d.slug]));
-  const conflictLines = sortConflicts(conflicts).map((c) => JSON.stringify({ anidb: c.anidb, slug: c.slug ?? bySlug.get(c.anidb) ?? null, part: c.part, reason: c.reason, detail: c.detail }));
+  const bySlug = new Map([...drafts.values()].map((d) => [d.entry.key, d.slug]));
+  const conflictLines = sortConflicts(conflicts).map((c) => JSON.stringify({ key: c.key, slug: c.slug ?? bySlug.get(c.key) ?? null, part: c.part, reason: c.reason, detail: c.detail }));
   files.set('conflicts.jsonl', conflictLines.length ? `${conflictLines.join('\n')}\n` : '');
 
-  const summary = summarize(checked, reporter, conflicts, offline.withoutAnidb, listsWithoutOffline, rounds);
+  const summary = summarize(checked, reporter, conflicts, offline.withoutAnchor, listsWithoutOffline, rounds);
+  const noAnidb = live.filter((d) => d.entry.anidb === undefined);
+  const withProjections = new Set(checked.works.filter((w) => w.data.projections && Object.keys(w.data.projections).length > 0).map((w) => w.id));
+  summary.seeded_without_anidb = noAnidb.length;
+  summary.seeded_without_anidb_with_projections = noAnidb.filter((d) => withProjections.has(d.slug)).length;
   const manifest = {
     format: 1,
     pins: { ...inputs.pins, offline_db: { ...inputs.pins.offline_db, last_update: offline.lastUpdate } },
@@ -238,7 +257,7 @@ function render(d: Draft, conflicts: Conflict[] | null): SeedWork {
   for (const p of PROJECTION_PROVIDERS) {
     const map = d.maps[p];
     if (!map || d.droppedBlocks.has(p) || d.ids[p] === undefined) continue;
-    const emitted = emitBlock(map, p, e.episodes, d.excluded[p], e.anidb, conflicts ?? []);
+    const emitted = emitBlock(map, p, e.episodes ?? 0, d.excluded[p], e.key, conflicts ?? []);
     d.rows[p] = emitted?.rows ?? [];
     if (!emitted) continue;
     projections[p] = emitted.block;
@@ -279,7 +298,7 @@ function repair(errors: Diagnostic[], drafts: Map<string, Draft>, checked: Check
   const works = new Map(checked.works.map((w) => [w.id, w]));
   let dropped = 0;
   const log = (d: Draft, part: string, diag: Diagnostic) => {
-    conflicts.push({ anidb: d.entry.anidb, slug: d.slug, part, reason: `validate-${diag.code}`, detail: diag.message });
+    conflicts.push({ key: d.entry.key, slug: d.slug, part, reason: `validate-${diag.code}`, detail: diag.message });
     dropped++;
   };
   const dropRow = (d: Draft, p: ProjectionProvider, idx: number | null, diag: Diagnostic) => {
@@ -343,7 +362,7 @@ function summarize(
   checked: CheckedFiles,
   reporter: Reporter,
   conflicts: Conflict[],
-  withoutAnidb: number,
+  withoutAnchor: number,
   listsWithoutOffline: number,
   rounds: number,
 ): SeedSummary {
@@ -357,7 +376,9 @@ function summarize(
     warnings: {},
     info: {},
     conflicts: {},
-    offline_db_entries_without_anidb: withoutAnidb,
+    offline_db_entries_without_anchor: withoutAnchor,
+    seeded_without_anidb: 0,
+    seeded_without_anidb_with_projections: 0,
     anime_lists_entries_without_offline_db: listsWithoutOffline,
     repair_rounds: rounds,
   };

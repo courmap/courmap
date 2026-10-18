@@ -52,6 +52,7 @@ CREATE TABLE sequence_members (
   ep_from         INTEGER NOT NULL,
   ep_to           INTEGER,
   absolute_start  INTEGER NOT NULL,
+  is_default      INTEGER NOT NULL,
   origin          TEXT NOT NULL,
   PRIMARY KEY (sequence_id, work_id, ep_from)
 );
@@ -79,6 +80,7 @@ CREATE TABLE group_overrides (
   work_id    TEXT NOT NULL REFERENCES works(id),
   numbering  TEXT NOT NULL,
   offset     INTEGER,
+  sequence_id TEXT REFERENCES sequences(id),
   origin     TEXT NOT NULL
 );
 `;

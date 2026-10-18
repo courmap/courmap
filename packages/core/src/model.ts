@@ -18,6 +18,8 @@ export interface SequenceMembership {
   ep_from: number;
   ep_to: number | null;
   absolute_start: number;
+  /** True for the work's default sequence: its only one, or the one marked default when it has several. */
+  default: boolean;
 }
 
 export type WorkType = 'tv' | 'movie' | 'ova' | 'ona' | 'special';

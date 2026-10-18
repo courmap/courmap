@@ -4,7 +4,7 @@ Language-neutral cases that every Courmap client must pass, in every mode (offli
 
 ## Layout
 
-- `data/`: a small fixture dataset with fake IDs, laid out like the repo's `data/`. It covers a simple show, a split cour sharing one TVDB season, specials, one-to-many and many-to-one episode splits, an open-ended long-runner, a seasonless (absolute order) projection, a movie and an absolute sequence.
+- `data/`: a small fixture dataset with fake IDs, laid out like the repo's `data/`. It covers a simple show, a split cour sharing one TVDB season, specials, one-to-many and many-to-one episode splits, an open-ended long-runner, a seasonless (absolute order) projection, a movie, and two absolute sequences sharing one work (one marked default).
 - `cases/*.yaml`: the cases, grouped by operation.
 
 ## Building the fixture dump
@@ -25,7 +25,7 @@ Each file has a `cases:` list. Every case has a `name` and an `op`:
 
 Then exactly one of:
 
-- `expect`: the full result, compared by deep equality. Object key order does not matter. Array order does: projections are ordered by kind, then `ep_from`; sequences by sequence id, then `ep_from`; aliases as stored (titles first, then aliases).
+- `expect`: the full result, compared by deep equality. The `absolute` target always answers in the work's default sequence. Object key order does not matter. Array order does: projections are ordered by kind, then `ep_from`; sequences by sequence id, then `ep_from`; aliases as stored (titles first, then aliases).
 - `expect_id`: for `lookup`, only the returned work's `id` is checked.
 - `error`: the call must fail. `code` must match (`not_found`, `ambiguous`, `invalid_input`). If `field` is given it must match; if `candidates` is given it must match exactly, in order (sorted by work id). Messages are free text and not compared.
 

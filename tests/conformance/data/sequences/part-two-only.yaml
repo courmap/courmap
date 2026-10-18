@@ -1,0 +1,4 @@
+id: part-two-only
+members:
+  - { work: split-show-part-2, episodes: 1-12, absolute_start: 101 }
+notes: Conformance fixture. A second, non-default absolute numbering for split-show-part-2.

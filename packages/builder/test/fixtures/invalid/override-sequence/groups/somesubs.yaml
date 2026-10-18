@@ -1,0 +1,5 @@
+id: somesubs
+overrides:
+  - { work: a, numbering: absolute, sequence: missing }
+  - { work: a, numbering: absolute, sequence: b-absolute }
+  - { work: b, numbering: continue_prequel, sequence: b-absolute }

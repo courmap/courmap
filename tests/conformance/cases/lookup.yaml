@@ -42,7 +42,8 @@ cases:
           - { kind: regular, ep_from: 1, ep_to: 12, season: 2, target_from: 1, target_to: null }
       prequel: split-show
       sequences:
-        - { sequence: split-show-absolute, ep_from: 1, ep_to: 12, absolute_start: 13 }
+        - { sequence: part-two-only, ep_from: 1, ep_to: 12, absolute_start: 101, default: false }
+        - { sequence: split-show-absolute, ep_from: 1, ep_to: 12, absolute_start: 13, default: true }
       aliases: [Split Show Part 2]
 
   - name: projections are ordered by kind, then ep_from; splits carry target_to

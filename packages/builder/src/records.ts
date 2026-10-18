@@ -16,7 +16,7 @@ import type { Origin } from './load.js';
 export interface GroupRecord {
   id: string;
   aliases: string[];
-  overrides: { work: string; numbering: 'continue_prequel' | 'absolute' | 'offset'; offset: number | null }[];
+  overrides: { work: string; numbering: 'continue_prequel' | 'absolute' | 'offset'; offset: number | null; sequence: string | null }[];
 }
 
 /** Everything compile writes, in memory, with the origin of each file kept alongside. */
@@ -86,6 +86,17 @@ export function toRecords(files: CheckedFiles): Records {
     records.origins.works.set(w.id, src.origin);
   }
 
+  // A work's default sequence: its only one, or the one where a member for it says default: true.
+  const seqsByWork = new Map<string, Set<string>>();
+  const flagged = new Map<string, string>();
+  for (const { data: s } of files.sequences) {
+    for (const m of s.members) {
+      seqsByWork.set(m.work, (seqsByWork.get(m.work) ?? new Set()).add(s.id));
+      if (m.default) flagged.set(m.work, s.id);
+    }
+  }
+  const isDefault = (work: string, seq: string) => (seqsByWork.get(work)!.size === 1 ? true : flagged.get(work) === seq);
+
   for (const { src, data: s } of files.sequences) {
     const members = s.members.map((m) => {
       const r = parseEpisodeRange(m.episodes);
@@ -96,7 +107,13 @@ export function toRecords(files: CheckedFiles): Records {
     records.sequences.set(s.id, { id: s.id, members });
     records.origins.sequences.set(s.id, src.origin);
     for (const m of members) {
-      const membership: SequenceMembership = { sequence: s.id, ep_from: m.ep_from, ep_to: m.ep_to, absolute_start: m.absolute_start };
+      const membership: SequenceMembership = {
+        sequence: s.id,
+        ep_from: m.ep_from,
+        ep_to: m.ep_to,
+        absolute_start: m.absolute_start,
+        default: isDefault(m.work, s.id),
+      };
       records.works.get(m.work)?.sequences.push(membership);
     }
   }
@@ -108,7 +125,7 @@ export function toRecords(files: CheckedFiles): Records {
     records.groups.set(g.id, {
       id: g.id,
       aliases: g.aliases ?? [],
-      overrides: (g.overrides ?? []).map((o) => ({ work: o.work, numbering: o.numbering, offset: o.offset ?? null })),
+      overrides: (g.overrides ?? []).map((o) => ({ work: o.work, numbering: o.numbering, offset: o.offset ?? null, sequence: o.sequence ?? null })),
     });
     records.origins.groups.set(g.id, src.origin);
   }

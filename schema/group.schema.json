@@ -40,11 +40,15 @@
               "absolute",
               "offset"
             ],
-            "description": "continue_prequel: numbers this work after its prequel's last episode. absolute: uses the work's absolute sequence. offset: adds `offset` to canonical numbers."
+            "description": "continue_prequel: numbers this work after its prequel's last episode. absolute: uses the work's absolute sequence (its default one, unless `sequence` names another). offset: adds `offset` to canonical numbers."
           },
           "offset": {
             "type": "integer",
             "description": "Required when numbering is offset, not allowed otherwise."
+          },
+          "sequence": {
+            "$ref": "#/$defs/slug",
+            "description": "With numbering: absolute, the sequence this group numbers by, when it is not the work's default sequence."
           }
         }
       }

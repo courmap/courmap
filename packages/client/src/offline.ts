@@ -56,7 +56,7 @@ export class SqliteDataset implements Dataset {
         'SELECT provider, kind, ep_from, ep_to, season, target_from, target_to FROM projections WHERE work_id = ? ORDER BY provider, kind, ep_from',
       ),
       memberships: this.db.prepare(
-        'SELECT sequence_id, ep_from, ep_to, absolute_start FROM sequence_members WHERE work_id = ? ORDER BY sequence_id, ep_from',
+        'SELECT sequence_id, ep_from, ep_to, absolute_start, is_default FROM sequence_members WHERE work_id = ? ORDER BY sequence_id, ep_from',
       ),
       aliases: this.db.prepare('SELECT alias FROM aliases WHERE work_id = ? ORDER BY rowid'),
       byRef: this.db.prepare('SELECT work_id FROM provider_refs WHERE provider = ? AND provider_id = ? ORDER BY work_id'),
@@ -98,7 +98,13 @@ export class SqliteDataset implements Dataset {
       const { provider, ...row } = r;
       (projections[provider] ??= []).push(row);
     }
-    const memberships = this.stmts.memberships.all(id) as { sequence_id: string; ep_from: number; ep_to: number | null; absolute_start: number }[];
+    const memberships = this.stmts.memberships.all(id) as {
+      sequence_id: string;
+      ep_from: number;
+      ep_to: number | null;
+      absolute_start: number;
+      is_default: number;
+    }[];
     return {
       id: w.id,
       type: w.type,
@@ -110,7 +116,13 @@ export class SqliteDataset implements Dataset {
       ids,
       projections,
       prequel: w.prequel_id,
-      sequences: memberships.map((m) => ({ sequence: m.sequence_id, ep_from: m.ep_from, ep_to: m.ep_to, absolute_start: m.absolute_start })),
+      sequences: memberships.map((m) => ({
+        sequence: m.sequence_id,
+        ep_from: m.ep_from,
+        ep_to: m.ep_to,
+        absolute_start: m.absolute_start,
+        default: m.is_default === 1,
+      })),
       aliases: (this.stmts.aliases.all(id) as { alias: string }[]).map((a) => a.alias),
     };
   }

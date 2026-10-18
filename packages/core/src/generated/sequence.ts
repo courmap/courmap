@@ -29,4 +29,8 @@ export interface SequenceMember {
    * Absolute number of the first episode in the range.
    */
   absolute_start: number;
+  /**
+   * Marks this sequence as the default absolute numbering for the member work. Required on exactly one sequence when a work belongs to several.
+   */
+  default?: boolean;
 }

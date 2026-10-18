@@ -4,8 +4,8 @@ import { lookup, translate } from '@courmap/core';
 import { MemoryDataset } from '../src/records.js';
 import { validate } from '../src/validate.js';
 
-// Checks the real data in data/: it validates (round trips included), and a few
-// hand-verified translations from the Anime-Lists mapping lists hold.
+// Checks the real data in data/ (manual files merged over seeds): it validates (round trips
+// included), and a few hand-verified translations from the Anime-Lists mapping lists hold.
 const dataDir = fileURLToPath(new URL('../../../data/', import.meta.url));
 
 describe('data/', async () => {
@@ -13,8 +13,16 @@ describe('data/', async () => {
   const ds = new MemoryDataset(result.records!, { data_version: 'test', git_sha: '', built_at: '', schema_version: '' });
 
   it('passes validate, including round trips', () => {
-    expect(result.diagnostics).toEqual([]);
+    expect(result.diagnostics.filter((d) => d.severity === 'error')).toEqual([]);
     expect(result.ok).toBe(true);
+  });
+
+  it('has warnings only for bounds on seed-only works (Xwolv decision 3)', () => {
+    const manual = new Set(result.checked.works.filter((w) => w.isManual).map((w) => w.id));
+    for (const d of result.diagnostics.filter((x) => x.severity === 'warning')) {
+      expect(['out-of-bounds', 'open-ended-not-airing']).toContain(d.code);
+      expect(manual.has(d.work!), `${d.work} has a manual file`).toBe(false);
+    }
   });
 
   it('split cour: Spy x Family Part 2 continues TVDB and TMDB season 1, and the absolute sequence', async () => {

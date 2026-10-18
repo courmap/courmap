@@ -1,0 +1,8 @@
+{"$schema":"fixture","license":{"name":"ODbL-1.0 test fixture"},"repository":"fixture","lastUpdate":"2026-10-01"}
+{"sources":["https://anidb.net/anime/900001","https://anilist.co/anime/900011","https://myanimelist.net/anime/900021","https://kitsu.app/anime/900031"],"title":"Fixture Show","type":"TV","episodes":12,"status":"FINISHED","animeSeason":{"season":"SPRING","year":2020},"synonyms":["Fixture Show Alias"]}
+{"sources":["https://anidb.net/anime/900002","https://anilist.co/anime/900012"],"title":"Fixture Show","type":"TV","episodes":12,"status":"FINISHED","animeSeason":{"season":"SPRING","year":2021},"synonyms":[]}
+{"sources":["https://anidb.net/anime/900003"],"title":"Fixture OVA","type":"OVA","episodes":1,"status":"FINISHED","animeSeason":{"year":2020},"synonyms":[]}
+{"sources":["https://anidb.net/anime/900004","https://anilist.co/anime/900014"],"title":"Hand Fixed","type":"TV","episodes":12,"status":"FINISHED","animeSeason":{"year":2022},"synonyms":["Seed Synonym"]}
+{"sources":["https://anidb.net/anime/900005","https://anilist.co/anime/900015","https://anilist.co/anime/900016"],"title":"Two AniLists","type":"TV","episodes":3,"status":"FINISHED","animeSeason":{"year":2023},"synonyms":[]}
+{"sources":["https://anidb.net/anime/900006"],"title":"Unknown Type","type":"UNKNOWN","episodes":1,"status":"FINISHED","animeSeason":{},"synonyms":[]}
+{"sources":["https://myanimelist.net/anime/900099"],"title":"No AniDB","type":"TV","episodes":12,"status":"FINISHED","animeSeason":{},"synonyms":[]}

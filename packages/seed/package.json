@@ -1,0 +1,34 @@
+{
+  "name": "@courmap/seed",
+  "version": "0.0.0",
+  "description": "Courmap seed importer: joins cedya77/anime-offline-database and Anime-Lists into data/seeds/",
+  "license": "Apache-2.0",
+  "type": "module",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/courmap/courmap.git",
+    "directory": "packages/seed"
+  },
+  "bin": {
+    "courmap-seed": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "@courmap/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@courmap/builder": "workspace:*",
+    "@courmap/core": "workspace:*",
+    "fast-xml-parser": "^5.11.2"
+  }
+}

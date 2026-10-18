@@ -8,3 +8,6 @@ coverage/
 /out/
 *.sqlite
 *.sqlite-journal
+
+# seed downloads (packages/seed)
+.cache/

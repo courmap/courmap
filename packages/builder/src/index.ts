@@ -8,3 +8,4 @@ export { Reporter, formatDiagnostic, formatPath, makeLineLocator, makeLocator, t
 export { toRecords, MemoryDataset, type Records, type GroupRecord } from './records.js';
 export { compile, expectedCounts, isoWeekVersion, type CompileOptions, type CompileReport } from './compile.js';
 export { SCHEMA_SQL, SCHEMA_VERSION, TABLES, type Table } from './sql.js';
+export { generateShards, type ShardReport } from './shards.js';

@@ -3,17 +3,21 @@ import { parseArgs } from 'node:util';
 import { formatDiagnostic, type Diagnostic } from './diagnostics.js';
 import { validate, type ValidateResult } from './validate.js';
 import { compile } from './compile.js';
+import { generateShards } from './shards.js';
 
 const USAGE = `Usage: courmap-builder <command> [options]
 
 Commands:
   validate               Check data files (schema, merge, overlaps, gaps, bounds, references, round trips)
   compile --out <file>   Validate, then compile to SQLite and verify the result
+  shards --from <file> --out <dir>
+                         Write the static JSON shards (the /v1/ tree) from a compiled dump
 
 Options:
   --data <dir>           Data directory with works/, sequences/, groups/, seeds/ (default: data)
   --warnings             List every warning, not just counts by code
-  --out <file>           SQLite output path (compile)
+  --out <path>           SQLite output (compile) or shard directory (shards)
+  --from <file>          Compiled dump to read (shards)
   --data-version <v>     Override data_version (default: ISO year.week, e.g. 2026.42)
   --built-at <iso>       Override built_at (default: now)
   -h, --help             Show this help
@@ -46,6 +50,7 @@ async function main(argv: string[]): Promise<number> {
     options: {
       data: { type: 'string', default: 'data' },
       out: { type: 'string' },
+      from: { type: 'string' },
       'data-version': { type: 'string' },
       'built-at': { type: 'string' },
       warnings: { type: 'boolean' },
@@ -88,6 +93,16 @@ async function main(argv: string[]): Promise<number> {
     });
     for (const [table, n] of Object.entries(report.counts)) console.log(`${table.padEnd(18)} ${n}`);
     console.log(`\nWrote ${values.out} (data_version ${report.meta.data_version}); row counts match the sources; integrity_check ok${warningNote(result)}`);
+    return 0;
+  }
+
+  if (command === 'shards') {
+    if (!values.from || !values.out) {
+      console.error('shards needs --from <dump.sqlite> and --out <dir>');
+      return 1;
+    }
+    const report = await generateShards(values.from, values.out);
+    console.log(`Wrote ${report.files} files to ${values.out} (${report.works} works, ${report.sequences} sequences, ${report.groups} groups); meta.json last`);
     return 0;
   }
 

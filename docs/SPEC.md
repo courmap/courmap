@@ -414,10 +414,10 @@ There is no server to run. Data changes only when a PR merges, so everything is 
 3. **Static JSON shards** on Cloudflare R2 behind a custom domain (zero egress fees, no file-count limit), fronted by Cloudflare's cache:
 
 ```
-/v1/meta.json                          # data_version, git_sha, built_at, counts, dump URLs
-/v1/works/{work_id}.json               # one work: ids, projections, sequences, aliases
-/v1/refs/{provider}/{shard}.json       # provider_id -> work_id, shard = floor(id / 1000)
-/v1/refs/{provider}/{slug}.json        # for string-ID providers, shard by first 2 chars
+/v1/meta.json                          # data_version, git_sha, built_at, schema_version, counts, dump URLs
+/v1/works/{work_id}.json               # one work: exactly the record lookup returns, minus data_version
+/v1/refs/{provider}/{shard}.json       # provider_id -> [work_id, ...] (sorted), shard = floor(id / 1000);
+                                       #   IMDb uses the digits after "tt" (every IMDb ID starts with tt)
 /v1/sequences/{sequence_id}.json
 /v1/groups/{group_id}.json
 /v1/aliases.json.zst                   # full normalized alias index for resolvers

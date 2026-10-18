@@ -1,9 +1,11 @@
 #!/usr/bin/env node
+import { readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { parseArgs } from 'node:util';
 import { Reporter, formatDiagnostic, loadData, validate } from '@courmap/builder';
 import { download, resolveLatest } from './fetch.js';
 import { manualChanges, readPrevious, writeSeedDir } from './files.js';
+import { renderReport } from './report.js';
 import { runSeed, type SeedOutput } from './seed.js';
 
 const USAGE = `Usage: courmap-seed [options]
@@ -19,6 +21,7 @@ Options:
   --data <dir>                 Data directory (default: data)
   --cache <dir>                Download cache (default: .cache/seed)
   --verify                     Run twice and require byte-identical output
+  --report <file>              Write a Markdown summary of what changed (for the seed PR)
   -h, --help                   Show this help
 `;
 
@@ -32,6 +35,7 @@ async function main(argv: string[]): Promise<number> {
       data: { type: 'string', default: 'data' },
       cache: { type: 'string', default: '.cache/seed' },
       verify: { type: 'boolean' },
+      report: { type: 'string' },
       help: { type: 'boolean', short: 'h' },
     },
   });
@@ -42,6 +46,7 @@ async function main(argv: string[]): Promise<number> {
   const dataDir = values.data!;
   const seedDir = path.join(dataDir, 'seeds');
   const previous = await readPrevious(seedDir);
+  const previousManifest = await readFile(path.join(seedDir, 'manifest.json'), 'utf8').catch(() => null);
 
   let tag = values['offline-db-tag'] ?? previous.pins?.offline_db.tag;
   let commit = values['anime-lists-commit'] ?? previous.pins?.anime_lists.commit;
@@ -79,6 +84,7 @@ async function main(argv: string[]): Promise<number> {
     return 1;
   }
   await writeSeedDir(seedDir, out.files);
+  if (values.report) await writeFile(values.report, renderReport(previousManifest, out.files.get('manifest.json')!));
 
   // The step 5 check, against what is now on disk.
   const result = await validate(dataDir);

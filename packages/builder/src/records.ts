@@ -3,6 +3,7 @@ import {
   PROVIDERS,
   parseEpisodeRange,
   type Dataset,
+  type GroupRecord,
   type Meta,
   type ProjectionRow,
   type Provider,
@@ -15,11 +16,8 @@ import type { Origin } from './load.js';
 import type { WorkOrigins } from './merge.js';
 import { readBlock } from './blocks.js';
 
-export interface GroupRecord {
-  id: string;
-  aliases: string[];
-  overrides: { work: string; numbering: 'continue_prequel' | 'absolute' | 'offset'; offset: number | null; sequence: string | null }[];
-}
+export type { GroupRecord };
+
 
 /** Everything compile writes, in memory, with the origin of every row kept alongside. */
 export interface Records {

@@ -1,0 +1,31 @@
+{
+  "name": "@courmap/parser",
+  "version": "0.0.0",
+  "description": "Courmap release-name parser: group, title, season, episode, version and quality tags",
+  "license": "Apache-2.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/courmap/courmap.git",
+    "directory": "packages/parser"
+  },
+  "exports": {
+    ".": {
+      "@courmap/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@courmap/core": "workspace:*"
+  },
+  "devDependencies": {
+    "yaml": "^2.9.1"
+  }
+}

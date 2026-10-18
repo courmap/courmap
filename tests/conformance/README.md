@@ -22,6 +22,7 @@ Each file has a `cases:` list. Every case has a `name` and an `op`:
 
 - `op: lookup` takes `ref`.
 - `op: translate` takes `ref`, `episode` (number or string such as `"S1"`) and `targets` (list).
+- `op: resolve` takes `release` (a release name) and uses `expect_resolve` instead of `expect`: `status` must match, and any of `work`, `episode`, `episode_to`, `confidence` (three decimals), `version` (parsed), `batch_length` and `top` (the first candidates' works, in any order) that are given must match. Reasons are free text and not compared.
 
 Then exactly one of:
 

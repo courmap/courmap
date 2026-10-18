@@ -1,0 +1,62 @@
+# resolve(releaseName): status, match and top candidates. See ../README.md for the format.
+# Reasons are free text and not compared; confidence is, to three decimals.
+cases:
+  - name: exact alias, episode within the count
+    op: resolve
+    release: "[Other] Simple Show - 05 (1080p) [ABCD1234].mkv"
+    expect_resolve: { status: ok, work: simple-show, episode: 5, confidence: 1 }
+
+  - name: version suffix
+    op: resolve
+    release: "[Other] Simple Show - 05v2 [1080p]"
+    expect_resolve: { status: ok, work: simple-show, episode: 5, confidence: 1, version: 2 }
+
+  - name: number past the count walks the absolute sequence
+    op: resolve
+    release: "[Other] Split Show - 13 [1080p]"
+    expect_resolve: { status: ok, work: split-show-part-2, episode: 1, confidence: 1 }
+
+  - name: part token picks the second part
+    op: resolve
+    release: "[Other] Split Show Part 2 - 03 [1080p]"
+    expect_resolve: { status: ok, work: split-show-part-2, episode: 3, confidence: 1 }
+
+  - name: group override numbers by a non-default sequence
+    op: resolve
+    release: "[FixtureSubs] Split Show Part 2 - 105 [1080p]"
+    expect_resolve: { status: ok, work: split-show-part-2, episode: 5, confidence: 1 }
+
+  - name: the same number without the group is not placed
+    op: resolve
+    release: "[Other] Split Show Part 2 - 105 [1080p]"
+    expect_resolve: { status: ambiguous, top: [split-show-part-2] }
+
+  - name: a season token is read as the TVDB season (S02E70 is canonical 120)
+    op: resolve
+    release: "Long Runner S02E70 1080p WEB"
+    expect_resolve: { status: ok, work: long-runner, episode: 120, confidence: 1 }  # TVDB S02 starts at canonical 51
+
+  - name: batch range
+    op: resolve
+    release: "[Other] Specials Show - 01-12 [BD 1080p] [Batch]"
+    expect_resolve: { status: ok, work: specials-show, episode: 1, episode_to: 12, confidence: 1, batch_length: 12 }
+
+  - name: movie matched by title and year
+    op: resolve
+    release: "[Other] A Movie (2023) [BD 1080p]"
+    expect_resolve: { status: ok, work: a-movie, episode: null, confidence: 1 }
+
+  - name: trigram fallback never reaches ok on its own
+    op: resolve
+    release: "[Other] Simple Shwo - 05"
+    expect_resolve: { status: ambiguous, top: [simple-show] }
+
+  - name: an alias two works share, with nothing to break the tie
+    op: resolve
+    release: "[Other] Twin Title - 01"
+    expect_resolve: { status: ambiguous, top: [absolute-order-show, parted-movie] }
+
+  - name: no candidate at all
+    op: resolve
+    release: "[Other] Nothing Here At All - 01"
+    expect_resolve: { status: unmatched }

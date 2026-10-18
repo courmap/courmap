@@ -8,8 +8,14 @@ export {
   type EpisodeInput,
   type ErrorCode,
   type Meta,
+  type ParsedRelease,
+  type ResolveCandidate,
+  type ResolveMatch,
+  type ResolveResult,
+  type WorkSummary,
   type Target,
   type TargetResult,
   type TranslateResult,
   type Work,
 } from '@courmap/core';
+export { parseRelease } from '@courmap/parser';

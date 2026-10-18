@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { normalizeTitle, parseEpisodeRange, parseRef, parseTargetRange, projectForward, projectReverse, type ProjectionRow } from '../src/index.js';
+import { buildAliasIndex, normalizeTitle, parseEpisodeRange, parseRef, parseTargetRange, projectForward, projectReverse, type ProjectionRow } from '../src/index.js';
 
 describe('parseEpisodeRange', () => {
   it.each([
@@ -120,5 +120,27 @@ describe('projection math', () => {
     const rows = [row({ ep_from: 892, ep_to: null, season: 21, target_from: 1 })];
     expect(projectForward(rows, 'regular', 1000)).toEqual({ season: 21, from: 109, to: 109 });
     expect(projectReverse(rows, 21, 109)).toEqual([{ kind: 'regular', from: 1000, to: 1000 }]);
+  });
+});
+
+describe('buildAliasIndex (decision S3.4)', () => {
+  it('dedupes by normalized form, lists every work, drops short forms and sorts', () => {
+    const index = buildAliasIndex('v', [
+      ['spy x family', 'spy-x-family-part-2'],
+      ['spy x family', 'spy-x-family'],
+      ['spy x family', 'spy-x-family'],
+      ['op', 'one-piece'],
+      ['葬送', 'sousou-no-frieren'],
+      ['葬送のフリーレン', 'sousou-no-frieren'],
+      ['abc', 'x'],
+    ]);
+    expect(index).toEqual({
+      data_version: 'v',
+      aliases: [
+        ['abc', ['x']],
+        ['spy x family', ['spy-x-family', 'spy-x-family-part-2']],
+        ['葬送のフリーレン', ['sousou-no-frieren']],
+      ],
+    });
   });
 });

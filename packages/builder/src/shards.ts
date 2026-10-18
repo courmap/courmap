@@ -1,5 +1,6 @@
 import { existsSync, readdirSync } from 'node:fs';
 import { mkdir, rm, writeFile } from 'node:fs/promises';
+import { zstdCompressSync } from 'node:zlib';
 import path from 'node:path';
 import Database from 'better-sqlite3';
 import { DumpDataset, refShard, type Provider, type SqlReader } from '@courmap/core';
@@ -30,7 +31,7 @@ function reader(db: Database.Database): SqlReader {
  * Writes the static shards (docs/SPEC.md, "Hosting") from a compiled dump into outDir, which
  * becomes the /v1/ root. Every file is exactly what the offline client returns for the same
  * record. meta.json is written last, so a reader never sees a half-written version.
- * aliases.json.zst (for resolve and search) arrives with build step 7.
+ * aliases.json.zst holds the alias index for resolve and search; groups.json lists every group.
  */
 export async function generateShards(dumpPath: string, outDir: string): Promise<ShardReport> {
   if (existsSync(outDir) && readdirSync(outDir).length > 0 && !existsSync(path.join(outDir, 'meta.json'))) {
@@ -44,11 +45,12 @@ export async function generateShards(dumpPath: string, outDir: string): Promise<
     let files = 0;
     const dirs = new Map<string, Promise<unknown>>();
     const pending = new Set<Promise<void>>();
-    const write = async (rel: string, value: unknown) => {
+    const write = async (rel: string, value: unknown, zstd = false) => {
       const file = path.join(outDir, rel);
       const dir = path.dirname(file);
       if (!dirs.has(dir)) dirs.set(dir, mkdir(dir, { recursive: true }));
-      const body = JSON.stringify(value);
+      const json = JSON.stringify(value);
+      const body = zstd ? zstdCompressSync(Buffer.from(json, 'utf8')) : json;
       const job = dirs.get(dir)!.then(() => writeFile(file, body)).finally(() => pending.delete(job));
       pending.add(job);
       files++;
@@ -77,6 +79,10 @@ export async function generateShards(dumpPath: string, outDir: string): Promise<
     for (const id of sequenceIds) await write(`sequences/${id}.json`, await ds.getSequence(id));
     const groupIds = ds.listGroupIds();
     for (const id of groupIds) await write(`groups/${id}.json`, await ds.getGroup(id));
+    // Small enough to fetch whole: what resolve needs to recognize groups.
+    await write('groups.json', await ds.groups());
+    // The resolver's alias index (decision S3.4), zstd-compressed.
+    await write('aliases.json.zst', await ds.aliasIndex(), true);
 
     await flush(); // every shard is on disk before meta.json
     const providerRefs: Partial<Record<Provider, number>> = {};

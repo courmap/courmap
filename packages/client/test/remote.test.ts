@@ -3,8 +3,8 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterAll, beforeEach, describe, expect, it } from 'vitest';
-import { compile, generateShards, validate } from '@courmap/builder';
-import { createRemoteClient } from '../src/index.js';
+import { MemoryDataset, compile, generateShards, validate } from '@courmap/builder';
+import { RemoteDataset, SqliteDataset, createRemoteClient } from '../src/index.js';
 import { serveStatic } from './static-server.js';
 
 // Remote-mode behaviour the conformance suite cannot see: caching by data_version, the
@@ -79,6 +79,25 @@ describe('remote client', async () => {
     await expect(client.lookup('anilist:9999')).rejects.toMatchObject({ code: 'not_found' });
     server.failPrefix = 'works/';
     await expect(createRemoteClient(server.url).lookup('anidb:1004')).rejects.toThrow(/HTTP 500/);
+  });
+
+  it('serves the same alias index and groups as the dump and the in-memory records (decision S3.4)', async () => {
+    const offline = new SqliteDataset(dump);
+    try {
+      const memory = new MemoryDataset(v.records!, { data_version: '2026.01', git_sha: 'test', built_at: '', schema_version: '3' });
+      const remote = new RemoteDataset(server.url);
+      const index = await offline.aliasIndex();
+      expect(await remote.aliasIndex()).toEqual(index);
+      expect(await memory.aliasIndex()).toEqual(index);
+      expect(await remote.groups()).toEqual(await offline.groups());
+      expect(await memory.groups()).toEqual(await offline.groups());
+      // Deduplicated by normalized form, every work listed, nothing under 3 characters.
+      expect(index.aliases.find(([n]) => n === 'split show')).toEqual(['split show', ['split-show']]);
+      expect(index.aliases.every(([n]) => [...n].length >= 3)).toBe(true);
+      expect(new Set(index.aliases.map(([n]) => n)).size).toBe(index.aliases.length);
+    } finally {
+      offline.close();
+    }
   });
 
   it('refuses to replace a directory that does not look like a shard tree', async () => {

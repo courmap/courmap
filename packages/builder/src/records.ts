@@ -2,6 +2,9 @@ import {
   PROJECTION_PROVIDERS,
   PROVIDERS,
   parseEpisodeRange,
+  buildAliasIndex,
+  normalizeTitle,
+  type AliasIndex,
   type Dataset,
   type GroupRecord,
   type Meta,
@@ -172,5 +175,19 @@ export class MemoryDataset implements Dataset {
 
   async getSequence(id: string): Promise<SequenceRecord | undefined> {
     return this.records.sequences.get(id);
+  }
+
+  private aliasCache: AliasIndex | null = null;
+
+  async aliasIndex(): Promise<AliasIndex> {
+    this.aliasCache ??= buildAliasIndex(
+      this.metaValue.data_version,
+      [...this.records.works.values()].flatMap((w) => w.aliases.map((a) => [normalizeTitle(a), w.id] as const)),
+    );
+    return this.aliasCache;
+  }
+
+  async groups(): Promise<GroupRecord[]> {
+    return [...this.records.groups.values()].sort((a, b) => (a.id < b.id ? -1 : 1));
   }
 }

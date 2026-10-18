@@ -336,7 +336,7 @@ Resolution is parse, match, interpret, score. Each step records a reason string,
 1. **Parse.** An anitopy-style tokenizer extracts group, title, season token, episode (single, range, or version like `05v2`), resolution, source, codec, audio/sub flags and batch markers. The parser is a separate package with its own fixture corpus.
 2. **Normalize the title.** NFKC, then one folding table: `×` becomes `x`; stars, music notes, hearts, colons and CJK or full-width punctuation become spaces. Then lowercase, fold macrons, strip other punctuation and filler words (`the`, `season`, `part`, `cour`), collapse spaces. The same function builds `aliases.normalized`.
 3. **Match candidates.**
-    1. Exact hit on `aliases.normalized`.
+    1. Exact hit in the alias index. An alias several works share splits its title weight across them; season token, episode fit and year then break the tie.
     2. No exact hit: trigram FTS search, keep the top 10 above a similarity floor.
     3. Season token present (`S2`, `2nd Season`, `Part 2`): prefer works whose aliases or prequel chain position agree.
 4. **Interpret the number** against each candidate, in order:
@@ -422,7 +422,9 @@ There is no server to run. Data changes only when a PR merges, so everything is 
                                        #   IMDb uses the digits after "tt" (every IMDb ID starts with tt)
 /v1/sequences/{sequence_id}.json
 /v1/groups/{group_id}.json
-/v1/aliases.json.zst                   # full normalized alias index for resolvers
+/v1/aliases.json.zst                   # alias index for resolvers: every normalized alias once, with all
+                                       #   works using it; forms under 3 characters dropped; zstd JSON
+/v1/groups.json                        # every release group with aliases and overrides
 ```
 
 4. **Client library** (TypeScript, published to npm as `@courmap/client`; other languages port against the conformance suite) implements `lookup`, `translate` and `resolve` locally against either the shards (fetch on demand, cache by `data_version`) or a downloaded dump (fully offline). PVRs like Transpondarr should use the dump mode: no network call per RSS item.

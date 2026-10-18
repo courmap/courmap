@@ -1,3 +1,4 @@
+import { buildAliasIndex, type AliasIndex } from './aliases.js';
 import type { Dataset } from './engine.js';
 import type { GroupRecord, Meta, ProjectionRow, SequenceRecord, WorkRecord, WorkStatus, WorkType } from './model.js';
 import type { EpisodeKind, ProjectionProvider, Provider } from './providers.js';
@@ -44,12 +45,14 @@ const Q = {
   sequenceIds: 'SELECT id FROM sequences ORDER BY id',
   groupIds: 'SELECT id FROM groups ORDER BY id',
   allRefs: 'SELECT provider, provider_id, work_id FROM provider_refs ORDER BY provider, provider_id, work_id',
+  allAliases: 'SELECT normalized, work_id FROM aliases',
 } as const;
 
 /** A Dataset over a compiled SQLite dump. The dump never changes, so works are cached once read. */
 export class DumpDataset implements Dataset {
   private readonly metaValue: Meta;
   private readonly works = new Map<string, WorkRecord | undefined>();
+  private aliasCache: AliasIndex | null = null;
 
   constructor(
     private readonly sql: SqlReader,
@@ -96,6 +99,20 @@ export class DumpDataset implements Dataset {
       aliases: this.sql.all<{ alias: string }>(Q.groupAliases, [id]).map((a) => a.alias),
       overrides: overrides.map((o) => ({ work: o.work_id, numbering: o.numbering, offset: o.offset, sequence: o.sequence_id })),
     };
+  }
+
+  async aliasIndex(): Promise<AliasIndex> {
+    this.aliasCache ??= buildAliasIndex(
+      this.metaValue.data_version,
+      this.sql.all<{ normalized: string; work_id: string }>(Q.allAliases).map((r) => [r.normalized, r.work_id] as const),
+    );
+    return this.aliasCache;
+  }
+
+  async groups(): Promise<GroupRecord[]> {
+    const out: GroupRecord[] = [];
+    for (const id of this.listGroupIds()) out.push((await this.getGroup(id))!);
+    return out;
   }
 
   /** Everything below is for exporting the dump (static shards), not for lookups. */

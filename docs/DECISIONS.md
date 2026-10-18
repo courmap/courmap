@@ -46,3 +46,25 @@ Choices made where `docs/SPEC.md` was ambiguous, silent or seemed wrong. One ent
 - **`data_version` defaults to the ISO week of the build,** formatted `YYYY.WW` with a two-digit week (`2026.42`, `2026.05`). Rationale: matches the spec's example and the `data-YYYY.WW` release tags.
 - **Expected row counts come from the YAML, not the records.** The compiler counts rows straight from the parsed files and compares them with the table counts, so a bug in record conversion cannot hide itself. Rationale: the step 3 check is "row counts match the YAML".
 - **`specials` NULL means unknown,** even though the column has `DEFAULT 0`. Rationale: see the data format entry on `specials`; the compiler always writes the value explicitly.
+
+## Client API (lookup, translate)
+
+- **Errors are thrown as `CourmapError`** with `code` `not_found` (404), `invalid_input` (400) or `ambiguous`, plus `field` and, for ambiguous, sorted `candidates`. Rationale: the spec types `lookup` as `Promise<Work>`, so failures cannot live in the result; the codes map onto its HTTP statuses.
+- **Lookup on a ref shared by several works is `ambiguous`,** for example an unscoped TVDB show, or a season two cours share. Rationale: "never guesses silently".
+- **Refs gain two namespaces:** `work:<slug>` (the hub itself) and `absolute:<sequence-id>` (translate source only). Rationale: the spec writes canonical episodes as `work:frieren / ep:12` and lists `absolute` as a target; both directions should be expressible.
+- **Season-based refs need a `:sN` scope,** unless the show has a seasonless projection. Specials are reached through `:s0`. Rationale: `tvdb_show:X` with episode 5 has no single meaning when the show has seasons.
+- **Canonical providers are anidb, anilist, mal and kitsu.** Their episode numbers are the work's own. Only AniDB (and `work:`) numbers specials; translating a special to AniList, MAL or Kitsu is unmapped. Rationale: those providers model specials as separate entries.
+- **tmdb_movie and imdb are id-only.** As targets they return `{ id }`; as sources they pick the work and the episode is read as canonical. Rationale: they identify a work but have no episode numbering.
+- **Partial success is `status: "unmapped"`.** Mapped targets still appear in `results`; the rest are listed in `unmapped`. Rationale: the spec defines `unmapped` per target, and dropping good answers helps nobody.
+- **An unknown episode on a known ref is `not_found`;** an episode past the work's count is `invalid_input`. Rationale: the first is missing data, the second is a request that cannot be valid.
+- **Results add `episode_to` for splits and merges,** both on target results and on `work`; `kind` appears on canonical results only for non-regular episodes. Optional fields are omitted rather than null. Rationale: the spec's response shape has no field for N-to-M answers, and omission keeps the common case identical to the spec example.
+- **Episodes may be numbers or strings** (`5`, `"5"`, `"S1"`) on every ref type. Rationale: HTTP query parameters arrive as strings, and every mode must answer alike.
+- **`Work` is the future `works/{id}.json` shard shape** plus `data_version`, with every provider ID as a string. Rationale: the remote client can then return shard files as they are.
+- **The client has no `resolve` or `search` yet.** They are added with packages/parser in step 7; `createClient(dataset)` is the extension point for `createRemoteClient` in step 6. Rationale: the step says not to build ahead.
+
+## Conformance suite
+
+- **The suite has its own fixture dataset** (`tests/conformance/data/`, fake IDs) instead of using `data/`. Rationale: real data changes weekly, and conformance cases must be stable across data releases.
+- **The fixture dump is compiled with `data_version: conformance`,** so expectations include it verbatim. Rationale: ports can compare whole results without special cases.
+- **The TypeScript runner also runs the builder's in-memory dataset.** Rationale: it proves the engine gives the same answers over SQLite and over records before the remote mode exists.
+- **The `ci` script is named `check`.** Rationale: `pnpm ci` is a reserved pnpm command.

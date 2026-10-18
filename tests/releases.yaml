@@ -1,0 +1,189 @@
+# Resolver corpus: release name -> expected resolution. CI reports the pass rate on verified
+# cases on every PR, and fails if it drops below tests/releases.baseline.json, or if any case
+# expected to be ambiguous or unmatched comes back ok.
+#
+# Fields:
+#   name       the release name, as it would appear in an RSS feed or on disk
+#   expect     status ok, with work and episode (and episode_to for batches); or status
+#              ambiguous, optionally with the top candidate's work; or status unmatched
+#   dataset    data (default: data/ with seeds) or conformance (tests/conformance/data, for
+#              branches the real data has no example of, such as group overrides)
+#   verified   true once a person has checked the expectation; only verified cases count
+#   source     hand-written, or imported (pnpm corpus:import)
+#   notes      why the expectation is what it is
+#
+# The hand-written cases below cover every branch of the pipeline. Their names follow common
+# fansub and scene conventions; no release site was consulted.
+cases:
+  # Exact alias
+  - name: "[SubsPlease] Sousou no Frieren - 05 (1080p) [A1B2C3D4].mkv"
+    expect: { status: ok, work: sousou-no-frieren, episode: 5 }
+    verified: true
+    source: hand-written
+  - name: "[Group] Steins;Gate - 05 [BD 1080p]"
+    expect: { status: ok, work: steins-gate, episode: 5 }
+    verified: true
+    source: hand-written
+  - name: "[Group] Bocchi the Rock! - 12 [1080p]"
+    expect: { status: ok, work: bocchi-the-rock, episode: 12 }
+    verified: true
+    source: hand-written
+  - name: "[Group] SPY×FAMILY - 03 [1080p]"
+    expect: { status: ok, work: spy-x-family, episode: 3 }
+    verified: true
+    source: hand-written
+    notes: The multiplication sign folds to x (decision S3.5).
+  - name: "[Group] Shingeki no Kyojin - 05 [1080p]"
+    expect: { status: ok, work: shingeki-no-kyojin, episode: 5 }
+    verified: true
+    source: hand-written
+    notes: The alias is shared with the sequels; no season token reads as the first season.
+  - name: "[Group] K-On! - 03 [BD 720p]"
+    expect: { status: ok, work: k-on, episode: 3 }
+    verified: true
+    source: hand-written
+    notes: The K-On! movie shares the alias; an episode number with no movie marker favours the series.
+
+  # Versions
+  - name: "[Erai-raws] Sousou no Frieren - 05v2 [1080p][Multiple Subtitle].mkv"
+    expect: { status: ok, work: sousou-no-frieren, episode: 5 }
+    verified: true
+    source: hand-written
+
+  # Trigram fallback
+  - name: "[Group] Kusuriya no Hitorigotto - 03 [1080p]"
+    expect: { status: ok, work: kusuriya-no-hitorigoto, episode: 3 }
+    verified: true
+    source: hand-written
+    notes: One extra letter; trigram similarity is high enough to clear the floor.
+  - name: "[Group] Sousou no Frirene - 03 [1080p]"
+    expect: { status: ambiguous, top: sousou-no-frieren }
+    verified: true
+    source: hand-written
+    notes: Two letters swapped. The right work is the top candidate, but a fuzzy match this loose must not be ok.
+
+  # Season and part tokens
+  - name: "[SubsPlease] Spy x Family S2 - 05 (1080p).mkv"
+    expect: { status: ok, work: spy-x-family-season-2, episode: 5 }
+    verified: true
+    source: hand-written
+  - name: "[Group] Spy x Family Part 2 - 01 [1080p]"
+    expect: { status: ok, work: spy-x-family-part-2, episode: 1 }
+    verified: true
+    source: hand-written
+  - name: "[SubsPlease] Kusuriya no Hitorigoto S2 - 01 (1080p).mkv"
+    expect: { status: ok, work: kusuriya-no-hitorigoto-2nd-season, episode: 1 }
+    verified: true
+    source: hand-written
+  - name: "Attack on Titan S02E05 1080p WEB-DL AAC2.0 H.264"
+    expect: { status: ok, work: shingeki-no-kyojin-season-2, episode: 5 }
+    verified: true
+    source: hand-written
+  - name: "[Group] Mushoku Tensei S2 - 01 [1080p]"
+    expect: { status: ok, work: mushoku-tensei-ii-isekai-ittara-honki-dasu, episode: 1 }
+    verified: true
+    source: hand-written
+  - name: "[SubsPlease] Dandadan S2 - 01 (1080p).mkv"
+    expect: { status: ok, work: dandadan-2nd-season, episode: 1 }
+    verified: true
+    source: hand-written
+
+  # Absolute sequence walk (number past the first work's count)
+  - name: "[SubsPlease] Spy x Family - 13 (1080p).mkv"
+    expect: { status: ok, work: spy-x-family-part-2, episode: 1 }
+    verified: true
+    source: hand-written
+    notes: Continuous numbering across the split cour, through the manual sequence.
+  - name: "[Erai-raws] Kusuriya no Hitorigoto - 30 [1080p]"
+    expect: { status: ok, work: kusuriya-no-hitorigoto-2nd-season, episode: 6 }
+    verified: true
+    source: hand-written
+    notes: Through the derived sequence (decision S3.7); 24 + 6.
+  - name: "[Group] Frieren - 30 [1080p]"
+    expect: { status: ok, work: sousou-no-frieren-2nd-season, episode: 2 }
+    verified: true
+    source: hand-written
+    notes: 28 + 2, through the derived sequence.
+  - name: "[ASW] Dandadan - 13 [1080p HEVC x265 10Bit][AAC]"
+    expect: { status: ok, work: dandadan-2nd-season, episode: 1 }
+    verified: true
+    source: hand-written
+  - name: "[Group] Re:Zero kara Hajimeru Isekai Seikatsu - 26 [1080p]"
+    expect: { status: ok, work: re-zero-kara-hajimeru-isekai-seikatsu-2nd-season, episode: 1 }
+    verified: true
+    source: hand-written
+  - name: "[SubsPlease] Boku no Hero Academia - 120 (1080p).mkv"
+    expect: { status: ok, work: boku-no-hero-academia-6th-season, episode: 7 }
+    verified: true
+    source: hand-written
+    notes: 13 + 25 + 25 + 25 + 25 = 113 before season 6.
+
+  # Long-runners
+  - name: "[Group] One Piece - 1100 [1080p]"
+    expect: { status: ok, work: one-piece, episode: 1100 }
+    verified: true
+    source: hand-written
+  - name: "One.Piece.E1100.1080p.WEB.H264-GRP.mkv"
+    expect: { status: ok, work: one-piece, episode: 1100 }
+    verified: true
+    source: hand-written
+  - name: "[Group] Detective Conan - 1000 [1080p]"
+    expect: { status: ok, work: meitantei-conan, episode: 1000 }
+    verified: true
+    source: hand-written
+  - name: "[Group] Gintama - 100 [720p]"
+    expect: { status: ok, work: gintama, episode: 100 }
+    verified: true
+    source: hand-written
+
+  # Batches
+  - name: "[Group] Frieren - 01-28 [BD 1080p] [Batch]"
+    expect: { status: ok, work: sousou-no-frieren, episode: 1, episode_to: 28 }
+    verified: true
+    source: hand-written
+  - name: "[Judas] Shingeki no Kyojin (Season 1) [BD 1080p][HEVC x265 10bit][Dual-Audio] (Batch)"
+    expect: { status: ok, work: shingeki-no-kyojin, episode: 1, episode_to: 25 }
+    verified: true
+    source: hand-written
+    notes: A batch flag without a range covers the whole work.
+
+  # Movies
+  - name: "[Group] Koe no Katachi (2016) [BD 1080p]"
+    expect: { status: ok, work: koe-no-katachi }
+    verified: true
+    source: hand-written
+  - name: "[Group] Spy x Family Code: White (2023) [1080p]"
+    expect: { status: ok, work: spy-x-family-movie-code-white }
+    verified: true
+    source: hand-written
+  - name: "[Group] Kimi no Na wa. (2016) [BD 1080p]"
+    expect: { status: ok, work: kimi-no-na-wa }
+    verified: true
+    source: hand-written
+    notes: >-
+      Currently ambiguous: a 2016 Suntory commercial shares the alias and the year, and none of
+      the decision S3.4 tie-breakers separates them. Kept as an honest failure.
+
+  # Group overrides (no real group data yet, so this runs on the conformance fixture)
+  - name: "[FixtureSubs] Split Show Part 2 - 105 [1080p]"
+    dataset: conformance
+    expect: { status: ok, work: split-show-part-2, episode: 5 }
+    verified: true
+    source: hand-written
+    notes: The fixture group numbers part 2 by its non-default sequence, starting at 101.
+
+  # Ambiguous and unmatched
+  - name: "[Group] Minna no Uta - 01"
+    expect: { status: ambiguous }
+    verified: true
+    source: hand-written
+    notes: The alias is shared by over a thousand works.
+  - name: "[Other] Twin Title - 01"
+    dataset: conformance
+    expect: { status: ambiguous }
+    verified: true
+    source: hand-written
+  - name: "[Group] Totally Unknown Show Name - 03"
+    expect: { status: unmatched }
+    verified: true
+    source: hand-written

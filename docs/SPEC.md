@@ -374,7 +374,7 @@ The git repo is the database of record; everything else is a build output. Seeds
 - No overlapping ranges within one provider projection; no gaps unless marked `gap: true`; coverage that stops early only with `coverage: partial` and `notes`.
 - Ranges stay inside the work's episode count (open-ended only when `status: airing`). Errors for works with a manual file, warnings for seed-only works, and informational only for movies, whose AniDB parts may exceed a count of 1 and merge into one provider episode.
 - Round-trip test: for every projection, A to hub to B to hub to A returns the input.
-- Resolver regression: `tests/releases.yaml`, a corpus of real release names with expected work and episode. A PR may not reduce the pass rate.
+- Resolver regression: `tests/releases.yaml`, a corpus of release names with expected work and episode (or expected `ambiguous` or `unmatched`). Only cases marked `verified: true` count. CI posts the pass rate on every PR and fails if it drops below `tests/releases.baseline.json`, or if any case expected to be ambiguous or unmatched comes back `ok`. `pnpm corpus:import <file>` adds names from a plain text file (one per line) as unverified cases with today's answer recorded, for a person to check.
 - A bot comments on each PR with a translation diff: which episodes now map differently, before and after.
 
 **Release** (on merge to main)

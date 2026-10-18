@@ -38,6 +38,8 @@ pnpm compile --out out/courmap.sqlite
 pnpm builder shards --from out/courmap.sqlite --out out/shards/v1
 pnpm seed                     # rebuild data/seeds/ from the pins in its manifest (--latest for new pins, --verify to check reproducibility)
 pnpm test                     # unit tests, broken-fixture tests, conformance suite
+pnpm corpus                   # resolver corpus pass rate vs tests/releases.baseline.json (--update-baseline after an improvement)
+pnpm corpus:import <file>     # add release names from a text file as unverified corpus cases
 pnpm check                    # everything CI runs
 ```
 

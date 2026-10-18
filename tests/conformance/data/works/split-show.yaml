@@ -15,3 +15,5 @@ projections:
   tmdb_show:
     - { season: 1, episodes: 1-12 }
 notes: Conformance fixture. All IDs are fake.
+aliases:
+  - Twin Title

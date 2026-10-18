@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write # the corpus report comment
 
 concurrency:
   group: validate-${{ github.ref }}
@@ -46,6 +47,18 @@ jobs:
 
       - name: Tests (broken fixtures, round trips, conformance in every mode)
         run: pnpm test
+
+      - name: Resolver corpus (verified pass rate must not drop; no ambiguous case may return ok)
+        id: corpus
+        run: pnpm corpus --summary "$RUNNER_TEMP/corpus.md"
+
+      - name: Report the corpus on the pull request
+        if: always() && github.event_name == 'pull_request' && steps.corpus.outcome != 'skipped'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          [ -f "$RUNNER_TEMP/corpus.md" ] || exit 0
+          gh pr comment ${{ github.event.pull_request.number }} --body-file "$RUNNER_TEMP/corpus.md" --edit-last             || gh pr comment ${{ github.event.pull_request.number }} --body-file "$RUNNER_TEMP/corpus.md"
 
       - name: Build publishable packages
         run: pnpm build

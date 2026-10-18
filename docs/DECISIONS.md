@@ -147,3 +147,7 @@ Numbered as Xwolv numbered them for this session.
 - **A third status, `unmatched`,** for names with no candidate at all. Rationale: "ambiguous" with an empty candidate list would read as a near miss.
 - **Group history is not scored yet.** Rationale: there is no group history data; the field can join the evidence product later.
 - **`search(query)` is part of the client** (exact alias hits, then trigram matches). Rationale: it is in the spec's API table and uses the same alias index as resolve.
+- **The corpus runs on the real merged data,** plus a `dataset: conformance` option for branches the real data has no example of (group overrides). Rationale: release names map to real works; the fixture covers what data/ cannot yet.
+- **The pass-rate gate compares against a committed baseline,** `tests/releases.baseline.json`, updated with `pnpm corpus --update-baseline`. A second, absolute gate fails CI whenever a case expected to be ambiguous or unmatched returns ok. Rationale: "never decreasing" needs a reference point, and the ambiguity rule must not be traded for pass rate.
+- **Failing hand-written cases stay in the corpus.** Kimi no Na wa (2016) is expected ok and currently ambiguous. Rationale: recording today's answer as the expectation would hide a known weakness.
+- **Imported cases record today's answer as their expectation, unverified.** Rationale: a person checks each one; until then it does not count.

@@ -124,7 +124,7 @@ export function checkFiles(files: readonly SourceFile[], reporter: Reporter): Ch
   checkProviderIds(out.works, reporter);
   checkSharedTargets(out.works, reporter);
   checkSequences(out.sequences, works, knownIds.work, reporter);
-  checkGroups(out.groups, works, knownIds.work, reporter);
+  checkGroups(out.groups, works, out.sequences, knownIds.work, reporter);
   return out;
 }
 
@@ -302,7 +302,8 @@ function checkSharedTargets(works: Typed<WorkFile>[], reporter: Reporter): void 
 }
 
 function checkSequences(seqs: Typed<SequenceFile>[], works: Map<string, Typed<WorkFile>>, knownWorks: Set<string>, reporter: Reporter): void {
-  const workToSeq = new Map<string, string>();
+  // work -> sequence -> member positions, for the default-sequence rule
+  const memberships = new Map<string, Map<string, { src: SourceFile; i: number; isDefault: boolean }[]>>();
   for (const { src, data: s } of seqs) {
     const spans: { i: number; work: string; span: EpisodeSpan; abs: { from: number; to: number | null } }[] = [];
     s.members.forEach((m, i) => {
@@ -325,10 +326,9 @@ function checkSequences(seqs: Typed<SequenceFile>[], works: Map<string, Typed<Wo
       const abs = { from: m.absolute_start, to: r.value.to === null ? null : m.absolute_start + (r.value.to - r.value.from) };
       spans.push({ i, work: m.work, span: r.value, abs });
 
-      const other = workToSeq.get(m.work);
-      if (other !== undefined && other !== s.id) {
-        at('work', 'work-in-multiple-sequences', `work "${m.work}" is already in sequence "${other}"; a work may belong to one sequence`);
-      } else workToSeq.set(m.work, s.id);
+      const bySeq = memberships.get(m.work) ?? new Map();
+      bySeq.set(s.id, [...(bySeq.get(s.id) ?? []), { src, i, isDefault: m.default === true }]);
+      memberships.set(m.work, bySeq);
     });
 
     const maxStart = Math.max(...spans.map((x) => x.abs.from));
@@ -352,11 +352,40 @@ function checkSequences(seqs: Typed<SequenceFile>[], works: Map<string, Typed<Wo
       }
     }
   }
+  checkDefaultSequences(memberships, reporter);
+}
+
+/** A work in several sequences needs exactly one of them marked default: true. */
+function checkDefaultSequences(memberships: Map<string, Map<string, { src: SourceFile; i: number; isDefault: boolean }[]>>, reporter: Reporter): void {
+  for (const [work, bySeq] of memberships) {
+    if (bySeq.size < 2) continue;
+    const defaults = [...bySeq].filter(([, ms]) => ms.some((m) => m.isDefault));
+    const seqs = [...bySeq.keys()].sort();
+    if (defaults.length === 1) continue;
+    if (defaults.length === 0) {
+      for (const [, ms] of bySeq) {
+        const m = ms[0]!;
+        reporter.report(m.src.loc, 'sequence-default', ['members', m.i, 'work'], `work "${work}" is in ${seqs.length} sequences (${seqs.join(', ')}); mark exactly one membership default: true`);
+      }
+    } else {
+      for (const [, ms] of defaults) {
+        const m = ms.find((x) => x.isDefault)!;
+        reporter.report(m.src.loc, 'sequence-default', ['members', m.i, 'default'], `work "${work}" has ${defaults.length} default sequences (${defaults.map(([id]) => id).sort().join(', ')}); only one may be default`);
+      }
+    }
+  }
 }
 
 const fmtAbs = (a: { from: number; to: number | null }) => (a.to === null ? `${a.from}-` : `${a.from}-${a.to}`);
 
-function checkGroups(groups: Typed<GroupFile>[], works: Map<string, Typed<WorkFile>>, knownWorks: Set<string>, reporter: Reporter): void {
+function checkGroups(
+  groups: Typed<GroupFile>[],
+  works: Map<string, Typed<WorkFile>>,
+  seqs: Typed<SequenceFile>[],
+  knownWorks: Set<string>,
+  reporter: Reporter,
+): void {
+  const seqMembers = new Map(seqs.map((s) => [s.data.id, new Set(s.data.members.map((m) => m.work))]));
   const aliasOwner = new Map<string, string>();
   for (const { src, data: g } of groups) {
     (g.aliases ?? []).forEach((alias, i) => {
@@ -371,6 +400,11 @@ function checkGroups(groups: Typed<GroupFile>[], works: Map<string, Typed<WorkFi
       if (!knownWorks.has(o.work)) return at('work', 'unknown-work', `work "${o.work}" is not in data/works/`);
       if (o.numbering === 'offset' && o.offset === undefined) at('numbering', 'offset-mismatch', 'numbering: offset needs an offset value');
       if (o.numbering !== 'offset' && o.offset !== undefined) at('offset', 'offset-mismatch', `offset is only used with numbering: offset, not ${o.numbering}`);
+      if (o.sequence !== undefined) {
+        if (o.numbering !== 'absolute') at('sequence', 'override-sequence', `sequence is only used with numbering: absolute, not ${o.numbering}`);
+        else if (!seqMembers.has(o.sequence)) at('sequence', 'override-sequence', `sequence "${o.sequence}" is not in data/sequences/`);
+        else if (!seqMembers.get(o.sequence)!.has(o.work)) at('sequence', 'override-sequence', `work "${o.work}" is not a member of sequence "${o.sequence}"`);
+      }
       if (o.numbering === 'continue_prequel' && works.get(o.work) && works.get(o.work)!.data.prequel === undefined) {
         at('numbering', 'missing-prequel', `continue_prequel needs work "${o.work}" to have a prequel`);
       }

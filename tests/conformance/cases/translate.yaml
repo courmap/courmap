@@ -78,6 +78,21 @@ cases:
         anilist: { id: "2002", episode: 12 }
       unmapped: []
 
+  - name: a non-default sequence is a valid translate source
+    op: translate
+    ref: absolute:part-two-only
+    episode: 105
+    targets: [absolute, tvdb_show]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: absolute:part-two-only, episode: 105 }
+      work: { id: split-show-part-2, episode: 5, kind: regular }
+      results:
+        absolute: { sequence: split-show-absolute, episode: 17 }
+        tvdb_show: { id: "5002", season: 1, episode: 17 }
+      unmapped: []
+
   - name: absolute number inside the first member
     op: translate
     ref: absolute:split-show-absolute

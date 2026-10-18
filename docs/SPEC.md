@@ -119,6 +119,17 @@ members:
   - { work: example-show-part-2, episodes: 1-12, absolute_start: 26 }
 ```
 
+A work may belong to several sequences (for example a fansub numbering and a streaming service's numbering). When it does, exactly one of its memberships is marked `default: true`, and the `absolute` translate target answers in that sequence:
+
+```yaml
+# sequences/example-show-streaming.yaml
+id: example-show-streaming
+members:
+  - { work: example-show-part-2, episodes: 1-12, absolute_start: 1 }
+# and in example-show-absolute above:
+#   - { work: example-show-part-2, episodes: 1-12, absolute_start: 26, default: true }
+```
+
 **Group override: one group's known quirk**
 
 ```yaml
@@ -127,6 +138,7 @@ id: examplesubs
 aliases: [ExampleSubs, ExSubs]
 overrides:
   - { work: example-show-part-2, numbering: continue_prequel }   # releases 2-cour as 13-24
+  - { work: example-show-part-2, numbering: absolute, sequence: example-show-streaming }  # or: numbers by a non-default sequence
 ```
 
 Rules: `start` defaults to the first canonical number in the range; `target` is only for N-to-M episode splits; ranges in one projection never overlap; every file carries an optional `notes:` field and a `sources:` list of URLs justifying non-obvious mappings.
@@ -185,6 +197,7 @@ CREATE TABLE sequence_members (
   ep_from         INTEGER NOT NULL,
   ep_to           INTEGER,
   absolute_start  INTEGER NOT NULL,
+  is_default      INTEGER NOT NULL,  -- 1 for the work's default sequence
   origin          TEXT NOT NULL,
   PRIMARY KEY (sequence_id, work_id, ep_from)
 );
@@ -212,6 +225,7 @@ CREATE TABLE group_overrides (
   work_id    TEXT NOT NULL REFERENCES works(id),
   numbering  TEXT NOT NULL,        -- continue_prequel | absolute | offset
   offset     INTEGER,
+  sequence_id TEXT REFERENCES sequences(id),  -- numbering: absolute with a non-default sequence
   origin     TEXT NOT NULL
 );
 ```
@@ -246,7 +260,7 @@ Episodes may be passed as numbers or strings (`5`, `"5"`, `"S1"`). A scope on a 
 
 **Lookup** returns the work's full record (`works/{id}.json`) plus `data_version`: ids (every ID as a string), projections ordered by provider, kind and `ep_from`, sequence memberships, titles and aliases. Absent values are `null`. A ref that several works share (an unscoped TVDB show, or one TVDB season two cours share) is `ambiguous`, never a silent pick.
 
-**Translate** resolves the input to one hub point, then projects it to each target. Targets are provider names or `absolute`. Canonical providers return `{ id, episode }` (plus `kind` for non-regular episodes, AniDB only); season-based providers return `{ id, season, episode }` (no `season` for seasonless orderings); id-only providers return `{ id }`; `absolute` returns `{ sequence, episode }`. When one canonical episode spans several provider episodes, or a provider episode merges several canonical ones, results and `work` carry `episode_to`. Optional fields are omitted rather than null.
+**Translate** resolves the input to one hub point, then projects it to each target. Targets are provider names or `absolute`. Canonical providers return `{ id, episode }` (plus `kind` for non-regular episodes, AniDB only); season-based providers return `{ id, season, episode }` (no `season` for seasonless orderings); id-only providers return `{ id }`; `absolute` returns `{ sequence, episode }` in the work's default sequence (another sequence covering the episode is never used as a fallback). When one canonical episode spans several provider episodes, or a provider episode merges several canonical ones, results and `work` carry `episode_to`. Optional fields are omitted rather than null.
 
 **Translate response**
 

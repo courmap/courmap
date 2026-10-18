@@ -1,0 +1,10 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: sequence-default
+    file: sequences/first.yaml
+    line: 3
+    message: work "a" has 2 default sequences (first, second); only one may be default
+  - code: sequence-default
+    file: sequences/second.yaml
+    line: 3
+    message: work "a" has 2 default sequences (first, second); only one may be default

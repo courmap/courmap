@@ -37,6 +37,10 @@
             "type": "integer",
             "minimum": 1,
             "description": "Absolute number of the first episode in the range."
+          },
+          "default": {
+            "type": "boolean",
+            "description": "Marks this sequence as the default absolute numbering for the member work. Required on exactly one sequence when a work belongs to several."
           }
         }
       }

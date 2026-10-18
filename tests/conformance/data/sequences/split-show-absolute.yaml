@@ -1,5 +1,5 @@
 id: split-show-absolute
 members:
   - { work: split-show, episodes: 1-12, absolute_start: 1 }
-  - { work: split-show-part-2, episodes: 1-12, absolute_start: 13 }
-notes: Conformance fixture.
+  - { work: split-show-part-2, episodes: 1-12, absolute_start: 13, default: true }
+notes: Conformance fixture. Part 2 is also in part-two-only; this sequence is its default.

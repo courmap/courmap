@@ -19,11 +19,15 @@ export interface GroupFile {
 export interface GroupOverride {
   work: Slug;
   /**
-   * continue_prequel: numbers this work after its prequel's last episode. absolute: uses the work's absolute sequence. offset: adds `offset` to canonical numbers.
+   * continue_prequel: numbers this work after its prequel's last episode. absolute: uses the work's absolute sequence (its default one, unless `sequence` names another). offset: adds `offset` to canonical numbers.
    */
   numbering: 'continue_prequel' | 'absolute' | 'offset';
   /**
    * Required when numbering is offset, not allowed otherwise.
    */
   offset?: number;
+  /**
+   * Lowercase letters and digits, separated by single hyphens (for example sousou-no-frieren).
+   */
+  sequence?: string;
 }

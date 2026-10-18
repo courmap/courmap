@@ -223,7 +223,8 @@ function fromHub(hub: HubPoint, target: Target): TargetResult | null {
 
   if (target === 'absolute') {
     if (kind !== 'regular') return null;
-    const m = work.sequences.find((s) => e >= s.ep_from && (s.ep_to === null || e <= s.ep_to));
+    // Only the default sequence answers; another sequence covering e is not a silent fallback.
+    const m = work.sequences.find((s) => s.default && e >= s.ep_from && (s.ep_to === null || e <= s.ep_to));
     if (!m) return null;
     return withRange({ sequence: m.sequence, episode: m.absolute_start + (e - m.ep_from) }, m.absolute_start + (episodeTo - m.ep_from));
   }

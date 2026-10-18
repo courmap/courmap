@@ -1,5 +1,5 @@
 id: fixturesubs
 aliases: [FixtureSubs]
 overrides:
-  - { work: split-show-part-2, numbering: continue_prequel }
+  - { work: split-show-part-2, numbering: absolute, sequence: part-two-only }
 notes: Conformance fixture. Not used by lookup or translate; resolve cases arrive in build step 7.

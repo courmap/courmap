@@ -1,0 +1,18 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: override-sequence
+    file: groups/somesubs.yaml
+    line: 3
+    message: sequence "missing" is not in data/sequences/
+  - code: override-sequence
+    file: groups/somesubs.yaml
+    line: 4
+    message: work "a" is not a member of sequence "b-absolute"
+  - code: override-sequence
+    file: groups/somesubs.yaml
+    line: 5
+    message: "sequence is only used with numbering: absolute, not continue_prequel"
+  - code: missing-prequel
+    file: groups/somesubs.yaml
+    line: 5
+    message: continue_prequel needs work "b" to have a prequel

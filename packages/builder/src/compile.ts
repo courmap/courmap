@@ -151,21 +151,26 @@ function insertAll(db: Database.Database, records: Records, meta: Meta): void {
 
   const insSeq = db.prepare('INSERT INTO sequences (id, origin) VALUES (?, ?)');
   const insMember = db.prepare(
-    'INSERT INTO sequence_members (sequence_id, work_id, ep_from, ep_to, absolute_start, origin) VALUES (?, ?, ?, ?, ?, ?)',
+    'INSERT INTO sequence_members (sequence_id, work_id, ep_from, ep_to, absolute_start, is_default, origin) VALUES (?, ?, ?, ?, ?, ?, ?)',
   );
   for (const s of records.sequences.values()) {
     const origin = records.origins.sequences.get(s.id)!;
     insSeq.run(s.id, origin);
-    for (const m of s.members) insMember.run(s.id, m.work, m.ep_from, m.ep_to, m.absolute_start, origin);
+    for (const m of s.members) {
+      const isDefault = records.works.get(m.work)!.sequences.find((x) => x.sequence === s.id)!.default;
+      insMember.run(s.id, m.work, m.ep_from, m.ep_to, m.absolute_start, isDefault ? 1 : 0, origin);
+    }
   }
 
   const insGroup = db.prepare('INSERT INTO groups (id, origin) VALUES (?, ?)');
   const insGroupAlias = db.prepare('INSERT INTO group_aliases (group_id, alias, origin) VALUES (?, ?, ?)');
-  const insOverride = db.prepare('INSERT INTO group_overrides (group_id, work_id, numbering, offset, origin) VALUES (?, ?, ?, ?, ?)');
+  const insOverride = db.prepare(
+    'INSERT INTO group_overrides (group_id, work_id, numbering, offset, sequence_id, origin) VALUES (?, ?, ?, ?, ?, ?)',
+  );
   for (const g of records.groups.values()) {
     const origin = records.origins.groups.get(g.id)!;
     insGroup.run(g.id, origin);
     for (const a of g.aliases) insGroupAlias.run(g.id, a, origin);
-    for (const o of g.overrides) insOverride.run(g.id, o.work, o.numbering, o.offset, origin);
+    for (const o of g.overrides) insOverride.run(g.id, o.work, o.numbering, o.offset, o.sequence, origin);
   }
 }

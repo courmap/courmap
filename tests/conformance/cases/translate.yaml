@@ -1,0 +1,335 @@
+# translate(ref, episode, targets): expected results. See ../README.md for the format.
+cases:
+  - name: simple show, every provider
+    op: translate
+    ref: anilist:2001
+    episode: 5
+    targets: [anidb, mal, kitsu, tvdb_show, tmdb_show, imdb]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: anilist:2001, episode: 5 }
+      work: { id: simple-show, episode: 5, kind: regular }
+      results:
+        anidb: { id: "1001", episode: 5 }
+        mal: { id: "3001", episode: 5 }
+        kitsu: { id: "4001", episode: 5 }
+        tvdb_show: { id: "5001", season: 1, episode: 5 }
+        tmdb_show: { id: "6001", season: 1, episode: 5 }
+        imdb: { id: tt0000001 }
+      unmapped: []
+
+  - name: numeric string episode is accepted
+    op: translate
+    ref: mal:3001
+    episode: "7"
+    targets: [anilist]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: mal:3001, episode: "7" }
+      work: { id: simple-show, episode: 7, kind: regular }
+      results:
+        anilist: { id: "2001", episode: 7 }
+      unmapped: []
+
+  - name: split cour continues TVDB season 1, gets its own TMDB season, and continues absolute numbering
+    op: translate
+    ref: anilist:2003
+    episode: 5
+    targets: [tvdb_show, tmdb_show, absolute]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: anilist:2003, episode: 5 }
+      work: { id: split-show-part-2, episode: 5, kind: regular }
+      results:
+        tvdb_show: { id: "5002", season: 1, episode: 17 }
+        tmdb_show: { id: "6002", season: 2, episode: 5 }
+        absolute: { sequence: split-show-absolute, episode: 17 }
+      unmapped: []
+
+  - name: reverse from a shared TVDB season picks the right part
+    op: translate
+    ref: tvdb_show:5002:s1
+    episode: 13
+    targets: [anilist, absolute]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: tvdb_show:5002:s1, episode: 13 }
+      work: { id: split-show-part-2, episode: 1, kind: regular }
+      results:
+        anilist: { id: "2003", episode: 1 }
+        absolute: { sequence: split-show-absolute, episode: 13 }
+      unmapped: []
+
+  - name: reverse from the first part of a shared TVDB season
+    op: translate
+    ref: tvdb_show:5002:s1
+    episode: 12
+    targets: [anilist]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: tvdb_show:5002:s1, episode: 12 }
+      work: { id: split-show, episode: 12, kind: regular }
+      results:
+        anilist: { id: "2002", episode: 12 }
+      unmapped: []
+
+  - name: absolute number inside the first member
+    op: translate
+    ref: absolute:split-show-absolute
+    episode: 12
+    targets: [tvdb_show]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: absolute:split-show-absolute, episode: 12 }
+      work: { id: split-show, episode: 12, kind: regular }
+      results:
+        tvdb_show: { id: "5002", season: 1, episode: 12 }
+      unmapped: []
+
+  - name: absolute number past the first member lands in the second
+    op: translate
+    ref: absolute:split-show-absolute
+    episode: 20
+    targets: [anidb, tmdb_show]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: absolute:split-show-absolute, episode: 20 }
+      work: { id: split-show-part-2, episode: 8, kind: regular }
+      results:
+        anidb: { id: "1003", episode: 8 }
+        tmdb_show: { id: "6002", season: 2, episode: 8 }
+      unmapped: []
+
+  - name: special maps to TVDB season 0 and AniDB, not to providers without specials
+    op: translate
+    ref: work:specials-show
+    episode: S2
+    targets: [tvdb_show, tmdb_show, anidb, anilist]
+    expect:
+      data_version: conformance
+      status: unmapped
+      input: { ref: work:specials-show, episode: S2 }
+      work: { id: specials-show, episode: 2, kind: special }
+      results:
+        tvdb_show: { id: "5004", season: 0, episode: 6 }
+        anidb: { id: "1004", episode: 2, kind: special }
+      unmapped: [tmdb_show, anilist]
+
+  - name: AniDB special ref
+    op: translate
+    ref: anidb:1004
+    episode: S1
+    targets: [tvdb_show]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: anidb:1004, episode: S1 }
+      work: { id: specials-show, episode: 1, kind: special }
+      results:
+        tvdb_show: { id: "5004", season: 0, episode: 5 }
+      unmapped: []
+
+  - name: reverse from TVDB season 0 gives a special
+    op: translate
+    ref: tvdb_show:5004:s0
+    episode: 5
+    targets: [anidb]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: tvdb_show:5004:s0, episode: 5 }
+      work: { id: specials-show, episode: 1, kind: special }
+      results:
+        anidb: { id: "1004", episode: 1, kind: special }
+      unmapped: []
+
+  - name: one canonical episode spans two TVDB episodes
+    op: translate
+    ref: anilist:2004
+    episode: 12
+    targets: [tvdb_show, tmdb_show]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: anilist:2004, episode: 12 }
+      work: { id: specials-show, episode: 12, kind: regular }
+      results:
+        tvdb_show: { id: "5004", season: 1, episode: 12, episode_to: 13 }
+        tmdb_show: { id: "6004", season: 1, episode: 11 }
+      unmapped: []
+
+  - name: either half of a split TVDB episode reverses to the one canonical episode
+    op: translate
+    ref: tvdb_show:5004:s1
+    episode: 13
+    targets: [anilist]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: tvdb_show:5004:s1, episode: 13 }
+      work: { id: specials-show, episode: 12, kind: regular }
+      results:
+        anilist: { id: "2004", episode: 12 }
+      unmapped: []
+
+  - name: two canonical episodes merged into one TMDB episode
+    op: translate
+    ref: anilist:2004
+    episode: 2
+    targets: [tmdb_show, tvdb_show]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: anilist:2004, episode: 2 }
+      work: { id: specials-show, episode: 2, kind: regular }
+      results:
+        tmdb_show: { id: "6004", season: 1, episode: 1 }
+        tvdb_show: { id: "5004", season: 1, episode: 2 }
+      unmapped: []
+
+  - name: reverse from a merged TMDB episode returns the canonical range
+    op: translate
+    ref: tmdb_show:6004:s1
+    episode: 1
+    targets: [tvdb_show, anilist]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: tmdb_show:6004:s1, episode: 1 }
+      work: { id: specials-show, episode: 1, kind: regular, episode_to: 2 }
+      results:
+        tvdb_show: { id: "5004", season: 1, episode: 1, episode_to: 2 }
+        anilist: { id: "2004", episode: 1, episode_to: 2 }
+      unmapped: []
+
+  - name: long-runner in an open-ended TVDB season; TMDB stops at 100
+    op: translate
+    ref: anilist:2005
+    episode: 120
+    targets: [tvdb_show, tmdb_show]
+    expect:
+      data_version: conformance
+      status: unmapped
+      input: { ref: anilist:2005, episode: 120 }
+      work: { id: long-runner, episode: 120, kind: regular }
+      results:
+        tvdb_show: { id: "5005", season: 2, episode: 70 }
+      unmapped: [tmdb_show]
+
+  - name: open-ended range keeps counting with no episode count
+    op: translate
+    ref: anilist:2005
+    episode: 100000
+    targets: [tvdb_show]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: anilist:2005, episode: 100000 }
+      work: { id: long-runner, episode: 100000, kind: regular }
+      results:
+        tvdb_show: { id: "5005", season: 2, episode: 99950 }
+      unmapped: []
+
+  - name: reverse from an open-ended TVDB season
+    op: translate
+    ref: tvdb_show:5005:s2
+    episode: 70
+    targets: [anidb]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: tvdb_show:5005:s2, episode: 70 }
+      work: { id: long-runner, episode: 120, kind: regular }
+      results:
+        anidb: { id: "1005", episode: 120 }
+      unmapped: []
+
+  - name: seasonless ordering has no season in the result
+    op: translate
+    ref: anidb:1006
+    episode: 7
+    targets: [tvdb_show]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: anidb:1006, episode: 7 }
+      work: { id: absolute-order-show, episode: 7, kind: regular }
+      results:
+        tvdb_show: { id: "5006", episode: 7 }
+      unmapped: []
+
+  - name: seasonless ordering takes a ref with no scope
+    op: translate
+    ref: tvdb_show:5006
+    episode: 7
+    targets: [anidb]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: tvdb_show:5006, episode: 7 }
+      work: { id: absolute-order-show, episode: 7, kind: regular }
+      results:
+        anidb: { id: "1006", episode: 7 }
+      unmapped: []
+
+  - name: movie through id-only providers
+    op: translate
+    ref: tmdb_movie:7001
+    episode: 1
+    targets: [imdb, anidb, tvdb_show]
+    expect:
+      data_version: conformance
+      status: unmapped
+      input: { ref: tmdb_movie:7001, episode: 1 }
+      work: { id: a-movie, episode: 1, kind: regular }
+      results:
+        imdb: { id: tt0000007 }
+        anidb: { id: "1007", episode: 1 }
+      unmapped: [tvdb_show]
+
+  - name: work outside any sequence has no absolute number
+    op: translate
+    ref: anilist:2001
+    episode: 1
+    targets: [absolute]
+    expect:
+      data_version: conformance
+      status: unmapped
+      input: { ref: anilist:2001, episode: 1 }
+      work: { id: simple-show, episode: 1, kind: regular }
+      results: {}
+      unmapped: [absolute]
+
+  - name: repeated targets are answered once
+    op: translate
+    ref: anilist:2001
+    episode: 1
+    targets: [anidb, anidb]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: anilist:2001, episode: 1 }
+      work: { id: simple-show, episode: 1, kind: regular }
+      results:
+        anidb: { id: "1001", episode: 1 }
+      unmapped: []
+
+  - name: no targets still identifies the work
+    op: translate
+    ref: kitsu:4001
+    episode: 3
+    targets: []
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: kitsu:4001, episode: 3 }
+      work: { id: simple-show, episode: 3, kind: regular }
+      results: {}
+      unmapped: []

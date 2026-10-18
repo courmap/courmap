@@ -1,0 +1,25 @@
+id: simple-show
+type: tv
+status: finished
+year: 2020
+episodes: 12
+specials: 0
+titles:
+  romaji: Simple Show
+  english: "The Simple Show: Example"
+ids:
+  anidb: 1001
+  anilist: 2001
+  mal: 3001
+  kitsu: 4001
+  tvdb_show: 5001
+  tmdb_show: 6001
+  imdb: tt0000001
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-12 }
+  tmdb_show:
+    - { season: 1, episodes: 1-12 }
+aliases:
+  - Simple
+notes: Conformance fixture. All IDs are fake.

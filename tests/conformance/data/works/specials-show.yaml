@@ -1,0 +1,21 @@
+id: specials-show
+type: tv
+year: 2022
+episodes: 12
+specials: 2
+titles:
+  romaji: Specials Show
+ids:
+  anidb: 1004
+  anilist: 2004
+  tvdb_show: 5004
+  tmdb_show: 6004
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-11 }
+    - { kind: special, episodes: S1-S2, season: 0, start: 5 }   # S1, S2 -> S00E05, E06
+    - { episodes: 12, season: 1, target: 12-13 }                # one canonical ep = two TVDB eps
+  tmdb_show:
+    - { season: 1, episodes: 1-2, target: 1 }                   # two canonical eps = one TMDB ep
+    - { season: 1, episodes: 3-12, start: 2 }
+notes: Conformance fixture. All IDs are fake.

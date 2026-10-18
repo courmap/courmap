@@ -1,0 +1,144 @@
+{
+  "format": 1,
+  "pins": {
+    "offline_db": {
+      "repo": "cedya77/anime-offline-database",
+      "tag": "2026-42",
+      "asset": "anime-offline-database.jsonl.zst",
+      "sha256": "5d6fc7ed463c616f4efe6d35344d019f30fe0614fe183c4668a9dd4fe14d6728",
+      "last_update": "2026-10-12"
+    },
+    "anime_lists": {
+      "repo": "Anime-Lists/anime-lists",
+      "commit": "996d6a8b98c0c8ba94378875746a83b66dc590d4",
+      "path": "anime-list-master.xml",
+      "sha256": "93eb14b4b5dc09a838a0b3bd0acfc36aeef7536937816d5453fe801d07828498"
+    }
+  },
+  "shards": [
+    {
+      "name": "works-000.jsonl",
+      "works": 933,
+      "sha256": "f51f127e0da5ae909672ab3cce18fee0ba1cb80a743dafd4c17cbc2662f397b3"
+    },
+    {
+      "name": "works-001.jsonl",
+      "works": 904,
+      "sha256": "e19a11e737b1db894a1bfbf5945336a81b5f35aaff57d01660370a3e52cabc3c"
+    },
+    {
+      "name": "works-002.jsonl",
+      "works": 936,
+      "sha256": "9a075494eedb178f8aa99b07f04e7ceff0cd315ec33801e5feded66fb110f163"
+    },
+    {
+      "name": "works-003.jsonl",
+      "works": 881,
+      "sha256": "02035e1b5b2d30266a59516e2c8fc9ddeab266c5344fd39a4d13646e06c2e2b1"
+    },
+    {
+      "name": "works-004.jsonl",
+      "works": 913,
+      "sha256": "bcd4fb70c82628d134bd9bef63c52dd73ce5c22fd2487483a0ebf81ff9a25ea1"
+    },
+    {
+      "name": "works-005.jsonl",
+      "works": 908,
+      "sha256": "782142539f7aed9395af026249b0811e7d0f93b56d25b7ce72c2fde26c2e840c"
+    },
+    {
+      "name": "works-006.jsonl",
+      "works": 942,
+      "sha256": "6455991c197f253a77897ede4ac07c2f62d94470500445ea8b8e088ec5f5ea7b"
+    },
+    {
+      "name": "works-007.jsonl",
+      "works": 924,
+      "sha256": "7d4dca6a0dca27e118af3a0f5a8eb69f2d13577426c9f2d34de5b59482de5428"
+    },
+    {
+      "name": "works-008.jsonl",
+      "works": 852,
+      "sha256": "b387b1cb5620eb7cfcf90206a7feec383e541d4671b6a7e20aa0473ddd7c36bd"
+    },
+    {
+      "name": "works-009.jsonl",
+      "works": 925,
+      "sha256": "6de70f1b58c45eed0727a35bf96168435ed10f76ff33956e46d0826b5b96528c"
+    },
+    {
+      "name": "works-010.jsonl",
+      "works": 929,
+      "sha256": "7b26f6f4cfa878099c4ab9781b6eb5518a89fa173085794718bebd0b80e6c76e"
+    },
+    {
+      "name": "works-011.jsonl",
+      "works": 924,
+      "sha256": "7ce490de6aea02e87f526bf59935da0223066d3a8b31f7f026d87e26b757e5a5"
+    },
+    {
+      "name": "works-012.jsonl",
+      "works": 912,
+      "sha256": "3b74a994e829ead57e348a87e1ede4ae32d9dbe6e1e980d3e2eb114678eedf36"
+    },
+    {
+      "name": "works-013.jsonl",
+      "works": 930,
+      "sha256": "51817b33f798ff65ff56c6caaf2198da1410194075cb9e735849f1781a541e42"
+    },
+    {
+      "name": "works-014.jsonl",
+      "works": 940,
+      "sha256": "095766e724ad628485c34ab8826e4270f03097cd6644c3507548653bea01ec92"
+    },
+    {
+      "name": "works-015.jsonl",
+      "works": 924,
+      "sha256": "648fc8f0da5bbf363406c240266bf4f33842976c0515646e8e0284cb359e6dc1"
+    }
+  ],
+  "summary": {
+    "works": 14677,
+    "provider_refs": {
+      "anidb": 14677,
+      "anilist": 13442,
+      "mal": 14041,
+      "kitsu": 13307,
+      "tmdb_movie": 1325,
+      "tvdb_show": 7467,
+      "tmdb_show": 7048,
+      "imdb": 1608
+    },
+    "projection_rows": {
+      "tvdb_show": 7975,
+      "tmdb_show": 5864
+    },
+    "projection_blocks": {
+      "tvdb_show": 6699,
+      "tmdb_show": 5793
+    },
+    "partial_blocks": {
+      "tvdb_show": 29,
+      "tmdb_show": 1
+    },
+    "warnings": {
+      "open-ended-not-airing": 1,
+      "out-of-bounds": 176
+    },
+    "conflicts": {
+      "anime-lists-multiple-ids": 70,
+      "anime-lists-split-not-consecutive": 39,
+      "anime-lists-unsupported-mapping": 1,
+      "offline-db-merged-anidb": 4,
+      "offline-db-multiple-ids": 33,
+      "offline-db-unknown-status": 3,
+      "offline-db-unknown-type": 2,
+      "validate-duplicate-provider-id": 4,
+      "validate-target-overlap": 276
+    },
+    "offline_db_entries_without_anidb": 23626,
+    "em_dashes_replaced": 172,
+    "anime_lists_entries_without_offline_db": 2376,
+    "repair_rounds": 2
+  }
+}

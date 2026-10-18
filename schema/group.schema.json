@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/courmap/courmap/main/schema/group.schema.json",
+  "title": "GroupFile",
+  "description": "A release group and its known numbering quirks: data/groups/<id>.yaml.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "#/$defs/slug"
+    },
+    "aliases": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "overrides": {
+      "type": "array",
+      "items": {
+        "title": "GroupOverride",
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "work",
+          "numbering"
+        ],
+        "properties": {
+          "work": {
+            "$ref": "#/$defs/slug"
+          },
+          "numbering": {
+            "enum": [
+              "continue_prequel",
+              "absolute",
+              "offset"
+            ],
+            "description": "continue_prequel: numbers this work after its prequel's last episode. absolute: uses the work's absolute sequence. offset: adds `offset` to canonical numbers."
+          },
+          "offset": {
+            "type": "integer",
+            "description": "Required when numbering is offset, not allowed otherwise."
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string"
+    },
+    "sources": {
+      "$ref": "#/$defs/sources"
+    }
+  },
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "description": "Lowercase letters and digits, separated by single hyphens (for example sousou-no-frieren).",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "maxLength": 120
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uri",
+        "pattern": "^https?://"
+      }
+    }
+  }
+}

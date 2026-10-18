@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: start-target-conflict
+    file: works/both.yaml
+    line: 10
+    message: use either start (a plain offset) or target (an N-to-M split), not both

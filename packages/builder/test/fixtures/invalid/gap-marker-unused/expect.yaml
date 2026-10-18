@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: gap-marker-unused
+    file: works/marker.yaml
+    line: 10
+    message: "gap: true is set but no episodes are missing before this entry"

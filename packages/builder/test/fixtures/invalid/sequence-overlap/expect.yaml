@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: sequence-overlap
+    file: sequences/ab-absolute.yaml
+    line: 4
+    message: absolute episodes 12-23 overlap members[0] (1-12)

@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: invalid-target
+    file: works/nosplit.yaml
+    line: 10
+    message: 2 canonical episodes onto 2 provider episodes is not a split; target needs one side to be a single episode

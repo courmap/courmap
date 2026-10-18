@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: open-ended-not-airing
+    file: works/open.yaml
+    line: 9
+    message: open-ended range "1-" is allowed only when status is airing

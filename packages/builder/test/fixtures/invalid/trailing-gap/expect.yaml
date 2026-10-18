@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: gap
+    file: works/short.yaml
+    line: 9
+    message: episodes 11-12 have no tvdb_show mapping

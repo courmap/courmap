@@ -1,0 +1,10 @@
+id: same-landing
+type: tv
+episodes: 12
+ids:
+  anidb: 900001
+  tvdb_show: 900101
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-6 }
+    - { season: 1, episodes: 7-12, start: 4 }

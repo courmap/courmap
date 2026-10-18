@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: duplicate-alias
+    file: groups/two-subs.yaml
+    line: 2
+    message: alias "samename" is already used by group "one-subs"

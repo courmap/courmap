@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: target-overlap
+    file: works/part-2.yaml
+    line: 9
+    message: tvdb_show:900101 season 1 episodes are also claimed by work "part-1" (tvdb_show[0])

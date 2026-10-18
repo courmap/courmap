@@ -1,0 +1,9 @@
+id: open
+type: tv
+episodes: 12
+ids:
+  anidb: 900001
+  tvdb_show: 900101
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1- }

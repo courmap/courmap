@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: schema
+    file: works/Bad_Slug.yaml
+    line: 1
+    message: '"Bad_Slug" is not valid. Lowercase letters and digits, separated by single hyphens (for example sousou-no-frieren).'

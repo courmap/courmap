@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: filename-mismatch
+    file: works/frieren.yaml
+    line: 1
+    message: '"sousou-no-frieren" must match the file name "frieren"'

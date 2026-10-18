@@ -1,0 +1,5 @@
+id: somesubs
+aliases: [SomeSubs]
+overrides:
+  - { work: a, numbering: offset }
+  - { work: a, numbering: absolute, offset: 3 }

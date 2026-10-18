@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: missing-provider-id
+    file: works/no-tmdb.yaml
+    line: 11
+    message: projections.tmdb_show needs ids.tmdb_show to be set

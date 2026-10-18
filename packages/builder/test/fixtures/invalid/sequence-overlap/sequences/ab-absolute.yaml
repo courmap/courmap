@@ -1,0 +1,4 @@
+id: ab-absolute
+members:
+  - { work: a, episodes: 1-12, absolute_start: 1 }
+  - { work: b, episodes: 1-12, absolute_start: 12 }

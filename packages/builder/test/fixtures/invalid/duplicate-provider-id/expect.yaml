@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: duplicate-provider-id
+    file: works/two.yaml
+    line: 5
+    message: anidb:900001 is already used by work "one"

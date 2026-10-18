@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: out-of-bounds
+    file: sequences/a-absolute.yaml
+    line: 3
+    message: 'range "1-13" goes past work "a" episodes: 12'

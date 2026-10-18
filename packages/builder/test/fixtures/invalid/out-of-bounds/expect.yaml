@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: out-of-bounds
+    file: works/too-far.yaml
+    line: 9
+    message: "range \"1-13\" goes past the work's episodes: 12"

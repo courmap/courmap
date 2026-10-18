@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: target-overlap
+    file: works/same-landing.yaml
+    line: 10
+    message: lands on the same tvdb_show season 1 episodes as tvdb_show[0]

@@ -14,7 +14,7 @@ import type {
 import { createClient, type CourmapClient } from './client.js';
 
 /** Dump schema versions this client can read. */
-const SUPPORTED_SCHEMA_VERSIONS = new Set(['1']);
+const SUPPORTED_SCHEMA_VERSIONS = new Set(['2']);
 
 interface WorkRow {
   id: string;

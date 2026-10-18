@@ -41,7 +41,16 @@ describe('compile data/', async () => {
 
   it('writes meta', () => {
     const meta = Object.fromEntries((db.prepare('SELECT key, value FROM meta').all() as { key: string; value: string }[]).map((r) => [r.key, r.value]));
-    expect(meta).toEqual({ data_version: '2026.42', git_sha: 'test', built_at: '2026-10-17T00:00:00.000Z', schema_version: '1' });
+    expect(meta).toEqual({ data_version: '2026.42', git_sha: 'test', built_at: '2026-10-17T00:00:00.000Z', schema_version: '2' });
+  });
+
+  it('gives every derived table an origin column, and specials no default', () => {
+    const cols = (t: string) => db.pragma(`table_info(${t})`) as { name: string; notnull: number; dflt_value: unknown }[];
+    for (const t of ['provider_refs', 'projections', 'aliases', 'sequences', 'sequence_members', 'groups', 'group_aliases', 'group_overrides']) {
+      expect(cols(t).find((c) => c.name === 'origin'), `${t}.origin`).toMatchObject({ notnull: 1 });
+    }
+    expect(cols('works').find((c) => c.name === 'specials')).toMatchObject({ dflt_value: null });
+    expect(db.prepare("SELECT specials FROM works WHERE id = 'sousou-no-frieren'").get()).toEqual({ specials: null });
   });
 
   it('stores open-ended ranges and seasons as written', () => {

@@ -147,7 +147,7 @@ CREATE TABLE works (
   status        TEXT,              -- finished | airing | upcoming
   year          INTEGER,
   episodes      INTEGER,           -- NULL while unknown
-  specials      INTEGER DEFAULT 0,
+  specials      INTEGER,           -- NULL = unknown
   title_romaji  TEXT, title_english TEXT, title_native TEXT,
   prequel_id    TEXT REFERENCES works(id)
 );
@@ -176,7 +176,8 @@ CREATE INDEX idx_proj_lookup ON projections(provider, work_id, kind, ep_from);
 CREATE INDEX idx_proj_reverse ON projections(provider, season, target_from);
 
 CREATE TABLE sequences (
-  id   TEXT PRIMARY KEY
+  id      TEXT PRIMARY KEY,
+  origin  TEXT NOT NULL
 );
 CREATE TABLE sequence_members (
   sequence_id     TEXT NOT NULL REFERENCES sequences(id),
@@ -184,6 +185,7 @@ CREATE TABLE sequence_members (
   ep_from         INTEGER NOT NULL,
   ep_to           INTEGER,
   absolute_start  INTEGER NOT NULL,
+  origin          TEXT NOT NULL,
   PRIMARY KEY (sequence_id, work_id, ep_from)
 );
 
@@ -197,21 +199,24 @@ CREATE INDEX idx_alias_norm ON aliases(normalized);
 CREATE VIRTUAL TABLE alias_trigrams USING fts5(normalized, work_id UNINDEXED, tokenize = 'trigram');
 
 CREATE TABLE groups (
-  id TEXT PRIMARY KEY
+  id      TEXT PRIMARY KEY,
+  origin  TEXT NOT NULL
 );
 CREATE TABLE group_aliases (
   group_id TEXT NOT NULL REFERENCES groups(id),
-  alias    TEXT NOT NULL
+  alias    TEXT NOT NULL,
+  origin   TEXT NOT NULL
 );
 CREATE TABLE group_overrides (
   group_id   TEXT NOT NULL REFERENCES groups(id),
   work_id    TEXT NOT NULL REFERENCES works(id),
   numbering  TEXT NOT NULL,        -- continue_prequel | absolute | offset
-  offset     INTEGER
+  offset     INTEGER,
+  origin     TEXT NOT NULL
 );
 ```
 
-The `origin` column on every derived row records which seed dataset or manual file it came from, so a bad import can be traced and rolled back by source.
+The `origin` column on every derived row, in every table except `meta` and `works`, records which seed dataset or manual file it came from, so a bad import can be traced and rolled back by source. A work's own row has no origin because a merged work can draw its fields from several sources; each of its refs, projections and aliases carries its own.
 
 ## API spec
 

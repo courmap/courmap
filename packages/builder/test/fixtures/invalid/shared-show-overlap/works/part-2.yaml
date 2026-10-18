@@ -1,0 +1,10 @@
+id: part-2
+type: tv
+episodes: 12
+ids:
+  anidb: 900002
+  tvdb_show: 900101
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-12, start: 12 }
+prequel: part-1

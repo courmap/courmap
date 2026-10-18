@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: invalid-range
+    file: works/backwards.yaml
+    line: 9
+    message: '"12-1" ends before it starts'

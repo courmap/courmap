@@ -1,0 +1,3 @@
+id: second
+members:
+  - { work: a, episodes: 1-12, absolute_start: 1 }

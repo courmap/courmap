@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: schema
+    file: works/bad-type.yaml
+    line: 2
+    message: '"series" is not allowed; expected one of "tv", "movie", "ova", "ona", "special"'

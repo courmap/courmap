@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: open-ended-not-last
+    file: sequences/ab-absolute.yaml
+    line: 3
+    message: only the member with the highest absolute_start may be open-ended

@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: kind-mismatch
+    file: works/kind.yaml
+    line: 10
+    message: kind is special but episodes "1-2" are regular; write episodes as "S1-S2"

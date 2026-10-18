@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: out-of-bounds
+    file: works/sp.yaml
+    line: 10
+    message: "range \"S1-S2\" goes past the work's specials: 1"

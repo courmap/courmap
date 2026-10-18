@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: schema
+    file: works/bad-range.yaml
+    line: 9
+    message: '"1~12" is not valid. A single episode (12, "S3") or a range ("1-12", "S1-S2", "892-" for open-ended). Prefix S = special, C = credit, T = trailer, P = parody; no prefix = regular.'

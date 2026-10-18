@@ -31,5 +31,8 @@
   },
   "devDependencies": {
     "@types/better-sqlite3": "^9.6.0"
+  },
+  "bin": {
+    "courmap-builder": "./dist/cli.js"
   }
 }

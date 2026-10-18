@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: unknown-work
+    file: sequences/a-absolute.yaml
+    line: 4
+    message: work "b" is not in data/works/

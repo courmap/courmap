@@ -1,0 +1,3 @@
+id: somesubs
+overrides:
+  - { work: a, numbering: continue_prequel }

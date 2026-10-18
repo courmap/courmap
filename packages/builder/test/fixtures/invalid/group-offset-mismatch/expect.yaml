@@ -1,0 +1,10 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: offset-mismatch
+    file: groups/somesubs.yaml
+    line: 4
+    message: "numbering: offset needs an offset value"
+  - code: offset-mismatch
+    file: groups/somesubs.yaml
+    line: 5
+    message: "offset is only used with numbering: offset, not absolute"

@@ -1,0 +1,10 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: yaml-parse
+    file: works/broken.yaml
+    line: 2
+    message: Nested mappings are not allowed in compact mappings
+  - code: yaml-parse
+    file: works/broken.yaml
+    line: 2
+    message: Implicit keys need to be on a single line

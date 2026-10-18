@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: overlap
+    file: works/overlap.yaml
+    line: 10
+    message: '"6-12" overlaps "1-8" in tvdb_show[0]'

@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: gap
+    file: works/holey.yaml
+    line: 10
+    message: "episodes 6-7 have no tvdb_show mapping; add gap: true to this entry if that is intended"

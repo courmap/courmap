@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: work-in-multiple-sequences
+    file: sequences/second.yaml
+    line: 3
+    message: work "a" is already in sequence "first"; a work may belong to one sequence

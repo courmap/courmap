@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: unknown-episode-count
+    file: works/no-count.yaml
+    line: 3
+    message: episodes may be null only when status is airing or upcoming

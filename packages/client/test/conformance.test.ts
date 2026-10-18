@@ -15,8 +15,19 @@ const conformance = fileURLToPath(new URL('../../../tests/conformance/', import.
 
 interface Case {
   name: string;
-  op: 'lookup' | 'translate';
+  op: 'lookup' | 'translate' | 'resolve';
   ref: string;
+  release?: string;
+  expect_resolve?: {
+    status: string;
+    work?: string;
+    episode?: number | null;
+    episode_to?: number;
+    confidence?: number;
+    version?: number;
+    batch_length?: number;
+    top?: string[];
+  };
   episode?: number | string;
   targets?: string[];
   expect?: unknown;
@@ -55,13 +66,13 @@ async function buildModes(): Promise<Record<string, CourmapClient>> {
 }
 
 const run = (client: CourmapClient, c: Case) =>
-  c.op === 'lookup' ? client.lookup(c.ref) : client.translate(c.ref, c.episode!, c.targets ?? []);
+  c.op === 'lookup' ? client.lookup(c.ref) : c.op === 'resolve' ? client.resolve(c.release!) : client.translate(c.ref, c.episode!, c.targets ?? []);
 
 describe('conformance', async () => {
   const modes = await buildModes();
   afterAll(() => Object.values(modes).forEach((m) => m.close()));
 
-  it('has cases', () => expect(cases.length).toBeGreaterThan(40));
+  it('has cases', () => expect(cases.length).toBeGreaterThan(50));
 
   for (const [mode, client] of Object.entries(modes)) {
     describe(mode, () => {
@@ -79,6 +90,20 @@ describe('conformance', async () => {
           return;
         }
         const result = await run(client, c);
+        if (c.expect_resolve) {
+          const r = result as Awaited<ReturnType<CourmapClient['resolve']>>;
+          const x = c.expect_resolve;
+          expect(r.status).toBe(x.status);
+          if (x.work !== undefined) expect(r.match?.work).toBe(x.work);
+          if (x.episode !== undefined) expect(r.match?.episode).toBe(x.episode);
+          if (x.episode_to !== undefined) expect(r.match?.episode_to).toBe(x.episode_to);
+          if (x.confidence !== undefined) expect(r.match?.confidence).toBe(x.confidence);
+          if (x.version !== undefined) expect(r.parsed.version).toBe(x.version);
+          if (x.batch_length !== undefined) expect(r.match?.batch).toHaveLength(x.batch_length);
+          if (x.top !== undefined) expect(r.candidates.slice(0, x.top.length).map((k) => k.work).sort()).toEqual([...x.top].sort());
+          if (r.status !== 'ok') expect(r.match).toBeNull();
+          return;
+        }
         if (c.expect_id !== undefined) expect((result as { id: string }).id).toBe(c.expect_id);
         else expect(result).toEqual(c.expect);
       });

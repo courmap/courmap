@@ -1,0 +1,368 @@
+import type { AliasIndex } from './aliases.js';
+import { translate, type Dataset } from './engine.js';
+import { CourmapError } from './errors.js';
+import type { GroupRecord, WorkRecord } from './model.js';
+import { normalizeTitle } from './normalize.js';
+import type { ParsedRelease, ResolveCandidate, ResolvedProjections, ResolveMatch, ResolveResult, WorkSummary } from './release.js';
+
+/** A winner needs at least this confidence... */
+export const OK_FLOOR = 0.85;
+/** ...and this lead over the runner-up. Otherwise the answer is ambiguous. */
+export const CLEAR_MARGIN = 0.1;
+/** Trigram matches below this similarity are not candidates. */
+export const FUZZY_FLOOR = 0.6;
+const FUZZY_TOP = 10;
+/** Candidates rescored exactly after the rare-trigram pass. */
+const FUZZY_POOL = 300;
+/**
+ * Evidence when a tie-breaker disagrees: a season token that does not match, no season token on a
+ * sequel (no token reads as the first season), a year two or more off, a number nothing places.
+ */
+export const MISMATCH = 0.05;
+const MAX_BATCH = 500;
+/** Trigrams in more aliases than this carry no signal ("  a", "ion") and are skipped. */
+const COMMON_GRAM = 5000;
+
+// ---------------------------------------------------------------------------
+// Alias matching
+
+interface Matcher {
+  exact: Map<string, string[]>;
+  names: string[];
+  works: string[][];
+  sizes: number[];
+  grams: Map<string, number[]>;
+}
+
+const matchers = new WeakMap<AliasIndex, Matcher>();
+
+function trigrams(s: string): Set<string> {
+  const cp = [...`  ${s} `];
+  const out = new Set<string>();
+  for (let i = 0; i + 3 <= cp.length; i++) out.add(cp.slice(i, i + 3).join(''));
+  return out;
+}
+
+function matcherFor(index: AliasIndex): Matcher {
+  let m = matchers.get(index);
+  if (m) return m;
+  m = { exact: new Map(), names: [], works: [], sizes: [], grams: new Map() };
+  index.aliases.forEach(([name, works], i) => {
+    m!.exact.set(name, works);
+    m!.names.push(name);
+    m!.works.push(works);
+    const grams = trigrams(name);
+    m!.sizes.push(grams.size);
+    for (const g of grams) {
+      let list = m!.grams.get(g);
+      if (!list) m!.grams.set(g, (list = []));
+      list.push(i);
+    }
+  });
+  matchers.set(index, m);
+  return m;
+}
+
+interface AliasHit {
+  alias: string;
+  works: string[];
+  /** 1 for an exact hit, else trigram (Dice) similarity. */
+  similarity: number;
+  /** Hit through a season-suffixed query ("title 2"). */
+  viaSeason: boolean;
+}
+
+/** Trigram (Dice) matches for q, best first. Deterministic: ties go to the alias that sorts first. */
+function fuzzy(m: Matcher, q: string): { i: number; similarity: number }[] {
+  const qg = trigrams(q);
+  const shared = new Map<number, number>();
+  for (const g of qg) {
+    const list = m.grams.get(g);
+    if (!list || list.length > COMMON_GRAM) continue;
+    for (const i of list) shared.set(i, (shared.get(i) ?? 0) + 1);
+  }
+  // Rare trigrams only find candidates; similarity is then computed over every trigram.
+  const pool = [...shared].sort((a, b) => b[1] - a[1] || a[0] - b[0]).slice(0, FUZZY_POOL);
+  const out: { i: number; similarity: number }[] = [];
+  for (const [i] of pool) {
+    const ag = trigrams(m.names[i]!);
+    let c = 0;
+    for (const g of qg) if (ag.has(g)) c++;
+    const similarity = (2 * c) / (qg.size + ag.size);
+    if (similarity >= FUZZY_FLOOR) out.push({ i, similarity });
+  }
+  out.sort((a, b) => b.similarity - a.similarity || (m.names[a.i]! < m.names[b.i]! ? -1 : 1));
+  return out.slice(0, FUZZY_TOP);
+}
+
+const ordinalSuffix = (n: number) => (n % 100 >= 11 && n % 100 <= 13 ? 'th' : (['th', 'st', 'nd', 'rd'][n % 10] ?? 'th'));
+
+/** Exact hits for the title and its season variants; trigram hits only when nothing matches exactly. */
+function aliasHits(m: Matcher, parsed: ParsedRelease): AliasHit[] {
+  const title = parsed.title!;
+  const bases = [normalizeTitle(title)];
+  // A trailing special word ("Show Movie") may or may not be part of the alias.
+  if (parsed.special) {
+    const stripped = normalizeTitle(title.replace(/\s+(?:movie|film|ova|oav|oad|specials?|sp)$/i, ''));
+    if (stripped && stripped !== bases[0]) bases.push(stripped);
+  }
+  const n = parsed.season ?? parsed.part;
+  const hits: AliasHit[] = [];
+  const seen = new Set<string>();
+  const tryExact = (q: string, viaSeason: boolean) => {
+    const works = m.exact.get(q);
+    if (works && !seen.has(q)) {
+      seen.add(q);
+      hits.push({ alias: q, works, similarity: 1, viaSeason });
+    }
+  };
+  for (const b of bases) {
+    // Season tokens also appear as "2nd" or "s2"; Part and Cour tokens only as the number.
+    if (parsed.season !== null) for (const v of [`${b} ${n}`, `${b} ${n}${ordinalSuffix(n!)}`, `${b} s${n}`]) tryExact(v, true);
+    else if (parsed.part !== null) tryExact(`${b} ${n}`, true);
+    tryExact(b, false);
+  }
+  if (hits.length > 0) return hits;
+  for (const f of fuzzy(m, bases[0]!)) hits.push({ alias: m.names[f.i]!, works: m.works[f.i]!, similarity: f.similarity, viaSeason: false });
+  return hits;
+}
+
+// ---------------------------------------------------------------------------
+// Interpreting the number
+
+interface Placement {
+  work: WorkRecord;
+  episode: number | null;
+  episodeTo: number | null;
+  /** 1 = the number fits; lower = a weaker reading; 0.05 = it does not fit at all. */
+  fit: number;
+  /** Placed through the TVDB season in reverse, which already agrees with the season token. */
+  viaTvdbSeason: boolean;
+  reason: string;
+}
+
+interface Ctx {
+  ds: Dataset;
+  parsed: ParsedRelease;
+  group: GroupRecord | null;
+}
+
+const inRange = (w: WorkRecord, e: number) => e >= 1 && (w.episodes === null || e <= w.episodes);
+
+/** Steps 4.1 to 4.4 of the spec for one episode number. */
+async function placeOne(ctx: Ctx, w: WorkRecord, e: number, season: number | null): Promise<Omit<Placement, 'episodeTo'>> {
+  const { ds } = ctx;
+  const override = ctx.group?.overrides.find((o) => o.work === w.id);
+  if (override) {
+    const tag = `group ${ctx.group!.id}`;
+    if (override.numbering === 'continue_prequel' && w.prequel) {
+      const prequel = await ds.getWork(w.prequel);
+      if (prequel?.episodes != null && inRange(w, e - prequel.episodes)) {
+        return { work: w, episode: e - prequel.episodes, fit: 1, viaTvdbSeason: false, reason: `${tag} numbers ${w.id} after ${prequel.id}'s ${prequel.episodes} episodes` };
+      }
+    }
+    if (override.numbering === 'offset' && override.offset !== null && inRange(w, e - override.offset)) {
+      return { work: w, episode: e - override.offset, fit: 1, viaTvdbSeason: false, reason: `${tag} numbers ${w.id} with an offset of ${override.offset}` };
+    }
+    if (override.numbering === 'absolute') {
+      const seqId = override.sequence ?? w.sequences.find((s) => s.default)?.sequence;
+      const hub = seqId ? await viaAbsolute(ds, seqId, e) : null;
+      if (hub) return { ...hub, fit: 1, viaTvdbSeason: false, reason: `${tag} numbers by ${seqId}: absolute ${e} is ${hub.work.id} ${hub.episode}` };
+    }
+  }
+  // An explicit season token (S2, Season 2, S02E05) is read as a TVDB season first: it is the
+  // most specific reading, and for long-runners the canonical number would be wrong. Part and
+  // cour tokens are not TVDB seasons, so they skip this.
+  const tvdb = w.ids.tvdb_show;
+  if (season !== null && tvdb !== undefined) {
+    try {
+      const r = await translate(ds, `tvdb_show:${tvdb}:s${season}`, e, []);
+      const work = (await ds.getWork(r.work.id))!;
+      return { work, episode: r.work.episode, fit: 1, viaTvdbSeason: true, reason: `TVDB S${season}E${e} is ${work.id} ${r.work.episode}` };
+    } catch (err) {
+      if (!(err instanceof CourmapError)) throw err;
+    }
+  }
+  if (inRange(w, e)) return { work: w, episode: e, fit: 1, viaTvdbSeason: false, reason: `${e} is within ${w.id}'s ${w.episodes ?? 'open'} episodes` };
+  const member = w.sequences.find((s) => s.default);
+  if (member && e >= member.absolute_start) {
+    const hub = await viaAbsolute(ds, member.sequence, e);
+    if (hub) {
+      return { ...hub, fit: 1, viaTvdbSeason: false, reason: `${e} exceeds ${w.id}'s ${w.episodes} episodes; ${member.sequence} places absolute ${e} at ${hub.work.id} ${hub.episode}` };
+    }
+  }
+  return { work: w, episode: e, fit: MISMATCH, viaTvdbSeason: false, reason: `${e} is past ${w.id}'s ${w.episodes} episodes and nothing places it` };
+}
+
+async function viaAbsolute(ds: Dataset, sequence: string, abs: number): Promise<{ work: WorkRecord; episode: number } | null> {
+  try {
+    const r = await translate(ds, `absolute:${sequence}`, abs, []);
+    return { work: (await ds.getWork(r.work.id))!, episode: r.work.episode };
+  } catch (err) {
+    if (err instanceof CourmapError) return null;
+    throw err;
+  }
+}
+
+async function place(ctx: Ctx, w: WorkRecord): Promise<Placement> {
+  const p = ctx.parsed;
+  // Only a season token names a TVDB season; part and cour tokens do not.
+  const season = p.season;
+  // Movies are matched by title and year; their numbering is not interpreted (decision S3.8).
+  if (w.type === 'movie') return { work: w, episode: null, episodeTo: null, fit: 1, viaTvdbSeason: false, reason: 'a movie, matched by title' };
+  if (p.episode === null) {
+    if (p.batch && w.episodes !== null) return { work: w, episode: 1, episodeTo: w.episodes, fit: 1, viaTvdbSeason: false, reason: `a batch of all ${w.episodes} episodes` };
+    return { work: w, episode: null, episodeTo: null, fit: 0.3, viaTvdbSeason: false, reason: 'no episode number' };
+  }
+  const first = await placeOne(ctx, w, p.episode, season);
+  if (p.episode_to === null) return { ...first, episodeTo: null };
+  const last = await placeOne(ctx, w, p.episode_to, season);
+  if (last.work.id !== first.work.id) {
+    return { ...first, episodeTo: null, fit: Math.min(first.fit, 0.3), reason: `${first.reason}; the batch ends in another work (${last.work.id})` };
+  }
+  return { ...first, episodeTo: last.episode, fit: Math.min(first.fit, last.fit), reason: `${first.reason}; through ${last.episode}` };
+}
+
+// ---------------------------------------------------------------------------
+// Scoring
+
+async function chainPosition(ds: Dataset, w: WorkRecord): Promise<number> {
+  let pos = 1;
+  let cur: WorkRecord | undefined = w;
+  const seen = new Set<string>();
+  while (cur?.prequel && !seen.has(cur.id) && pos < 50) {
+    seen.add(cur.id);
+    cur = await ds.getWork(cur.prequel);
+    pos++;
+  }
+  return pos;
+}
+
+const firstTvdbSeason = (w: WorkRecord) => w.projections.tvdb_show?.find((r) => r.kind === 'regular' && r.season !== null && r.season > 0)?.season ?? null;
+
+/**
+ * The season token as a tie-breaker. No token reads as the first season, so a sequel without
+ * one is a mismatch. A season token matches the work's place in its prequel chain or its TVDB
+ * season; a part (or cour) token matches the chain position only, since parts share a season.
+ */
+async function seasonFit(ds: Dataset, w: WorkRecord, hit: AliasHit, placement: Placement, parsed: ParsedRelease): Promise<{ fit: number; reason: string | null }> {
+  const n = parsed.season ?? parsed.part;
+  if (n === null) return w.prequel ? { fit: MISMATCH, reason: 'no season token, and this work is a sequel' } : { fit: 1, reason: null };
+  const what = parsed.season !== null ? 'season' : 'part';
+  if (hit.viaSeason) return { fit: 1, reason: `${what} ${n} is in the alias` };
+  if (placement.viaTvdbSeason) return { fit: 1, reason: null };
+  const pos = await chainPosition(ds, w);
+  if (pos === n) return { fit: 1, reason: `${what} ${n} is its place in the prequel chain` };
+  if (parsed.season !== null && firstTvdbSeason(w) === n) return { fit: 1, reason: `season ${n} matches its TVDB season` };
+  return { fit: MISMATCH, reason: `${what} ${n} does not match (chain position ${pos})` };
+}
+
+function yearFit(w: WorkRecord, year: number | null): { fit: number; reason: string | null } {
+  if (year === null) return { fit: 1, reason: null };
+  if (w.year === null) return { fit: 0.8, reason: `year ${year} cannot be checked` };
+  const d = Math.abs(w.year - year);
+  if (d === 0) return { fit: 1, reason: `year ${year} matches` };
+  if (d === 1) return { fit: 0.7, reason: `year ${year} is one off (${w.year})` };
+  return { fit: MISMATCH, reason: `year ${year} does not match (${w.year})` };
+}
+
+const round = (x: number) => Math.round(x * 1000) / 1000;
+
+async function projectionsFor(ds: Dataset, workId: string, episode: number): Promise<ResolvedProjections> {
+  const r = await translate(ds, `work:${workId}`, episode, ['tvdb_show', 'tmdb_show', 'absolute']);
+  const out: ResolvedProjections = {};
+  for (const [k, v] of Object.entries(r.results)) {
+    if (k === 'absolute') out.absolute = v as { sequence: string; episode: number };
+    else out[k as 'tvdb_show' | 'tmdb_show'] = (({ id: _id, ...rest }) => rest)(v as { id: string; season?: number; episode: number });
+  }
+  return out;
+}
+
+function findGroup(groups: GroupRecord[], name: string | null): GroupRecord | null {
+  if (!name) return null;
+  const key = name.toLowerCase();
+  return groups.find((g) => g.id === key || g.aliases.some((a) => a.toLowerCase() === key)) ?? null;
+}
+
+/**
+ * Resolves a parsed release name to a work and episode (docs/SPEC.md, "Release name
+ * resolution"): match aliases, place the number, score every candidate, and answer ok only
+ * for a clear winner above the floor. Works the same over every Dataset.
+ */
+export async function resolve(ds: Dataset, parsed: ParsedRelease): Promise<ResolveResult> {
+  const { data_version } = await ds.meta();
+  const base: Omit<ResolveResult, 'status' | 'match' | 'candidates'> = { data_version, parsed };
+  if (!parsed.title) return { ...base, status: 'unmatched', match: null, candidates: [] };
+
+  const m = matcherFor(await ds.aliasIndex());
+  const hits = aliasHits(m, parsed);
+  const ctx: Ctx = { ds, parsed, group: findGroup(await ds.groups(), parsed.group) };
+
+  // Score each (alias hit, work); a shared alias splits its weight by each sharer's evidence.
+  const best = new Map<string, ResolveCandidate>();
+  for (const hit of hits) {
+    const scored: { evidence: number; cand: Omit<ResolveCandidate, 'confidence'> }[] = [];
+    for (const id of hit.works) {
+      const w = await ds.getWork(id);
+      if (!w) continue;
+      const placement = await place(ctx, w);
+      const season = await seasonFit(ds, w, hit, placement, parsed);
+      const year = yearFit(w, parsed.year);
+      const titleReason = hit.similarity === 1 ? `title alias "${hit.alias}" exact` : `title alias "${hit.alias}" similar (${round(hit.similarity)})`;
+      const shared = hit.works.length > 1 ? `, shared by ${hit.works.length} works` : '';
+      scored.push({
+        evidence: placement.fit * season.fit * year.fit,
+        cand: {
+          work: placement.work.id,
+          episode: placement.episode,
+          ...(placement.episodeTo !== null && placement.episodeTo !== placement.episode && { episode_to: placement.episodeTo }),
+          reason: [titleReason + shared, placement.reason, season.reason, year.reason].filter(Boolean).join('; '),
+        },
+      });
+    }
+    const total = scored.reduce((s, x) => s + x.evidence, 0);
+    for (const { evidence, cand } of scored) {
+      const confidence = round(total === 0 ? 0 : hit.similarity * evidence * (evidence / total));
+      const key = `${cand.work}#${cand.episode}#${cand.episode_to ?? ''}`;
+      const prev = best.get(key);
+      if (!prev || confidence > prev.confidence) best.set(key, { ...cand, confidence });
+    }
+  }
+
+  const candidates = [...best.values()].sort((a, b) => b.confidence - a.confidence || (a.work < b.work ? -1 : a.work > b.work ? 1 : (a.episode ?? 0) - (b.episode ?? 0)));
+  if (candidates.length === 0) return { ...base, status: 'unmatched', match: null, candidates: [] };
+  const [top, second] = candidates;
+  const clear = top!.confidence >= OK_FLOOR && (second === undefined || top!.confidence - second.confidence >= CLEAR_MARGIN);
+  if (!clear) return { ...base, status: 'ambiguous', match: null, candidates: candidates.slice(0, FUZZY_TOP) };
+
+  const work = (await ds.getWork(top!.work))!;
+  const episode = top!.episode ?? (work.type === 'movie' ? 1 : null);
+  const match: ResolveMatch = {
+    ...top!,
+    ids: { ...work.ids },
+    projections: episode === null ? {} : await projectionsFor(ds, work.id, episode),
+  };
+  if (top!.episode !== null && top!.episode_to !== undefined) {
+    match.batch = [];
+    for (let e = top!.episode; e <= top!.episode_to && match.batch.length < MAX_BATCH; e++) {
+      match.batch.push({ episode: e, projections: await projectionsFor(ds, work.id, e) });
+    }
+  }
+  return { ...base, status: 'ok', match, candidates: candidates.slice(1, FUZZY_TOP) };
+}
+
+/** Title search over the alias index: exact hits first, then trigram matches. */
+export async function search(ds: Dataset, query: string, limit = 10): Promise<WorkSummary[]> {
+  const q = normalizeTitle(query);
+  if (!q) return [];
+  const m = matcherFor(await ds.aliasIndex());
+  const scores = new Map<string, number>();
+  for (const id of m.exact.get(q) ?? []) scores.set(id, 1);
+  for (const f of fuzzy(m, q)) for (const id of m.works[f.i]!) if (!scores.has(id) || scores.get(id)! < f.similarity) scores.set(id, round(f.similarity));
+  const out: WorkSummary[] = [];
+  for (const [id, score] of [...scores].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)).slice(0, limit)) {
+    const w = (await ds.getWork(id))!;
+    out.push({ id, type: w.type, year: w.year, titles: w.titles, score });
+  }
+  return out;
+}

@@ -12,3 +12,5 @@ projections:
   tvdb_show:
     - { episodes: 1-24 }
 notes: Conformance fixture. All IDs are fake.
+aliases:
+  - Twin Title

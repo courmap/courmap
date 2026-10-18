@@ -341,12 +341,12 @@ Resolution is parse, match, interpret, score. Each step records a reason string,
     3. Season token present (`S2`, `2nd Season`, `Part 2`): prefer works whose aliases or prequel chain position agree.
 4. **Interpret the number** against each candidate, in order:
     1. Group override for this group and work, if any.
-    2. Episode within the work's own count: take it as canonical.
-    3. Episode past the count: walk the work's absolute sequence and land on the member whose range holds it.
-    4. Season token + episode: try the TVDB projection in reverse.
-5. **Score.** Title similarity, season agreement, episode fit (in range beats out of range), year if present, and group history. Return `ok` above 0.85 with a clear winner, otherwise `ambiguous` with all candidates.
+    2. Season token (not a part or cour token) + episode: try the TVDB projection in reverse. This comes before the canonical reading because an explicit season is the most specific signal; for a long-runner, S02E70 is not canonical episode 70.
+    3. Episode within the work's own count: take it as canonical.
+    4. Episode past the count: walk the work's default absolute sequence and land on the member whose range holds it.
+5. **Score.** Each candidate's evidence is season fit times episode fit times year fit, where a disagreeing tie-breaker scores 0.05: a season token that matches neither the work's prequel-chain position nor its TVDB season (part tokens check the chain only), no season token on a sequel (no token reads as the first season), a year two or more off, or a number nothing places. Confidence is title similarity (1 for an exact alias, trigram similarity otherwise) times evidence times the candidate's share of evidence among the works sharing that alias. Return `ok` at 0.85 or more with a lead of at least 0.1; otherwise `ambiguous` with the candidates, or `unmatched` when nothing matched at all. A trigram match alone therefore never reaches `ok` unless it is nearly exact. Group history is not scored yet.
 
-Batch releases (`01-12`, `[Batch]`) resolve to a range and return one projection per episode. Movies skip step 4 and match on title plus year.
+Batch releases (`01-12`, `[Batch]`) resolve to a range (`episode`, `episode_to`) and return one projection per episode in `match.batch`; a batch flag with no range covers the whole work. Movies skip step 4 and match on title plus year. Every status carries `parsed`; `match` is set only for `ok`, and `candidates` lists the runners-up (or, when not `ok`, every candidate) with confidence and reason.
 
 ## Data pipeline and contribution
 

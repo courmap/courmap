@@ -1,10 +1,10 @@
 # Decisions
 
-Choices made where `docs/SPEC.md` was ambiguous, silent or seemed wrong. One entry per decision, with a one-line rationale. Newest entries at the bottom of each section.
+Choices made where `docs/SPEC.md` was ambiguous, silent or seemed wrong. One entry per decision, with a one-line rationale. Newest entries at the bottom of each section. Entries marked *decided by Xwolv* were made by the project owner and override any earlier entry they contradict.
 
 ## Repository and tooling
 
-- **Brand asset names.** `assets/` holds `logo.svg` and `courmap-banner.png`, not the `logo.png` / `banner.png` the spec names; the README uses `courmap-banner.png`. Rationale: use the files that exist and leave renaming to the asset owner.
+- **Brand asset names.** `assets/` holds `logo.svg` and `courmap-banner.png`, not the `logo.png` / `banner.png` the spec names; the README uses `courmap-banner.png`. Rationale: use the files that exist and leave renaming to the asset owner. *Superseded by Xwolv decision 13.*
 - **Source export condition.** Workspace packages export `src/*.ts` under a custom `@courmap/source` condition used by tsx, Vitest and tsc. Rationale: no build step in the dev, test or CI loop, while `dist/` stays the published entry point.
 - **Unbuilt packages are README stubs.** `packages/parser`, `seed`, `bots`, `proxy` and `worker/` contain only a README until their build step. Rationale: matches the layout without shipping empty packages that would need versioning.
 - **One DATA_LICENSE file.** It contains the full ODbL 1.0 text followed by the full DbCL 1.0 text. Rationale: the spec names a single file for both licenses.
@@ -18,11 +18,11 @@ Choices made where `docs/SPEC.md` was ambiguous, silent or seemed wrong. One ent
 - **`episodes` is required, `null` only while airing or upcoming.** Rationale: the spec's long-runner example uses `episodes: null`, and requiring the key makes "unknown" explicit.
 - **`specials` is optional and means unknown when omitted.** The specials bounds check runs only when it is set; compiled as NULL. Rationale: neither seed gives AniDB specials counts, and storing 0 would be a guess.
 - **`status` defaults to finished.** Rationale: most works are finished, and open-ended ranges already require an explicit `status: airing`.
-- **`gap: true` marks the hole before an entry.** Leading and interior holes in regular coverage need it; a marker with no hole is an error; trailing holes (coverage ends before `episodes`) are always errors; specials have no coverage rule. Rationale: the spec says "no gaps unless marked" without saying where the mark goes.
+- **`gap: true` marks the hole before an entry.** Leading and interior holes in regular coverage need it; a marker with no hole is an error; trailing holes (coverage ends before `episodes`) are always errors; specials have no coverage rule. Rationale: the spec says "no gaps unless marked" without saying where the mark goes. *Superseded by Xwolv decision 4 (trailing holes may be marked `coverage: partial`).*
 - **`target` needs one side to be a single episode.** One canonical to many provider episodes, or many to one; `start` and `target` together are an error. Rationale: an N-to-M mapping with both sides larger than one has no defined per-episode answer.
 - **No season means a seasonless ordering.** A projection entry without `season` describes an ordering with no seasons (for example TVDB absolute order). Refs into it take no `:sN` scope. Rationale: Anime-Lists uses this ordering (`defaulttvdbseason="a"`), and the SQL `season` column is already nullable.
 - **Provider IDs that must be unique per work:** anidb, anilist, mal, kitsu and tmdb_movie. TVDB, TMDB TV and IMDb IDs may be shared across works. Rationale: split cours and sequels share one TVDB or TMDB show.
-- **A work belongs to at most one absolute sequence.** Rationale: with two sequences the `absolute` target would have to pick one silently.
+- **A work belongs to at most one absolute sequence.** Rationale: with two sequences the `absolute` target would have to pick one silently. *Superseded by Xwolv decision 9.*
 - **Target landings must not overlap,** within a work or across works sharing a show and season. Rationale: overlapping landings make the reverse lookup ambiguous, and catching them as a named error is clearer than a round-trip failure.
 
 ## Validation
@@ -34,18 +34,18 @@ Choices made where `docs/SPEC.md` was ambiguous, silent or seemed wrong. One ent
 ## Hand-mapped data (data/)
 
 - **Seven real works, one fictional group.** Frieren (simple), Spy x Family parts 1 and 2 (split cour plus absolute sequence), Attack on Titan (specials), One Piece (long-runner, open-ended), Apothecary Diaries 1 and 2 (TVDB and TMDB disagree on the sequel). Every ID was checked against cedya77 release 2026-42 and Anime-Lists commit 996d6a8. Rationale: the step asks for real IDs only where verified.
-- **The group override uses a fictional group** (`examplesubs`, marked placeholder). Rationale: neither seed documents real group numbering quirks, and a real group's behaviour must not be guessed.
+- **The group override uses a fictional group** (`examplesubs`, marked placeholder). Rationale: neither seed documents real group numbering quirks, and a real group's behaviour must not be guessed. *Superseded by Xwolv decision 11.*
 - **Slugs come from the romaji title** (cedya77 main title), for example `shingeki-no-kyojin`. Rationale: stable and source-derived; English titles change between releases and regions.
 - **Titles and aliases come only from cedya77 synonyms,** never from AniDB or the `<name>` elements in Anime-Lists. Rationale: the AniDB title license conflicts with ODbL.
 
 ## Compile (SQLite)
 
-- **SQL is the spec's DDL verbatim, minus column comments.** Rationale: "using the schema in the spec"; deviations are proposed in the spec instead (see the end of this file).
+- **SQL is the spec's DDL verbatim, minus column comments.** Rationale: "using the schema in the spec"; deviations are proposed in the spec instead (see the end of this file). *Superseded by Xwolv decision 5 and 6 (the spec's DDL now carries those changes, and the compiler follows it).*
 - **Titles become aliases.** The `aliases` table holds the romaji, English and native titles plus `aliases:`, deduplicated, each with `normalized` from `normalizeTitle`. Rationale: the resolver matches against one index, and titles are the most common release names.
 - **`normalized` strips filler words** (the, season, part, cour), using the same function the resolver will apply to parsed titles. Rationale: exact matches only work when both sides normalize identically.
 - **`data_version` defaults to the ISO week of the build,** formatted `YYYY.WW` with a two-digit week (`2026.42`, `2026.05`). Rationale: matches the spec's example and the `data-YYYY.WW` release tags.
 - **Expected row counts come from the YAML, not the records.** The compiler counts rows straight from the parsed files and compares them with the table counts, so a bug in record conversion cannot hide itself. Rationale: the step 3 check is "row counts match the YAML".
-- **`specials` NULL means unknown,** even though the column has `DEFAULT 0`. Rationale: see the data format entry on `specials`; the compiler always writes the value explicitly.
+- **`specials` NULL means unknown,** even though the column has `DEFAULT 0`. Rationale: see the data format entry on `specials`; the compiler always writes the value explicitly. *Superseded by Xwolv decision 6.*
 
 ## Client API (lookup, translate)
 
@@ -68,3 +68,19 @@ Choices made where `docs/SPEC.md` was ambiguous, silent or seemed wrong. One ent
 - **The fixture dump is compiled with `data_version: conformance`,** so expectations include it verbatim. Rationale: ports can compare whole results without special cases.
 - **The TypeScript runner also runs the builder's in-memory dataset.** Rationale: it proves the engine gives the same answers over SQLite and over records before the remote mode exists.
 - **The `ci` script is named `check`.** Rationale: `pnpm ci` is a reserved pnpm command.
+
+## Decided by Xwolv (2026-10-17)
+
+1. **Manual wins per provider block** (decided by Xwolv). A manual file's `projections.<provider>` block or `ids.<provider>` key replaces only that part of the seed; everything else comes from seeds. Implementation reading: every other key a manual file sets also wins at its own granularity (each top-level field such as `episodes` or `prequel`, each `titles.<lang>`); manual `aliases` are added to the seed's; a key set to `null` in a manual file removes the seed's value. Rationale: otherwise a manual fix to a seed's episode count or a wrong seed block could never land.
+2. **Slugs** (decided by Xwolv). The base is the romaji title; on collision append `-<year>`, then `-<type>`, then `-a<anidb id>`, cumulatively (`x`, `x-2011`, `x-2011-ova`, `x-2011-ova-a1234`). The lower AniDB ID claims a contested slug first. Published slugs are never renamed: every assignment is kept in `data/seeds/slugs.jsonl`, including works that later leave the seeds, and reused on every run.
+3. **Episode count authority** (decided by Xwolv). A seed work's `episodes` is cedya77's count for the entry that carries the AniDB source. Bounds violations are errors for works with a manual file and warnings for seed-only works.
+4. **`coverage: partial`** (decided by Xwolv). A provider block may be written as an object `{ coverage: partial, notes, ranges }`; `notes` is required and gives the reason. It allows coverage to stop before the work's last episode. Without it, a mapping that stops early on a finished work stays an error. Leading and interior holes still need `gap: true`.
+5. **Origin on every table** (decided by Xwolv). `sequences`, `sequence_members`, `groups`, `group_aliases` and `group_overrides` gain an `origin` column.
+6. **`works.specials` has no default** (decided by Xwolv). NULL means unknown.
+7. **TMDB rule** (decided by Xwolv). TMDB API responses never enter `data/` or the dumps. TMDB IDs and offsets sourced from Anime-Lists are allowed.
+8. **API section reflects what was built** (decided by Xwolv): `CourmapError` codes, ambiguity on shared refs, `episode_to`, `work:` and `absolute:` refs, `:sN` scope rules, id-only targets, partial success as `status: "unmapped"`. The HTTP status for `ambiguous` is 409 (our choice; the spec named only 400 and 404).
+9. **Several absolute sequences per work** (decided by Xwolv). When a work belongs to more than one, exactly one of its memberships is `default: true`, and the `absolute` target uses it. A group override with `numbering: absolute` may name another sequence with `sequence:`.
+10. **Ref syntax is our own** (decided by Xwolv). anibridge-mappings uses the same `s{n}` season scope, but scopes AniDB refs by episode type, splits IMDb into `imdb_movie`/`imdb_show`, always requires a season scope on show providers and has no Kitsu. We keep our syntax, and the spec no longer claims it matches.
+11. **No fictional group in data/** (decided by Xwolv). `data/groups/examplesubs.yaml` is deleted; test fixtures keep their own fake groups.
+12. **Seeds are sharded JSONL** (decided by Xwolv) under `data/seeds/` (`works-000.jsonl`, ...), each shard kept to a few MB, never one YAML file per seeded work. Hand-written mappings stay YAML in `data/works/`.
+13. **README banner is `assets/banner.png`** (decided by Xwolv). Dan is adding `assets/logo.png` and `assets/banner.png`; until then the README image link is broken on purpose.

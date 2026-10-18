@@ -1,0 +1,7 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: missing-anchor-id
+    file: works/no-anchor.yaml
+    line: 5
+    message: a work needs at least one of ids.anidb, ids.anilist or ids.mal
+warnings: []

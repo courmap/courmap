@@ -32,6 +32,7 @@ export type DiagnosticCode =
   | 'seed-parse'
   | 'seed-origin'
   | 'missing-field'
+  | 'missing-anchor-id'
   | 'slug-conflict';
 
 export type PathSegment = string | number;

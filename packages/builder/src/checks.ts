@@ -147,21 +147,23 @@ export function checkFiles(loaded: LoadedData, reporter: Reporter): CheckedFiles
     seedWorks.set(raw!.id as string, { src, data: raw as unknown as SeedWork });
   }
 
-  // A manual file and a seed are the same work only by slug. A matching AniDB ID under a
-  // different slug means the manual file must adopt the published seed slug.
-  const seedByAnidb = new Map<number, string>();
-  for (const [id, sw] of seedWorks) if (sw.data.ids?.anidb != null) seedByAnidb.set(sw.data.ids.anidb, id);
+  // A manual file and a seed are the same work only by slug. A matching anchor ID (AniDB,
+  // AniList or MAL) under a different slug means the manual file must adopt the published slug.
+  const seedByAnchor = new Map<string, string>();
+  for (const [id, sw] of seedWorks) for (const a of ANCHOR_PROVIDERS) if (sw.data.ids?.[a] != null) seedByAnchor.set(`${a}:${sw.data.ids[a]}`, id);
   for (const [id, mw] of manualWorks) {
-    const anidb = mw.data.ids?.anidb;
-    const seedId = anidb != null ? seedByAnidb.get(anidb) : undefined;
-    if (seedId !== undefined && seedId !== id) {
+    for (const a of ANCHOR_PROVIDERS) {
+      const v = mw.data.ids?.[a];
+      const seedId = v != null ? seedByAnchor.get(`${a}:${v}`) : undefined;
+      if (seedId === undefined || seedId === id) continue;
       reporter.report(
         mw.src.loc,
         'slug-conflict',
         ['id'],
-        `this work has anidb ${anidb}, which data/seeds/ publishes as "${seedId}"; rename the file to ${seedId}.yaml and set id: ${seedId} (published slugs never change)`,
+        `this work has ${a} ${v}, which data/seeds/ publishes as "${seedId}"; rename the file to ${seedId}.yaml and set id: ${seedId} (published slugs never change)`,
         { work: id },
       );
+      break;
     }
   }
 
@@ -189,6 +191,9 @@ function checkSeedOrigin(origin: unknown): string | null {
   return null;
 }
 
+/** A work needs at least one of these (Xwolv decision S3.9). */
+const ANCHOR_PROVIDERS = ['anidb', 'anilist', 'mal'] as const;
+
 const isAiring = (w: WorkFile) => w.status === 'airing';
 
 function checkWork(w: MergedWork, knownWorks: Set<string>, reporter: Reporter): void {
@@ -201,6 +206,9 @@ function checkWork(w: MergedWork, knownWorks: Set<string>, reporter: Reporter): 
 
   for (const key of ['type', 'episodes'] as const) {
     if (!(key in d)) at([key], 'missing-field', `${key} is required (no seed provides it for "${w.id}")`);
+  }
+  if (!ANCHOR_PROVIDERS.some((a) => d.ids?.[a] != null)) {
+    at(['ids'], 'missing-anchor-id', 'a work needs at least one of ids.anidb, ids.anilist or ids.mal');
   }
   if (d.episodes === null && d.status !== 'airing' && d.status !== 'upcoming') {
     at(['episodes'], 'unknown-episode-count', 'episodes may be null only when status is airing or upcoming');

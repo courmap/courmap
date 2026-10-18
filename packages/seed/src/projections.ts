@@ -46,7 +46,7 @@ export function buildEpisodeMap(al: ALEntry, provider: ProjectionProvider, episo
     const from = m.start ?? 1;
     if (m.end === null && m.start !== null) {
       if (kind === 'special') {
-        conflicts.push({ anidb: al.anidb, part: `projections.${provider}`, reason: 'anime-lists-open-specials', detail: `open-ended specials range from S${from} skipped (specials count unknown)` });
+        conflicts.push({ key: `anidb:${al.anidb}`, part: `projections.${provider}`, reason: 'anime-lists-open-specials', detail: `open-ended specials range from S${from} skipped (specials count unknown)` });
         continue;
       }
       map.open = { from, season: s, offset: m.offset };
@@ -94,7 +94,7 @@ export function emitBlock(
   provider: ProjectionProvider,
   episodes: number,
   excluded: ReadonlySet<string>,
-  anidb: number,
+  key: string,
   conflicts: Conflict[],
 ): EmittedBlock | null {
   const rows: (ProjectionEntry & { __kind: Kind; __eps: number[]; __open: boolean })[] = [];
@@ -112,7 +112,7 @@ export function emitBlock(
       if (l.eps.length > 1) {
         const consecutive = l.eps.every((t, k) => k === 0 || t === l.eps[k - 1]! + 1);
         if (!consecutive) {
-          conflicts.push({ anidb, part: `projections.${provider}.${kind}:${e}`, reason: 'anime-lists-split-not-consecutive', detail: `episode ${e} maps to ${l.eps.join('+')}` });
+          conflicts.push({ key, part: `projections.${provider}.${kind}:${e}`, reason: 'anime-lists-split-not-consecutive', detail: `episode ${e} maps to ${l.eps.join('+')}` });
           i++;
           continue;
         }

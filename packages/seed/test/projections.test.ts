@@ -9,7 +9,7 @@ function tvdb(attrs: string, mappings = '', episodes = 12) {
   const xml = `<anime-list><anime anidbid="1" ${attrs}><name>ignored</name>${mappings ? `<mapping-list>${mappings}</mapping-list>` : ''}</anime></anime-list>`;
   const al = parseAnimeLists(xml, conflicts).get(1)!;
   const map = buildEpisodeMap(al, 'tvdb_show', episodes, conflicts);
-  const out = map ? emitBlock(map, 'tvdb_show', episodes, new Set(), 1, conflicts) : null;
+  const out = map ? emitBlock(map, 'tvdb_show', episodes, new Set(), 'anidb:1', conflicts) : null;
   return { block: out?.block ?? null, conflicts: conflicts.map((c) => c.reason) };
 }
 

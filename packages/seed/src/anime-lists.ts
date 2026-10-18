@@ -62,7 +62,7 @@ function parseList(text: string, anidb: number, conflicts: Conflict[]): ALMappin
   for (const item of text.split(';').map((s) => s.trim()).filter(Boolean)) {
     const m = /^(\d+)-(\d+(?:\+\d+)*)$/.exec(item);
     if (!m) {
-      conflicts.push({ anidb, part: 'projections', reason: 'anime-lists-bad-list-item', detail: `mapping list item "${item}" is not of the form a-b or a-b+c` });
+      conflicts.push({ key: `anidb:${anidb}`, part: 'projections', reason: 'anime-lists-bad-list-item', detail: `mapping list item "${item}" is not of the form a-b or a-b+c` });
       return null;
     }
     const to = m[2]!.split('+').map(Number).filter((n) => n !== 0);
@@ -85,15 +85,15 @@ export function parseAnimeLists(xml: string, conflicts: Conflict[]): Map<number,
     const anidb = int(a.anidbid);
     if (anidb === null) continue;
     const imdbIds = (a.imdbid ?? '').split(',').map((s) => s.trim()).filter(Boolean);
-    if (imdbIds.length > 1) conflicts.push({ anidb, part: 'ids.imdb', reason: 'anime-lists-multiple-ids', detail: `Anime-Lists lists IMDb ${imdbIds.join(', ')}` });
+    if (imdbIds.length > 1) conflicts.push({ key: `anidb:${anidb}`, part: 'ids.imdb', reason: 'anime-lists-multiple-ids', detail: `Anime-Lists lists IMDb ${imdbIds.join(', ')}` });
     const tmdbMovieIds = (a.tmdbid ?? '').split(',').map((s) => s.trim()).filter(Boolean);
-    if (tmdbMovieIds.length > 1) conflicts.push({ anidb, part: 'ids.tmdb_movie', reason: 'anime-lists-multiple-ids', detail: `Anime-Lists lists TMDB movies ${tmdbMovieIds.join(', ')}` });
+    if (tmdbMovieIds.length > 1) conflicts.push({ key: `anidb:${anidb}`, part: 'ids.tmdb_movie', reason: 'anime-lists-multiple-ids', detail: `Anime-Lists lists TMDB movies ${tmdbMovieIds.join(', ')}` });
 
     const mappings: ALMapping[] = [];
     for (const m of a['mapping-list']?.mapping ?? []) {
       const anidbSeason = int(m.anidbseason);
       if (anidbSeason !== 0 && anidbSeason !== 1) {
-        conflicts.push({ anidb, part: 'projections', reason: 'anime-lists-unsupported-mapping', detail: `mapping with anidbseason="${m.anidbseason}" is not supported` });
+        conflicts.push({ key: `anidb:${anidb}`, part: 'projections', reason: 'anime-lists-unsupported-mapping', detail: `mapping with anidbseason="${m.anidbseason}" is not supported` });
         continue;
       }
       const text = (m['#text'] ?? '').trim();

@@ -61,11 +61,13 @@ describe('seed run', async () => {
 
   it('assigns slugs by the collision rules, with the manual file claiming its own', () => {
     expect(lines(first.files.get('slugs.jsonl'))).toEqual([
-      { anidb: 900001, slug: 'fixture-show' },
-      { anidb: 900002, slug: 'fixture-show-2021' },
+      // Every anchor a work is known by, so a later run finds it by any of them.
+      { anidb: 900001, anilist: 900011, mal: 900021, slug: 'fixture-show' },
+      { anidb: 900002, anilist: 900012, slug: 'fixture-show-2021' },
       { anidb: 900003, slug: 'fixture-ova' },
-      { anidb: 900004, slug: 'hand-fixed' },
+      { anidb: 900004, anilist: 900014, slug: 'hand-fixed' },
       { anidb: 900005, slug: 'two-anilists' },
+      { mal: 900099, slug: 'no-anidb' }, // anchored by MAL (decision S3.9)
     ]);
   });
 
@@ -92,19 +94,33 @@ describe('seed run', async () => {
     expect(byId.get('fixture-show')!.projections).toEqual({ tvdb_show: [{ season: 1, episodes: '1-12' }] });
     expect(byId.get('fixture-ova')!.projections).toEqual({ tvdb_show: [{ season: 0, episodes: 1 }] });
     const conflicts = lines(first.files.get('conflicts.jsonl'));
-    expect(conflicts).toContainEqual(expect.objectContaining({ anidb: 900001, part: 'projections.tvdb_show.special:1-1', reason: 'validate-target-overlap' }));
+    expect(conflicts).toContainEqual(expect.objectContaining({ key: 'anidb:900001', part: 'projections.tvdb_show.special:1-1', reason: 'validate-target-overlap' }));
   });
 
   it('logs what it skipped', () => {
-    const reasons = lines(first.files.get('conflicts.jsonl')).map((c) => `${c.anidb} ${c.reason}`);
-    expect(reasons).toEqual(expect.arrayContaining(['900005 offline-db-multiple-ids', '900006 offline-db-unknown-type']));
-    expect(first.summary.offline_db_entries_without_anidb).toBe(1);
+    const reasons = lines(first.files.get('conflicts.jsonl')).map((c) => `${c.key} ${c.reason}`);
+    expect(reasons).toEqual(expect.arrayContaining(['anidb:900005 offline-db-multiple-ids', 'anidb:900006 offline-db-unknown-type']));
+    expect(first.summary.offline_db_entries_without_anchor).toBe(0);
+    expect(first.summary.seeded_without_anidb).toBe(1);
+    expect(first.summary.seeded_without_anidb_with_projections).toBe(0);
     expect(first.summary.anime_lists_entries_without_offline_db).toBe(1); // 900999
+  });
+
+  it('seeds an entry without AniDB from its MAL ID, with IDs but no projections', () => {
+    expect(byId.get('no-anidb')).toEqual({
+      id: 'no-anidb',
+      type: 'tv',
+      status: 'finished',
+      episodes: 12,
+      titles: { romaji: 'No AniDB' },
+      ids: { mal: 900099 },
+      origin: { default: 'offline-db' },
+    });
   });
 
   it('keeps published slugs when a later run sees a changed title', async () => {
     const renamed = readFileSync(path.join(fixtures, 'offline-db.jsonl'), 'utf8').replace('"title":"Fixture OVA"', '"title":"Renamed OVA"');
-    const registry = lines(first.files.get('slugs.jsonl')) as { anidb: number; slug: string }[];
+    const registry = lines(first.files.get('slugs.jsonl')) as { slug: string; anidb?: number }[];
     const later = await runSeed(await inputs(dataDir, registry, renamed));
     expect(lines(later.files.get('slugs.jsonl'))).toEqual(registry);
   });

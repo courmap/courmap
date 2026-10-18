@@ -1,0 +1,63 @@
+#!/usr/bin/env node
+import { fileURLToPath } from 'node:url';
+import { parseArgs } from 'node:util';
+import { buildAssets } from './assets.js';
+import { targetFromEnv, uploadShards } from './upload.js';
+
+const USAGE = `Usage: courmap-release <command> [options]
+
+Commands:
+  assets --dump <file> --out <dir>    Build the GitHub release assets and SHA256SUMS
+  upload --dir <shards> [--prefix v1/] [--dry-run] [--prune]
+                                      Publish a shard tree to S3-compatible storage, meta.json last
+
+Upload reads S3_ENDPOINT, S3_BUCKET, S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY and S3_REGION
+(default auto). Without them it runs as a dry run.
+`;
+
+async function main(argv: string[]): Promise<number> {
+  const { values, positionals } = parseArgs({
+    args: argv,
+    allowPositionals: true,
+    options: {
+      dump: { type: 'string' },
+      out: { type: 'string' },
+      dir: { type: 'string' },
+      prefix: { type: 'string', default: 'v1/' },
+      'dry-run': { type: 'boolean' },
+      prune: { type: 'boolean' },
+      help: { type: 'boolean', short: 'h' },
+    },
+  });
+  const command = positionals[0];
+  if (values.help || !command) {
+    process.stdout.write(USAGE);
+    return command || values.help ? 0 : 1;
+  }
+  if (command === 'assets') {
+    if (!values.dump || !values.out) return (console.error('assets needs --dump and --out'), 1);
+    const root = fileURLToPath(new URL('../../../', import.meta.url));
+    const a = await buildAssets(values.dump, values.out, root);
+    for (const f of a.files) console.log(`${a.sha256[f] ?? '(checksums)'.padEnd(64)}  ${f}`);
+    console.log(`Release assets for data-${a.dataVersion} in ${values.out}`);
+    return 0;
+  }
+  if (command === 'upload') {
+    if (!values.dir) return (console.error('upload needs --dir'), 1);
+    const target = targetFromEnv();
+    if (!target) console.log('No S3 credentials in the environment: dry run.');
+    await uploadShards(values.dir, target, { prefix: values.prefix!, dryRun: values['dry-run'] === true, prune: values.prune === true, log: console.log });
+    return 0;
+  }
+  console.error(`Unknown command "${command}"\n`);
+  process.stderr.write(USAGE);
+  return 1;
+}
+
+main(process.argv.slice(2)).then(
+  (code) => process.exit(code),
+  (err: unknown) => {
+    console.error(err instanceof Error ? (err.stack ?? err.message) : err);
+    process.exit(2);
+  },
+);

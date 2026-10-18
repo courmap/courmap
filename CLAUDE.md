@@ -13,7 +13,7 @@ Instructions for agents working in this repo. `docs/SPEC.md` is the source of tr
 
 ## Working agreements
 
-- A build step is done when its CI check from the spec passes, not when the code looks right. Run `pnpm ci` before pushing.
+- A build step is done when its CI check from the spec passes, not when the code looks right. Run `pnpm check` before pushing.
 - Small, reviewable commits: one logical change each, clear message.
 - If the spec is ambiguous or seems wrong, make the most reasonable choice, add a one-line entry with rationale to `docs/DECISIONS.md`, and keep going. Stop and ask only for decisions that are hard to reverse (published slugs, schema shapes already in a release, licensing).
 - Do not build ahead of the current step. Leave clean extension points instead.
@@ -34,7 +34,7 @@ pnpm install
 pnpm validate                 # schema, overlap, bounds, reference and round-trip checks on data/
 pnpm compile --out out/courmap.sqlite
 pnpm test                     # unit tests, broken-fixture tests, conformance suite
-pnpm ci                       # everything CI runs
+pnpm check                    # everything CI runs
 ```
 
 ## Data conventions

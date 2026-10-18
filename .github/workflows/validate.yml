@@ -43,3 +43,6 @@ jobs:
 
       - name: Tests (broken fixtures, round trips, conformance)
         run: pnpm test
+
+      - name: Build publishable packages
+        run: pnpm build

@@ -1,0 +1,558 @@
+# Courmap: Anime Episode Resolution Spec
+
+Build spec for Claude Code. Last updated 2026-10-17. Owner: Dan (GitHub org `courmap`).
+
+## Goals and non-goals
+
+The service answers one question every anime tool keeps reinventing: given an episode in one provider's numbering (or a raw release name), what is that episode in every other provider's numbering? ID-level mapping is consumed from existing datasets, not rebuilt.
+
+**Goals**
+
+- Translate an episode between AniDB, AniList, MAL, Kitsu, TVDB, TMDB, IMDB and absolute numbering, including split cours, specials and long-runners.
+- Resolve a release name to a canonical work and episode, with a confidence score and the competing candidates.
+- Keep all mapping data as reviewable YAML in a public repo, corrected through pull requests.
+- Ship weekly data dumps (SQLite + JSON), static JSON shards and client libraries, so nothing depends on a running server.
+
+**Non-goals**
+
+- Not a metadata provider: no synopses, images, staff or ratings. Clients fetch those from the source providers.
+- No mirroring or redistribution of AniDB data. Only derived mappings are stored.
+- Not a PVR, indexer or scraper. It never touches release sites.
+- Never guesses silently: an ambiguous answer is returned as ambiguous, with candidates.
+
+## Core concepts
+
+Every provider maps to one canonical hub, never to each other. With 8 providers, pairwise edges would mean 28 mapping sets to keep consistent; hub-and-spoke means 8, and any translation is two hops: provider A to the hub, hub to provider B.
+
+| Concept | What it is | Example |
+| --- | --- | --- |
+| Work | The canonical unit, at the finest grain any provider uses: usually one cour, film or OVA. Matches AniDB/AniList granularity. | Season 2 Part 2 of a show is its own work |
+| Canonical episode | A work's own numbering: regular episodes 1..N, specials S1..Sn, plus credits, trailers and parodies as separate kinds. | `work:frieren / ep:12`, `work:frieren / S1` |
+| Provider ref | A work's ID in one provider, optionally scoped. Format `provider:id[:scope]`. | `anilist:12345`, `tvdb_show:67890:s2` |
+| Projection | How a provider lays a work's episodes out: which season and which numbers a range of canonical episodes lands on. | Canonical 1-12 = TVDB season 1, episodes 13-24 |
+| Absolute sequence | An ordered chain of works numbered continuously, the way fansubs number long series. | Cour 1 eps 1-25 = abs 1-25, cour 2 eps 1-12 = abs 26-37 |
+| Group override | A release group's known numbering quirk for a work. | Group X numbers cour 2 as 13-24 |
+
+The `provider:id[:scope]` format deliberately matches the convention used by anibridge-mappings, so imports and exports stay cheap.
+
+## Mapping file format
+
+One YAML file per work under `works/`, one per absolute sequence under `sequences/`, one per release group under `groups/`. A file is the unit of review: one PR fixes one show. All IDs below are placeholders.
+
+**Simple case: one cour, one season everywhere**
+
+```yaml
+id: frieren
+type: tv            # tv | movie | ova | ona | special
+year: 2023
+episodes: 28
+specials: 0
+titles:
+  romaji: Sousou no Frieren
+  english: "Frieren: Beyond Journey's End"
+  native: 葬送のフリーレン
+ids:
+  anidb: 10001
+  anilist: 20001
+  mal: 30001
+  kitsu: 40001
+  tvdb_show: 50001
+  tmdb_show: 60001
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-28 }
+  tmdb_show:
+    - { season: 1, episodes: 1-28 }
+aliases:
+  - Frieren
+  - Frieren Beyond Journeys End
+```
+
+**Split cour: AniDB/AniList split it, TVDB merges it into one season**
+
+```yaml
+id: example-show-part-2
+type: tv
+episodes: 12
+ids:
+  anidb: 10002
+  anilist: 20002
+  tvdb_show: 50002
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-12, start: 13 }   # canonical 1-12 -> S01E13-E24
+  tmdb_show:
+    - { season: 2, episodes: 1-12 }              # TMDB treats it as its own season
+prequel: example-show-part-1
+```
+
+**Specials and double-length episodes**
+
+```yaml
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-11 }
+    - { kind: special, episodes: S1-S2, season: 0, start: 5 }  # S1, S2 -> S00E05, E06
+    - { episodes: 12, season: 1, target: 12-13 }               # one canonical ep = two TVDB eps
+```
+
+**Long-runner with an open-ended range**
+
+```yaml
+id: example-long-runner
+status: airing
+episodes: null        # unknown while airing
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-61 }
+    - { season: 2, episodes: 62-77, start: 1 }
+    - { season: 21, episodes: 892-, start: 1 }   # open-ended: grows as episodes air
+```
+
+**Absolute sequence: how fansubs number a multi-cour show**
+
+```yaml
+# sequences/example-show.yaml
+id: example-show-absolute
+members:
+  - { work: example-show-part-1, episodes: 1-25, absolute_start: 1 }
+  - { work: example-show-part-2, episodes: 1-12, absolute_start: 26 }
+```
+
+**Group override: one group's known quirk**
+
+```yaml
+# groups/examplesubs.yaml
+id: examplesubs
+aliases: [ExampleSubs, ExSubs]
+overrides:
+  - { work: example-show-part-2, numbering: continue_prequel }   # releases 2-cour as 13-24
+```
+
+Rules: `start` defaults to the first canonical number in the range; `target` is only for N-to-M episode splits; ranges in one projection never overlap; every file carries an optional `notes:` field and a `sources:` list of URLs justifying non-obvious mappings.
+
+## Compiled data model
+
+The YAML compiles into one SQLite file per data release. That file is the offline dump, the input to the static shard generator, and what `createOfflineClient` reads; nothing writes to it after the build.
+
+```sql
+CREATE TABLE meta (
+  key   TEXT PRIMARY KEY,          -- data_version, git_sha, built_at, schema_version
+  value TEXT NOT NULL
+);
+
+CREATE TABLE works (
+  id            TEXT PRIMARY KEY,  -- slug, stable forever once published
+  type          TEXT NOT NULL,     -- tv | movie | ova | ona | special
+  status        TEXT,              -- finished | airing | upcoming
+  year          INTEGER,
+  episodes      INTEGER,           -- NULL while unknown
+  specials      INTEGER DEFAULT 0,
+  title_romaji  TEXT, title_english TEXT, title_native TEXT,
+  prequel_id    TEXT REFERENCES works(id)
+);
+
+CREATE TABLE provider_refs (
+  work_id      TEXT NOT NULL REFERENCES works(id),
+  provider     TEXT NOT NULL,      -- anidb | anilist | mal | kitsu | tvdb_show | tmdb_show | tmdb_movie | imdb
+  provider_id  TEXT NOT NULL,
+  origin       TEXT NOT NULL,      -- manual | bot | offline-db | anime-lists
+  PRIMARY KEY (provider, provider_id, work_id)
+);
+CREATE INDEX idx_refs_work ON provider_refs(work_id);
+
+CREATE TABLE projections (
+  work_id      TEXT NOT NULL REFERENCES works(id),
+  provider     TEXT NOT NULL,
+  kind         TEXT NOT NULL DEFAULT 'regular',  -- regular | special | credit | trailer | parody
+  ep_from      INTEGER NOT NULL,   -- canonical range start
+  ep_to        INTEGER,            -- NULL = open-ended
+  season       INTEGER,            -- NULL for providers without seasons
+  target_from  INTEGER NOT NULL,   -- first provider episode number
+  target_to    INTEGER,            -- set only for N-to-M splits
+  origin       TEXT NOT NULL
+);
+CREATE INDEX idx_proj_lookup ON projections(provider, work_id, kind, ep_from);
+CREATE INDEX idx_proj_reverse ON projections(provider, season, target_from);
+
+CREATE TABLE sequences (
+  id   TEXT PRIMARY KEY
+);
+CREATE TABLE sequence_members (
+  sequence_id     TEXT NOT NULL REFERENCES sequences(id),
+  work_id         TEXT NOT NULL REFERENCES works(id),
+  ep_from         INTEGER NOT NULL,
+  ep_to           INTEGER,
+  absolute_start  INTEGER NOT NULL,
+  PRIMARY KEY (sequence_id, work_id, ep_from)
+);
+
+CREATE TABLE aliases (
+  work_id     TEXT NOT NULL REFERENCES works(id),
+  alias       TEXT NOT NULL,       -- as written
+  normalized  TEXT NOT NULL,       -- lowercased, punctuation and macrons folded
+  origin      TEXT NOT NULL
+);
+CREATE INDEX idx_alias_norm ON aliases(normalized);
+CREATE VIRTUAL TABLE alias_trigrams USING fts5(normalized, work_id UNINDEXED, tokenize = 'trigram');
+
+CREATE TABLE groups (
+  id TEXT PRIMARY KEY
+);
+CREATE TABLE group_aliases (
+  group_id TEXT NOT NULL REFERENCES groups(id),
+  alias    TEXT NOT NULL
+);
+CREATE TABLE group_overrides (
+  group_id   TEXT NOT NULL REFERENCES groups(id),
+  work_id    TEXT NOT NULL REFERENCES works(id),
+  numbering  TEXT NOT NULL,        -- continue_prequel | absolute | offset
+  offset     INTEGER
+);
+```
+
+The `origin` column on every derived row records which seed dataset or manual file it came from, so a bad import can be traced and rolled back by source.
+
+## API spec
+
+The API is a client library contract first and an HTTP surface second. The same operations exist in the TypeScript library, any future ports, and, optionally, the Worker; all return the JSON shapes below and carry `data_version`.
+
+| Operation | Library call | Optional Worker endpoint | Data it reads |
+| --- | --- | --- | --- |
+| Lookup | `lookup(ref): Promise<Work>` | `GET /v1/lookup?ref=anilist:20002` | `refs/{provider}/{shard}.json` then `works/{id}.json` |
+| Translate | `translate(ref, episode, targets): Promise<TranslateResult>` | `GET /v1/translate?from=anilist:20002&episode=5&to=tvdb_show,absolute`; `POST` batch up to 500 | Work file, plus its sequence file for `absolute` |
+| Resolve | `resolve(releaseName): Promise<ResolveResult>` | `GET /v1/resolve?release=...`; `POST` batch up to 100 | `aliases.json.zst`, then work, sequence and group files |
+| Search | `search(query): Promise<WorkSummary[]>` | `GET /v1/search?q=frieren` | `aliases.json.zst` |
+| Meta | `meta(): Promise<Meta>` | static `/v1/meta.json` | `meta.json` |
+
+Library modes: `createRemoteClient(baseUrl)` fetches shards on demand with an on-disk cache keyed by `data_version`; `createOfflineClient(dumpPath)` reads the SQLite dump with no network at all. Results must be identical across modes, enforced by a shared conformance test suite in CI.
+
+**Translate response**
+
+```json
+{
+  "data_version": "2026.42",
+  "status": "ok",
+  "input": { "ref": "anilist:20002", "episode": 5 },
+  "work": { "id": "example-show-part-2", "episode": 5, "kind": "regular" },
+  "results": {
+    "tvdb_show": { "id": "50002", "season": 1, "episode": 17 },
+    "absolute":  { "sequence": "example-show-absolute", "episode": 30 }
+  },
+  "unmapped": []
+}
+```
+
+**Resolve response**
+
+```json
+{
+  "data_version": "2026.42",
+  "status": "ok",
+  "parsed": {
+    "group": "ExampleSubs", "title": "Example Show", "episode": 30,
+    "version": 1, "resolution": "1080p", "flags": ["dual-audio"]
+  },
+  "match": {
+    "work": "example-show-part-2", "episode": 5, "confidence": 0.94,
+    "reason": "title alias exact; 30 exceeds part-1 count, resolved via absolute sequence",
+    "ids": { "anilist": "20002", "anidb": "10002", "tvdb_show": "50002" },
+    "projections": { "tvdb_show": { "season": 1, "episode": 17 } }
+  },
+  "candidates": []
+}
+```
+
+**Ambiguity and failure**
+
+- `status: "ambiguous"` (HTTP 200): no candidate clears the confidence floor or two are within 0.1 of each other. `match` is null, `candidates` holds each with its score and reason.
+- `status: "unmapped"` (HTTP 200): the work is known but the target provider has no projection for that episode; `unmapped` lists which targets failed.
+- HTTP 404: the input ref is unknown. HTTP 400: malformed input, with a field-level error list.
+- The API never returns a low-confidence guess as `ok`. Clients decide what to do with ambiguity; Sonarr-style tools will typically surface it for manual import.
+
+## Release name resolution
+
+Resolution is parse, match, interpret, score. Each step records a reason string, so every answer explains itself and every wrong answer is debuggable from the response alone.
+
+1. **Parse.** An anitopy-style tokenizer extracts group, title, season token, episode (single, range, or version like `05v2`), resolution, source, codec, audio/sub flags and batch markers. The parser is a separate package with its own fixture corpus.
+2. **Normalize the title.** Lowercase, fold macrons and full-width characters, strip punctuation and filler words (`the`, `season`, `part`, `cour`), collapse spaces.
+3. **Match candidates.**
+    1. Exact hit on `aliases.normalized`.
+    2. No exact hit: trigram FTS search, keep the top 10 above a similarity floor.
+    3. Season token present (`S2`, `2nd Season`, `Part 2`): prefer works whose aliases or prequel chain position agree.
+4. **Interpret the number** against each candidate, in order:
+    1. Group override for this group and work, if any.
+    2. Episode within the work's own count: take it as canonical.
+    3. Episode past the count: walk the work's absolute sequence and land on the member whose range holds it.
+    4. Season token + episode: try the TVDB projection in reverse.
+5. **Score.** Title similarity, season agreement, episode fit (in range beats out of range), year if present, and group history. Return `ok` above 0.85 with a clear winner, otherwise `ambiguous` with all candidates.
+
+Batch releases (`01-12`, `[Batch]`) resolve to a range and return one projection per episode. Movies skip step 4 and match on title plus year.
+
+## Data pipeline and contribution
+
+The git repo is the database of record; everything else is a build output. Seeds bootstrap coverage, humans fix what seeds get wrong, and CI blocks anything that breaks consistency.
+
+**Seed imports** (weekly job, output committed as `origin: <seed>` rows, never overwriting `origin: manual`)
+
+- cedya77/anime-offline-database (`latest` release, `anime-offline-database.jsonl.zst`): ID backbone, titles and synonyms.
+- Anime-Lists/anime-lists (`anime-list-master.xml`): AniDB to TVDB/TMDB offsets and per-episode mapping lists, the best existing episode-level source.
+- The join between them (on AniDB ID) is done by our builder; Fribb's pre-merged files are not used.
+
+**Validation CI** (every PR)
+
+- Schema check on every file; slugs unique and stable.
+- No overlapping ranges within one provider projection; no gaps unless marked `gap: true`.
+- Ranges stay inside the work's episode count (open-ended only when `status: airing`).
+- Round-trip test: for every projection, A to hub to B to hub to A returns the input.
+- Resolver regression: `tests/releases.yaml`, a corpus of real release names with expected work and episode. A PR may not reduce the pass rate.
+- A bot comments on each PR with a translation diff: which episodes now map differently, before and after.
+
+**Release** (on merge to main)
+
+- Compile YAML to SQLite + JSON, tag `data-YYYY.WW`, attach both to a GitHub release with SHA-256 checksums, `LICENSE` and `ATTRIBUTION.md`.
+- Generate the static shards from the SQLite file and sync them to R2; write `meta.json` last so clients never see a half-published version.
+
+**Ongoing updates** are handled by the detectors and confidence tiers described in the automation section below.
+
+## Data sources and licensing
+
+Published dumps are licensed ODbL 1.0 + DbCL 1.0, because the ID backbone comes from an ODbL dataset with a share-alike clause. Anime-Lists has no license file; it is used anyway, as Overseerr, Jellyseerr, Kometa and HAMA already do, with full attribution and its rows tagged by origin so they can be removed in one release if its maintainers ever object. Fribb is dropped entirely.
+
+| Source | Use | License / terms | Decision |
+| --- | --- | --- | --- |
+| [cedya77/anime-offline-database](https://github.com/cedya77/anime-offline-database) | ID backbone across MAL, AniList, AniDB, Kitsu and more; titles and synonyms for the alias index | ODbL 1.0 + DbCL 1.0; attribute this project and manami-project; redistributed data stays ODbL | Primary seed. Fetch `latest` release asset weekly |
+| [manami-project/anime-offline-database](https://github.com/manami-project/anime-offline-database) | Original of the above | ODbL 1.0 + DbCL 1.0 | Archived 2026-07-04, final release 2026-27. Do not depend on it; credit it |
+| [Anime-Lists/anime-lists](https://github.com/Anime-Lists/anime-lists) | AniDB to TVDB/TMDB IDs, season and episode offsets, specials, N-to-M splits | No LICENSE file in the repo | Used as a seed with full attribution in ATTRIBUTION.md. Rows keep `origin: anime-lists` so the source can be removed cleanly if ever needed |
+| [Fribb/anime-lists](https://github.com/Fribb/anime-lists) | Merge of the two above plus TMDB API lookups | No LICENSE file; does not accept corrections | Dropped. Its merge on AniDB ID is trivial to reproduce from the upstreams, which also keeps TMDB-derived data out |
+| AniDB title dump (`anime-titles.xml.gz`) | Official titles in every language | Reported as CC BY-NC-SA 4.0 (policy page not directly verifiable); max one download per day with an identifying User-Agent | Not redistributed: the NC clause conflicts with ODbL. Optional client-side enrichment only. AniDB IDs are referenced as facts |
+| [AniList GraphQL](https://docs.anilist.co/guide/terms-of-use) | Airing status, episode counts and sequel relations for the bots | Free non-commercial; no mass collection or hoarding; currently degraded to 30 req/min | Season scanner and airing tracker only: current and next season, batched, a handful of requests a day. Never used to build the alias index |
+| [TMDB API](https://developer.themoviedb.org/docs/faq) | Season structures to validate TMDB projections in CI | Free non-commercial with attribution; data may not be cached over six months or sublicensed | CI validation only. Never stored or served; only our own asserted season/episode numbers are published |
+| TVDB API | None | Not reviewed | Not used. TVDB numbering comes from Anime-Lists and contributor PRs |
+
+**Rules for the builder**
+
+- Every compiled row keeps its `origin`, so a source can be removed cleanly if its terms change.
+- Dumps ship a `LICENSE` (ODbL + DbCL) and an `ATTRIBUTION.md` naming cedya77, manami-project and Anime-Lists.
+- Contributor PRs are accepted under the same data license, stated in CONTRIBUTING.md.
+
+## Hosting: static-first, free
+
+There is no server to run. Data changes only when a PR merges, so everything is prebuilt by CI and served as files; translation and resolution run inside client libraries. Running cost is a domain name.
+
+**Distribution layers**
+
+1. **GitHub Actions** builds on every merge to main (free for public repos).
+2. **GitHub Release assets**: the full SQLite and JSON dumps with SHA-256 checksums, tagged `data-YYYY.WW`. This is the primary product for serious consumers.
+3. **Static JSON shards** on Cloudflare R2 behind a custom domain (zero egress fees, no file-count limit), fronted by Cloudflare's cache:
+
+```
+/v1/meta.json                          # data_version, git_sha, built_at, counts, dump URLs
+/v1/works/{work_id}.json               # one work: ids, projections, sequences, aliases
+/v1/refs/{provider}/{shard}.json       # provider_id -> work_id, shard = floor(id / 1000)
+/v1/refs/{provider}/{slug}.json        # for string-ID providers, shard by first 2 chars
+/v1/sequences/{sequence_id}.json
+/v1/groups/{group_id}.json
+/v1/aliases.json.zst                   # full normalized alias index for resolvers
+```
+
+4. **Client library** (TypeScript, published to npm as `@courmap/client`; other languages port against the conformance suite) implements `lookup`, `translate` and `resolve` locally against either the shards (fetch on demand, cache by `data_version`) or a downloaded dump (fully offline). PVRs like Transpondarr should use the dump mode: no network call per RSS item.
+5. **Optional Worker**: a Cloudflare Worker on the free tier exposing `/v1/translate` and `/v1/resolve` for curl-and-go users, backed by the same shards. It is a convenience; if abused it is switched off and nothing breaks.
+
+**Caching contract**
+
+- `meta.json`: `Cache-Control: max-age=300`.
+- Everything else is immutable within a `data_version`; shards are published under `/v1/` and overwritten atomically per release, with `max-age=3600, stale-while-revalidate=86400`.
+- Clients poll `meta.json` at most hourly and refetch only when `data_version` changes.
+
+**Licensing of the code**
+
+- Apache-2.0 for the builder, client libraries, proxy and Worker, matching Transpondarr and embeddable in GPL or AGPL projects.
+- Data license and attribution are covered in the data sources section above.
+
+**Sustainability**
+
+- Two maintainers with merge rights on the data repo from day one. Ask the Transpondarr and Anime-Lists maintainers early.
+- If R2 ever exceeds the free tier, GitHub Sponsors covers it; the dumps on GitHub Releases remain free regardless.
+
+## Automation: keeping data current
+
+Bots detect every change, write the YAML, and merge it themselves when the sources agree; a human only sees cases where sources disagree or a sequel's numbering has to be judged. The target is that a typical new season needs a few one-click reviews, not hand-written files.
+
+```mermaid
+flowchart LR
+  D["Detectors: season scanner, airing tracker,<br/>seed and Anime-Lists differs, unresolved reports"] --> C["Classifier: compares every source"]
+  C --> A["Tier A: auto-merge"]
+  C --> B["Tier B: review PR"]
+  C --> X["Tier C: issue"]
+  X -->|fixed via contributor PR| B
+  A --> R["Weekly data release: dumps, shards, meta.json"]
+  B --> R
+```
+
+Only tier B and C ever wait on a person, and both end as a reviewed PR that ships in the next weekly release.
+
+**Detectors** (GitHub Actions cron)
+
+| Detector | Schedule | Watches | Emits |
+| --- | --- | --- | --- |
+| Season scanner | Daily; plus a pre-season run two weeks before Jan, Apr, Jul, Oct | AniList current and next season: IDs, format, status, episode count, prequel/sequel relations. A handful of batched requests a day, only these fields | New-work candidates, sequel candidates, count changes |
+| Airing tracker | Daily | AniList airing schedule for works with `status: airing` | Episode count bumps; `finished` status flips |
+| Seed differ | Weekly, after the cedya77 release | cedya77 `latest` release vs last import | New cross-provider IDs, merged or split entries, dead IDs |
+| Anime-Lists differ | Weekly | Commits to `anime-list-master.xml` | New or changed TVDB/TMDB offsets and episode maps |
+| Projection checker | Weekly, in CI | TMDB season episode counts for mapped works (validation only, nothing stored) | Mismatches between our projections and TMDB |
+| Unresolved reports | Continuous, opt-in | Release names the Sonarr proxy or clients failed to resolve, sent only when the user enables reporting; names only, no IPs stored | Clusters of failing names, ranked by frequency |
+
+**Confidence tiers**
+
+| Tier | When | Bot action | Human time |
+| --- | --- | --- | --- |
+| A: auto-merge | New single-cour work where IDs exist in the seeds and episode counts agree across AniList, TVDB offsets and TMDB; count bumps on airing works; closing an open range when a show finishes and counts agree | Writes the YAML, opens a PR labeled `auto`, merges when CI is green | None |
+| B: one-click review | Sequel detected via AniList relations: the bot proposes a projection from the prequel's pattern (next TVDB season, or continued numbering if Anime-Lists already has an offset) and an absolute-sequence entry | Opens a PR labeled `needs-review` with a translation diff comment | Approve or edit, about a minute each |
+| C: issue | Counts disagree, a work still lacks TVDB/TMDB IDs four weeks after premiere, a seed changes an existing mapping, or an unresolved-name cluster crosses a threshold | Opens an issue labeled `mapping-conflict` or `good first mapping` with all source data attached | Real judgment; the queue contributors pick up |
+
+**Guardrails**
+
+- Bots only add files or bump counts on bot-origin files. Any change to an `origin: manual` mapping is always tier C.
+- Auto-merges batch into the weekly data release, so a bad one is caught by the release diff and reverted with the next tag.
+- A bot that fails twice in a row opens an issue on itself instead of failing silently.
+- GitHub disables scheduled workflows in public repos after 60 days without activity; the bots' own commits keep the repo active, and a monthly heartbeat job covers quiet periods.
+
+**Your one place to look**
+
+- A pinned **Season tracker** issue per anime season, rewritten by the bot daily: every new show with its state (auto-mapped, awaiting review, conflict).
+- A weekly digest pushed to ntfy or Discord: "14 auto-merged, 3 need review, 1 conflict", with links. If the digest says zero needs review, there is nothing to do that week.
+
+## Documentation plan
+
+Docs are a launch requirement, not a follow-up: nothing is announced until a stranger can go from the README to a working setup in under five minutes on their path. There are three audiences, so there are three front doors.
+
+| Audience | Wants | Front door | Success looks like |
+| --- | --- | --- | --- |
+| Sonarr and self-hosted users | Anime episodes imported correctly without thinking about numbering | Sonarr proxy guide: one Docker Compose block, one indexer to add | Proxy running and resolving releases in under 5 minutes |
+| Developers | Correct episode numbers inside their own tool | Library quickstart: install, three calls, offline mode | First `translate` result in under 5 minutes |
+| Contributors | Fix a wrong mapping once, for everyone | Mapping guide with worked examples | First PR passes CI without a maintainer explaining the format |
+
+**README (above the fold)**
+
+1. The banner (`assets/banner.png`), one sentence on what it is, then one concrete before/after: a real-looking release name, and the same episode in AniList, AniDB, TVDB, TMDB and absolute numbering.
+2. "Pick your path" links to the three front doors, each with a copy-paste snippet right there in the README.
+3. Live badges: data version, current-season coverage, resolver corpus pass rate, CI status.
+4. Below the fold: how it works in one diagram, how it differs from TheXEM and Anime-Lists (and how it builds on them), license and attribution.
+
+**Docs site** (built from `/docs` in the repo, VitePress or Astro Starlight, on Cloudflare Pages under the same domain)
+
+- **Getting started**: the three paths, each a single page.
+- **Concepts**: works, projections, absolute sequences and group overrides, each with a diagram and one worked show.
+- **Sonarr guide**: install, add the indexer, what the proxy rewrites and what it never touches, troubleshooting, screenshots from a real install.
+- **Library reference**: generated from code (TypeDoc), plus the remote vs offline mode guide.
+- **Static files and dumps reference**: every path, the caching contract, checksum verification.
+- **Data format reference**: generated from the JSON Schemas, so it can never drift from what CI enforces.
+- **Contributing mappings**: step-by-step with worked examples for the hard cases (split cour, specials, long-runner, group quirk), plus how to read the bot's translation diff.
+- **How automation works**: the tiers and what each label means, so contributors know what a bot PR is asking for.
+- **Coverage**: auto-generated per season (auto-mapped, awaiting review, conflicts), a trust signal and a contributor to-do list in one.
+- **FAQ, licensing and attribution, changelog.**
+
+**Quality bar**
+
+- Every code snippet in the README and docs is extracted and run in CI; a broken example fails the build.
+- A feature PR is not mergeable without its docs change.
+- The Sonarr guide is verified end to end on a real install before launch, screenshots included.
+- Fresh-eyes test before announcing: someone who has never seen the project follows each front door cold; every place they stall becomes a docs fix.
+- No em dashes anywhere in docs, README or generated pages.
+
+## Handoff to Claude Code
+
+Build in the order below; each step ends with a check that runs in CI, so a step is done when its check is green, not when the code looks right. Stack: TypeScript on Node 22 LTS or later, pnpm workspaces, Vitest, strict `tsconfig`, ESM only.
+
+**Naming:** project Courmap; GitHub org `courmap`, main repo `courmap/courmap`; npm packages under the `@courmap` scope (`@courmap/client`, `@courmap/proxy`, `@courmap/builder`); Docker image `ghcr.io/courmap/proxy`; shards and docs on a courmap domain once registered.
+
+**Brand assets:** `assets/logo.svg` (master), `assets/logo.png` (1024 px avatar) and `assets/banner.png` (1600 x 400 README header) are provided by Dan. Wordmark font is Space Grotesk (SIL OFL). Colors: ink `#16181D`, paper `#F4F1EA`, vermilion `#E04E39`, muted text `#A9A59C`.
+
+**Repository layout (pnpm monorepo)**
+
+```
+data/
+  works/*.yaml              # hand-maintained mappings, one file per work
+  sequences/*.yaml
+  groups/*.yaml
+  seeds/                    # generated by the seed job, committed, never hand-edited
+schema/                     # JSON Schema for each YAML kind (source of truth)
+packages/
+  core/                     # shared types generated from schema/, normalization helpers
+  parser/                   # release-name tokenizer, own fixtures
+  client/                   # published to npm: lookup, translate, resolve, search;
+                            #   createRemoteClient + createOfflineClient
+  builder/                  # CLI: validate, compile SQLite, generate shards
+  seed/                     # CLI: fetch + join cedya77 and Anime-Lists into data/seeds
+  bots/                     # detectors, classifier, PR/issue writer, digest
+  proxy/                    # Sonarr Torznab proxy, published as a Docker image
+worker/                     # optional Cloudflare Worker, reuses packages/client
+docs/                       # docs site source
+assets/                     # logo.svg, logo.png, banner.png
+tests/
+  releases.yaml             # resolver corpus: name -> expected work + episode
+  conformance/              # language-neutral cases every client must pass
+.github/workflows/          # validate, release, seed, bots, docs
+LICENSE                     # Apache-2.0 (code)
+DATA_LICENSE                # ODbL 1.0 + DbCL 1.0 (data/ and dumps)
+ATTRIBUTION.md
+```
+
+SQLite access in Node via `better-sqlite3` for the builder and offline client; the Worker and remote client use the JSON shards only.
+
+**Build order**
+
+1. JSON Schemas for works, sequences and groups; generate TypeScript types into `packages/core`; `builder validate` runs the schemas plus overlap and bounds checks. Check: a fixture set of deliberately broken files all fail with clear messages.
+2. Hand-map the M0 hard cases into `data/works/`. Check: round-trip tests green.
+3. `builder compile` to SQLite using the schema in this doc. Check: row counts match the YAML; `PRAGMA integrity_check` passes.
+4. `packages/client` offline mode: lookup and translate. Check: conformance suite green.
+5. `packages/seed`: download, join on AniDB ID, emit `data/seeds/` with `origin` set; manual files always win. Check: no manual mapping changes after a seed run.
+6. Shard generator and remote mode. Check: conformance suite gives identical results in both modes.
+7. `packages/parser` and resolve. Check: corpus pass rate reported on every PR and never decreases.
+8. Release workflow: dumps, checksums, R2 sync, `meta.json` last. Check: a dry run against a staging bucket.
+9. `packages/bots`: detectors, classifier and the three tiers, in dry-run mode (open PRs, never auto-merge) for one full season before tier A merges are switched on. Check: zero tier A PRs a reviewer would have rejected.
+10. `packages/proxy`, the Sonarr Torznab proxy. Check: a week of real RSS traffic on a test install with no wrong imports.
+11. Optional Worker. Check: conformance suite green against the deployed Worker.
+12. README and docs site to the quality bar above. Check: fresh-eyes test passed on all three front doors.
+
+**Constraints to keep in the agent's instructions**
+
+- Never call the AniDB HTTP or UDP API; never redistribute AniDB titles.
+- AniList calls only from `packages/bots` (season scanner, airing tracker), batched, respecting rate-limit headers.
+- TMDB data is used in CI checks only and never written to `data/` or the dumps.
+- No em dashes anywhere: code comments, docs, commit messages, generated text.
+
+## Milestones and open questions
+
+Ship the translation API before the resolver: translation is useful on its own and builds the data the resolver depends on.
+
+| Milestone | Scope | Gate |
+| --- | --- | --- |
+| M0 Foundation | YAML schema, validator and CI; 50 hand-mapped hard cases | Round-trip tests green on One Piece, Detective Conan, Attack on Titan, Gintama, Monogatari |
+| M1 Translate | Seed imports, static shards, client translate, weekly SQLite and JSON dumps | Offline-db IDs and Anime-Lists offsets joined for all TVDB-mapped works |
+| M2 Resolve | Parser package, client resolve, a corpus of 1,000 real release names | 95% corpus pass rate, and no ambiguous name ever returned as `ok` |
+| M3 Adopt | Torznab proxy for Sonarr, Transpondarr integration, bots live | One external project consuming Courmap data in production |
+
+M2 is the piece nobody else has; M0 and M1 make it possible, and M3 is what turns a repo into infrastructure.
+
+**Sonarr integration:** Sonarr has no plugin system and relies on TheXEM for scene numbering, so the M3 deliverable is a Torznab proxy between Prowlarr and Sonarr. It resolves each release name and rewrites the title into numbering Sonarr understands, keeping group and quality tags. Exporting gap-filling mappings to TheXEM is a secondary path; an upstream Sonarr PR is a later goal, not a launch dependency.
+
+**Open questions**
+
+- [x] Name: Courmap (GitHub org `courmap`).
+- [x] Stack: TypeScript on Node, matching Offbeat. Go or C# clients come from the conformance suite, ideally written by their ecosystems.
+- [ ] Create the `@courmap` npm org and register a courmap domain; put the domain into the hosting section.
+- [ ] Offer Anime-Lists maintainers episode mappings back upstream once the project has momentum.
+- [ ] How to model broadcast vs Blu-ray numbering differences and recap episodes.
+- [ ] Pitch Transpondarr's maintainer on consuming Courmap for its planned long-runner handling.
+
+**Related projects**
+
+- [arm-server](https://github.com/BeeeQueue/arm-server): hosted anime ID mapping API
+- [Fribb/anime-lists](https://github.com/Fribb/anime-lists): merged ID mapping dataset
+- [Anime-Lists/anime-lists](https://github.com/Anime-Lists/anime-lists): AniDB to TVDB/TMDB episode mappings
+- [cedya77/anime-offline-database](https://github.com/cedya77/anime-offline-database): cross-referenced titles and IDs, continuing the archived manami-project dataset
+- [anibridge-mappings](https://github.com/anibridge/anibridge-mappings): episode range mapping format
+- [Transpondarr](https://github.com/matthewdias/transpondarr): anime-focused PVR, a likely first consumer
+- TheXEM: the scene-numbering mapping site Sonarr relies on today

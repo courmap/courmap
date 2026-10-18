@@ -1,0 +1,38 @@
+{
+  "name": "@courmap/release",
+  "version": "0.0.0",
+  "description": "Courmap release tooling: dump assets with checksums, and shard upload to S3-compatible storage (Cloudflare R2)",
+  "license": "Apache-2.0",
+  "type": "module",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/courmap/courmap.git",
+    "directory": "packages/release"
+  },
+  "bin": {
+    "courmap-release": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "@courmap/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1152.0",
+    "@courmap/core": "workspace:*",
+    "better-sqlite3": "^12.11.1"
+  },
+  "devDependencies": {
+    "@courmap/builder": "workspace:*",
+    "@types/better-sqlite3": "^9.6.0"
+  }
+}

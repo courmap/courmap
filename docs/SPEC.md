@@ -141,6 +141,19 @@ overrides:
   - { work: example-show-part-2, numbering: absolute, sequence: example-show-streaming }  # or: numbers by a non-default sequence
 ```
 
+**Partial coverage: a provider that stops early**
+
+```yaml
+projections:
+  tmdb_show:
+    coverage: partial
+    notes: TMDB lists only the first 10 episodes so far
+    ranges:
+      - { season: 1, episodes: 1-10 }
+```
+
+A provider block is either a plain list of ranges or, when its coverage needs explaining, an object with `ranges`. `coverage: partial` lets the ranges stop before the work's last episode and requires `notes` giving the reason. Without it, a mapping that stops early on a finished work is an error. Holes at the start or in the middle are marked `gap: true` on the range that follows them.
+
 Rules: `start` defaults to the first canonical number in the range; `target` is only for N-to-M episode splits; ranges in one projection never overlap; every file carries an optional `notes:` field and a `sources:` list of URLs justifying non-obvious mappings.
 
 ## Compiled data model
@@ -344,7 +357,7 @@ The git repo is the database of record; everything else is a build output. Seeds
 **Validation CI** (every PR)
 
 - Schema check on every file; slugs unique and stable.
-- No overlapping ranges within one provider projection; no gaps unless marked `gap: true`.
+- No overlapping ranges within one provider projection; no gaps unless marked `gap: true`; coverage that stops early only with `coverage: partial` and `notes`.
 - Ranges stay inside the work's episode count (open-ended only when `status: airing`).
 - Round-trip test: for every projection, A to hub to B to hub to A returns the input.
 - Resolver regression: `tests/releases.yaml`, a corpus of real release names with expected work and episode. A PR may not reduce the pass rate.

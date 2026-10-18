@@ -76,8 +76,11 @@ export function schemaIssues(kind: FileKind, data: unknown): SchemaIssue[] {
   const oneOfPaths = new Set(errors.filter((e) => e.keyword === 'oneOf').map((e) => e.instancePath));
   const issues: SchemaIssue[] = [];
   const seen = new Set<string>();
+  // A oneOf summary is noise when one of its branches already reported something deeper and more specific.
+  const hasDeeper = (p: string) => errors.some((x) => x.instancePath.startsWith(`${p}/`));
   for (const e of errors) {
     if (e.keyword !== 'oneOf' && oneOfPaths.has(e.instancePath) && e.schemaPath.includes('/oneOf/')) continue;
+    if (e.keyword === 'oneOf' && hasDeeper(e.instancePath)) continue;
     let path = pointerToPath(e.instancePath);
     let key = false;
     if (e.keyword === 'additionalProperties') {

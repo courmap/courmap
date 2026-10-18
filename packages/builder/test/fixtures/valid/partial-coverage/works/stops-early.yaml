@@ -1,0 +1,15 @@
+id: stops-early
+type: tv
+episodes: 12
+ids:
+  anidb: 900001
+  tvdb_show: 900101
+  tmdb_show: 900201
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-12 }
+  tmdb_show:
+    coverage: partial
+    notes: Test fixture. The provider lists only the first ten episodes.
+    ranges:
+      - { season: 1, episodes: 1-10 }

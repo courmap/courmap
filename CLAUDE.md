@@ -32,7 +32,7 @@ Instructions for agents working in this repo. `docs/SPEC.md` is the source of tr
 ```sh
 pnpm install
 pnpm validate                 # schema, overlap, bounds, reference and round-trip checks on data/
-pnpm compile -- --out out/courmap.sqlite
+pnpm compile --out out/courmap.sqlite
 pnpm test                     # unit tests, broken-fixture tests, conformance suite
 pnpm ci                       # everything CI runs
 ```

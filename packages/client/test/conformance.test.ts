@@ -4,11 +4,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterAll, describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
-import { MemoryDataset, compile, validate } from '@courmap/builder';
-import { CourmapError, createClient, createOfflineClient, type CourmapClient } from '../src/index.js';
+import { MemoryDataset, compile, generateShards, validate } from '@courmap/builder';
+import { CourmapError, createClient, createOfflineClient, createRemoteClient, type CourmapClient } from '../src/index.js';
+import { serveStatic, type StaticServer } from './static-server.js';
 
-// Runs tests/conformance/cases against every client mode built so far. Results must be
-// identical across modes, so each mode runs the same cases with the same expectations.
+// Runs tests/conformance/cases against every client mode: offline (SQLite dump), remote (static
+// shards generated from that dump, served over HTTP from a local server) and the builder's
+// in-memory dataset. Results must be identical, so every mode gets the same expectations.
 const conformance = fileURLToPath(new URL('../../../tests/conformance/', import.meta.url));
 
 interface Case {
@@ -30,14 +32,21 @@ const cases: { file: string; c: Case }[] = readdirSync(path.join(conformance, 'c
 const tmp = mkdtempSync(path.join(tmpdir(), 'courmap-conformance-'));
 afterAll(() => rmSync(tmp, { recursive: true, force: true }));
 
+let server: StaticServer | null = null;
+afterAll(() => server?.close());
+
 async function buildModes(): Promise<Record<string, CourmapClient>> {
   const v = await validate(path.join(conformance, 'data'));
   if (!v.ok || !v.records) throw new Error(`conformance data does not validate:\n${JSON.stringify(v.diagnostics, null, 2)}`);
   const meta = { dataVersion: 'conformance', builtAt: '2026-01-01T00:00:00.000Z', gitSha: 'conformance' };
   const dump = path.join(tmp, 'conformance.sqlite');
   compile(v.records, v.checked, dump, meta);
+  const shards = path.join(tmp, 'shards', 'v1');
+  await generateShards(dump, shards);
+  server = await serveStatic(shards);
   return {
     offline: createOfflineClient(dump),
+    remote: createRemoteClient(server.url),
     // Not a published mode: the builder's in-memory dataset, kept here as a reference implementation.
     memory: createClient(
       new MemoryDataset(v.records, { data_version: 'conformance', git_sha: 'conformance', built_at: meta.builtAt, schema_version: '2' }),

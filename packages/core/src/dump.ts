@@ -3,7 +3,7 @@ import type { GroupRecord, Meta, ProjectionRow, SequenceRecord, WorkRecord, Work
 import type { EpisodeKind, ProjectionProvider, Provider } from './providers.js';
 
 /** Dump schema versions this code reads (meta.schema_version). */
-export const SUPPORTED_DUMP_SCHEMA_VERSIONS: ReadonlySet<string> = new Set(['2']);
+export const SUPPORTED_DUMP_SCHEMA_VERSIONS: ReadonlySet<string> = new Set(['3']);
 
 /**
  * The two calls the dump reader needs from a SQLite driver. better-sqlite3 in Node, and any

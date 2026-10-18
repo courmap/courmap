@@ -53,6 +53,20 @@ describe('compile data/', async () => {
     expect(db.prepare("SELECT specials FROM works WHERE id = 'sousou-no-frieren'").get()).toEqual({ specials: null });
   });
 
+  it('reads one work through indexes, not table scans', () => {
+    const plan = (sql: string) => (db.prepare(`EXPLAIN QUERY PLAN ${sql}`).all('x') as { detail: string }[]).map((r) => r.detail).join('; ');
+    // Large tables: the planner must use the index. (Tiny ones may rightly prefer a scan after ANALYZE.)
+    for (const sql of [
+      'SELECT alias FROM aliases WHERE work_id = ? ORDER BY rowid',
+      'SELECT * FROM projections WHERE work_id = ? ORDER BY provider, kind, ep_from',
+      'SELECT * FROM provider_refs WHERE work_id = ?',
+    ]) {
+      expect(plan(sql), sql).toMatch(/USING (COVERING )?INDEX/);
+    }
+    const indexes = (db.prepare("SELECT name FROM sqlite_master WHERE type = 'index'").all() as { name: string }[]).map((r) => r.name);
+    expect(indexes).toEqual(expect.arrayContaining(['idx_proj_work', 'idx_alias_work', 'idx_members_work', 'idx_refs_work']));
+  });
+
   it('stores open-ended ranges and seasons as written', () => {
     const row = db
       .prepare("SELECT ep_from, ep_to, season, target_from, target_to, origin FROM projections WHERE work_id = 'one-piece' AND provider = 'tvdb_show' AND season = 23")

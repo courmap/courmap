@@ -41,6 +41,7 @@ CREATE TABLE projections (
 );
 CREATE INDEX idx_proj_lookup ON projections(provider, work_id, kind, ep_from);
 CREATE INDEX idx_proj_reverse ON projections(provider, season, target_from);
+CREATE INDEX idx_proj_work ON projections(work_id, provider, kind, ep_from);
 
 CREATE TABLE sequences (
   id      TEXT PRIMARY KEY,
@@ -56,6 +57,7 @@ CREATE TABLE sequence_members (
   origin          TEXT NOT NULL,
   PRIMARY KEY (sequence_id, work_id, ep_from)
 );
+CREATE INDEX idx_members_work ON sequence_members(work_id);
 
 CREATE TABLE aliases (
   work_id     TEXT NOT NULL REFERENCES works(id),
@@ -64,6 +66,7 @@ CREATE TABLE aliases (
   origin      TEXT NOT NULL
 );
 CREATE INDEX idx_alias_norm ON aliases(normalized);
+CREATE INDEX idx_alias_work ON aliases(work_id);
 CREATE VIRTUAL TABLE alias_trigrams USING fts5(normalized, work_id UNINDEXED, tokenize = 'trigram');
 
 CREATE TABLE groups (

@@ -1,0 +1,10 @@
+id: hand-fixed
+ids:
+  anidb: 900004
+  imdb: null
+projections:
+  tvdb_show:
+    - { season: 2, episodes: 1-12 }
+aliases:
+  - Manual Alias
+notes: Seed test fixture. Overrides the seed's TVDB block and removes its IMDb ID.

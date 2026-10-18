@@ -3,7 +3,8 @@ export { loadData, SEED_ORIGINS, SEED_SHARD_RE, type LoadedData, type Origin, ty
 export { mergeWork, type MergedWork, type SeedOrigin, type SeedWork, type WorkOrigins } from './merge.js';
 export { checkFiles, type CheckedFiles } from './checks.js';
 export { readBlock, type Block } from './blocks.js';
-export { Reporter, formatDiagnostic, formatPath, type Diagnostic, type DiagnosticCode, type Severity } from './diagnostics.js';
+export { checkRoundTrips } from './roundtrip.js';
+export { Reporter, formatDiagnostic, formatPath, makeLineLocator, makeLocator, type Diagnostic, type DiagnosticCode, type Severity } from './diagnostics.js';
 export { toRecords, MemoryDataset, type Records, type GroupRecord } from './records.js';
 export { compile, expectedCounts, isoWeekVersion, type CompileOptions, type CompileReport } from './compile.js';
 export { SCHEMA_SQL, SCHEMA_VERSION, TABLES, type Table } from './sql.js';

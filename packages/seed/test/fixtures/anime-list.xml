@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<anime-list>
+  <anime anidbid="900001" tvdbid="9101" defaulttvdbseason="1" episodeoffset="" tmdbtv="" tmdbseason="" tmdboffset="" tmdbid="" imdbid="">
+    <name>Fixture name, never read</name>
+    <mapping-list>
+      <mapping anidbseason="0" tvdbseason="0">;1-1;</mapping>
+    </mapping-list>
+  </anime>
+  <anime anidbid="900002" tvdbid="9101" defaulttvdbseason="2" episodeoffset="" tmdbtv="" tmdbseason="" tmdboffset="" tmdbid="" imdbid="">
+    <name>Fixture name, never read</name>
+  </anime>
+  <anime anidbid="900003" tvdbid="9101" defaulttvdbseason="0" episodeoffset="0" tmdbtv="" tmdbseason="" tmdboffset="" tmdbid="" imdbid="">
+    <name>Fixture name, never read</name>
+  </anime>
+  <anime anidbid="900004" tvdbid="9104" defaulttvdbseason="1" episodeoffset="" tmdbtv="9204" tmdbseason="1" tmdboffset="" tmdbid="" imdbid="tt0900004">
+    <name>Fixture name, never read</name>
+  </anime>
+  <anime anidbid="900999" tvdbid="9199" defaulttvdbseason="1" episodeoffset="" tmdbtv="" tmdbseason="" tmdboffset="" tmdbid="" imdbid="">
+    <name>Fixture name, never read</name>
+  </anime>
+</anime-list>

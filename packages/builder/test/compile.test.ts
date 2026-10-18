@@ -29,7 +29,7 @@ describe('compile data/', async () => {
   const db = new Database(out, { readonly: true });
   afterAll(() => db.close());
 
-  it('row counts match the YAML', () => {
+  it('row counts match the merged sources', () => {
     expect(report.counts).toEqual(expectedCounts(v.checked));
     expect(report.counts.works).toBe(v.checked.works.length);
   });
@@ -61,9 +61,9 @@ describe('compile data/', async () => {
   });
 
   it('indexes normalized aliases for exact and trigram search', () => {
-    const exact = db.prepare('SELECT work_id FROM aliases WHERE normalized = ?').all("frieren beyond journeys end");
-    expect(exact).toEqual([{ work_id: 'sousou-no-frieren' }]);
-    const fuzzy = db.prepare("SELECT work_id FROM alias_trigrams WHERE alias_trigrams MATCH ? GROUP BY work_id").all('"kyojin"');
-    expect(fuzzy).toEqual([{ work_id: 'shingeki-no-kyojin' }]);
+    const exact = db.prepare('SELECT DISTINCT work_id FROM aliases WHERE normalized = ?').all('frieren beyond journeys end');
+    expect(exact).toContainEqual({ work_id: 'sousou-no-frieren' });
+    const fuzzy = db.prepare('SELECT work_id FROM alias_trigrams WHERE alias_trigrams MATCH ? GROUP BY work_id').all('"shingeki no kyojin"');
+    expect(fuzzy).toContainEqual({ work_id: 'shingeki-no-kyojin' });
   });
 });

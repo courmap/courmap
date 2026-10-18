@@ -1,0 +1,34 @@
+{
+  "name": "@courmap/client",
+  "version": "0.0.0",
+  "description": "Courmap client: anime episode lookup and translation across providers",
+  "license": "Apache-2.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/courmap/courmap.git",
+    "directory": "packages/client"
+  },
+  "exports": {
+    ".": {
+      "@courmap/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@courmap/core": "workspace:*",
+    "better-sqlite3": "^12.11.1"
+  },
+  "devDependencies": {
+    "@courmap/builder": "workspace:*",
+    "@types/better-sqlite3": "^9.6.0",
+    "yaml": "^2.9.1"
+  }
+}

@@ -58,6 +58,13 @@ export interface SequenceRecord {
   members: SequenceMemberRow[];
 }
 
+/** A release group: its aliases and numbering quirks. */
+export interface GroupRecord {
+  id: string;
+  aliases: string[];
+  overrides: { work: string; numbering: 'continue_prequel' | 'absolute' | 'offset'; offset: number | null; sequence: string | null }[];
+}
+
 export interface Meta {
   data_version: string;
   git_sha: string;

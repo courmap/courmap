@@ -5,6 +5,7 @@ export * from './normalize.js';
 export * from './model.js';
 export * from './errors.js';
 export * from './engine.js';
+export * from './dump.js';
 export type {
   WorkFile,
   WorkIds,

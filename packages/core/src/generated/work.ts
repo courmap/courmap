@@ -21,14 +21,14 @@ export type TargetRange = number | string;
 export type Sources = string[];
 
 /**
- * One canonical work (usually one cour, film or OVA): data/works/<id>.yaml.
+ * One canonical work (usually one cour, film or OVA): data/works/<id>.yaml. When data/seeds/ has a work with the same id, this file overrides it key by key (see docs/SPEC.md, "Seeds and manual files"), and only the keys it sets are needed; otherwise type and episodes are required.
  */
 export interface WorkFile {
   /**
    * Stable slug, equal to the file name. Never changes once published.
    */
   id: string;
-  type: 'tv' | 'movie' | 'ova' | 'ona' | 'special';
+  type?: 'tv' | 'movie' | 'ova' | 'ona' | 'special';
   /**
    * Omitted means finished. Open-ended ranges require airing.
    */
@@ -37,7 +37,7 @@ export interface WorkFile {
   /**
    * Regular episode count. null only while airing or upcoming.
    */
-  episodes: number | null;
+  episodes?: number | null;
   /**
    * Special (S) episode count. Omitted means unknown, which skips the specials bounds check.
    */
@@ -57,22 +57,25 @@ export interface WorkFile {
   notes?: string;
   sources?: Sources;
 }
+/**
+ * Provider IDs. In a file that overrides a seed, null removes the seed's ID.
+ */
 export interface WorkIds {
-  anidb?: NumericId;
-  anilist?: NumericId;
-  mal?: NumericId;
-  kitsu?: NumericId;
-  tvdb_show?: NumericId;
-  tmdb_show?: NumericId;
-  tmdb_movie?: NumericId;
-  imdb?: string;
+  anidb?: NumericId | null;
+  anilist?: NumericId | null;
+  mal?: NumericId | null;
+  kitsu?: NumericId | null;
+  tvdb_show?: NumericId | null;
+  tmdb_show?: NumericId | null;
+  tmdb_movie?: NumericId | null;
+  imdb?: string | null;
 }
 /**
- * How season-based providers lay out this work's episodes.
+ * How season-based providers lay out this work's episodes. In a file that overrides a seed, a block replaces the seed's block for that provider, and null removes it.
  */
 export interface WorkProjections {
-  tvdb_show?: ProjectionBlock;
-  tmdb_show?: ProjectionBlock;
+  tvdb_show?: ProjectionBlock | null;
+  tmdb_show?: ProjectionBlock | null;
 }
 export interface ProjectionEntry {
   episodes: EpisodeRange;

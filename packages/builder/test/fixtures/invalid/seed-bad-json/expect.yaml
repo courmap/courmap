@@ -1,0 +1,7 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: seed-parse
+    file: seeds/works-000.jsonl
+    line: 2
+    message: "not valid JSON: Expected double-quoted property name in JSON at position 11 (line 1 column 12)"
+warnings: []

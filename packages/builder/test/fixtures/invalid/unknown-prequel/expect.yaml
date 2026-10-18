@@ -3,4 +3,5 @@ errors:
   - code: unknown-work
     file: works/sequel.yaml
     line: 10
-    message: prequel "does-not-exist" is not a work in data/works/
+    message: prequel "does-not-exist" is not a known work
+warnings: []

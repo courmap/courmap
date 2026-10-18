@@ -2,13 +2,11 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/courmap/courmap/main/schema/work.schema.json",
   "title": "WorkFile",
-  "description": "One canonical work (usually one cour, film or OVA): data/works/<id>.yaml.",
+  "description": "One canonical work (usually one cour, film or OVA): data/works/<id>.yaml. When data/seeds/ has a work with the same id, this file overrides it key by key (see docs/SPEC.md, \"Seeds and manual files\"), and only the keys it sets are needed; otherwise type and episodes are required.",
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "id",
-    "type",
-    "episodes"
+    "id"
   ],
   "properties": {
     "id": {
@@ -71,43 +69,114 @@
       "additionalProperties": false,
       "properties": {
         "anidb": {
-          "$ref": "#/$defs/numericId"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/numericId"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "anilist": {
-          "$ref": "#/$defs/numericId"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/numericId"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "mal": {
-          "$ref": "#/$defs/numericId"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/numericId"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "kitsu": {
-          "$ref": "#/$defs/numericId"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/numericId"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "tvdb_show": {
-          "$ref": "#/$defs/numericId"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/numericId"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "tmdb_show": {
-          "$ref": "#/$defs/numericId"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/numericId"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "tmdb_movie": {
-          "$ref": "#/$defs/numericId"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/numericId"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "imdb": {
-          "type": "string",
-          "pattern": "^tt[0-9]{7,}$"
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^tt[0-9]{7,}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
-      }
+      },
+      "description": "Provider IDs. In a file that overrides a seed, null removes the seed's ID."
     },
     "projections": {
       "title": "WorkProjections",
-      "description": "How season-based providers lay out this work's episodes.",
+      "description": "How season-based providers lay out this work's episodes. In a file that overrides a seed, a block replaces the seed's block for that provider, and null removes it.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "tvdb_show": {
-          "$ref": "#/$defs/projectionBlock"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/projectionBlock"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "tmdb_show": {
-          "$ref": "#/$defs/projectionBlock"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/projectionBlock"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       }
     },

@@ -1,0 +1,7 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: duplicate-id
+    file: seeds/works-001.jsonl
+    line: 1
+    message: seed work id "x" is already used at seeds/works-000.jsonl:1
+warnings: []

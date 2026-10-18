@@ -1,6 +1,7 @@
 # Diagnostics `builder validate` must report for this fixture, exactly.
 errors:
-  - code: schema
+  - code: missing-field
     file: works/no-type.yaml
     line: 1
-    message: missing required field "type"
+    message: type is required (no seed provides it for "no-type")
+warnings: []

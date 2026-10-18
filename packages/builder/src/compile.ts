@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdirSync, rmSync } from 'node:fs';
 import path from 'node:path';
 import Database from 'better-sqlite3';
-import { PROJECTION_PROVIDERS, normalizeTitle, type Meta } from '@courmap/core';
+import { PROJECTION_PROVIDERS, normalizeTitle, type Meta, type Provider } from '@courmap/core';
 import type { CheckedFiles } from './checks.js';
 import type { Records } from './records.js';
 import { readBlock } from './blocks.js';
@@ -41,13 +41,13 @@ function gitSha(): string {
   }
 }
 
-/** Row counts computed straight from the YAML, independently of the records the compiler writes. */
+/** Row counts computed straight from the merged sources, independently of the records the compiler writes. */
 export function expectedCounts(files: CheckedFiles): Record<Table, number> {
   let refs = 0;
   let projections = 0;
   let aliases = 0;
   for (const { data: w } of files.works) {
-    refs += Object.keys(w.ids ?? {}).length;
+    refs += Object.values(w.ids ?? {}).filter((v) => v != null).length;
     for (const p of PROJECTION_PROVIDERS) {
       const block = w.projections?.[p];
       if (block) projections += readBlock(block, p).ranges.length;
@@ -99,7 +99,7 @@ export function compile(records: Records, files: CheckedFiles, outPath: string, 
     const expected = expectedCounts(files);
     const wrong = TABLES.filter((t) => counts[t] !== expected[t]);
     if (wrong.length > 0) {
-      throw new Error(`row counts do not match the YAML: ${wrong.map((t) => `${t} has ${counts[t]}, expected ${expected[t]}`).join('; ')}`);
+      throw new Error(`row counts do not match the sources: ${wrong.map((t) => `${t} has ${counts[t]}, expected ${expected[t]}`).join('; ')}`);
     }
     const integrity = db.pragma('integrity_check', { simple: true });
     if (integrity !== 'ok') throw new Error(`PRAGMA integrity_check failed: ${String(integrity)}`);
@@ -127,7 +127,7 @@ function insertAll(db: Database.Database, records: Records, meta: Meta): void {
   const insTrigram = db.prepare('INSERT INTO alias_trigrams (normalized, work_id) VALUES (?, ?)');
 
   for (const w of records.works.values()) {
-    const origin = records.origins.works.get(w.id)!;
+    const origins = records.origins.works.get(w.id)!;
     insWork.run({
       id: w.id,
       type: w.type,
@@ -140,15 +140,15 @@ function insertAll(db: Database.Database, records: Records, meta: Meta): void {
       native: w.titles.native,
       prequel: w.prequel,
     });
-    for (const [provider, id] of Object.entries(w.ids)) insRef.run(w.id, provider, id, origin);
+    for (const [provider, id] of Object.entries(w.ids)) insRef.run(w.id, provider, id, origins.ids[provider as Provider]);
     for (const p of PROJECTION_PROVIDERS) {
       for (const r of w.projections[p] ?? []) {
-        insProj.run(w.id, p, r.kind, r.ep_from, r.ep_to, r.season, r.target_from, r.target_to, origin);
+        insProj.run(w.id, p, r.kind, r.ep_from, r.ep_to, r.season, r.target_from, r.target_to, origins.projections[p]);
       }
     }
     for (const alias of w.aliases) {
       const normalized = normalizeTitle(alias);
-      insAlias.run(w.id, alias, normalized, origin);
+      insAlias.run(w.id, alias, normalized, origins.aliases.get(alias));
       insTrigram.run(normalized, w.id);
     }
   }

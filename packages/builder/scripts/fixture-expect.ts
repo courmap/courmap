@@ -15,8 +15,10 @@ if (names.length === 0) {
 }
 for (const name of names) {
   const dir = path.join(root, name);
-  const r = await validate([{ dir, origin: 'manual' }], dir);
-  const body = { errors: r.diagnostics.map((d) => ({ code: d.code, file: d.file, line: d.line, message: d.message })) };
+  const r = await validate(dir, { cwd: dir });
+  const pick = (severity: string) =>
+    r.diagnostics.filter((d) => d.severity === severity).map((d) => ({ code: d.code, file: d.file, line: d.line, message: d.message }));
+  const body = { errors: pick('error'), warnings: pick('warning') };
   writeFileSync(path.join(dir, 'expect.yaml'), '# Diagnostics `builder validate` must report for this fixture, exactly.\n' + stringify(body, { lineWidth: 0 }));
-  console.log(`${name}: ${body.errors.length} error(s)`);
+  console.log(`${name}: ${body.errors.length} error(s), ${body.warnings.length} warning(s)`);
 }

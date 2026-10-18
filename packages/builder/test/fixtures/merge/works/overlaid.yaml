@@ -1,0 +1,11 @@
+id: overlaid
+episodes: 13
+ids:
+  imdb: null
+  tvdb_show: 900199
+projections:
+  tvdb_show:
+    - { season: 2, episodes: 1-13 }
+aliases:
+  - Manual Alias
+notes: Test fixture. Overrides the seed's episode count, TVDB ID and TVDB block, and removes its IMDb ID.

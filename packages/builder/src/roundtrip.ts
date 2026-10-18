@@ -90,10 +90,16 @@ async function hubOf(ds: Dataset, ref: string, episode: number | string): Promis
  * and A to hub to B to hub to A must return A's original answer.
  */
 export async function checkRoundTrips(ds: Dataset, files: CheckedFiles, reporter: Reporter): Promise<void> {
-  for (const { src, data } of files.works) {
-    const work = (await ds.getWork(data.id))!;
+  for (const merged of files.works) {
+    const work = (await ds.getWork(merged.id))!;
     const targets: Target[] = [...(Object.keys(work.ids) as Target[]), ...(work.sequences.length > 0 ? (['absolute'] as const) : [])];
-    const fail = (msg: string) => reporter.report(src.loc, 'round-trip', [], msg);
+    // Point at the part that failed, so a seed run can drop exactly that part.
+    const partOf = (t: Target | null) =>
+      t === null ? [] : t === 'absolute' ? ['sequences'] : isProjectionProvider(t) ? ['projections', t] : ['ids', t];
+    const fail = (msg: string, t: Target | null = null) => reporter.report(merged.loc, 'round-trip', partOf(t), msg, { work: merged.id });
+    // Every target goes through the hub, so A -> hub -> B -> hub -> A adds information only
+    // when some row is a split or merge. Hand-written works always get the full check.
+    const pairwise = merged.isManual || Object.values(work.projections).some((rows) => rows.some((r) => r.target_to !== null));
 
     for (const { kind, e } of samples(work)) {
       const label = `${work.id} ${epInput(kind, e)}`;
@@ -111,16 +117,17 @@ export async function checkRoundTrips(ds: Dataset, files: CheckedFiles, reporter
         backs.set(t, back);
         const hub = await hubOf(ds, back.ref, back.episode);
         if (typeof hub === 'string') {
-          fail(`${label} -> ${back.ref} ep ${back.episode} -> ${hub}`);
+          fail(`${label} -> ${back.ref} ep ${back.episode} -> ${hub}`, t);
           continue;
         }
         const to = hub.episode_to ?? hub.episode;
         if (hub.id !== work.id || hub.kind !== kind || e < hub.episode || e > to) {
-          fail(`${label} -> ${back.ref} ep ${back.episode} -> ${hub.id} ${epInput(hub.kind, hub.episode)}, expected ${label}`);
+          fail(`${label} -> ${back.ref} ep ${back.episode} -> ${hub.id} ${epInput(hub.kind, hub.episode)}, expected ${label}`, t);
         }
       }
 
       // A -> hub -> B -> hub -> A
+      if (!pairwise) continue;
       for (const [a, backA] of backs) {
         for (const b of backs.keys()) {
           if (a === b) continue;
@@ -134,10 +141,10 @@ export async function checkRoundTrips(ds: Dataset, files: CheckedFiles, reporter
             const toA = await translate(ds, backB.ref, backB.episode, [a]);
             const original = forward.results[a];
             if (!sameOrContains(original, toA.results[a])) {
-              fail(`${label}: ${a} -> hub -> ${b} -> hub -> ${a} gave ${JSON.stringify(toA.results[a] ?? null)}, expected ${JSON.stringify(original)}`);
+              fail(`${label}: ${a} -> hub -> ${b} -> hub -> ${a} gave ${JSON.stringify(toA.results[a] ?? null)}, expected ${JSON.stringify(original)}`, b);
             }
           } catch (err) {
-            fail(`${label}: ${a} -> hub -> ${b} -> hub -> ${a} failed: ${describeErr(err)}`);
+            fail(`${label}: ${a} -> hub -> ${b} -> hub -> ${a} failed: ${describeErr(err)}`, b);
           }
         }
       }

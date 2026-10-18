@@ -3,4 +3,5 @@ errors:
   - code: unknown-work
     file: sequences/a-absolute.yaml
     line: 4
-    message: work "b" is not in data/works/
+    message: work "b" is not a known work
+warnings: []

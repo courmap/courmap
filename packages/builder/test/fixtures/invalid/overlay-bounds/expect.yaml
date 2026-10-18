@@ -1,0 +1,7 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: out-of-bounds
+    file: seeds/works-000.jsonl
+    line: 1
+    message: "range \"1-14\" goes past the work's episodes: 12"
+warnings: []

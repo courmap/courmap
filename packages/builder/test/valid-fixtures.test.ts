@@ -10,7 +10,7 @@ const root = fileURLToPath(new URL('./fixtures/valid/', import.meta.url));
 describe('builder validate accepts valid fixtures', () => {
   it.each(readdirSync(root).sort())('%s', async (name) => {
     const dir = path.join(root, name);
-    const result = await validate([{ dir, origin: 'manual' }], dir);
+    const result = await validate(dir, { cwd: dir });
     expect(result.diagnostics).toEqual([]);
     expect(result.ok).toBe(true);
   });

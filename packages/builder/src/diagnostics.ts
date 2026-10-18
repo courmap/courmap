@@ -28,11 +28,18 @@ export type DiagnosticCode =
   | 'offset-mismatch'
   | 'missing-prequel'
   | 'duplicate-alias'
-  | 'round-trip';
+  | 'round-trip'
+  | 'seed-parse'
+  | 'seed-origin'
+  | 'missing-field'
+  | 'slug-conflict';
 
 export type PathSegment = string | number;
 
+export type Severity = 'error' | 'warning';
+
 export interface Diagnostic {
+  severity: Severity;
   code: DiagnosticCode;
   /** Repo-relative path with forward slashes. */
   file: string;
@@ -40,6 +47,10 @@ export interface Diagnostic {
   column?: number;
   path: PathSegment[];
   message: string;
+  /** The work this is about, when it is about one; with path, names the part at fault. */
+  work?: string;
+  /** For conflicts between two parts: the other side. */
+  related?: { work: string; path: PathSegment[] };
 }
 
 export function formatPath(path: readonly PathSegment[]): string {
@@ -51,7 +62,8 @@ export function formatPath(path: readonly PathSegment[]): string {
 export function formatDiagnostic(d: Diagnostic): string {
   const loc = d.line !== undefined ? `${d.file}:${d.line}:${d.column ?? 1}` : d.file;
   const where = d.path.length > 0 ? ` ${formatPath(d.path)}:` : '';
-  return `${loc} [${d.code}]${where} ${d.message}`;
+  const level = d.severity === 'warning' ? 'warning ' : '';
+  return `${loc} [${level}${d.code}]${where} ${d.message}`;
 }
 
 /**
@@ -80,34 +92,61 @@ function nodeAt(doc: Document, path: readonly PathSegment[], key: boolean): Node
   return best;
 }
 
-export interface Locator {
+export interface Location {
   file: string;
-  locate(path: readonly PathSegment[], opts?: { key?: boolean }): { line?: number; column?: number };
+  line?: number;
+  column?: number;
 }
 
+/** Maps a path inside one work, sequence or group to a place in a source file. */
+export interface Locator {
+  locate(path: readonly PathSegment[], opts?: { key?: boolean }): Location;
+}
+
+/** Locator for a YAML document: resolves paths to node positions. */
 export function makeLocator(file: string, doc: Document | null, lineCounter: LineCounter | null): Locator {
   return {
-    file,
     locate(path, opts = {}) {
-      if (!doc || !lineCounter) return {};
+      if (!doc || !lineCounter) return { file };
       const node = nodeAt(doc, path, opts.key ?? false);
       const offset = node?.range?.[0];
-      if (offset === undefined) return {};
+      if (offset === undefined) return { file };
       const { line, col } = lineCounter.linePos(offset);
-      return { line, column: col };
+      return { file, line, column: col };
     },
   };
+}
+
+/** Locator for one JSONL line: every path points at the line. */
+export function makeLineLocator(file: string, line: number): Locator {
+  return { locate: () => ({ file, line, column: 1 }) };
+}
+
+export interface ReportOptions {
+  key?: boolean;
+  severity?: Severity;
+  work?: string;
+  related?: { work: string; path: PathSegment[] };
 }
 
 /** Collects diagnostics with source positions attached. */
 export class Reporter {
   readonly diagnostics: Diagnostic[] = [];
 
-  report(loc: Locator, code: DiagnosticCode, path: PathSegment[], message: string, opts?: { key?: boolean }): void {
-    this.diagnostics.push({ code, file: loc.file, path, message, ...loc.locate(path, opts) });
+  report(loc: Locator, code: DiagnosticCode, path: PathSegment[], message: string, opts: ReportOptions = {}): void {
+    this.diagnostics.push({
+      severity: opts.severity ?? 'error',
+      code,
+      ...loc.locate(path, opts),
+      path,
+      message,
+      ...(opts.work !== undefined && { work: opts.work }),
+      ...(opts.related !== undefined && { related: opts.related }),
+    });
   }
 
-  get count(): number {
-    return this.diagnostics.length;
+  /** Number of errors (warnings do not fail validation). */
+  get errorCount(): number {
+    return this.diagnostics.filter((d) => d.severity === 'error').length;
   }
 }

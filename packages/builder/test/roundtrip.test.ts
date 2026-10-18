@@ -4,7 +4,6 @@ import { Reporter, makeLocator } from '../src/diagnostics.js';
 import { MemoryDataset, type Records } from '../src/records.js';
 import { checkRoundTrips } from '../src/roundtrip.js';
 import type { CheckedFiles } from '../src/checks.js';
-import type { SourceFile } from '../src/load.js';
 
 // validate's per-file checks make inconsistent data hard to build from YAML, so this
 // exercises the round-trip check directly on records that bypass them.
@@ -18,8 +17,13 @@ function setup(works: WorkRecord[]) {
   const ds = new MemoryDataset(records, { data_version: 'test', git_sha: '', built_at: '', schema_version: '' });
   const files: CheckedFiles = {
     works: works.map((w) => ({
-      src: { file: `works/${w.id}.yaml`, loc: makeLocator(`works/${w.id}.yaml`, null, null) } as SourceFile,
+      id: w.id,
       data: { id: w.id, type: w.type, episodes: w.episodes },
+      loc: makeLocator(`works/${w.id}.yaml`, null, null),
+      isManual: true,
+      manual: null,
+      seed: null,
+      origins: { ids: {}, projections: {}, aliases: new Map() },
     })),
     sequences: [],
     groups: [],

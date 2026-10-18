@@ -31,7 +31,7 @@ const tmp = mkdtempSync(path.join(tmpdir(), 'courmap-conformance-'));
 afterAll(() => rmSync(tmp, { recursive: true, force: true }));
 
 async function buildModes(): Promise<Record<string, CourmapClient>> {
-  const v = await validate([{ dir: path.join(conformance, 'data'), origin: 'manual' }]);
+  const v = await validate(path.join(conformance, 'data'));
   if (!v.ok || !v.records) throw new Error(`conformance data does not validate:\n${JSON.stringify(v.diagnostics, null, 2)}`);
   const meta = { dataVersion: 'conformance', builtAt: '2026-01-01T00:00:00.000Z', gitSha: 'conformance' };
   const dump = path.join(tmp, 'conformance.sqlite');

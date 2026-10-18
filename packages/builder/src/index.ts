@@ -1,6 +1,9 @@
-export { validate, type ValidateResult } from './validate.js';
-export { loadSources, type DataSource, type Origin, type SourceFile } from './load.js';
-export { formatDiagnostic, type Diagnostic, type DiagnosticCode } from './diagnostics.js';
+export { validate, type ValidateOptions, type ValidateResult } from './validate.js';
+export { loadData, SEED_ORIGINS, SEED_SHARD_RE, type LoadedData, type Origin, type SeedSource, type SourceFile } from './load.js';
+export { mergeWork, type MergedWork, type SeedOrigin, type SeedWork, type WorkOrigins } from './merge.js';
+export { checkFiles, type CheckedFiles } from './checks.js';
+export { readBlock, type Block } from './blocks.js';
+export { Reporter, formatDiagnostic, formatPath, type Diagnostic, type DiagnosticCode, type Severity } from './diagnostics.js';
 export { toRecords, MemoryDataset, type Records, type GroupRecord } from './records.js';
 export { compile, expectedCounts, isoWeekVersion, type CompileOptions, type CompileReport } from './compile.js';
 export { SCHEMA_SQL, SCHEMA_VERSION, TABLES, type Table } from './sql.js';

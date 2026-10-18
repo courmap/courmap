@@ -13,8 +13,9 @@ import {
   type SequenceFile,
   type WorkFile,
 } from '@courmap/core';
-import type { Reporter } from './diagnostics.js';
-import type { SourceFile } from './load.js';
+import type { Reporter, Severity } from './diagnostics.js';
+import { SEED_ORIGINS, type LoadedData, type SeedSource, type SourceFile } from './load.js';
+import { mergeWork, type MergedWork, type SeedWork } from './merge.js';
 import { schemaIssues } from './schema.js';
 import { readBlock, type Block } from './blocks.js';
 
@@ -24,10 +25,14 @@ export interface Typed<T> {
 }
 
 export interface CheckedFiles {
-  works: Typed<WorkFile>[];
+  /** Every work after merging manual files over seeds, in id order. */
+  works: MergedWork[];
   sequences: Typed<SequenceFile>[];
   groups: Typed<GroupFile>[];
 }
+
+type Code = Parameters<Reporter['report']>[1];
+type At = (path: (string | number)[], code: Code, msg: string, severity?: Severity) => void;
 
 /** A projection entry after parsing, with everything a check or the compiler needs. */
 export interface ParsedEntry {
@@ -48,7 +53,7 @@ export const landingEnd = (p: ParsedEntry) =>
  * Parses one projection entry, reporting problems. Returns null when the entry is unusable.
  * The compiler calls this too (with a throwaway reporter), so parsing rules live in one place.
  */
-export function parseEntry(entry: ProjectionEntry, index: number, report: (code: Parameters<Reporter['report']>[1], field: string | null, msg: string) => void): ParsedEntry | null {
+export function parseEntry(entry: ProjectionEntry, index: number, report: (code: Code, field: string | null, msg: string) => void): ParsedEntry | null {
   const r = parseEpisodeRange(entry.episodes);
   if (!r.ok) {
     report('invalid-range', 'episodes', r.error);
@@ -92,15 +97,18 @@ export function parseEntry(entry: ProjectionEntry, index: number, report: (code:
   return { index, kind: span.kind, span, season: entry.season ?? null, targetFrom, targetTo, gap: entry.gap === true };
 }
 
-/** Runs schema checks, then per-file and cross-file semantic checks. */
-export function checkFiles(files: readonly SourceFile[], reporter: Reporter): CheckedFiles {
-  const out: CheckedFiles = { works: [], sequences: [], groups: [] };
+/** Runs schema checks on every source, merges manual files over seeds, then runs semantic checks. */
+export function checkFiles(loaded: LoadedData, reporter: Reporter): CheckedFiles {
+  const sequences: Typed<SequenceFile>[] = [];
+  const groups: Typed<GroupFile>[] = [];
+  const manualWorks = new Map<string, { src: SourceFile; data: WorkFile }>();
+  const seedWorks = new Map<string, { src: SeedSource; data: SeedWork }>();
 
-  // Every id seen, even in files that fail the schema, so references to them don't add noise.
+  // Every id seen, even in sources that fail the schema, so references to them add no noise.
   const knownIds: Record<SourceFile['kind'], Set<string>> = { work: new Set(), sequence: new Set(), group: new Set() };
   const firstFileForId = new Map<string, SourceFile>();
 
-  for (const src of files) {
+  for (const src of loaded.files) {
     const id = (src.data as { id?: unknown } | null)?.id;
     if (typeof id === 'string') {
       const key = `${src.kind}:${id}`;
@@ -115,40 +123,97 @@ export function checkFiles(files: readonly SourceFile[], reporter: Reporter): Ch
     const issues = schemaIssues(src.kind, src.data);
     for (const issue of issues) reporter.report(src.loc, 'schema', issue.path, issue.message, { key: issue.key });
     if (issues.length > 0) continue;
-    if (src.kind === 'work') out.works.push({ src, data: src.data as WorkFile });
-    else if (src.kind === 'sequence') out.sequences.push({ src, data: src.data as SequenceFile });
-    else out.groups.push({ src, data: src.data as GroupFile });
+    if (src.kind === 'work') manualWorks.set(id as string, { src, data: src.data as WorkFile });
+    else if (src.kind === 'sequence') sequences.push({ src, data: src.data as SequenceFile });
+    else groups.push({ src, data: src.data as GroupFile });
   }
 
-  const works = new Map(out.works.map((w) => [w.data.id, w]));
-  for (const w of out.works) checkWork(w, knownIds.work, reporter);
-  checkProviderIds(out.works, reporter);
-  checkSharedTargets(out.works, reporter);
-  checkSequences(out.sequences, works, knownIds.work, reporter);
-  checkGroups(out.groups, works, out.sequences, knownIds.work, reporter);
-  return out;
+  for (const src of loaded.seeds) {
+    const raw = src.data as Record<string, unknown> | null;
+    if (typeof raw?.id === 'string') {
+      knownIds.work.add(raw.id);
+      const prev = seedWorks.get(raw.id);
+      if (prev) {
+        reporter.report(src.loc, 'duplicate-id', ['id'], `seed work id "${raw.id}" is already used at ${prev.src.file}:${prev.src.line}`);
+        continue;
+      }
+    }
+    const { origin, ...work } = raw ?? {};
+    const issues = schemaIssues('work', work);
+    for (const issue of issues) reporter.report(src.loc, 'schema', issue.path, issue.message);
+    const originProblem = checkSeedOrigin(origin);
+    if (originProblem) reporter.report(src.loc, 'seed-origin', ['origin'], originProblem);
+    if (issues.length > 0 || originProblem) continue;
+    seedWorks.set(raw!.id as string, { src, data: raw as unknown as SeedWork });
+  }
+
+  // A manual file and a seed are the same work only by slug. A matching AniDB ID under a
+  // different slug means the manual file must adopt the published seed slug.
+  const seedByAnidb = new Map<number, string>();
+  for (const [id, sw] of seedWorks) if (sw.data.ids?.anidb != null) seedByAnidb.set(sw.data.ids.anidb, id);
+  for (const [id, mw] of manualWorks) {
+    const anidb = mw.data.ids?.anidb;
+    const seedId = anidb != null ? seedByAnidb.get(anidb) : undefined;
+    if (seedId !== undefined && seedId !== id) {
+      reporter.report(
+        mw.src.loc,
+        'slug-conflict',
+        ['id'],
+        `this work has anidb ${anidb}, which data/seeds/ publishes as "${seedId}"; rename the file to ${seedId}.yaml and set id: ${seedId} (published slugs never change)`,
+        { work: id },
+      );
+    }
+  }
+
+  const ids = [...new Set([...manualWorks.keys(), ...seedWorks.keys()])].sort();
+  const merged = ids.map((id) => mergeWork(manualWorks.get(id) ?? null, seedWorks.get(id) ?? null));
+  const works = new Map(merged.map((w) => [w.id, w]));
+  for (const w of merged) checkWork(w, knownIds.work, reporter);
+  checkProviderIds(merged, reporter);
+  checkSharedTargets(merged, reporter);
+  checkSequences(sequences, works, knownIds.work, reporter);
+  checkGroups(groups, works, sequences, knownIds.work, reporter);
+  return { works: merged, sequences, groups };
+}
+
+function checkSeedOrigin(origin: unknown): string | null {
+  const ok = (v: unknown) => typeof v === 'string' && (SEED_ORIGINS as readonly string[]).includes(v);
+  if (typeof origin !== 'object' || origin === null) return 'seed works need an origin object';
+  const o = origin as Record<string, unknown>;
+  if (!ok(o.default)) return `origin.default must be one of ${SEED_ORIGINS.join(', ')}`;
+  for (const part of ['ids', 'projections']) {
+    if (o[part] === undefined) continue;
+    if (typeof o[part] !== 'object' || o[part] === null) return `origin.${part} must be an object`;
+    for (const [k, v] of Object.entries(o[part] as object)) if (!ok(v)) return `origin.${part}.${k} must be one of ${SEED_ORIGINS.join(', ')}`;
+  }
+  return null;
 }
 
 const isAiring = (w: WorkFile) => w.status === 'airing';
 
-function checkWork({ src, data: w }: Typed<WorkFile>, knownWorks: Set<string>, reporter: Reporter): void {
-  const at = (path: (string | number)[], code: Parameters<Reporter['report']>[1], msg: string) => reporter.report(src.loc, code, path, msg);
+function checkWork(w: MergedWork, knownWorks: Set<string>, reporter: Reporter): void {
+  const d = w.data;
+  // Bounds problems are errors for works with a manual file, warnings for seed-only works (Xwolv decision 3).
+  const boundsSeverity: Severity = w.isManual ? 'error' : 'warning';
+  const at: At = (path, code, msg, severity) => reporter.report(w.loc, code, path, msg, { work: w.id, ...(severity && { severity }) });
 
-  if (w.episodes === null && w.status !== 'airing' && w.status !== 'upcoming') {
+  for (const key of ['type', 'episodes'] as const) {
+    if (!(key in d)) at([key], 'missing-field', `${key} is required (no seed provides it for "${w.id}")`);
+  }
+  if (d.episodes === null && d.status !== 'airing' && d.status !== 'upcoming') {
     at(['episodes'], 'unknown-episode-count', 'episodes may be null only when status is airing or upcoming');
   }
-  if (w.prequel !== undefined) {
-    if (w.prequel === w.id) at(['prequel'], 'unknown-work', 'a work cannot be its own prequel');
-    else if (!knownWorks.has(w.prequel)) at(['prequel'], 'unknown-work', `prequel "${w.prequel}" is not a work in data/works/`);
+  if (d.prequel !== undefined) {
+    if (d.prequel === d.id) at(['prequel'], 'unknown-work', 'a work cannot be its own prequel');
+    else if (!knownWorks.has(d.prequel)) at(['prequel'], 'unknown-work', `prequel "${d.prequel}" is not a known work`);
   }
 
   for (const provider of PROJECTION_PROVIDERS) {
-    const written = w.projections?.[provider];
+    const written = d.projections?.[provider];
     if (!written) continue;
     const block = readBlock(written, provider);
-    const entries = block.ranges;
     const base = block.base;
-    if (w.ids?.[provider] === undefined) {
+    if (d.ids?.[provider] == null) {
       at(['projections', provider], 'missing-provider-id', `projections.${provider} needs ids.${provider} to be set`);
     }
     if (block.coverage === 'partial' && block.notes === null) {
@@ -156,27 +221,22 @@ function checkWork({ src, data: w }: Typed<WorkFile>, knownWorks: Set<string>, r
     }
     const parsed: ParsedEntry[] = [];
     let unusable = false;
-    entries.forEach((entry, i) => {
+    block.ranges.forEach((entry, i) => {
       const p = parseEntry(entry, i, (code, field, msg) => at(field ? [...base, i, field] : [...base, i], code, msg));
       if (!p) {
         unusable = true;
         return;
       }
       parsed.push(p);
-      checkBounds(w, p, [...base, i, 'episodes'], at);
+      checkBounds(d, p, [...base, i, 'episodes'], (path, code, msg) => at(path, code, msg, boundsSeverity));
     });
     // With an entry already rejected, coverage checks would only report its absence again.
-    if (!unusable) checkOverlapsAndGaps(w, provider, parsed, block, at);
+    if (!unusable) checkOverlapsAndGaps(d, provider, parsed, block, at);
     checkLandingOverlaps(provider, parsed, base, at);
   }
 }
 
-function checkBounds(
-  w: WorkFile,
-  p: ParsedEntry,
-  path: (string | number)[],
-  at: (path: (string | number)[], code: Parameters<Reporter['report']>[1], msg: string) => void,
-): void {
+function checkBounds(w: WorkFile, p: ParsedEntry, path: (string | number)[], at: At): void {
   const label = formatSpan(p.span);
   if (p.span.to === null) {
     if (!isAiring(w)) {
@@ -184,7 +244,7 @@ function checkBounds(
       return;
     }
   }
-  const limit = p.kind === 'regular' ? w.episodes : p.kind === 'special' ? (w.specials ?? null) : null;
+  const limit = p.kind === 'regular' ? (w.episodes ?? null) : p.kind === 'special' ? (w.specials ?? null) : null;
   if (limit === null) return;
   const end = p.span.to ?? p.span.from;
   if (end > limit) {
@@ -193,13 +253,7 @@ function checkBounds(
   }
 }
 
-function checkOverlapsAndGaps(
-  w: WorkFile,
-  provider: ProjectionProvider,
-  parsed: ParsedEntry[],
-  block: Block,
-  at: (path: (string | number)[], code: Parameters<Reporter['report']>[1], msg: string) => void,
-): void {
+function checkOverlapsAndGaps(w: WorkFile, provider: ProjectionProvider, parsed: ParsedEntry[], block: Block, at: At): void {
   const base = block.base;
   const byKind = new Map<EpisodeKind, ParsedEntry[]>();
   for (const p of parsed) byKind.set(p.kind, [...(byKind.get(p.kind) ?? []), p]);
@@ -229,10 +283,15 @@ function checkOverlapsAndGaps(
       }
       next = p.span.to === null ? Infinity : Math.max(next, p.span.to + 1);
     }
-    const stopsEarly = w.episodes !== null && next !== Infinity && next <= w.episodes && sorted.length > 0;
+    const episodes = w.episodes ?? null;
+    const stopsEarly = episodes !== null && next !== Infinity && next <= episodes && sorted.length > 0;
     if (stopsEarly && block.coverage !== 'partial') {
       const last = sorted[sorted.length - 1]!;
-      at([...base, last.index, 'episodes'], 'gap', `${missing(kind, next, w.episodes!)} no ${provider} mapping; if the provider really stops there, write this block as { coverage: partial, notes, ranges }`);
+      at(
+        [...base, last.index, 'episodes'],
+        'gap',
+        `${missing(kind, next, episodes)} no ${provider} mapping; if the provider really stops there, write this block as { coverage: partial, notes, ranges }`,
+      );
     }
     if (!stopsEarly && block.coverage === 'partial') {
       at(['projections', provider, 'coverage'], 'coverage-unused', 'coverage: partial is set but the ranges reach the last episode');
@@ -240,12 +299,7 @@ function checkOverlapsAndGaps(
   }
 }
 
-function checkLandingOverlaps(
-  provider: ProjectionProvider,
-  parsed: ParsedEntry[],
-  base: (string | number)[],
-  at: (path: (string | number)[], code: Parameters<Reporter['report']>[1], msg: string) => void,
-): void {
+function checkLandingOverlaps(provider: ProjectionProvider, parsed: ParsedEntry[], base: (string | number)[], at: At): void {
   for (let i = 0; i < parsed.length; i++) {
     for (let j = 0; j < i; j++) {
       const a = parsed[j]!;
@@ -263,33 +317,37 @@ const missing = (kind: EpisodeKind, from: number, to: number) =>
 
 const seasonLabel = (s: number | null) => (s === null ? '(no season)' : `season ${s}`);
 
-function checkProviderIds(works: Typed<WorkFile>[], reporter: Reporter): void {
-  const seen = new Map<string, Typed<WorkFile>>();
+function checkProviderIds(works: MergedWork[], reporter: Reporter): void {
+  const seen = new Map<string, MergedWork>();
   for (const w of works) {
     for (const provider of UNIQUE_ID_PROVIDERS) {
       const id = w.data.ids?.[provider as keyof NonNullable<WorkFile['ids']>];
-      if (id === undefined) continue;
+      if (id == null) continue;
       const key = `${provider}:${id}`;
       const prev = seen.get(key);
-      if (prev) reporter.report(w.src.loc, 'duplicate-provider-id', ['ids', provider], `${key} is already used by work "${prev.data.id}"`);
-      else seen.set(key, w);
+      if (prev) {
+        reporter.report(w.loc, 'duplicate-provider-id', ['ids', provider], `${key} is already used by work "${prev.id}"`, {
+          work: w.id,
+          related: { work: prev.id, path: ['ids', provider] },
+        });
+      } else seen.set(key, w);
     }
   }
 }
 
 /** Two works sharing a season-based show must not land on the same season and episodes. */
-function checkSharedTargets(works: Typed<WorkFile>[], reporter: Reporter): void {
+function checkSharedTargets(works: MergedWork[], reporter: Reporter): void {
   for (const provider of PROJECTION_PROVIDERS) {
-    const byShow = new Map<string, { w: Typed<WorkFile>; p: ParsedEntry }[]>();
+    const byShow = new Map<string, { w: MergedWork; p: ParsedEntry; base: (string | number)[] }[]>();
     for (const w of works) {
       const id = w.data.ids?.[provider];
       const written = w.data.projections?.[provider];
-      if (id === undefined || !written) continue;
-      const entries = readBlock(written, provider).ranges;
+      if (id == null || !written) continue;
+      const { ranges, base } = readBlock(written, provider);
       const list = byShow.get(String(id)) ?? [];
-      entries.forEach((e, i) => {
+      ranges.forEach((e, i) => {
         const p = parseEntry(e, i, () => {});
-        if (p) list.push({ w, p });
+        if (p) list.push({ w, p, base });
       });
       byShow.set(String(id), list);
     }
@@ -301,10 +359,11 @@ function checkSharedTargets(works: Typed<WorkFile>[], reporter: Reporter): void 
           if (a.w === b.w || a.p.season !== b.p.season) continue;
           if (rangesOverlap({ from: a.p.targetFrom, to: landingEnd(a.p) }, { from: b.p.targetFrom, to: landingEnd(b.p) })) {
             reporter.report(
-              b.w.src.loc,
+              b.w.loc,
               'target-overlap',
-              ['projections', provider, b.p.index],
-              `${provider}:${show} ${seasonLabel(b.p.season)} episodes are also claimed by work "${a.w.data.id}" (${provider}[${a.p.index}])`,
+              [...b.base, b.p.index],
+              `${provider}:${show} ${seasonLabel(b.p.season)} episodes are also claimed by work "${a.w.id}" (${provider}[${a.p.index}])`,
+              { work: b.w.id, related: { work: a.w.id, path: [...a.base, a.p.index] } },
             );
           }
         }
@@ -313,15 +372,15 @@ function checkSharedTargets(works: Typed<WorkFile>[], reporter: Reporter): void 
   }
 }
 
-function checkSequences(seqs: Typed<SequenceFile>[], works: Map<string, Typed<WorkFile>>, knownWorks: Set<string>, reporter: Reporter): void {
+function checkSequences(seqs: Typed<SequenceFile>[], works: Map<string, MergedWork>, knownWorks: Set<string>, reporter: Reporter): void {
   // work -> sequence -> member positions, for the default-sequence rule
   const memberships = new Map<string, Map<string, { src: SourceFile; i: number; isDefault: boolean }[]>>();
   for (const { src, data: s } of seqs) {
     const spans: { i: number; work: string; span: EpisodeSpan; abs: { from: number; to: number | null } }[] = [];
     s.members.forEach((m, i) => {
-      const at = (field: string, code: Parameters<Reporter['report']>[1], msg: string) => reporter.report(src.loc, code, ['members', i, field], msg);
+      const at = (field: string, code: Code, msg: string) => reporter.report(src.loc, code, ['members', i, field], msg);
       if (!knownWorks.has(m.work)) {
-        at('work', 'unknown-work', `work "${m.work}" is not in data/works/`);
+        at('work', 'unknown-work', `work "${m.work}" is not a known work`);
         return;
       }
       const r = parseEpisodeRange(m.episodes);
@@ -331,7 +390,7 @@ function checkSequences(seqs: Typed<SequenceFile>[], works: Map<string, Typed<Wo
       if (work) {
         if (r.value.to === null && !isAiring(work)) {
           at('episodes', 'open-ended-not-airing', `open-ended range "${formatSpan(r.value)}" needs work "${m.work}" to have status airing`);
-        } else if (work.episodes !== null && (r.value.to ?? r.value.from) > work.episodes) {
+        } else if (work.episodes != null && (r.value.to ?? r.value.from) > work.episodes) {
           at('episodes', 'out-of-bounds', `range "${formatSpan(r.value)}" goes past work "${m.work}" episodes: ${work.episodes}`);
         }
       }
@@ -390,13 +449,7 @@ function checkDefaultSequences(memberships: Map<string, Map<string, { src: Sourc
 
 const fmtAbs = (a: { from: number; to: number | null }) => (a.to === null ? `${a.from}-` : `${a.from}-${a.to}`);
 
-function checkGroups(
-  groups: Typed<GroupFile>[],
-  works: Map<string, Typed<WorkFile>>,
-  seqs: Typed<SequenceFile>[],
-  knownWorks: Set<string>,
-  reporter: Reporter,
-): void {
+function checkGroups(groups: Typed<GroupFile>[], works: Map<string, MergedWork>, seqs: Typed<SequenceFile>[], knownWorks: Set<string>, reporter: Reporter): void {
   const seqMembers = new Map(seqs.map((s) => [s.data.id, new Set(s.data.members.map((m) => m.work))]));
   const aliasOwner = new Map<string, string>();
   for (const { src, data: g } of groups) {
@@ -408,8 +461,8 @@ function checkGroups(
       } else aliasOwner.set(key, g.id);
     });
     (g.overrides ?? []).forEach((o, i) => {
-      const at = (field: string, code: Parameters<Reporter['report']>[1], msg: string) => reporter.report(src.loc, code, ['overrides', i, field], msg);
-      if (!knownWorks.has(o.work)) return at('work', 'unknown-work', `work "${o.work}" is not in data/works/`);
+      const at = (field: string, code: Code, msg: string) => reporter.report(src.loc, code, ['overrides', i, field], msg);
+      if (!knownWorks.has(o.work)) return at('work', 'unknown-work', `work "${o.work}" is not a known work`);
       if (o.numbering === 'offset' && o.offset === undefined) at('numbering', 'offset-mismatch', 'numbering: offset needs an offset value');
       if (o.numbering !== 'offset' && o.offset !== undefined) at('offset', 'offset-mismatch', `offset is only used with numbering: offset, not ${o.numbering}`);
       if (o.sequence !== undefined) {
@@ -423,5 +476,3 @@ function checkGroups(
     });
   }
 }
-
-

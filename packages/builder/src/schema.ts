@@ -56,6 +56,7 @@ function describe(e: ErrorObject): string {
     case 'type':
       return `${show(e.data)} must be ${(e.params as { type: string | string[] }).type.toString().replace(',', ' or ')}`;
     case 'oneOf':
+    case 'anyOf':
     case 'pattern':
       return parent?.description ? `${show(e.data)} is not valid. ${parent.description}` : `${show(e.data)} ${e.message ?? 'is not valid'}`;
     case 'format':
@@ -73,14 +74,15 @@ export function schemaIssues(kind: FileKind, data: unknown): SchemaIssue[] {
   if (validate(data)) return [];
   const errors = validate.errors ?? [];
   // A failing oneOf also reports every branch's error; keep only the summary.
-  const oneOfPaths = new Set(errors.filter((e) => e.keyword === 'oneOf').map((e) => e.instancePath));
+  const isAlt = (e: ErrorObject) => e.keyword === 'oneOf' || e.keyword === 'anyOf';
+  const oneOfPaths = new Set(errors.filter(isAlt).map((e) => e.instancePath));
   const issues: SchemaIssue[] = [];
   const seen = new Set<string>();
   // A oneOf summary is noise when one of its branches already reported something deeper and more specific.
   const hasDeeper = (p: string) => errors.some((x) => x.instancePath.startsWith(`${p}/`));
   for (const e of errors) {
-    if (e.keyword !== 'oneOf' && oneOfPaths.has(e.instancePath) && e.schemaPath.includes('/oneOf/')) continue;
-    if (e.keyword === 'oneOf' && hasDeeper(e.instancePath)) continue;
+    if (!isAlt(e) && oneOfPaths.has(e.instancePath) && /\/(oneOf|anyOf)\//.test(e.schemaPath)) continue;
+    if (isAlt(e) && hasDeeper(e.instancePath)) continue;
     let path = pointerToPath(e.instancePath);
     let key = false;
     if (e.keyword === 'additionalProperties') {

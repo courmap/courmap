@@ -9,7 +9,7 @@ import { validate } from '../src/validate.js';
 const dataDir = fileURLToPath(new URL('../../../data/', import.meta.url));
 
 describe('data/', async () => {
-  const result = await validate([{ dir: dataDir, origin: 'manual' }]);
+  const result = await validate(dataDir);
   const ds = new MemoryDataset(result.records!, { data_version: 'test', git_sha: '', built_at: '', schema_version: '' });
 
   it('passes validate, including round trips', () => {

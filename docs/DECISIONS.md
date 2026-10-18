@@ -84,3 +84,13 @@ Choices made where `docs/SPEC.md` was ambiguous, silent or seemed wrong. One ent
 11. **No fictional group in data/** (decided by Xwolv). `data/groups/examplesubs.yaml` is deleted; test fixtures keep their own fake groups.
 12. **Seeds are sharded JSONL** (decided by Xwolv) under `data/seeds/` (`works-000.jsonl`, ...), each shard kept to a few MB, never one YAML file per seeded work. Hand-written mappings stay YAML in `data/works/`.
 13. **README banner is `assets/banner.png`** (decided by Xwolv). Dan is adding `assets/logo.png` and `assets/banner.png`; until then the README image link is broken on purpose.
+
+## Seeds and merge (builder)
+
+- **Override files need only `id`.** The work schema now requires just `id`; `type` and `episodes` are checked after the merge (`missing-field`), so a manual file over a seed can be a single block. Rationale: decision 1 makes short override files the normal way to fix a seed.
+- **`null` removes a seed value** for `ids.<provider>` and `projections.<provider>`; on a work with no seed it is a no-op. Rationale: some seed data is wrong with nothing correct to replace it, and a seed run must never turn a no-op into an error.
+- **Seed lines use the work schema plus a separate `origin` check** (`seed-origin`). `manual` is not a valid seed origin. Rationale: one format to maintain; origins are seed-only metadata.
+- **Diagnostics carry a severity,** and name the work and, for conflicts, the other side (`related`). Warnings never fail validation; the CLI lists errors and counts warnings by code (`--warnings` lists them). Rationale: thousands of seed-only works may have count disagreements, and the seed job needs to know exactly which part to drop.
+- **Round-trip diagnostics point at the failing part** (`projections.<provider>`, `ids.<provider>` or `sequences`). Rationale: the seed job drops parts, not whole works.
+- **A to hub to B to hub to A runs for manual works and works with splits or merges only.** Hub round trips still run for every work. Rationale: for one-to-one rows the pairwise check cannot fail when every hub round trip passes, and it would multiply the cost on the full seed set.
+- **Expected row counts come from the merged sources** (formerly "from the YAML"). Rationale: compiled rows now come from manual files and seeds together.

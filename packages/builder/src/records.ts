@@ -12,6 +12,7 @@ import {
 } from '@courmap/core';
 import { parseEntry, type CheckedFiles } from './checks.js';
 import type { Origin } from './load.js';
+import type { WorkOrigins } from './merge.js';
 import { readBlock } from './blocks.js';
 
 export interface GroupRecord {
@@ -20,12 +21,12 @@ export interface GroupRecord {
   overrides: { work: string; numbering: 'continue_prequel' | 'absolute' | 'offset'; offset: number | null; sequence: string | null }[];
 }
 
-/** Everything compile writes, in memory, with the origin of each file kept alongside. */
+/** Everything compile writes, in memory, with the origin of every row kept alongside. */
 export interface Records {
   works: Map<string, WorkRecord>;
   sequences: Map<string, SequenceRecord>;
   groups: Map<string, GroupRecord>;
-  origins: { works: Map<string, Origin>; sequences: Map<string, Origin>; groups: Map<string, Origin> };
+  origins: { works: Map<string, WorkOrigins>; sequences: Map<string, Origin>; groups: Map<string, Origin> };
 }
 
 const byKindThenFrom = (a: ProjectionRow, b: ProjectionRow) => (a.kind < b.kind ? -1 : a.kind > b.kind ? 1 : a.ep_from - b.ep_from);
@@ -42,11 +43,11 @@ export function toRecords(files: CheckedFiles): Records {
     origins: { works: new Map(), sequences: new Map(), groups: new Map() },
   };
 
-  for (const { src, data: w } of files.works) {
+  for (const { data: w, origins } of files.works) {
     const ids: Partial<Record<Provider, string>> = {};
     for (const p of PROVIDERS) {
       const v = w.ids?.[p];
-      if (v !== undefined) ids[p] = String(v);
+      if (v != null) ids[p] = String(v);
     }
     const projections: WorkRecord['projections'] = {};
     for (const p of PROJECTION_PROVIDERS) {
@@ -56,7 +57,7 @@ export function toRecords(files: CheckedFiles): Records {
       projections[p] = entries
         .map((e, i) => {
           const parsed = parseEntry(e, i, (_c, _f, msg) => {
-            throw new Error(`${src.file}: ${msg}`);
+            throw new Error(`work ${w.id}: ${msg}`);
           })!;
           return {
             kind: parsed.kind,
@@ -73,10 +74,10 @@ export function toRecords(files: CheckedFiles): Records {
     const aliases = [...new Set([titles.romaji, titles.english, titles.native, ...(w.aliases ?? [])].filter((a): a is string => a !== null))];
     records.works.set(w.id, {
       id: w.id,
-      type: w.type,
+      type: w.type!,
       status: w.status ?? 'finished',
       year: w.year ?? null,
-      episodes: w.episodes,
+      episodes: w.episodes ?? null,
       specials: w.specials ?? null,
       titles,
       ids,
@@ -85,7 +86,7 @@ export function toRecords(files: CheckedFiles): Records {
       sequences: [],
       aliases,
     });
-    records.origins.works.set(w.id, src.origin);
+    records.origins.works.set(w.id, origins);
   }
 
   // A work's default sequence: its only one, or the one where a member for it says default: true.
@@ -107,7 +108,7 @@ export function toRecords(files: CheckedFiles): Records {
     });
     members.sort((a, b) => a.absolute_start - b.absolute_start);
     records.sequences.set(s.id, { id: s.id, members });
-    records.origins.sequences.set(s.id, src.origin);
+    records.origins.sequences.set(s.id, 'manual');
     for (const m of members) {
       const membership: SequenceMembership = {
         sequence: s.id,
@@ -129,7 +130,7 @@ export function toRecords(files: CheckedFiles): Records {
       aliases: g.aliases ?? [],
       overrides: (g.overrides ?? []).map((o) => ({ work: o.work, numbering: o.numbering, offset: o.offset ?? null, sequence: o.sequence ?? null })),
     });
-    records.origins.groups.set(g.id, src.origin);
+    records.origins.groups.set(g.id, 'manual');
   }
   return records;
 }

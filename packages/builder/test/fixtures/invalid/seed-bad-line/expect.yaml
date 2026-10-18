@@ -1,0 +1,11 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: schema
+    file: seeds/works-000.jsonl
+    line: 1
+    message: unknown field "colour"
+  - code: seed-origin
+    file: seeds/works-000.jsonl
+    line: 2
+    message: origin.default must be one of bot, offline-db, anime-lists
+warnings: []

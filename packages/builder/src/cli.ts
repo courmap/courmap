@@ -1,23 +1,43 @@
 #!/usr/bin/env node
 import { parseArgs } from 'node:util';
-import { formatDiagnostic } from './diagnostics.js';
-import { validate } from './validate.js';
+import { formatDiagnostic, type Diagnostic } from './diagnostics.js';
+import { validate, type ValidateResult } from './validate.js';
 import { compile } from './compile.js';
-import type { DataSource } from './load.js';
 
 const USAGE = `Usage: courmap-builder <command> [options]
 
 Commands:
-  validate               Check data files (schema, overlaps, gaps, bounds, references, round trips)
+  validate               Check data files (schema, merge, overlaps, gaps, bounds, references, round trips)
   compile --out <file>   Validate, then compile to SQLite and verify the result
 
 Options:
-  --data <dir>           Data directory with works/, sequences/, groups/ (default: data)
+  --data <dir>           Data directory with works/, sequences/, groups/, seeds/ (default: data)
+  --warnings             List every warning, not just counts by code
   --out <file>           SQLite output path (compile)
   --data-version <v>     Override data_version (default: ISO year.week, e.g. 2026.42)
   --built-at <iso>       Override built_at (default: now)
   -h, --help             Show this help
 `;
+
+const errors = (r: ValidateResult) => r.diagnostics.filter((d) => d.severity === 'error');
+const warningsOf = (r: ValidateResult) => r.diagnostics.filter((d) => d.severity === 'warning');
+const warningNote = (r: ValidateResult) => {
+  const n = warningsOf(r).length;
+  return n === 0 ? '' : ` (${n} warning(s); --warnings lists them)`;
+};
+
+/** Errors are always listed. Warnings (seed-only works) can number in the thousands, so they are counted by code unless asked for. */
+function printDiagnostics(r: ValidateResult, listWarnings: boolean): void {
+  for (const d of errors(r)) console.error(formatDiagnostic(d));
+  const warnings = warningsOf(r);
+  if (listWarnings) {
+    for (const d of warnings) console.error(formatDiagnostic(d));
+    return;
+  }
+  const byCode = new Map<Diagnostic['code'], number>();
+  for (const d of warnings) byCode.set(d.code, (byCode.get(d.code) ?? 0) + 1);
+  for (const [code, n] of [...byCode].sort()) console.error(`warning ${code}: ${n}`);
+}
 
 async function main(argv: string[]): Promise<number> {
   const { values, positionals } = parseArgs({
@@ -28,6 +48,7 @@ async function main(argv: string[]): Promise<number> {
       out: { type: 'string' },
       'data-version': { type: 'string' },
       'built-at': { type: 'string' },
+      warnings: { type: 'boolean' },
       help: { type: 'boolean', short: 'h' },
     },
   });
@@ -36,16 +57,17 @@ async function main(argv: string[]): Promise<number> {
     process.stdout.write(USAGE);
     return command || values.help ? 0 : 1;
   }
-  const sources: DataSource[] = [{ dir: values.data!, origin: 'manual' }];
+  const dataDir = values.data!;
 
   if (command === 'validate') {
-    const result = await validate(sources);
-    for (const d of result.diagnostics) console.error(formatDiagnostic(d));
+    const result = await validate(dataDir);
+    printDiagnostics(result, values.warnings === true);
+    const scope = `${result.fileCount} files and ${result.seedCount} seed works in ${dataDir}/`;
     if (!result.ok) {
-      console.error(`\n${result.diagnostics.length} problem(s) in ${values.data}/ (${result.fileCount} files checked)`);
+      console.error(`\n${errors(result).length} error(s) in ${scope}`);
       return 1;
     }
-    console.log(`OK: ${result.fileCount} files in ${values.data}/ passed all checks, including round trips`);
+    console.log(`OK: ${scope} passed all checks, including round trips${warningNote(result)}`);
     return 0;
   }
 
@@ -54,10 +76,10 @@ async function main(argv: string[]): Promise<number> {
       console.error('compile needs --out <file>');
       return 1;
     }
-    const result = await validate(sources);
+    const result = await validate(dataDir);
     if (!result.ok || !result.records) {
-      for (const d of result.diagnostics) console.error(formatDiagnostic(d));
-      console.error(`\nNot compiling: ${result.diagnostics.length} problem(s) in ${values.data}/`);
+      printDiagnostics(result, values.warnings === true);
+      console.error(`\nNot compiling: ${errors(result).length} error(s) in ${dataDir}/`);
       return 1;
     }
     const report = compile(result.records, result.checked, values.out, {
@@ -65,7 +87,7 @@ async function main(argv: string[]): Promise<number> {
       ...(values['built-at'] !== undefined && { builtAt: values['built-at'] }),
     });
     for (const [table, n] of Object.entries(report.counts)) console.log(`${table.padEnd(18)} ${n}`);
-    console.log(`\nWrote ${values.out} (data_version ${report.meta.data_version}); row counts match the YAML; integrity_check ok`);
+    console.log(`\nWrote ${values.out} (data_version ${report.meta.data_version}); row counts match the sources; integrity_check ok${warningNote(result)}`);
     return 0;
   }
 

@@ -22,12 +22,14 @@ describe('builder validate rejects broken fixtures', () => {
 
   it.each(cases)('%s', async (name) => {
     const dir = path.join(root, name);
-    const { errors } = parse(readFileSync(path.join(dir, 'expect.yaml'), 'utf8')) as { errors: Expected[] };
-    const result = await validate([{ dir, origin: 'manual' }], dir);
+    const { errors, warnings = [] } = parse(readFileSync(path.join(dir, 'expect.yaml'), 'utf8')) as { errors: Expected[]; warnings?: Expected[] };
+    const result = await validate(dir, { cwd: dir });
 
-    expect(result.ok).toBe(false);
-    const actual = result.diagnostics.map((d) => ({ code: d.code, file: d.file, line: d.line, message: d.message }));
-    expect(actual).toEqual(errors);
+    expect(result.ok).toBe(errors.length === 0);
+    const pick = (severity: string) =>
+      result.diagnostics.filter((d) => d.severity === severity).map((d) => ({ code: d.code, file: d.file, line: d.line, message: d.message }));
+    expect(pick('error')).toEqual(errors);
+    expect(pick('warning')).toEqual(warnings);
     for (const d of result.diagnostics) {
       expect(d.message.length, 'messages should explain the problem').toBeGreaterThan(15);
       expect(d.line, 'every diagnostic should point at a line').toBeTypeOf('number');

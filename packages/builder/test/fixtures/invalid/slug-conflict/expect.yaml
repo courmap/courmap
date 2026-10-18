@@ -1,0 +1,11 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: slug-conflict
+    file: works/my-slug.yaml
+    line: 1
+    message: 'this work has anidb 900001, which data/seeds/ publishes as "x"; rename the file to x.yaml and set id: x (published slugs never change)'
+  - code: duplicate-provider-id
+    file: seeds/works-000.jsonl
+    line: 1
+    message: anidb:900001 is already used by work "my-slug"
+warnings: []

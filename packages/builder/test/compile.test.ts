@@ -23,7 +23,7 @@ describe('isoWeekVersion', () => {
 });
 
 describe('compile data/', async () => {
-  const v = await validate([{ dir: dataDir, origin: 'manual' }]);
+  const v = await validate(dataDir);
   const out = path.join(tmp, 'courmap.sqlite');
   const report = compile(v.records!, v.checked, out, { builtAt: '2026-10-17T00:00:00.000Z', gitSha: 'test' });
   const db = new Database(out, { readonly: true });

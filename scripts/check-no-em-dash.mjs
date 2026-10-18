@@ -1,13 +1,16 @@
-// Fails if any tracked text file contains an em dash (U+2014). Project rule: no em dashes anywhere.
+// Fails if any tracked text file we author contains an em dash (U+2014). Project rule: no em dashes
+// in anything we write. data/seeds/ is exempt: it holds upstream titles and synonyms verbatim.
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 
 const EM_DASH = String.fromCharCode(0x2014);
 const BINARY = /\.(png|jpe?g|gif|ico|sqlite|zst|gz|woff2?)$/i;
+// Upstream data kept verbatim (Xwolv decision S3.3). Everything we author is still checked.
+const UPSTREAM = /^data\/seeds\//;
 
 const files = execFileSync('git', ['ls-files', '--cached', '--others', '--exclude-standard'], { encoding: 'utf8' })
   .split('\n')
-  .filter((f) => f && !BINARY.test(f));
+  .filter((f) => f && !BINARY.test(f) && !UPSTREAM.test(f));
 
 let failures = 0;
 for (const file of files) {

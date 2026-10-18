@@ -57,7 +57,6 @@ export interface SeedSummary {
   warnings: Record<string, number>;
   conflicts: Record<string, number>;
   offline_db_entries_without_anidb: number;
-  em_dashes_replaced: number;
   anime_lists_entries_without_offline_db: number;
   repair_rounds: number;
 }
@@ -198,7 +197,6 @@ export async function runSeed(inputs: SeedInputs): Promise<SeedOutput> {
   files.set('conflicts.jsonl', conflictLines.length ? `${conflictLines.join('\n')}\n` : '');
 
   const summary = summarize(checked, reporter, conflicts, offline.withoutAnidb, listsWithoutOffline, rounds);
-  summary.em_dashes_replaced = offline.emDashesReplaced;
   const manifest = {
     format: 1,
     pins: { ...inputs.pins, offline_db: { ...inputs.pins.offline_db, last_update: offline.lastUpdate } },
@@ -358,7 +356,6 @@ function summarize(
     warnings: {},
     conflicts: {},
     offline_db_entries_without_anidb: withoutAnidb,
-    em_dashes_replaced: 0,
     anime_lists_entries_without_offline_db: listsWithoutOffline,
     repair_rounds: rounds,
   };

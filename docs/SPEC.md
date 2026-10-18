@@ -589,7 +589,7 @@ SQLite access in Node via `better-sqlite3` for the builder and offline client; t
 - Never call the AniDB HTTP or UDP API; never redistribute AniDB titles.
 - AniList calls only from `packages/bots` (season scanner, airing tracker), batched, respecting rate-limit headers.
 - TMDB API responses are used in CI checks only and never written to `data/` or the dumps. TMDB IDs and offsets sourced from Anime-Lists are allowed.
-- No em dashes anywhere: code comments, docs, commit messages, generated text.
+- No em dashes in anything we author: code, comments, docs, commit messages, manual YAML, generated reports. Upstream titles and synonyms in `data/seeds/` stay verbatim.
 
 ## Milestones and open questions
 

@@ -1,0 +1,8 @@
+id: examplesubs
+aliases: [ExampleSubs, ExSubs]
+overrides:
+  - { work: spy-x-family-part-2, numbering: continue_prequel }
+notes: >-
+  placeholder IDs, verify before release. ExampleSubs is a fictional group that
+  exercises the group override format against a real work. Replace it with a real
+  group and a sourced quirk, or delete it, before the first data release.

@@ -1,0 +1,9 @@
+id: spy-x-family-absolute
+members:
+  - { work: spy-x-family, episodes: 1-12, absolute_start: 1 }
+  - { work: spy-x-family-part-2, episodes: 1-13, absolute_start: 13 }
+notes: >-
+  Absolute numbering 1-25 across the split first season, matching the TVDB and
+  TMDB season 1 order in Anime-Lists (part 2 offset 12).
+sources:
+  - https://github.com/Anime-Lists/anime-lists/blob/996d6a8b98c0c8ba94378875746a83b66dc590d4/anime-list-master.xml

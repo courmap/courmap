@@ -1,0 +1,30 @@
+id: kusuriya-no-hitorigoto-2nd-season
+type: tv
+status: finished
+year: 2025
+episodes: 24
+titles:
+  romaji: Kusuriya no Hitorigoto 2nd Season
+ids:
+  anidb: 18562
+  anilist: 176301
+  mal: 58514
+  kitsu: 48649
+  tvdb_show: 431162
+  tmdb_show: 220542
+projections:
+  # Providers disagree: TVDB gives the sequel its own season 2, while TMDB continues
+  # season 1 from episode 25 (Anime-Lists defaulttvdbseason 2, tmdbseason 1, tmdboffset 24).
+  tvdb_show:
+    - { season: 2, episodes: 1-24 }
+  tmdb_show:
+    - { season: 1, episodes: 1-24, start: 25 }
+prequel: kusuriya-no-hitorigoto
+aliases:
+  - Drugstore Soliloquy 2
+notes: >-
+  Divergent-provider case. IDs and episode count from the cedya77 2026-42 release;
+  TVDB and TMDB IDs and offsets from Anime-Lists (AniDB 18562).
+sources:
+  - https://github.com/cedya77/anime-offline-database/releases/tag/2026-42
+  - https://github.com/Anime-Lists/anime-lists/blob/996d6a8b98c0c8ba94378875746a83b66dc590d4/anime-list-master.xml

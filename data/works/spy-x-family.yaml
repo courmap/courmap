@@ -1,0 +1,29 @@
+id: spy-x-family
+type: tv
+status: finished
+year: 2022
+episodes: 12
+titles:
+  romaji: Spy x Family
+  native: SPY×FAMILY
+ids:
+  anidb: 16947
+  anilist: 140960
+  mal: 50265
+  kitsu: 45398
+  tvdb_show: 405920
+  tmdb_show: 120089
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-12 }
+  tmdb_show:
+    - { season: 1, episodes: 1-12 }
+aliases:
+  - SPY x FAMILY
+  - Spy Family
+notes: >-
+  First cour of a split season; see spy-x-family-part-2. IDs and episode count
+  from the cedya77 2026-42 release; TVDB and TMDB IDs from Anime-Lists (AniDB 16947).
+sources:
+  - https://github.com/cedya77/anime-offline-database/releases/tag/2026-42
+  - https://github.com/Anime-Lists/anime-lists/blob/996d6a8b98c0c8ba94378875746a83b66dc590d4/anime-list-master.xml

@@ -1,0 +1,79 @@
+# Parser fixtures: release name -> the fields it must produce. Fields not listed are not checked.
+# Hand-written; names follow common fansub and scene conventions. No release site was consulted.
+cases:
+  - name: "[SubsPlease] Spy x Family - 13 (1080p) [ABCD1234].mkv"
+    expect: { group: SubsPlease, title: Spy x Family, episode: 13, resolution: 1080p, checksum: ABCD1234, extension: mkv, batch: false }
+  - name: "[Erai-raws] Sousou no Frieren - 05v2 [1080p][Multiple Subtitle][CAFE1234].mkv"
+    expect: { group: Erai-raws, title: Sousou no Frieren, episode: 5, version: 2, resolution: 1080p, checksum: CAFE1234 }
+  - name: "[SubsPlease] Kusuriya no Hitorigoto S2 - 01 (1080p) [AB12CD34].mkv"
+    expect: { title: Kusuriya no Hitorigoto, season: 2, episode: 1 }
+  - name: "[Group] Show 2nd Season - 03 [1080p]"
+    expect: { title: Show, season: 2, episode: 3 }
+  - name: "[Group] Show Season 3 - 07 [720p]"
+    expect: { title: Show, season: 3, episode: 7, resolution: 720p }
+  - name: "[Group] Spy x Family Part 2 - 01 [720p]"
+    expect: { title: Spy x Family, part: 2, season: null, episode: 1 }
+  - name: "[Group] Some Show Cour 2 - 05 [1080p]"
+    expect: { title: Some Show, part: 2, episode: 5 }
+  - name: "[Group] Overlord II - 04 [1080p]"
+    expect: { title: Overlord, season: 2, episode: 4 }
+  - name: "Attack on Titan S02E05 1080p WEB-DL AAC2.0 H.264"
+    expect: { title: Attack on Titan, season: 2, episode: 5, resolution: 1080p, source: webdl, video_codec: h264, audio: [aac2.0] }
+  - name: "Show.Name.S01E02v2.1080p.WEB.x264-GRP.mkv"
+    expect: { group: GRP, title: Show Name, season: 1, episode: 2, version: 2, source: web, video_codec: x264 }
+  - name: "One.Piece.E1100.1080p.WEB.H264-GRP.mkv"
+    expect: { group: GRP, title: One Piece, episode: 1100, resolution: 1080p }
+  - name: "[Group] One Piece 1100 [1080p]"
+    expect: { title: One Piece, episode: 1100 }
+  - name: "[Group] Long Show - 1000 [1080p]"
+    expect: { title: Long Show, episode: 1000 }
+  - name: "[Group] Show Name - 01-12 [BD 1080p] [Batch]"
+    expect: { title: Show Name, episode: 1, episode_to: 12, batch: true, source: bd, flags: [batch] }
+  - name: "[Group] Show Name - 01 ~ 24 [1080p]"
+    expect: { title: Show Name, episode: 1, episode_to: 24, batch: true }
+  - name: "[Group] Show Name (01-13) [BD 1080p]"
+    expect: { title: Show Name, episode: 1, episode_to: 13, batch: true }
+  - name: "[Judas] Shingeki no Kyojin (Season 1) [BD 1080p][HEVC x265 10bit][Dual-Audio][Eng-Subs] (Batch)"
+    expect: { group: Judas, title: Shingeki no Kyojin, season: 1, episode: null, batch: true, video_codec: hevc, flags: [10bit, dual-audio, batch] }
+  - name: "[Group] Kimi no Na wa. (2016) [BD 1080p FLAC]"
+    expect: { title: Kimi no Na wa., year: 2016, episode: null, audio: [flac] }
+  - name: "Kimi.no.Na.wa.2016.1080p.BluRay.x264-GRP"
+    expect: { title: Kimi no Na wa, year: 2016, episode: null, source: bluray }
+  - name: "[Group] Some Movie (2019) [1080p]"
+    expect: { title: Some Movie, year: 2019, episode: null, special: movie }
+  - name: "[Group] Frieren - SP2 [1080p]"
+    expect: { title: Frieren, episode: 2, special: special }
+  - name: "[Group] Show OVA - 02 [720p]"
+    expect: { title: Show OVA, episode: 2, special: ova }
+  - name: "[Group] Show - OVA 1 [720p]"
+    expect: { title: Show, episode: 1, special: ova }
+  - name: "[Group] Show Movie [1080p]"
+    expect: { title: Show Movie, special: movie, episode: null }
+  - name: "[ASW] Dandadan - 13 [1080p HEVC x265 10Bit][AAC]"
+    expect: { group: ASW, title: Dandadan, episode: 13, video_codec: hevc, audio: [aac], flags: [10bit] }
+  - name: "[Group] Show Name - 05 (BD 1080p Dual Audio) [ABCDEF12]"
+    expect: { episode: 5, source: bd, checksum: ABCDEF12 }
+  - name: "[Group] Show Name - Episode 07 [1080p]"
+    expect: { title: Show Name, episode: 7 }
+  - name: "[Group] Show Name EP09 [1080p]"
+    expect: { title: Show Name, episode: 9 }
+  - name: "[Group] Show Name #10 [1080p]"
+    expect: { title: Show Name, episode: 10 }
+  - name: "[Group]_Show_Name_-_11_[720p].mkv"
+    expect: { group: Group, title: Show Name, episode: 11, resolution: 720p }
+  - name: "Re:Zero kara Hajimeru Isekai Seikatsu - 26 [1080p]"
+    expect: { group: null, title: "Re:Zero kara Hajimeru Isekai Seikatsu", episode: 26 }
+  - name: "[Group] Steins;Gate 0 - 03 [1080p]"
+    expect: { title: "Steins;Gate 0", episode: 3 }
+  - name: "[Group] 86 - 05 [1080p]"
+    expect: { title: "86", episode: 5 }
+  - name: "/downloads/anime/[Group] Show Name - 04 [1080p].mkv"
+    expect: { group: Group, title: Show Name, episode: 4, extension: mkv }
+  - name: "[1080p] Show Name - 06"
+    expect: { group: null, title: Show Name, episode: 6, resolution: 1080p }
+  - name: "【Group】 Show Name - 08 【1080p】"
+    expect: { group: Group, title: Show Name, episode: 8, resolution: 1080p }
+  - name: "[Group] Show Name - 12.5 [1080p]"
+    expect: { title: Show Name, episode: 12 }
+  - name: "Show Name - 03 [Uncensored][1080p]"
+    expect: { title: Show Name, episode: 3, flags: [uncensored] }

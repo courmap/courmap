@@ -1,0 +1,117 @@
+# lookup(ref): expected works. See ../README.md for the format.
+cases:
+  - name: by AniList id, every field
+    op: lookup
+    ref: anilist:2001
+    expect:
+      data_version: conformance
+      id: simple-show
+      type: tv
+      status: finished
+      year: 2020
+      episodes: 12
+      specials: 0
+      titles: { romaji: Simple Show, english: "The Simple Show: Example", native: null }
+      ids: { anidb: "1001", anilist: "2001", mal: "3001", kitsu: "4001", tvdb_show: "5001", tmdb_show: "6001", imdb: tt0000001 }
+      projections:
+        tvdb_show:
+          - { kind: regular, ep_from: 1, ep_to: 12, season: 1, target_from: 1, target_to: null }
+        tmdb_show:
+          - { kind: regular, ep_from: 1, ep_to: 12, season: 1, target_from: 1, target_to: null }
+      prequel: null
+      sequences: []
+      aliases: [Simple Show, "The Simple Show: Example", Simple]
+
+  - name: by scoped TMDB season, with prequel and sequence membership
+    op: lookup
+    ref: tmdb_show:6002:s2
+    expect:
+      data_version: conformance
+      id: split-show-part-2
+      type: tv
+      status: finished
+      year: 2021
+      episodes: 12
+      specials: null
+      titles: { romaji: Split Show Part 2, english: null, native: null }
+      ids: { anidb: "1003", anilist: "2003", tvdb_show: "5002", tmdb_show: "6002" }
+      projections:
+        tvdb_show:
+          - { kind: regular, ep_from: 1, ep_to: 12, season: 1, target_from: 13, target_to: null }
+        tmdb_show:
+          - { kind: regular, ep_from: 1, ep_to: 12, season: 2, target_from: 1, target_to: null }
+      prequel: split-show
+      sequences:
+        - { sequence: split-show-absolute, ep_from: 1, ep_to: 12, absolute_start: 13 }
+      aliases: [Split Show Part 2]
+
+  - name: projections are ordered by kind, then ep_from; splits carry target_to
+    op: lookup
+    ref: work:specials-show
+    expect:
+      data_version: conformance
+      id: specials-show
+      type: tv
+      status: finished
+      year: 2022
+      episodes: 12
+      specials: 2
+      titles: { romaji: Specials Show, english: null, native: null }
+      ids: { anidb: "1004", anilist: "2004", tvdb_show: "5004", tmdb_show: "6004" }
+      projections:
+        tvdb_show:
+          - { kind: regular, ep_from: 1, ep_to: 11, season: 1, target_from: 1, target_to: null }
+          - { kind: regular, ep_from: 12, ep_to: 12, season: 1, target_from: 12, target_to: 13 }
+          - { kind: special, ep_from: 1, ep_to: 2, season: 0, target_from: 5, target_to: null }
+        tmdb_show:
+          - { kind: regular, ep_from: 1, ep_to: 2, season: 1, target_from: 1, target_to: 1 }
+          - { kind: regular, ep_from: 3, ep_to: 12, season: 1, target_from: 2, target_to: null }
+      prequel: null
+      sequences: []
+      aliases: [Specials Show]
+
+  - name: open-ended range and unknown episode count
+    op: lookup
+    ref: anidb:1005
+    expect:
+      data_version: conformance
+      id: long-runner
+      type: tv
+      status: airing
+      year: 2010
+      episodes: null
+      specials: null
+      titles: { romaji: Long Runner, english: null, native: null }
+      ids: { anidb: "1005", anilist: "2005", tvdb_show: "5005", tmdb_show: "6005" }
+      projections:
+        tvdb_show:
+          - { kind: regular, ep_from: 1, ep_to: 50, season: 1, target_from: 1, target_to: null }
+          - { kind: regular, ep_from: 51, ep_to: null, season: 2, target_from: 1, target_to: null }
+        tmdb_show:
+          - { kind: regular, ep_from: 1, ep_to: 100, season: 1, target_from: 1, target_to: null }
+      prequel: null
+      sequences: []
+      aliases: [Long Runner]
+
+  - name: movie by IMDb id
+    op: lookup
+    ref: imdb:tt0000007
+    expect:
+      data_version: conformance
+      id: a-movie
+      type: movie
+      status: finished
+      year: 2023
+      episodes: 1
+      specials: null
+      titles: { romaji: A Movie, english: null, native: null }
+      ids: { anidb: "1007", anilist: "2007", tmdb_movie: "7001", imdb: tt0000007 }
+      projections: {}
+      prequel: null
+      sequences: []
+      aliases: [A Movie]
+
+  - name: an unscoped TVDB id is unique when only one work uses it
+    op: lookup
+    ref: tvdb_show:5001
+    expect_id: simple-show

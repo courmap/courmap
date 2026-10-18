@@ -1,0 +1,19 @@
+id: long-runner
+type: tv
+status: airing
+year: 2010
+episodes: null
+titles:
+  romaji: Long Runner
+ids:
+  anidb: 1005
+  anilist: 2005
+  tvdb_show: 5005
+  tmdb_show: 6005
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-50 }
+    - { season: 2, episodes: 51-, start: 1 }   # open-ended
+  tmdb_show:
+    - { season: 1, episodes: 1-100 }
+notes: Conformance fixture. All IDs are fake.

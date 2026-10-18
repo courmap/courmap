@@ -1,0 +1,12 @@
+id: a-movie
+type: movie
+year: 2023
+episodes: 1
+titles:
+  romaji: A Movie
+ids:
+  anidb: 1007
+  anilist: 2007
+  tmdb_movie: 7001
+  imdb: tt0000007
+notes: Conformance fixture. All IDs are fake.

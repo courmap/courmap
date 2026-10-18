@@ -1,0 +1,5 @@
+id: split-show-absolute
+members:
+  - { work: split-show, episodes: 1-12, absolute_start: 1 }
+  - { work: split-show-part-2, episodes: 1-12, absolute_start: 13 }
+notes: Conformance fixture.

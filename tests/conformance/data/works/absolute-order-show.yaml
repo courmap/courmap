@@ -1,0 +1,14 @@
+id: absolute-order-show
+type: tv
+year: 2015
+episodes: 24
+titles:
+  romaji: Absolute Order Show
+ids:
+  anidb: 1006
+  tvdb_show: 5006
+projections:
+  # No season: this provider orders the show absolutely.
+  tvdb_show:
+    - { episodes: 1-24 }
+notes: Conformance fixture. All IDs are fake.

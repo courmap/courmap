@@ -1,0 +1,17 @@
+id: split-show
+type: tv
+year: 2021
+episodes: 12
+titles:
+  romaji: Split Show
+ids:
+  anidb: 1002
+  anilist: 2002
+  tvdb_show: 5002
+  tmdb_show: 6002
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-12 }
+  tmdb_show:
+    - { season: 1, episodes: 1-12 }
+notes: Conformance fixture. All IDs are fake.

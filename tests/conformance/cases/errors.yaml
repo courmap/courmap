@@ -1,0 +1,130 @@
+# Calls that must fail, and the error code they fail with. See ../README.md for the format.
+cases:
+  # not_found: the ref, or the episode within it, is unknown (HTTP 404)
+  - name: unknown AniList id
+    op: lookup
+    ref: anilist:9999
+    error: { code: not_found }
+
+  - name: unknown work slug
+    op: translate
+    ref: work:does-not-exist
+    episode: 1
+    targets: [anidb]
+    error: { code: not_found }
+
+  - name: TVDB season the show has no mapping for
+    op: lookup
+    ref: tvdb_show:5001:s9
+    error: { code: not_found }
+
+  - name: TVDB episode no work maps
+    op: translate
+    ref: tvdb_show:5001:s1
+    episode: 99
+    targets: [anidb]
+    error: { code: not_found }
+
+  - name: absolute number past the end of a closed sequence
+    op: translate
+    ref: absolute:split-show-absolute
+    episode: 25
+    targets: [anidb]
+    error: { code: not_found }
+
+  - name: unknown sequence
+    op: translate
+    ref: absolute:no-such-sequence
+    episode: 1
+    targets: [anidb]
+    error: { code: not_found }
+
+  # ambiguous: the ref points at more than one work
+  - name: unscoped TVDB id shared by two works
+    op: lookup
+    ref: tvdb_show:5002
+    error: { code: ambiguous, candidates: [split-show, split-show-part-2] }
+
+  - name: TVDB season shared by two works, with no episode to tell them apart
+    op: lookup
+    ref: tvdb_show:5002:s1
+    error: { code: ambiguous, candidates: [split-show, split-show-part-2] }
+
+  # invalid_input: malformed request (HTTP 400)
+  - name: not a ref
+    op: lookup
+    ref: nonsense
+    error: { code: invalid_input, field: ref }
+
+  - name: unknown provider
+    op: lookup
+    ref: crunchyroll:1
+    error: { code: invalid_input, field: ref }
+
+  - name: absolute refs name a sequence, not a work
+    op: lookup
+    ref: absolute:split-show-absolute
+    error: { code: invalid_input, field: ref }
+
+  - name: season-based ref without a season
+    op: translate
+    ref: tvdb_show:5001
+    episode: 3
+    targets: [anidb]
+    error: { code: invalid_input, field: ref }
+
+  - name: scope on a provider without seasons
+    op: translate
+    ref: anilist:2001:s1
+    episode: 1
+    targets: [anidb]
+    error: { code: invalid_input, field: ref }
+
+  - name: episode past the work's count
+    op: translate
+    ref: anilist:2001
+    episode: 13
+    targets: [anidb]
+    error: { code: invalid_input, field: episode }
+
+  - name: special past the work's specials count
+    op: translate
+    ref: anidb:1004
+    episode: S3
+    targets: [tvdb_show]
+    error: { code: invalid_input, field: episode }
+
+  - name: special through a provider that does not number specials
+    op: translate
+    ref: anilist:2004
+    episode: S1
+    targets: [tvdb_show]
+    error: { code: invalid_input, field: episode }
+
+  - name: special-prefixed episode on a season-based ref
+    op: translate
+    ref: tvdb_show:5004:s0
+    episode: S1
+    targets: [anidb]
+    error: { code: invalid_input, field: episode }
+
+  - name: episode zero
+    op: translate
+    ref: anilist:2001
+    episode: 0
+    targets: [anidb]
+    error: { code: invalid_input, field: episode }
+
+  - name: episode range instead of one episode
+    op: translate
+    ref: anilist:2001
+    episode: 1-3
+    targets: [anidb]
+    error: { code: invalid_input, field: episode }
+
+  - name: unknown target
+    op: translate
+    ref: anilist:2001
+    episode: 1
+    targets: [tvdb]
+    error: { code: invalid_input, field: targets }

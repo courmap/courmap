@@ -1,0 +1,9 @@
+id: show-ova
+type: ova
+episodes: 1
+ids:
+  anidb: 900004
+  tvdb_show: 900100
+projections:
+  tvdb_show:
+    - { season: 0, episodes: 1, start: 3 }

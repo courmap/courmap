@@ -41,7 +41,7 @@ describe('compile data/', async () => {
 
   it('writes meta', () => {
     const meta = Object.fromEntries((db.prepare('SELECT key, value FROM meta').all() as { key: string; value: string }[]).map((r) => [r.key, r.value]));
-    expect(meta).toEqual({ data_version: '2026.42', git_sha: 'test', built_at: '2026-10-17T00:00:00.000Z', schema_version: '2' });
+    expect(meta).toEqual({ data_version: '2026.42', git_sha: 'test', built_at: '2026-10-17T00:00:00.000Z', schema_version: '3' });
   });
 
   it('gives every derived table an origin column, and specials no default', () => {

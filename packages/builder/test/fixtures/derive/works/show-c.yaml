@@ -1,0 +1,9 @@
+id: show-c
+type: tv
+episodes: 10
+ids:
+  anidb: 900003
+  tvdb_show: 900100
+projections:
+  tvdb_show:
+    - { season: 2, episodes: 1-10 }

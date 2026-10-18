@@ -1,5 +1,5 @@
 /** Bumped whenever SCHEMA_SQL changes shape. Stored in meta.schema_version. */
-export const SCHEMA_VERSION = '2';
+export const SCHEMA_VERSION = '3';
 
 /** The compiled data model from docs/SPEC.md ("Compiled data model"), verbatim except that column comments are dropped. */
 export const SCHEMA_SQL = `
@@ -16,7 +16,8 @@ CREATE TABLE works (
   episodes      INTEGER,
   specials      INTEGER,
   title_romaji  TEXT, title_english TEXT, title_native TEXT,
-  prequel_id    TEXT REFERENCES works(id)
+  prequel_id    TEXT REFERENCES works(id),
+  prequel_origin TEXT
 );
 
 CREATE TABLE provider_refs (

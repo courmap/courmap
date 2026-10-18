@@ -59,8 +59,8 @@ export function expectedCounts(files: CheckedFiles): Record<Table, number> {
     works: files.works.length,
     provider_refs: refs,
     projections,
-    sequences: files.sequences.length,
-    sequence_members: files.sequences.reduce((n, s) => n + s.data.members.length, 0),
+    sequences: files.sequences.length + files.derived.sequences.length,
+    sequence_members: files.sequences.reduce((n, s) => n + s.data.members.length, 0) + files.derived.sequences.reduce((n, s) => n + s.members.length, 0),
     aliases,
     alias_trigrams: aliases,
     groups: files.groups.length,
@@ -118,8 +118,8 @@ function insertAll(db: Database.Database, records: Records, meta: Meta): void {
   const insMeta = db.prepare('INSERT INTO meta (key, value) VALUES (?, ?)');
   for (const [k, v] of Object.entries(meta)) insMeta.run(k, v);
 
-  const insWork = db.prepare(`INSERT INTO works (id, type, status, year, episodes, specials, title_romaji, title_english, title_native, prequel_id)
-    VALUES (@id, @type, @status, @year, @episodes, @specials, @romaji, @english, @native, @prequel)`);
+  const insWork = db.prepare(`INSERT INTO works (id, type, status, year, episodes, specials, title_romaji, title_english, title_native, prequel_id, prequel_origin)
+    VALUES (@id, @type, @status, @year, @episodes, @specials, @romaji, @english, @native, @prequel, @prequelOrigin)`);
   const insRef = db.prepare('INSERT INTO provider_refs (work_id, provider, provider_id, origin) VALUES (?, ?, ?, ?)');
   const insProj = db.prepare(`INSERT INTO projections (work_id, provider, kind, ep_from, ep_to, season, target_from, target_to, origin)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`);
@@ -139,6 +139,7 @@ function insertAll(db: Database.Database, records: Records, meta: Meta): void {
       english: w.titles.english,
       native: w.titles.native,
       prequel: w.prequel,
+      prequelOrigin: w.prequel === null ? null : (origins.prequel ?? null),
     });
     for (const [provider, id] of Object.entries(w.ids)) insRef.run(w.id, provider, id, origins.ids[provider as Provider]);
     for (const p of PROJECTION_PROVIDERS) {

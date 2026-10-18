@@ -1,0 +1,9 @@
+id: show-e
+type: tv
+episodes: 12
+ids:
+  anidb: 900005
+  tvdb_show: 900100
+projections:
+  tvdb_show:
+    - { season: 4, episodes: 1-12 }

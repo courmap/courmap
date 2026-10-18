@@ -1,0 +1,11 @@
+id: show-g
+type: tv
+status: upcoming
+episodes: 1
+ids:
+  anidb: 900007
+  tvdb_show: 900100
+projections:
+  tvdb_show:
+    - { season: 3, episodes: 1 }
+notes: Upcoming with a placeholder count of 1; must not extend the show-a run.

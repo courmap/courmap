@@ -7,7 +7,7 @@ export type FileKind = 'work' | 'sequence' | 'group';
 export const KIND_DIRS: Record<FileKind, string> = { work: 'works', sequence: 'sequences', group: 'groups' };
 
 /** Where rows came from; becomes the `origin` column. Hand-written files are `manual`. */
-export type Origin = 'manual' | 'bot' | 'offline-db' | 'anime-lists';
+export type Origin = 'manual' | 'bot' | 'offline-db' | 'anime-lists' | 'derived';
 export const SEED_ORIGINS: readonly Origin[] = ['bot', 'offline-db', 'anime-lists'];
 
 /** Seed shards are `data/seeds/works-NNN.jsonl`; other files in data/seeds/ are registry and reports. */

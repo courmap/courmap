@@ -27,6 +27,7 @@ function setup(works: WorkRecord[]) {
     })),
     sequences: [],
     groups: [],
+    derived: { prequels: new Map(), sequences: [], skippedRuns: 0 },
   };
   return { ds, files };
 }

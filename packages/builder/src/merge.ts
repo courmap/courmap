@@ -21,6 +21,8 @@ export interface WorkOrigins {
   projections: Partial<Record<ProjectionProvider, Origin>>;
   /** By alias text, titles included. */
   aliases: Map<string, Origin>;
+  /** Where the prequel came from, when the work has one of its own (derived ones are added later). */
+  prequel?: Origin;
 }
 
 /**
@@ -136,6 +138,11 @@ export function mergeWork(manual: { src: SourceFile; data: WorkFile } | null, se
     isManual: manual !== null,
     manual,
     seed,
-    origins: { ids: idOrigin, projections: projOrigin, aliases: aliasOrigin },
+    origins: {
+      ids: idOrigin,
+      projections: projOrigin,
+      aliases: aliasOrigin,
+      ...(data.prequel !== undefined && { prequel: has(m, 'prequel') ? ('manual' as const) : seedDefault }),
+    },
   };
 }

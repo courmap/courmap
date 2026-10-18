@@ -18,6 +18,7 @@ import { SEED_ORIGINS, type LoadedData, type SeedSource, type SourceFile } from 
 import { mergeWork, type MergedWork, type SeedWork } from './merge.js';
 import { schemaIssues } from './schema.js';
 import { readBlock, type Block } from './blocks.js';
+import { deriveFromTvdb, type Derived } from './derive.js';
 
 export interface Typed<T> {
   src: SourceFile;
@@ -29,6 +30,8 @@ export interface CheckedFiles {
   works: MergedWork[];
   sequences: Typed<SequenceFile>[];
   groups: Typed<GroupFile>[];
+  /** Prequels and absolute sequences derived from TVDB order (decisions S3.6, S3.7). */
+  derived: Derived;
 }
 
 type Code = Parameters<Reporter['report']>[1];
@@ -174,8 +177,9 @@ export function checkFiles(loaded: LoadedData, reporter: Reporter): CheckedFiles
   checkProviderIds(merged, reporter);
   checkSharedTargets(merged, reporter);
   checkSequences(sequences, works, knownIds.work, reporter);
-  checkGroups(groups, works, sequences, knownIds.work, reporter);
-  return { works: merged, sequences, groups };
+  const derived = deriveFromTvdb(merged, sequences);
+  checkGroups(groups, works, sequences, derived, knownIds.work, reporter);
+  return { works: merged, sequences, groups, derived };
 }
 
 function checkSeedOrigin(origin: unknown): string | null {
@@ -459,8 +463,16 @@ function checkDefaultSequences(memberships: Map<string, Map<string, { src: Sourc
 
 const fmtAbs = (a: { from: number; to: number | null }) => (a.to === null ? `${a.from}-` : `${a.from}-${a.to}`);
 
-function checkGroups(groups: Typed<GroupFile>[], works: Map<string, MergedWork>, seqs: Typed<SequenceFile>[], knownWorks: Set<string>, reporter: Reporter): void {
+function checkGroups(
+  groups: Typed<GroupFile>[],
+  works: Map<string, MergedWork>,
+  seqs: Typed<SequenceFile>[],
+  derived: Derived,
+  knownWorks: Set<string>,
+  reporter: Reporter,
+): void {
   const seqMembers = new Map(seqs.map((s) => [s.data.id, new Set(s.data.members.map((m) => m.work))]));
+  for (const s of derived.sequences) seqMembers.set(s.id, new Set(s.members.map((m) => m.work)));
   const aliasOwner = new Map<string, string>();
   for (const { src, data: g } of groups) {
     (g.aliases ?? []).forEach((alias, i) => {
@@ -480,7 +492,7 @@ function checkGroups(groups: Typed<GroupFile>[], works: Map<string, MergedWork>,
         else if (!seqMembers.has(o.sequence)) at('sequence', 'override-sequence', `sequence "${o.sequence}" is not in data/sequences/`);
         else if (!seqMembers.get(o.sequence)!.has(o.work)) at('sequence', 'override-sequence', `work "${o.work}" is not a member of sequence "${o.sequence}"`);
       }
-      if (o.numbering === 'continue_prequel' && works.get(o.work) && works.get(o.work)!.data.prequel === undefined) {
+      if (o.numbering === 'continue_prequel' && works.get(o.work) && works.get(o.work)!.data.prequel === undefined && !derived.prequels.has(o.work)) {
         at('numbering', 'missing-prequel', `continue_prequel needs work "${o.work}" to have a prequel`);
       }
     });

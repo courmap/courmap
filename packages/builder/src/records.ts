@@ -80,11 +80,12 @@ export function toRecords(files: CheckedFiles): Records {
       titles,
       ids,
       projections,
-      prequel: w.prequel ?? null,
+      prequel: w.prequel ?? files.derived.prequels.get(w.id) ?? null,
       sequences: [],
       aliases,
     });
-    records.origins.works.set(w.id, origins);
+    const derivedPrequel = w.prequel === undefined && files.derived.prequels.has(w.id);
+    records.origins.works.set(w.id, derivedPrequel ? { ...origins, prequel: 'derived' } : origins);
   }
 
   // A work's default sequence: its only one, or the one where a member for it says default: true.
@@ -116,6 +117,14 @@ export function toRecords(files: CheckedFiles): Records {
         default: isDefault(m.work, s.id),
       };
       records.works.get(m.work)?.sequences.push(membership);
+    }
+  }
+  // Derived sequences: a work is in at most one (one TVDB show) and never in a manual one, so it is the default.
+  for (const s of files.derived.sequences) {
+    records.sequences.set(s.id, { id: s.id, members: s.members });
+    records.origins.sequences.set(s.id, 'derived');
+    for (const m of s.members) {
+      records.works.get(m.work)?.sequences.push({ sequence: s.id, ep_from: m.ep_from, ep_to: m.ep_to, absolute_start: m.absolute_start, default: true });
     }
   }
   for (const w of records.works.values()) {

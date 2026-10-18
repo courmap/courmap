@@ -333,7 +333,7 @@ Episodes may be passed as numbers or strings (`5`, `"5"`, `"S1"`). A scope on a 
 Resolution is parse, match, interpret, score. Each step records a reason string, so every answer explains itself and every wrong answer is debuggable from the response alone.
 
 1. **Parse.** An anitopy-style tokenizer extracts group, title, season token, episode (single, range, or version like `05v2`), resolution, source, codec, audio/sub flags and batch markers. The parser is a separate package with its own fixture corpus.
-2. **Normalize the title.** Lowercase, fold macrons and full-width characters, strip punctuation and filler words (`the`, `season`, `part`, `cour`), collapse spaces.
+2. **Normalize the title.** NFKC, then one folding table: `×` becomes `x`; stars, music notes, hearts, colons and CJK or full-width punctuation become spaces. Then lowercase, fold macrons, strip other punctuation and filler words (`the`, `season`, `part`, `cour`), collapse spaces. The same function builds `aliases.normalized`.
 3. **Match candidates.**
     1. Exact hit on `aliases.normalized`.
     2. No exact hit: trigram FTS search, keep the top 10 above a similarity floor.

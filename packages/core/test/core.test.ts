@@ -51,8 +51,34 @@ describe('normalizeTitle', () => {
   it('folds case, punctuation, apostrophes, macrons and full-width characters', () => {
     expect(normalizeTitle("Frieren: Beyond Journey's End")).toBe('frieren beyond journeys end');
     expect(normalizeTitle('Shingeki no Kyōjin')).toBe('shingeki no kyojin');
-    expect(normalizeTitle('ＳＰＹ×ＦＡＭＩＬＹ')).toBe('spy family');
+    expect(normalizeTitle('ＳＰＹ×ＦＡＭＩＬＹ')).toBe('spy x family');
     expect(normalizeTitle('葬送のフリーレン')).toBe('葬送のフリーレン');
+  });
+
+  it.each([
+    ['multiplication sign reads as x', 'SPY×FAMILY', 'spy x family'],
+    ['spaced multiplication sign', 'Hunter × Hunter', 'hunter x hunter'],
+    ['white star', 'Kirarin☆Revolution', 'kirarin revolution'],
+    ['black star', 'Star★Twinkle', 'star twinkle'],
+    ['eighth note', 'Uta no Prince-sama♪', 'uta no prince sama'],
+    ['colon', 'Re:Zero', 're zero'],
+    ['full-width colon', 'Re：Zero', 're zero'],
+    ['full-width exclamation and question marks', 'Ｋ－ＯＮ！！？', 'k on'],
+    ['katakana middle dot', 'ソードアート・オンライン', 'ソードアート オンライン'],
+    ['wave dash and corner brackets', '「ゆるキャン△」〜ふゆ〜', 'ゆるキャン ふゆ'],
+    ['ideographic comma and full stop', 'けいおん、です。', 'けいおん です'],
+  ])('folds %s', (_name, input, expected) => {
+    expect(normalizeTitle(input)).toBe(expected);
+  });
+
+  it('keeps kana voicing marks: ha, ba and pa stay distinct', () => {
+    expect(new Set(['ハル', 'バル', 'パル'].map(normalizeTitle)).size).toBe(3);
+    expect(normalizeTitle('Shōnen')).toBe('shonen');
+  });
+
+  it('matches the same title written either way', () => {
+    expect(normalizeTitle('SPY×FAMILY')).toBe(normalizeTitle('Spy x Family'));
+    expect(normalizeTitle('Re：ゼロから始める異世界生活')).toBe(normalizeTitle('Re:ゼロから始める異世界生活'));
   });
 
   it('drops filler words', () => {

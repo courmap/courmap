@@ -41,7 +41,10 @@ jobs:
       - name: Compile to SQLite (row counts, integrity_check)
         run: pnpm compile --out out/courmap.sqlite
 
-      - name: Tests (broken fixtures, round trips, conformance)
+      - name: Generate static shards from the dump
+        run: pnpm builder shards --from out/courmap.sqlite --out out/shards/v1
+
+      - name: Tests (broken fixtures, round trips, conformance in every mode)
         run: pnpm test
 
       - name: Build publishable packages

@@ -83,7 +83,7 @@ Choices made where `docs/SPEC.md` was ambiguous, silent or seemed wrong. One ent
 10. **Ref syntax is our own** (decided by Xwolv). anibridge-mappings uses the same `s{n}` season scope, but scopes AniDB refs by episode type, splits IMDb into `imdb_movie`/`imdb_show`, always requires a season scope on show providers and has no Kitsu. We keep our syntax, and the spec no longer claims it matches.
 11. **No fictional group in data/** (decided by Xwolv). `data/groups/examplesubs.yaml` is deleted; test fixtures keep their own fake groups.
 12. **Seeds are sharded JSONL** (decided by Xwolv) under `data/seeds/` (`works-000.jsonl`, ...), each shard kept to a few MB, never one YAML file per seeded work. Hand-written mappings stay YAML in `data/works/`.
-13. **README banner is `assets/banner.png`** (decided by Xwolv). Dan is adding `assets/logo.png` and `assets/banner.png`; until then the README image link is broken on purpose.
+13. **README banner is `assets/banner.png`** (decided by Xwolv). Xwolv provided `assets/logo.png` and `assets/banner.png`; both are committed and the README image works. (`assets/courmap-banner.png` is a byte-identical earlier copy.)
 
 ## Seeds and merge (builder)
 
@@ -118,3 +118,11 @@ Choices made where `docs/SPEC.md` was ambiguous, silent or seemed wrong. One ent
 - **`meta.json` carries `counts` and `dumps: null`** until the release workflow (step 8) fills in dump URLs. `aliases.json.zst` waits for step 7. Rationale: do not build ahead.
 - **The remote client trusts `meta.json` for an hour** (configurable) and caches every other file by `data_version`, in memory and optionally on disk under `<cacheDir>/<data_version>/`; a 404 is cached as "no such record". `node:fs` is imported only when a disk cache is used. Rationale: the caching contract, and keeping the remote client loadable in the future Worker.
 - **The generator refuses to replace a non-empty directory without `meta.json`.** Rationale: it deletes its output directory first, so a mistyped `--out` must not wipe unrelated files.
+
+## Decided by Xwolv (2026-10-18, session 3)
+
+Numbered as Xwolv numbered them for this session.
+
+- **S3.0 The project owner is Xwolv** (decided by Xwolv). Every mention of the owner in the repo names Xwolv.
+- **S3.1 Merge reading confirmed** (decided by Xwolv): any key a manual file sets wins, manual aliases are added to the seed's, and `null` removes a seed value, as implemented in session 2 (see decision 1 above).
+- **S3.2 HTTP 409 for `ambiguous` is accepted** (decided by Xwolv). It is now the spec, not only our choice (see decision 8 above).

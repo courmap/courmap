@@ -33,7 +33,7 @@ Every provider maps to one canonical hub, never to each other. With 8 providers,
 | Absolute sequence | An ordered chain of works numbered continuously, the way fansubs number long series. | Cour 1 eps 1-25 = abs 1-25, cour 2 eps 1-12 = abs 26-37 |
 | Group override | A release group's known numbering quirk for a work. | Group X numbers cour 2 as 13-24 |
 
-The `provider:id[:scope]` format deliberately matches the convention used by anibridge-mappings, so imports and exports stay cheap.
+The `provider:id[:scope]` format is Courmap's own. It resembles the descriptors of anibridge-mappings (both write season scopes as `s{n}`) but is not compatible with them: anibridge scopes AniDB refs by episode type (`anidb:1:S`), splits IMDb into `imdb_movie` and `imdb_show`, always requires a season scope on show providers, and has no Kitsu. Exchanging data with anibridge needs a small adapter.
 
 ## Mapping file format
 
@@ -225,7 +225,23 @@ The API is a client library contract first and an HTTP surface second. The same 
 | Search | `search(query): Promise<WorkSummary[]>` | `GET /v1/search?q=frieren` | `aliases.json.zst` |
 | Meta | `meta(): Promise<Meta>` | static `/v1/meta.json` | `meta.json` |
 
-Library modes: `createRemoteClient(baseUrl)` fetches shards on demand with an on-disk cache keyed by `data_version`; `createOfflineClient(dumpPath)` reads the SQLite dump with no network at all. Results must be identical across modes, enforced by a shared conformance test suite in CI.
+Library modes: `createRemoteClient(baseUrl)` fetches shards on demand with an on-disk cache keyed by `data_version`; `createOfflineClient(dumpPath)` reads the SQLite dump with no network at all. Results must be identical across modes, enforced by a shared conformance test suite in CI (`tests/conformance/`).
+
+**Refs**
+
+| Ref | Meaning | Episode argument |
+| --- | --- | --- |
+| `anidb:ID`, `anilist:ID`, `mal:ID`, `kitsu:ID` | Canonical providers: their numbering is the work's own | Canonical number. Only `anidb` takes specials and other kinds (`"S1"`, `"C2"`) |
+| `tvdb_show:ID:sN`, `tmdb_show:ID:sN` | Season-based providers. The `:sN` scope is required (`:s0` for specials), unless the work has a seasonless projection, which is addressed with no scope | Provider episode number in that season, reversed through the projection |
+| `tmdb_movie:ID`, `imdb:ttID` | Id-only providers: they identify a work but have no episode numbering | Read as canonical |
+| `work:SLUG` | The canonical hub itself | Canonical number or kind-prefixed (`"S1"`) |
+| `absolute:SEQUENCE` | An absolute sequence (translate source only) | Absolute number |
+
+Episodes may be passed as numbers or strings (`5`, `"5"`, `"S1"`). A scope on a provider without seasons, or a missing scope on a seasonal ref, is `invalid_input`.
+
+**Lookup** returns the work's full record (`works/{id}.json`) plus `data_version`: ids (every ID as a string), projections ordered by provider, kind and `ep_from`, sequence memberships, titles and aliases. Absent values are `null`. A ref that several works share (an unscoped TVDB show, or one TVDB season two cours share) is `ambiguous`, never a silent pick.
+
+**Translate** resolves the input to one hub point, then projects it to each target. Targets are provider names or `absolute`. Canonical providers return `{ id, episode }` (plus `kind` for non-regular episodes, AniDB only); season-based providers return `{ id, season, episode }` (no `season` for seasonless orderings); id-only providers return `{ id }`; `absolute` returns `{ sequence, episode }`. When one canonical episode spans several provider episodes, or a provider episode merges several canonical ones, results and `work` carry `episode_to`. Optional fields are omitted rather than null.
 
 **Translate response**
 
@@ -265,9 +281,16 @@ Library modes: `createRemoteClient(baseUrl)` fetches shards on demand with an on
 
 **Ambiguity and failure**
 
-- `status: "ambiguous"` (HTTP 200): no candidate clears the confidence floor or two are within 0.1 of each other. `match` is null, `candidates` holds each with its score and reason.
-- `status: "unmapped"` (HTTP 200): the work is known but the target provider has no projection for that episode; `unmapped` lists which targets failed.
-- HTTP 404: the input ref is unknown. HTTP 400: malformed input, with a field-level error list.
+- `status: "ambiguous"` (HTTP 200, resolve only): no candidate clears the confidence floor or two are within 0.1 of each other. `match` is null, `candidates` holds each with its score and reason.
+- `status: "unmapped"` (HTTP 200): the work is known but at least one target has no mapping for that episode. This is partial success: every target that did map is still in `results`, and `unmapped` lists the ones that failed.
+- Lookup and translate failures are errors, thrown by the library as `CourmapError` and returned by the Worker as JSON `{ code, message, field?, candidates? }`:
+
+| `code` | HTTP | When |
+| --- | --- | --- |
+| `invalid_input` | 400 | Malformed ref, episode or target; missing or unexpected `:sN` scope; an episode past the work's episode or specials count; a special through a provider that does not number specials. `field` names the input (`ref`, `episode`, `targets`) |
+| `not_found` | 404 | Unknown ref, work or sequence, or a provider episode (or absolute number) no work maps |
+| `ambiguous` | 409 | The ref, or the provider episode, matches several works. `candidates` lists their ids, sorted |
+
 - The API never returns a low-confidence guess as `ok`. Clients decide what to do with ambiguity; Sonarr-style tools will typically surface it for manual import.
 
 ## Release name resolution
@@ -327,7 +350,7 @@ Published dumps are licensed ODbL 1.0 + DbCL 1.0, because the ID backbone comes 
 | [Fribb/anime-lists](https://github.com/Fribb/anime-lists) | Merge of the two above plus TMDB API lookups | No LICENSE file; does not accept corrections | Dropped. Its merge on AniDB ID is trivial to reproduce from the upstreams, which also keeps TMDB-derived data out |
 | AniDB title dump (`anime-titles.xml.gz`) | Official titles in every language | Reported as CC BY-NC-SA 4.0 (policy page not directly verifiable); max one download per day with an identifying User-Agent | Not redistributed: the NC clause conflicts with ODbL. Optional client-side enrichment only. AniDB IDs are referenced as facts |
 | [AniList GraphQL](https://docs.anilist.co/guide/terms-of-use) | Airing status, episode counts and sequel relations for the bots | Free non-commercial; no mass collection or hoarding; currently degraded to 30 req/min | Season scanner and airing tracker only: current and next season, batched, a handful of requests a day. Never used to build the alias index |
-| [TMDB API](https://developer.themoviedb.org/docs/faq) | Season structures to validate TMDB projections in CI | Free non-commercial with attribution; data may not be cached over six months or sublicensed | CI validation only. Never stored or served; only our own asserted season/episode numbers are published |
+| [TMDB API](https://developer.themoviedb.org/docs/faq) | Season structures to validate TMDB projections in CI | Free non-commercial with attribution; data may not be cached over six months or sublicensed | CI validation only. TMDB API responses never enter `data/` or the dumps; only our own asserted season/episode numbers are published. TMDB IDs and offsets that come from Anime-Lists are Anime-Lists data, not TMDB API data, and are stored with `origin: anime-lists` |
 | TVDB API | None | Not reviewed | Not used. TVDB numbering comes from Anime-Lists and contributor PRs |
 
 **Rules for the builder**
@@ -520,7 +543,7 @@ SQLite access in Node via `better-sqlite3` for the builder and offline client; t
 
 - Never call the AniDB HTTP or UDP API; never redistribute AniDB titles.
 - AniList calls only from `packages/bots` (season scanner, airing tracker), batched, respecting rate-limit headers.
-- TMDB data is used in CI checks only and never written to `data/` or the dumps.
+- TMDB API responses are used in CI checks only and never written to `data/` or the dumps. TMDB IDs and offsets sourced from Anime-Lists are allowed.
 - No em dashes anywhere: code comments, docs, commit messages, generated text.
 
 ## Milestones and open questions

@@ -1,4 +1,4 @@
-![Courmap](assets/courmap-banner.png)
+![Courmap](assets/banner.png)
 
 # Courmap
 

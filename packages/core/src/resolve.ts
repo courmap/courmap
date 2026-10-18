@@ -209,7 +209,13 @@ async function place(ctx: Ctx, w: WorkRecord): Promise<Placement> {
   // Only a season token names a TVDB season; part and cour tokens do not.
   const season = p.season;
   // Movies are matched by title and year; their numbering is not interpreted (decision S3.8).
-  if (w.type === 'movie') return { work: w, episode: null, episodeTo: null, fit: 1, viaTvdbSeason: false, reason: 'a movie, matched by title' };
+  if (w.type === 'movie') {
+    // An episode number with no movie marker is weak evidence for a movie.
+    if (p.episode !== null && p.special !== 'movie') {
+      return { work: w, episode: null, episodeTo: null, fit: MISMATCH, viaTvdbSeason: false, reason: 'a movie, but the release has an episode number' };
+    }
+    return { work: w, episode: null, episodeTo: null, fit: 1, viaTvdbSeason: false, reason: 'a movie, matched by title' };
+  }
   if (p.episode === null) {
     if (p.batch && w.episodes !== null) return { work: w, episode: 1, episodeTo: w.episodes, fit: 1, viaTvdbSeason: false, reason: `a batch of all ${w.episodes} episodes` };
     return { work: w, episode: null, episodeTo: null, fit: 0.3, viaTvdbSeason: false, reason: 'no episode number' };

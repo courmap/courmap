@@ -54,7 +54,7 @@ cases:
   - name: an alias two works share, with nothing to break the tie
     op: resolve
     release: "[Other] Twin Title - 01"
-    expect_resolve: { status: ambiguous, top: [absolute-order-show, parted-movie] }
+    expect_resolve: { status: ambiguous, top: [absolute-order-show, split-show] }
 
   - name: no candidate at all
     op: resolve

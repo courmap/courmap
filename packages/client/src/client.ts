@@ -2,7 +2,7 @@ import { lookup, translate, type Dataset, type EpisodeInput, type Meta, type Tra
 
 /**
  * The client contract from docs/SPEC.md. resolve() and search() join it in build step 7,
- * once packages/parser exists; createRemoteClient() arrives in step 6 as another Dataset.
+ * once packages/parser exists. Offline (SQLite) and remote (static shards) are both Datasets.
  */
 export interface CourmapClient {
   /** The work a ref points at. Rejects with CourmapError (not_found, invalid_input, ambiguous). */

@@ -33,4 +33,4 @@ Absent values are `null` in results (for example `titles.native`, `specials`, `p
 
 ## Runners
 
-- TypeScript: `packages/client/test/conformance.test.ts`, run by `pnpm test`.
+- TypeScript: `packages/client/test/conformance.test.ts`, run by `pnpm test`. It runs every case in three modes: offline (the SQLite dump), remote (shards generated from that dump with `pnpm builder shards`, served over HTTP from a local server) and the builder's in-memory dataset.

@@ -25,7 +25,7 @@ Instructions for agents working in this repo. `docs/SPEC.md` is the source of tr
 - Workspace packages export TypeScript source under the `@courmap/source` export condition. `tsx`, Vitest and `tsc` (via `customConditions`) all use it, so nothing needs building for dev, tests or CI. `pnpm build` emits `dist/` for publishing.
 - Imports between files use `.js` extensions (NodeNext resolution).
 - `schema/*.schema.json` is the source of truth for the YAML formats. `packages/core/src/generated/` is generated from it by `pnpm gen:types`; never hand-edit it. CI fails if it is stale.
-- Translation logic lives once, in `packages/core/src/engine.ts`, over the async `Dataset` interface. The builder (in-memory, for round-trip checks), the offline client (SQLite) and the future remote client (shards) are just `Dataset` implementations, which is what keeps results identical across modes.
+- Translation logic lives once, in `packages/core/src/engine.ts`, over the async `Dataset` interface. The builder (in-memory, for round-trip checks), the offline client (SQLite, via `DumpDataset` in core) and the remote client (static shards) are just `Dataset` implementations, which is what keeps results identical across modes. The shard generator writes exactly what `DumpDataset` returns.
 - `tests/conformance/` holds language-neutral cases and a fixture dataset; every client implementation must pass them.
 
 ## Commands
@@ -35,6 +35,7 @@ pnpm install
 pnpm validate                 # schema, merge, overlap, bounds, reference and round-trip checks on data/
 pnpm fixtures:expect <name>   # record a reviewed validate fixture's diagnostics
 pnpm compile --out out/courmap.sqlite
+pnpm builder shards --from out/courmap.sqlite --out out/shards/v1
 pnpm seed                     # rebuild data/seeds/ from the pins in its manifest (--latest for new pins, --verify to check reproducibility)
 pnpm test                     # unit tests, broken-fixture tests, conformance suite
 pnpm check                    # everything CI runs

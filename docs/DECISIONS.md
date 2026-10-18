@@ -112,3 +112,9 @@ Choices made where `docs/SPEC.md` was ambiguous, silent or seemed wrong. One ent
 ## Static shards and remote mode
 
 - **Work-keyed indexes added to the dump** (`idx_proj_work`, `idx_alias_work`, `idx_members_work`). Rationale: the spec's indexes all lead with provider or normalized text, so reading one work scanned every alias row (16 ms per lookup on the seeded dump; shard generation took over 4 minutes, now 5 seconds).
+- **The shard generator reads the dump through `DumpDataset`,** the same code the offline client uses, and writes each record as returned. Rationale: offline and remote results cannot drift apart if one code path produces both.
+- **Refs shards map each provider ID to a sorted list of work ids,** since TVDB, TMDB TV and IMDb IDs are shared. Rationale: lookup must see every candidate to report ambiguity.
+- **IMDb refs are sharded by the digits after `tt`,** with the same floor(n / 1000) rule. Rationale: "first 2 chars" would put every IMDb ID in one `tt` shard.
+- **`meta.json` carries `counts` and `dumps: null`** until the release workflow (step 8) fills in dump URLs. `aliases.json.zst` waits for step 7. Rationale: do not build ahead.
+- **The remote client trusts `meta.json` for an hour** (configurable) and caches every other file by `data_version`, in memory and optionally on disk under `<cacheDir>/<data_version>/`; a 404 is cached as "no such record". `node:fs` is imported only when a disk cache is used. Rationale: the caching contract, and keeping the remote client loadable in the future Worker.
+- **The generator refuses to replace a non-empty directory without `meta.json`.** Rationale: it deletes its output directory first, so a mistyped `--out` must not wipe unrelated files.

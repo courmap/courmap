@@ -18,92 +18,92 @@
   "shards": [
     {
       "name": "works-000.jsonl",
-      "works": 933,
-      "sha256": "613f93ab531f880005427a8b3a9143a95a06b1c3dd2ce1f1d5c88ae6d96cd6d0"
+      "works": 2066,
+      "sha256": "a24f10b7bf5d5cf21012a7d36df2457c1adfc07b57392366acba767ab238991e"
     },
     {
       "name": "works-001.jsonl",
-      "works": 904,
-      "sha256": "f0182974402993f879273f3d033777ff6721c37b7dc77db519b3baa28e211d3c"
+      "works": 2055,
+      "sha256": "374949e9c76587a1588300a19d01ab1a4883aa8bda39b191a916df09ad287f54"
     },
     {
       "name": "works-002.jsonl",
-      "works": 936,
-      "sha256": "dfad1f5e835922e59dd06e886164130a822adce7c7219af19afdd2986f9cdc0e"
+      "works": 2083,
+      "sha256": "9c7a7a5e72badd2ee0900018468773cbc885608513fab318ebcac5d93ec93d5d"
     },
     {
       "name": "works-003.jsonl",
-      "works": 881,
-      "sha256": "f11ad9a74b62079831f3365a39ac8aa33a163d0a6c3d4ca58c6e683dcbac32f4"
+      "works": 2039,
+      "sha256": "e43c23676dfa28fb97a01cec4589017ad96ad4c1fae4c3334d544384b28e073d"
     },
     {
       "name": "works-004.jsonl",
-      "works": 913,
-      "sha256": "4d8d6747bd69df7b9900d996a6c42379e9b003ba3e15e5a83bc8ec821ccd4ac3"
+      "works": 2007,
+      "sha256": "0cf16b803f542cc8578fd668531d4eefbc243d99088cadeb8616704b04973da6"
     },
     {
       "name": "works-005.jsonl",
-      "works": 908,
-      "sha256": "6932f02a46d68eab0fe3980005bb8254b8820136c467c48bd10327aca954acf7"
+      "works": 2016,
+      "sha256": "fe1919da27123cb8acc0b90ca7d085226a3a08d90594407b551a34cdb5ce4eb5"
     },
     {
       "name": "works-006.jsonl",
-      "works": 942,
-      "sha256": "f13fafded25522c5f8356e37134796ad36f2fcba2afca52fd6f2c0d79013dfe9"
+      "works": 2098,
+      "sha256": "4a0eabdb280f35467e0e5747557b823ef453904258d0a2f731dbc00d0fb8262a"
     },
     {
       "name": "works-007.jsonl",
-      "works": 924,
-      "sha256": "e9a6f2629d1786cdd128e82c85bde17f2e30e6d6a578c16ce959b7f2f55a23e8"
+      "works": 2056,
+      "sha256": "cbf2a83e9c4d78d553ec4c6f68c907fa0e2f5990ca337e7e04c0cd5adc4789b0"
     },
     {
       "name": "works-008.jsonl",
-      "works": 852,
-      "sha256": "aa2ca084016011a27767796701e6cc51c0f40294adb98e178c0d82c56bd25cb1"
+      "works": 2057,
+      "sha256": "0c420373d4fbc1e5690cd5bb47780dc3d3c24a806d8250c2d756b20fbe593137"
     },
     {
       "name": "works-009.jsonl",
-      "works": 925,
-      "sha256": "45115559baa2126771c69797a31f10f2a1daaca82973f2136f270c3c7337c019"
+      "works": 2039,
+      "sha256": "ce90408a6537e823f77c3d444b5da60593be5774db1ad86737e4fe1cadbbf0de"
     },
     {
       "name": "works-010.jsonl",
-      "works": 929,
-      "sha256": "9f6b2593c28c651f757a3862fe1e320ac7b377d4e63a5a80be0fc88ecf03b3a7"
+      "works": 2088,
+      "sha256": "376cbac857c129614dc3137de7a0a1b2867ab32a41a69d8d83c9104be9acfb24"
     },
     {
       "name": "works-011.jsonl",
-      "works": 924,
-      "sha256": "2e692f8a575e13e6d6101178430b251fdb7330325d29327aab14263eac83536b"
+      "works": 2034,
+      "sha256": "6632f9f686956e89a7842c4801ce71731cd5f3a89d39bb26feb39df357913f08"
     },
     {
       "name": "works-012.jsonl",
-      "works": 912,
-      "sha256": "80b0c8745a6f8837392774b67655068acf4229d8f459b1986866de02e3e9ab90"
+      "works": 2037,
+      "sha256": "a5bbbc8605584eb27e14f72ca5c71d5bed74eb697aed3f4537bdec1b59e8e0e3"
     },
     {
       "name": "works-013.jsonl",
-      "works": 930,
-      "sha256": "45dfb5264b974381e2e145b4d41db5d00a990a40e4ebc955b296fa69b7197809"
+      "works": 2070,
+      "sha256": "6cc3167bcd5ee8f7c623954f3fcf867b325b36bf609be0f6244241b134f1a9bc"
     },
     {
       "name": "works-014.jsonl",
-      "works": 940,
-      "sha256": "4162f973f705ecedc7612bdd99a592f1cbd717798b9674a32dd5ff0ad68d2129"
+      "works": 2025,
+      "sha256": "421f3fa9b89490cebdbc5852cb05a1fb37eb26980a5a5f0c01a7f272d1ad636b"
     },
     {
       "name": "works-015.jsonl",
-      "works": 924,
-      "sha256": "11a8ec4d9e31db7c12ad1e86852cfcdbc442a3a3b38e4026ab74d2c54bc4dd01"
+      "works": 2063,
+      "sha256": "5630362d3655abd1b980b9288d92a0ef3f029dcb0ae26c60eeb030d84e0dbf5a"
     }
   ],
   "summary": {
-    "works": 14677,
+    "works": 32833,
     "provider_refs": {
       "anidb": 14677,
-      "anilist": 13442,
-      "mal": 14041,
-      "kitsu": 13307,
+      "anilist": 20828,
+      "mal": 30841,
+      "kitsu": 20778,
       "tmdb_movie": 1325,
       "tvdb_show": 7467,
       "tmdb_show": 7048,
@@ -133,13 +133,16 @@
       "anime-lists-split-not-consecutive": 39,
       "anime-lists-unsupported-mapping": 1,
       "offline-db-merged-anidb": 4,
-      "offline-db-multiple-ids": 33,
-      "offline-db-unknown-status": 3,
-      "offline-db-unknown-type": 2,
+      "offline-db-multiple-ids": 86,
+      "offline-db-no-episode-count": 6,
+      "offline-db-unknown-status": 6,
+      "offline-db-unknown-type": 38,
       "validate-duplicate-provider-id": 4,
       "validate-target-overlap": 276
     },
-    "offline_db_entries_without_anidb": 23626,
+    "offline_db_entries_without_anchor": 5428,
+    "seeded_without_anidb": 18156,
+    "seeded_without_anidb_with_projections": 0,
     "anime_lists_entries_without_offline_db": 2376,
     "repair_rounds": 2
   }

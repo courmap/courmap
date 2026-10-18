@@ -35,6 +35,7 @@ pnpm install
 pnpm validate                 # schema, merge, overlap, bounds, reference and round-trip checks on data/
 pnpm fixtures:expect <name>   # record a reviewed validate fixture's diagnostics
 pnpm compile --out out/courmap.sqlite
+pnpm seed                     # rebuild data/seeds/ from the pins in its manifest (--latest for new pins, --verify to check reproducibility)
 pnpm test                     # unit tests, broken-fixture tests, conformance suite
 pnpm check                    # everything CI runs
 ```

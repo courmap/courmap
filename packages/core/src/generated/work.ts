@@ -3,6 +3,10 @@
 export type Text = string;
 export type NumericId = number;
 /**
+ * One provider's projection: a list of ranges, or an object when coverage needs a note.
+ */
+export type ProjectionBlock = ProjectionList | ProjectionBlockObject;
+/**
  * @minItems 1
  */
 export type ProjectionList = [ProjectionEntry, ...ProjectionEntry[]];
@@ -67,8 +71,8 @@ export interface WorkIds {
  * How season-based providers lay out this work's episodes.
  */
 export interface WorkProjections {
-  tvdb_show?: ProjectionList;
-  tmdb_show?: ProjectionList;
+  tvdb_show?: ProjectionBlock;
+  tmdb_show?: ProjectionBlock;
 }
 export interface ProjectionEntry {
   episodes: EpisodeRange;
@@ -89,4 +93,15 @@ export interface ProjectionEntry {
    * Marks that the canonical episodes just before this range are intentionally unmapped.
    */
   gap?: boolean;
+}
+export interface ProjectionBlockObject {
+  /**
+   * partial: the ranges intentionally stop before the work's last episode. Requires notes.
+   */
+  coverage?: 'full' | 'partial';
+  /**
+   * Why coverage is partial (for example: the provider has not listed the later episodes).
+   */
+  notes?: string;
+  ranges: ProjectionList;
 }

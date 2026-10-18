@@ -12,6 +12,7 @@ import {
 } from '@courmap/core';
 import { parseEntry, type CheckedFiles } from './checks.js';
 import type { Origin } from './load.js';
+import { readBlock } from './blocks.js';
 
 export interface GroupRecord {
   id: string;
@@ -49,8 +50,9 @@ export function toRecords(files: CheckedFiles): Records {
     }
     const projections: WorkRecord['projections'] = {};
     for (const p of PROJECTION_PROVIDERS) {
-      const entries = w.projections?.[p];
-      if (!entries) continue;
+      const written = w.projections?.[p];
+      if (!written) continue;
+      const entries = readBlock(written, p).ranges;
       projections[p] = entries
         .map((e, i) => {
           const parsed = parseEntry(e, i, (_c, _f, msg) => {

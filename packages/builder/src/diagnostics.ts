@@ -16,6 +16,8 @@ export type DiagnosticCode =
   | 'overlap'
   | 'gap'
   | 'gap-marker-unused'
+  | 'coverage-notes'
+  | 'coverage-unused'
   | 'target-overlap'
   | 'unknown-work'
   | 'duplicate-provider-id'

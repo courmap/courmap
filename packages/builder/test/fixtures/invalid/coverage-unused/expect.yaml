@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: coverage-unused
+    file: works/full.yaml
+    line: 9
+    message: "coverage: partial is set but the ranges reach the last episode"

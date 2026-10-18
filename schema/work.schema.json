@@ -104,10 +104,10 @@
       "additionalProperties": false,
       "properties": {
         "tvdb_show": {
-          "$ref": "#/$defs/projectionList"
+          "$ref": "#/$defs/projectionBlock"
         },
         "tmdb_show": {
-          "$ref": "#/$defs/projectionList"
+          "$ref": "#/$defs/projectionBlock"
         }
       }
     },
@@ -227,6 +227,40 @@
       "items": {
         "$ref": "#/$defs/projection"
       }
+    },
+    "projectionBlock": {
+      "title": "ProjectionBlock",
+      "description": "One provider's projection: a list of ranges, or an object when coverage needs a note.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/projectionList"
+        },
+        {
+          "title": "ProjectionBlockObject",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "ranges"
+          ],
+          "properties": {
+            "coverage": {
+              "enum": [
+                "full",
+                "partial"
+              ],
+              "description": "partial: the ranges intentionally stop before the work's last episode. Requires notes."
+            },
+            "notes": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Why coverage is partial (for example: the provider has not listed the later episodes)."
+            },
+            "ranges": {
+              "$ref": "#/$defs/projectionList"
+            }
+          }
+        }
+      ]
     }
   }
 }

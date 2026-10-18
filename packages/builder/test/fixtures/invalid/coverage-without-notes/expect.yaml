@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: coverage-notes
+    file: works/no-notes.yaml
+    line: 9
+    message: "coverage: partial needs notes saying why the mapping stops early"

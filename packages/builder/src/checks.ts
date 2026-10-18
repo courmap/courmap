@@ -16,6 +16,7 @@ import {
 import type { Reporter } from './diagnostics.js';
 import type { SourceFile } from './load.js';
 import { schemaIssues } from './schema.js';
+import { readBlock, type Block } from './blocks.js';
 
 export interface Typed<T> {
   src: SourceFile;
@@ -142,11 +143,16 @@ function checkWork({ src, data: w }: Typed<WorkFile>, knownWorks: Set<string>, r
   }
 
   for (const provider of PROJECTION_PROVIDERS) {
-    const entries = w.projections?.[provider];
-    if (!entries) continue;
-    const base = ['projections', provider];
+    const written = w.projections?.[provider];
+    if (!written) continue;
+    const block = readBlock(written, provider);
+    const entries = block.ranges;
+    const base = block.base;
     if (w.ids?.[provider] === undefined) {
-      at(base, 'missing-provider-id', `projections.${provider} needs ids.${provider} to be set`);
+      at(['projections', provider], 'missing-provider-id', `projections.${provider} needs ids.${provider} to be set`);
+    }
+    if (block.coverage === 'partial' && block.notes === null) {
+      at(['projections', provider, 'coverage'], 'coverage-notes', 'coverage: partial needs notes saying why the mapping stops early');
     }
     const parsed: ParsedEntry[] = [];
     let unusable = false;
@@ -160,7 +166,7 @@ function checkWork({ src, data: w }: Typed<WorkFile>, knownWorks: Set<string>, r
       checkBounds(w, p, [...base, i, 'episodes'], at);
     });
     // With an entry already rejected, coverage checks would only report its absence again.
-    if (!unusable) checkOverlapsAndGaps(w, provider, parsed, base, at);
+    if (!unusable) checkOverlapsAndGaps(w, provider, parsed, block, at);
     checkLandingOverlaps(provider, parsed, base, at);
   }
 }
@@ -191,9 +197,10 @@ function checkOverlapsAndGaps(
   w: WorkFile,
   provider: ProjectionProvider,
   parsed: ParsedEntry[],
-  base: (string | number)[],
+  block: Block,
   at: (path: (string | number)[], code: Parameters<Reporter['report']>[1], msg: string) => void,
 ): void {
+  const base = block.base;
   const byKind = new Map<EpisodeKind, ParsedEntry[]>();
   for (const p of parsed) byKind.set(p.kind, [...(byKind.get(p.kind) ?? []), p]);
 
@@ -222,9 +229,13 @@ function checkOverlapsAndGaps(
       }
       next = p.span.to === null ? Infinity : Math.max(next, p.span.to + 1);
     }
-    if (w.episodes !== null && next !== Infinity && next <= w.episodes && sorted.length > 0) {
+    const stopsEarly = w.episodes !== null && next !== Infinity && next <= w.episodes && sorted.length > 0;
+    if (stopsEarly && block.coverage !== 'partial') {
       const last = sorted[sorted.length - 1]!;
-      at([...base, last.index, 'episodes'], 'gap', `${missing(kind, next, w.episodes)} no ${provider} mapping`);
+      at([...base, last.index, 'episodes'], 'gap', `${missing(kind, next, w.episodes!)} no ${provider} mapping; if the provider really stops there, write this block as { coverage: partial, notes, ranges }`);
+    }
+    if (!stopsEarly && block.coverage === 'partial') {
+      at(['projections', provider, 'coverage'], 'coverage-unused', 'coverage: partial is set but the ranges reach the last episode');
     }
   }
 }
@@ -272,8 +283,9 @@ function checkSharedTargets(works: Typed<WorkFile>[], reporter: Reporter): void 
     const byShow = new Map<string, { w: Typed<WorkFile>; p: ParsedEntry }[]>();
     for (const w of works) {
       const id = w.data.ids?.[provider];
-      const entries = w.data.projections?.[provider];
-      if (id === undefined || !entries) continue;
+      const written = w.data.projections?.[provider];
+      if (id === undefined || !written) continue;
+      const entries = readBlock(written, provider).ranges;
       const list = byShow.get(String(id)) ?? [];
       entries.forEach((e, i) => {
         const p = parseEntry(e, i, () => {});

@@ -3,4 +3,4 @@ errors:
   - code: gap
     file: works/short.yaml
     line: 9
-    message: episodes 11-12 have no tvdb_show mapping
+    message: "episodes 11-12 have no tvdb_show mapping; if the provider really stops there, write this block as { coverage: partial, notes, ranges }"

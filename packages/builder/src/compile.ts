@@ -5,6 +5,7 @@ import Database from 'better-sqlite3';
 import { PROJECTION_PROVIDERS, normalizeTitle, type Meta } from '@courmap/core';
 import type { CheckedFiles } from './checks.js';
 import type { Records } from './records.js';
+import { readBlock } from './blocks.js';
 import { SCHEMA_SQL, SCHEMA_VERSION, TABLES, type Table } from './sql.js';
 
 export interface CompileOptions {
@@ -47,7 +48,10 @@ export function expectedCounts(files: CheckedFiles): Record<Table, number> {
   let aliases = 0;
   for (const { data: w } of files.works) {
     refs += Object.keys(w.ids ?? {}).length;
-    for (const p of PROJECTION_PROVIDERS) projections += w.projections?.[p]?.length ?? 0;
+    for (const p of PROJECTION_PROVIDERS) {
+      const block = w.projections?.[p];
+      if (block) projections += readBlock(block, p).ranges.length;
+    }
     aliases += new Set([w.titles?.romaji, w.titles?.english, w.titles?.native, ...(w.aliases ?? [])].filter((a) => a !== undefined)).size;
   }
   return {

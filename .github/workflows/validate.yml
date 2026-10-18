@@ -1,0 +1,42 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: No em dashes
+        run: pnpm check:dashes
+
+      - name: Generated types are up to date
+        run: pnpm check:types-fresh
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Validate data (schema, overlaps, gaps, bounds, round trips)
+        run: pnpm validate
+
+      - name: Tests (broken fixtures, round trips, conformance)
+        run: pnpm test

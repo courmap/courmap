@@ -108,3 +108,7 @@ Choices made where `docs/SPEC.md` was ambiguous, silent or seemed wrong. One ent
 - **Output has no timestamps.** `manifest.json` records pins, checksums and counts only. Rationale: reruns with the same pins must be byte-identical.
 - **Pins are exact and checked.** The Anime-Lists pin must be a full commit SHA, and a cached or downloaded file whose checksum differs from the manifest for the same pin is an error. Downloads are cached in `.cache/seed/` (gitignored), from an allowlist of GitHub hosts only. Rationale: reproducibility, and a guard against calling any other API.
 - **`@courmap/seed` is private.** Rationale: it is repo tooling, not a library others install.
+
+## Static shards and remote mode
+
+- **Work-keyed indexes added to the dump** (`idx_proj_work`, `idx_alias_work`, `idx_members_work`). Rationale: the spec's indexes all lead with provider or normalized text, so reading one work scanned every alias row (16 ms per lookup on the seeded dump; shard generation took over 4 minutes, now 5 seconds).

@@ -123,7 +123,10 @@
     },
     "warnings": {
       "open-ended-not-airing": 1,
-      "out-of-bounds": 176
+      "out-of-bounds": 57
+    },
+    "info": {
+      "out-of-bounds": 119
     },
     "conflicts": {
       "anime-lists-multiple-ids": 70,

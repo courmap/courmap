@@ -17,6 +17,12 @@ describe('data/', async () => {
     expect(result.ok).toBe(true);
   });
 
+  it('notes movie bounds as info only (decision S3.8)', () => {
+    const movies = new Set(result.checked.works.filter((w) => w.data.type === 'movie').map((w) => w.id));
+    for (const d of result.diagnostics.filter((x) => x.severity === 'info')) expect(movies.has(d.work!), d.work).toBe(true);
+    for (const d of result.diagnostics.filter((x) => x.severity === 'warning')) expect(movies.has(d.work!), d.work).toBe(false);
+  });
+
   it('has warnings only for bounds on seed-only works (Xwolv decision 3)', () => {
     const manual = new Set(result.checked.works.filter((w) => w.isManual).map((w) => w.id));
     for (const d of result.diagnostics.filter((x) => x.severity === 'warning')) {

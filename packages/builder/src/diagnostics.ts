@@ -36,7 +36,8 @@ export type DiagnosticCode =
 
 export type PathSegment = string | number;
 
-export type Severity = 'error' | 'warning';
+/** info: noted, never a problem (movie part counts). warning: shown, never fails validation. */
+export type Severity = 'error' | 'warning' | 'info';
 
 export interface Diagnostic {
   severity: Severity;
@@ -62,7 +63,7 @@ export function formatPath(path: readonly PathSegment[]): string {
 export function formatDiagnostic(d: Diagnostic): string {
   const loc = d.line !== undefined ? `${d.file}:${d.line}:${d.column ?? 1}` : d.file;
   const where = d.path.length > 0 ? ` ${formatPath(d.path)}:` : '';
-  const level = d.severity === 'warning' ? 'warning ' : '';
+  const level = d.severity === 'error' ? '' : `${d.severity} `;
   return `${loc} [${level}${d.code}]${where} ${d.message}`;
 }
 

@@ -309,6 +309,20 @@ cases:
         anidb: { id: "1007", episode: 1 }
       unmapped: [tvdb_show]
 
+  - name: a movie part past the episode count still translates
+    op: translate
+    ref: anidb:1008
+    episode: 2
+    targets: [tvdb_show]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: anidb:1008, episode: 2 }
+      work: { id: parted-movie, episode: 2, kind: regular }
+      results:
+        tvdb_show: { id: "5008", season: 0, episode: 4 }
+      unmapped: []
+
   - name: work outside any sequence has no absolute number
     op: translate
     ref: anilist:2001

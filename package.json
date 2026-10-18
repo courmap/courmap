@@ -1,0 +1,29 @@
+{
+  "name": "courmap-monorepo",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "packageManager": "pnpm@10.18.3",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "builder": "tsx --conditions=@courmap/source packages/builder/src/cli.ts",
+    "validate": "pnpm run builder validate",
+    "compile": "pnpm run builder compile",
+    "gen:types": "tsx --conditions=@courmap/source packages/core/scripts/gen-types.ts",
+    "check:types-fresh": "pnpm run gen:types --check",
+    "check:dashes": "node scripts/check-no-em-dash.mjs",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "build": "pnpm -r --filter ./packages/** run build",
+    "ci": "pnpm check:dashes && pnpm check:types-fresh && pnpm typecheck && pnpm validate && pnpm test"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "json-schema-to-typescript": "^15.0.4",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9.3",
+    "vitest": "^3.2.7"
+  }
+}

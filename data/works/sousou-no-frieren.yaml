@@ -1,0 +1,30 @@
+id: sousou-no-frieren
+type: tv
+status: finished
+year: 2023
+episodes: 28
+titles:
+  romaji: Sousou no Frieren
+  english: "Frieren: Beyond Journey's End"
+  native: 葬送のフリーレン
+ids:
+  anidb: 17617
+  anilist: 154587
+  mal: 52991
+  kitsu: 46474
+  tvdb_show: 424536
+  tmdb_show: 209867
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-28 }
+  tmdb_show:
+    - { season: 1, episodes: 1-28 }
+aliases:
+  - Frieren
+notes: >-
+  Simple case: one cour, one season everywhere. IDs and episode count from the
+  cedya77 2026-42 release; TVDB and TMDB IDs from Anime-Lists (AniDB 17617).
+  The specials count is in neither seed, so it is omitted.
+sources:
+  - https://github.com/cedya77/anime-offline-database/releases/tag/2026-42
+  - https://github.com/Anime-Lists/anime-lists/blob/996d6a8b98c0c8ba94378875746a83b66dc590d4/anime-list-master.xml

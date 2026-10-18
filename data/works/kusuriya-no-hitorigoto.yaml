@@ -1,0 +1,28 @@
+id: kusuriya-no-hitorigoto
+type: tv
+status: finished
+year: 2023
+episodes: 24
+titles:
+  romaji: Kusuriya no Hitorigoto
+ids:
+  anidb: 17870
+  anilist: 161645
+  mal: 54492
+  kitsu: 47083
+  tvdb_show: 431162
+  tmdb_show: 220542
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-24 }
+  tmdb_show:
+    - { season: 1, episodes: 1-24 }
+aliases:
+  - Drugstore Soliloquy
+notes: >-
+  IDs and episode count from the cedya77 2026-42 release; TVDB and TMDB IDs from
+  Anime-Lists (AniDB 17870). See kusuriya-no-hitorigoto-2nd-season for how the
+  providers diverge on the sequel.
+sources:
+  - https://github.com/cedya77/anime-offline-database/releases/tag/2026-42
+  - https://github.com/Anime-Lists/anime-lists/blob/996d6a8b98c0c8ba94378875746a83b66dc590d4/anime-list-master.xml

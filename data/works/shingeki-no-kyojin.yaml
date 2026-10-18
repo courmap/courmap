@@ -1,0 +1,37 @@
+id: shingeki-no-kyojin
+type: tv
+status: finished
+year: 2013
+episodes: 25
+titles:
+  romaji: Shingeki no Kyojin
+  english: Attack on Titan
+  native: 進撃の巨人
+ids:
+  anidb: 9541
+  anilist: 16498
+  mal: 16498
+  kitsu: 7442
+  tvdb_show: 267440
+  tmdb_show: 1429
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-25 }
+    # Specials land in TVDB season 0. Anime-Lists maps S1-S6 to S00E01-E06 and
+    # S7-S10 to S00E08-E11; S11-S15 have no TVDB equivalent.
+    - { kind: special, season: 0, episodes: S1-S6 }
+    - { kind: special, season: 0, episodes: S7-S10, start: 8 }
+  tmdb_show:
+    - { season: 1, episodes: 1-25 }
+aliases:
+  - AoT
+  - Shingeki no Kyojin S1
+notes: >-
+  Specials case. IDs and episode count from the cedya77 2026-42 release; TVDB and
+  TMDB IDs and the specials mapping list from Anime-Lists (AniDB 9541). The total
+  number of AniDB specials is in neither seed, so specials is omitted rather than
+  guessed. TMDB specials are not mapped because Anime-Lists has no TMDB specials
+  list for this entry.
+sources:
+  - https://github.com/cedya77/anime-offline-database/releases/tag/2026-42
+  - https://github.com/Anime-Lists/anime-lists/blob/996d6a8b98c0c8ba94378875746a83b66dc590d4/anime-list-master.xml

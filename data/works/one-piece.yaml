@@ -1,0 +1,76 @@
+id: one-piece
+type: tv
+status: airing
+year: 1999
+episodes: null
+titles:
+  romaji: One Piece
+  native: ワンピース
+ids:
+  anidb: 69
+  anilist: 21
+  mal: 21
+  kitsu: 12
+  tvdb_show: 81797
+  tmdb_show: 37854
+projections:
+  # TVDB seasons from the Anime-Lists mapping list for AniDB 69. Season 23 is open-ended.
+  tvdb_show:
+    - { season: 1, episodes: 1-8 }
+    - { season: 2, episodes: 9-30, start: 1 }
+    - { season: 3, episodes: 31-47, start: 1 }
+    - { season: 4, episodes: 48-60, start: 1 }
+    - { season: 5, episodes: 61-69, start: 1 }
+    - { season: 6, episodes: 70-91, start: 1 }
+    - { season: 7, episodes: 92-130, start: 1 }
+    - { season: 8, episodes: 131-143, start: 1 }
+    - { season: 9, episodes: 144-195, start: 1 }
+    - { season: 10, episodes: 196-226, start: 1 }
+    - { season: 11, episodes: 227-325, start: 1 }
+    - { season: 12, episodes: 326-381, start: 1 }
+    - { season: 13, episodes: 382-481, start: 1 }
+    - { season: 14, episodes: 482-516, start: 1 }
+    - { season: 15, episodes: 517-578, start: 1 }
+    - { season: 16, episodes: 579-628, start: 1 }
+    - { season: 17, episodes: 629-746, start: 1 }
+    - { season: 18, episodes: 747-779, start: 1 }
+    - { season: 19, episodes: 780-877, start: 1 }
+    - { season: 20, episodes: 878-891, start: 1 }
+    - { season: 21, episodes: 892-1085, start: 1 }
+    - { season: 22, episodes: 1086-1155, start: 1 }
+    - { season: 23, episodes: 1156-, start: 1 }
+  # TMDB seasons from the same mapping list. Anime-Lists maps TMDB only through 1155.
+  tmdb_show:
+    - { season: 1, episodes: 1-61 }
+    - { season: 2, episodes: 62-77, start: 1 }
+    - { season: 3, episodes: 78-91, start: 1 }
+    - { season: 4, episodes: 92-130, start: 1 }
+    - { season: 5, episodes: 131-143, start: 1 }
+    - { season: 6, episodes: 144-195, start: 1 }
+    - { season: 7, episodes: 196-228, start: 1 }
+    - { season: 8, episodes: 229-263, start: 1 }
+    - { season: 9, episodes: 264-336, start: 1 }
+    - { season: 10, episodes: 337-381, start: 1 }
+    - { season: 11, episodes: 382-407, start: 1 }
+    - { season: 12, episodes: 408-421, start: 1 }
+    - { season: 13, episodes: 422-522, start: 1 }
+    - { season: 14, episodes: 523-580, start: 1 }
+    - { season: 15, episodes: 581-642, start: 1 }
+    - { season: 16, episodes: 643-692, start: 1 }
+    - { season: 17, episodes: 693-748, start: 1 }
+    - { season: 18, episodes: 749-803, start: 1 }
+    - { season: 19, episodes: 804-877, start: 1 }
+    - { season: 20, episodes: 878-891, start: 1 }
+    - { season: 21, episodes: 892-1088, start: 1 }
+    - { season: 22, episodes: 1089-1155, start: 1 }
+aliases:
+  - ONE PIECE
+  - One Piece TV
+notes: >-
+  Long-runner case with an open-ended range. IDs from the cedya77 2026-42 release
+  (status ONGOING there); TVDB and TMDB season boundaries from the Anime-Lists
+  mapping list for AniDB 69. TVDB and TMDB split the seasons differently, which is
+  why projections are per provider. Specials are not mapped yet.
+sources:
+  - https://github.com/cedya77/anime-offline-database/releases/tag/2026-42
+  - https://github.com/Anime-Lists/anime-lists/blob/996d6a8b98c0c8ba94378875746a83b66dc590d4/anime-list-master.xml

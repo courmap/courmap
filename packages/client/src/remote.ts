@@ -1,4 +1,4 @@
-import { refShard, type Dataset, type Meta, type Provider, type SequenceRecord, type WorkRecord } from '@courmap/core';
+import { refShard, type AliasIndex, type Dataset, type GroupRecord, type Meta, type Provider, type SequenceRecord, type WorkRecord } from '@courmap/core';
 import { createClient, type CourmapClient } from './client.js';
 
 export interface RemoteOptions {
@@ -60,6 +60,15 @@ export class RemoteDataset implements Dataset {
     return SAFE.test(id) ? this.file<SequenceRecord>(`sequences/${id}.json`) : undefined;
   }
 
+  /** aliases.json.zst: one download per data_version, decompressed in memory. */
+  async aliasIndex(): Promise<AliasIndex> {
+    return (await this.file<AliasIndex>('aliases.json.zst', 'zstd'))!;
+  }
+
+  async groups(): Promise<GroupRecord[]> {
+    return (await this.file<GroupRecord[]>('groups.json')) ?? [];
+  }
+
   private async fetchMeta(): Promise<Meta> {
     const res = await this.fetchFn(`${this.base}meta.json`);
     if (!res.ok) throw new Error(`GET ${this.base}meta.json: HTTP ${res.status}`);
@@ -71,7 +80,7 @@ export class RemoteDataset implements Dataset {
   }
 
   /** One shard file for the current data_version: memory, then disk, then network. */
-  private async file<T>(rel: string): Promise<T | undefined> {
+  private async file<T>(rel: string, encoding: 'json' | 'zstd' = 'json'): Promise<T | undefined> {
     const { data_version } = await this.meta();
     if (this.filesVersion !== data_version) {
       this.files = new Map();
@@ -79,14 +88,14 @@ export class RemoteDataset implements Dataset {
     }
     let p = this.files.get(rel);
     if (!p) {
-      p = this.load(data_version, rel);
+      p = this.load(data_version, rel, encoding);
       this.files.set(rel, p);
       p.catch(() => this.files.delete(rel)); // retry failures next time
     }
     return (await p) as T | undefined;
   }
 
-  private async load(version: string, rel: string): Promise<unknown> {
+  private async load(version: string, rel: string, encoding: 'json' | 'zstd'): Promise<unknown> {
     const disk = this.opts.cacheDir ? await diskCache(this.opts.cacheDir, version, rel) : null;
     const cached = await disk?.read();
     if (cached) return cached.value;
@@ -96,11 +105,17 @@ export class RemoteDataset implements Dataset {
       return undefined;
     }
     if (!res.ok) throw new Error(`GET ${this.base}${rel}: HTTP ${res.status}`);
-    const body = await res.text();
+    const body = encoding === 'zstd' ? await unzstd(new Uint8Array(await res.arrayBuffer())) : await res.text();
     const value = JSON.parse(body) as unknown;
     await disk?.write(body);
     return value;
   }
+}
+
+/** zstd via node:zlib (Node 22.15 and later), loaded only when needed. A Worker build would swap in a JS decoder. */
+async function unzstd(bytes: Uint8Array): Promise<string> {
+  const { zstdDecompressSync } = await import('node:zlib');
+  return zstdDecompressSync(bytes).toString('utf8');
 }
 
 /** File-backed cache entry. fs is imported lazily so bundles without a disk cache (the Worker) never load it. */

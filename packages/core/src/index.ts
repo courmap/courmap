@@ -6,6 +6,7 @@ export * from './model.js';
 export * from './errors.js';
 export * from './engine.js';
 export * from './dump.js';
+export * from './aliases.js';
 export type {
   WorkFile,
   WorkIds,

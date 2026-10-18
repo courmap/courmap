@@ -179,11 +179,13 @@ async function toHub(ds: Dataset, ref: Ref, episode: EpisodeInput): Promise<HubP
 
   // Season-based provider: reverse the projection.
   const provider: ProjectionProvider = ns;
-  if (typeof episode !== 'number' || !Number.isInteger(episode) || episode < 0) {
-    throw new CourmapError('invalid_input', `${provider} episodes are whole numbers; put the season in the ref (${provider}:${ref.id}:s1)`, {
+  const parsed = parseEpisodeOrThrow(episode);
+  if (parsed.kind !== 'regular') {
+    throw new CourmapError('invalid_input', `${provider} episodes are plain numbers; specials live in season 0 (${provider}:${ref.id}:s0)`, {
       field: 'episode',
     });
   }
+  const t = parsed.episode;
   const works = await worksForProviderId(ds, provider, ref.id);
   if (ref.season === null && !works.some((w) => w.projections[provider]?.some((r) => r.season === null))) {
     throw new CourmapError('invalid_input', `${provider}:${ref.id} is numbered by season; add a scope such as ${provider}:${ref.id}:s1`, {
@@ -192,16 +194,16 @@ async function toHub(ds: Dataset, ref: Ref, episode: EpisodeInput): Promise<HubP
   }
   const hits: HubPoint[] = [];
   for (const work of works) {
-    for (const h of projectReverse(work.projections[provider] ?? [], ref.season, episode)) {
+    for (const h of projectReverse(work.projections[provider] ?? [], ref.season, t)) {
       hits.push({ work, kind: h.kind, episode: h.from, episodeTo: h.to });
     }
   }
   if (hits.length === 0) {
     const where = ref.season === null ? '' : ` season ${ref.season}`;
-    throw new CourmapError('not_found', `no work maps ${provider}:${ref.id}${where} episode ${episode}`, { field: 'episode' });
+    throw new CourmapError('not_found', `no work maps ${provider}:${ref.id}${where} episode ${t}`, { field: 'episode' });
   }
   if (hits.length > 1) {
-    throw new CourmapError('ambiguous', `${provider}:${ref.id} episode ${episode} maps to ${hits.length} canonical episodes`, {
+    throw new CourmapError('ambiguous', `${provider}:${ref.id} episode ${t} maps to ${hits.length} canonical episodes`, {
       field: 'episode',
       candidates: [...new Set(hits.map((h) => h.work.id))],
     });

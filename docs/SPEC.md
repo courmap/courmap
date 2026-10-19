@@ -378,10 +378,13 @@ The git repo is the database of record; everything else is a build output. Seeds
 - Resolver regression: `tests/releases.yaml`, a corpus of release names with expected work and episode (or expected `ambiguous` or `unmatched`). Only cases marked `verified: true` count. CI posts the pass rate on every PR and fails if it drops below `tests/releases.baseline.json`, or if any case expected to be ambiguous or unmatched comes back `ok`. `pnpm corpus:import <file>` adds names from a plain text file (one per line) as unverified cases with today's answer recorded, for a person to check.
 - A bot comments on each PR with a translation diff: which episodes now map differently, before and after.
 
-**Release** (on merge to main)
+**Release** (`.github/workflows/release.yml`: weekly on Tuesdays at 09:00 UTC, after the seed job, and on demand)
 
-- Compile YAML to SQLite + JSON, tag `data-YYYY.WW`, attach both to a GitHub release with SHA-256 checksums, `LICENSE` and `ATTRIBUTION.md`.
-- Generate the static shards from the SQLite file and sync them to R2; write `meta.json` last so clients never see a half-published version.
+- Run every validate check, compile YAML and seeds to SQLite, and build the release assets: `courmap-<v>.sqlite.gz` (the dump), `courmap-<v>.json.gz` (the same data as JSON: meta, works, sequences, groups), `LICENSE` (ODbL 1.0 + DbCL 1.0), `ATTRIBUTION.md` and `SHA256SUMS` (`sha256sum -c` compatible). Dumps are gzip, so any client can open them; output is byte-identical for a given dump.
+- One GitHub release per data version, tagged `data-<v>` (`data-YYYY.WW`) on the commit it was built from. If the tag already exists on another commit, the run stops without uploading: shards are immutable within a data version, so those changes ship with the next one. A rerun on the same commit resumes the upload.
+- Generate the static shards from the SQLite file, point `meta.json`'s `dumps` at the release (`tag`, and `url` plus `sha256` for each dump), and sync the tree to R2 under `v1/`: files whose MD5 matches the remote ETag are skipped, `meta.json` is written last so clients never see a half-published version, and objects no longer in the tree are deleted only after `meta.json`.
+- Secrets: `R2_ENDPOINT` (`https://<account-id>.r2.cloudflarestorage.com`), `R2_BUCKET`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`. Until all four exist the workflow is a dry run: it builds everything, keeps the assets as a workflow artifact and prints the upload plan, but creates no release and uploads nothing.
+- CI runs the upload end to end on every push against a local S3-compatible server (S3Mock).
 
 **Ongoing updates** are handled by the detectors and confidence tiers described in the automation section below.
 

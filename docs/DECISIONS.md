@@ -152,6 +152,17 @@ Numbered as Xwolv numbered them for this session.
 - **Failing hand-written cases stay in the corpus.** Kimi no Na wa (2016) is expected ok and currently ambiguous. Rationale: recording today's answer as the expectation would hide a known weakness.
 - **Imported cases record today's answer as their expectation, unverified.** Rationale: a person checks each one; until then it does not count.
 
+## Release (build step 8)
+
+- **Dumps are gzip, not zstd.** Rationale: every platform and language opens gzip without an extra library; zstd stays for the one shard file the client decodes itself.
+- **One GitHub release per data version.** A tag `data-<v>` that exists on another commit stops the run before any upload; on the same commit the upload resumes. Rationale: clients cache shards by data_version, so a version must never change after it is published.
+- **ETag-based skipping.** The uploader compares each file's MD5 with the object's ETag and skips matches. Rationale: most shards do not change between weeks, and R2 bills writes.
+- **Prune after `meta.json`.** Stale objects are deleted only once the new `meta.json` is written. Rationale: a client on the previous version keeps finding its files until it sees the new version.
+- **R2 client settings.** Path-style addressing, and checksums only when the operation requires them (`requestChecksumCalculation` and `responseChecksumValidation` set to `WHEN_REQUIRED`). Rationale: R2 rejects the SDK's default extra checksum headers, and path style also works with local S3 servers.
+- **`meta.json` names its dumps.** `release meta` fills `dumps` with the release tag and each dump's URL and SHA-256, and refuses assets built from another data version. Rationale: the spec lists dump URLs in `meta.json`, and checksums let a client verify what it downloads.
+- **CI tests the upload against S3Mock** (`adobe/s3mock:5.2.3`, a service container), since `minio/minio` no longer publishes tags on Docker Hub. The step 8 check ("a dry run against a staging bucket") is met by that test until the R2 secrets exist. Rationale: the same S3 calls run on every push, with no credentials.
+- **Release is weekly, not on every merge.** Rationale: the automation section batches merges into a weekly release, and one data version per ISO week matches the tag format.
+
 ## Decided by Xwolv (2026-10-18, session 4)
 
 Numbered S4.1 to S4.7, in the order Xwolv gave them.

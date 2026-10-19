@@ -1,4 +1,4 @@
-import { mkdtempSync, readFileSync, rmSync, unlinkSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, unlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -6,7 +6,7 @@ import { gunzipSync } from 'node:zlib';
 import { CreateBucketCommand, HeadObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { afterAll, describe, expect, it } from 'vitest';
 import { compile, generateShards, validate } from '@courmap/builder';
-import { buildAssets, s3Client, uploadShards, type S3Target } from '../src/index.js';
+import { buildAssets, fillMetaDumps, s3Client, uploadShards, type S3Target } from '../src/index.js';
 
 const root = fileURLToPath(new URL('../../../', import.meta.url));
 const tmp = mkdtempSync(path.join(tmpdir(), 'courmap-release-'));
@@ -43,6 +43,26 @@ describe('release assets', async () => {
     expect(json.works).toHaveLength(10);
     expect(json.sequences.map((s: { id: string }) => s.id)).toEqual(['part-two-only', 'split-show-absolute']);
     expect(json.groups.map((g: { id: string }) => g.id)).toEqual(['fixturesubs']);
+  });
+
+  it('points meta.json at the release for its data version', async () => {
+    const assets = path.join(tmp, 'm');
+    await buildAssets(dump, assets, root);
+    const dumps = await fillMetaDumps(shards, assets, 'courmap/courmap');
+    const sums = readFileSync(path.join(assets, 'SHA256SUMS'), 'utf8');
+    expect(dumps.tag).toBe('data-2026.01');
+    expect(dumps.sqlite.url).toBe('https://github.com/courmap/courmap/releases/download/data-2026.01/courmap-2026.01.sqlite.gz');
+    expect(sums).toContain(`${dumps.sqlite.sha256}  courmap-2026.01.sqlite.gz`);
+    expect(sums).toContain(`${dumps.json.sha256}  courmap-2026.01.json.gz`);
+    expect(JSON.parse(readFileSync(path.join(shards, 'meta.json'), 'utf8')).dumps).toEqual(dumps);
+  });
+
+  it('refuses assets from another data version', async () => {
+    const other = path.join(tmp, 'other');
+    mkdirSync(other, { recursive: true });
+    writeFileSync(path.join(other, 'SHA256SUMS'), `${'0'.repeat(64)}  courmap-1999.01.sqlite.gz
+`);
+    await expect(fillMetaDumps(shards, other, 'courmap/courmap')).rejects.toThrow(/has no courmap-2026.01.sqlite.gz/);
   });
 
   it('plans an upload with meta.json last, without credentials', async () => {

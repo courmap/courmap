@@ -10,6 +10,7 @@ Instructions for agents working in this repo. Start with `docs/HANDOFF.md` (wher
 - No AniList or TMDB API calls outside the packages the spec names (bots for AniList, CI checks for TMDB). The seed job downloads only the two seed datasets from GitHub.
 - Never guess a provider ID. Use real IDs only when verified from the seed datasets (cedya77/anime-offline-database, Anime-Lists/anime-lists). Otherwise use clearly fake placeholder IDs and add `notes: placeholder IDs, verify before release` to the file.
 - No em dashes (U+2014) in anything we author: code, comments, docs, commit messages, manual YAML, generated reports. `pnpm check:dashes` enforces this for files (it skips `data/seeds/`, which keeps upstream titles verbatim); check commit messages yourself.
+- No secrets in committed files. `GITHUB_DISPATCH_TOKEN` is a Worker secret managed in the Cloudflare dashboard; never put it in `wrangler.toml` or anywhere else in the repo. `pnpm check:tokens` fails on anything shaped like a GitHub token.
 - Licensing: code is Apache-2.0 (`LICENSE`); `data/` and every dump are ODbL 1.0 + DbCL 1.0 (`DATA_LICENSE`). Credit upstreams in `ATTRIBUTION.md`.
 
 ## Working agreements

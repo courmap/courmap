@@ -36,6 +36,9 @@ jobs:
       - name: No em dashes
         run: pnpm check:dashes
 
+      - name: No GitHub tokens in committed files
+        run: pnpm check:tokens
+
       - name: Generated types are up to date
         run: pnpm check:types-fresh
 

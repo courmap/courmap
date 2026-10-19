@@ -40,6 +40,7 @@ pnpm seed                     # rebuild data/seeds/ from the pins in its manifes
 pnpm test                     # unit tests, broken-fixture tests, conformance suite
 pnpm corpus                   # resolver corpus pass rate vs tests/releases.baseline.json (--update-baseline after an improvement)
 pnpm corpus:import <file>     # add release names from a text file as unverified corpus cases
+pnpm corpus:from-proxy <export.json>   # add a proxy's unresolved and assisted names as unverified corpus cases
 pnpm builder aliases          # alias quality bands (shared by more than 5 works flagged, more than 50 excluded)
 pnpm bots scan                # season scanner, airing tracker, classifier; prints only (--apply opens PRs and issues)
 pnpm release assets --dump out/courmap.sqlite --out out/release   # release assets and SHA256SUMS

@@ -13,7 +13,7 @@ Sonarr numbers anime the way TVDB does, while fansub releases use the anime's ow
 Sonarr  ->  Courmap proxy (/nyaa, /animetosho)  ->  Prowlarr indexers
 ```
 
-You need Sonarr v4, Prowlarr, and either Unraid or Docker with Compose. Allow about fifteen minutes.
+You need Sonarr v4, Prowlarr, and either Unraid or Docker with Compose. Allow about fifteen minutes. Using Jackett instead of Prowlarr works too; see [Not using Prowlarr?](#not-using-prowlarr) before you start.
 
 ## 1. Collect three things
 
@@ -189,6 +189,24 @@ If Prowlarr keeps syncing Nyaa and AnimeTosho to Sonarr, Sonarr sees every resul
   A release Courmap was not sure about keeps its original name; Sonarr treats it exactly as it would without the proxy.
 
 - **The status page** (`http://<your-host>:9797/`). Under **Data**: a data version and your Sonarr series count. Under **Indexers**: one row per path (`animetosho`, `nyaa`) with **Requests** counting up as Sonarr's RSS sync runs, **Rewritten** with the share of results the proxy renumbered, and **Passed through** with the reasons for the rest. Names it could not resolve are listed further down, with a block you can paste into a GitHub issue to help improve the data.
+
+## Not using Prowlarr?
+
+The proxy is not tied to Prowlarr: it sits in front of any Torznab feed. Sonarr's request goes to the address in `INDEXER_<NAME>_URL` with Sonarr's query and API key added, and the results come back rewritten.
+
+- **Jackett** works. This setup was tested end to end on 2026-10-19 with Jackett, Sonarr 4.0.20 and the proxy image: Sonarr's indexer test passed, its TVDB searches were translated into title searches Jackett understands, and `[Erai-raws] Spy x Family Season 2 - 05 [1080p]...` reached Sonarr as `SPY x FAMILY S02E05 [1080p] ... -Erai-raws`. What changes from the steps above:
+  - **The feed address.** In Jackett, click **Copy Torznab Feed** on the indexer's row and add `api` to the end, so Nyaa becomes:
+
+    ```yaml
+    INDEXER_NYAA_URL: http://jackett:9117/api/v2.0/indexers/nyaasi/results/torznab/api
+    ```
+
+  - **The API key.** In Sonarr's indexer, **API Key** is your Jackett API key (shown at the top of the Jackett dashboard). The proxy passes it on to Jackett.
+  - **Step 4 is simpler.** Jackett does not sync anything to Sonarr, so just delete (or disable) the indexers you had added to Sonarr straight from Jackett.
+  - **Leave Jackett's title tweaks off.** Some Jackett indexers offer to "improve Sonarr compatibility" by adding season information to titles. Keep that off for indexers behind the proxy: Courmap resolves the original name.
+- **Another Torznab feed**, such as a tracker's own Torznab API, works the same way: put its address in `INDEXER_<NAME>_URL`. If it needs a key other than the one Sonarr sends, set `INDEXER_<NAME>_APIKEY`.
+- **Sonarr's built-in Nyaa indexer** cannot go through the proxy: it reads Nyaa's own RSS feed, not Torznab, so there is nothing for the proxy to sit in front of. Add Prowlarr or Jackett to use Courmap.
+- **Usenet (Newznab) indexers** are not supported.
 
 ## If something is off
 

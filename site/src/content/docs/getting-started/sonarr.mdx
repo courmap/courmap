@@ -1,0 +1,200 @@
+---
+title: For Sonarr users
+description: Set up the Courmap proxy between Prowlarr and Sonarr so anime episodes import as the right episode, from API keys to a first rewritten result.
+sidebar:
+  order: 1
+---
+
+import { Aside, Steps, TabItem, Tabs } from '@astrojs/starlight/components';
+
+Sonarr numbers anime the way TVDB does, while fansub releases use the anime's own episode numbers or [absolute numbering](/concepts/absolute-sequences/), counting straight through every season. The Courmap proxy sits between Prowlarr and Sonarr, [resolves each release name](/concepts/release-names/), and rewrites the ones it is sure about into the [TVDB numbering](/concepts/projections/) Sonarr expects. When Courmap is not sure, it passes the release through unchanged, so Sonarr behaves as it does today.
+
+```
+Sonarr  ->  Courmap proxy (/nyaa, /animetosho)  ->  Prowlarr indexers
+```
+
+You need Sonarr v4, Prowlarr, and either Unraid or Docker with Compose. Allow about fifteen minutes.
+
+## 1. Collect three things
+
+<Steps>
+
+1. **Your Sonarr API key.** In Sonarr, open **Settings**, then **General**. Under **Security**, copy **API Key**.
+
+2. **Your Prowlarr API key.** In Prowlarr, open **Settings**, then **General**. Under **Security**, copy **API Key**.
+
+3. **The ID of each anime indexer in Prowlarr.** Prowlarr serves every indexer as its own Torznab feed at `http://prowlarr:9696/<ID>/api`, and the proxy needs that address. The quickest way to find the ID: in Sonarr, open **Settings**, then **Indexers**. Prowlarr has already added your indexers there with names ending in "(Prowlarr)". Open one, and its **URL** ends in the ID: `http://prowlarr:9696/1/` means ID `1`.
+
+   No Prowlarr indexers in Sonarr yet? Ask Prowlarr for the list instead; each entry shows `"id"` next to `"name"`:
+
+   ```sh
+   curl -s "http://<prowlarr-host>:9696/api/v1/indexer?apikey=<prowlarr-api-key>"
+   ```
+
+</Steps>
+
+## 2. Name a path for each indexer
+
+Sonarr talks to the proxy the way it talks to any indexer: one Torznab address per indexer. The proxy therefore needs to know which Prowlarr feed each address stands for. You tell it with one setting per indexer: `INDEXER_<NAME>_URL` makes the proxy serve that feed at `/<name>`, lowercase, with underscores turned into hyphens.
+
+For two indexers, Nyaa (ID `1` in Prowlarr) and AnimeTosho (ID `2`):
+
+| Setting | Value | Address Sonarr uses |
+| --- | --- | --- |
+| `INDEXER_NYAA_URL` | `http://prowlarr:9696/1/api` | `http://courmap-proxy:9797/nyaa` |
+| `INDEXER_ANIMETOSHO_URL` | `http://prowlarr:9696/2/api` | `http://courmap-proxy:9797/animetosho` |
+
+Proxy only your anime indexers. Anything else (general TV trackers, Usenet) can keep reaching Sonarr straight from Prowlarr.
+
+<Aside title="Container names only work on a shared network">
+Addresses such as `http://sonarr:8989`, `http://prowlarr:9696` and `http://courmap-proxy:9797` use container names. Docker resolves those only between containers on the same user-defined network (a Compose project's network, or a custom network on Unraid). If your containers are on the default `bridge` network, or on different machines, use the host's IP address and published port instead, for example `http://192.168.1.10:8989`.
+</Aside>
+
+## 3. Run the proxy
+
+<Tabs syncKey="install">
+<TabItem label="Unraid">
+
+<Steps>
+
+1. Open the **Docker** tab and click **Add Container**. Leave **Template** empty, and switch on **Advanced View** at the top right so every field shows.
+
+2. Fill in the form:
+
+   - **Name**: `courmap-proxy`
+   - **Repository**: `ghcr.io/courmap/proxy:edge`
+   - **Network Type**: the custom network your Sonarr and Prowlarr use (for example **Custom: proxynet**). If they run on **bridge**, choose **bridge** and use IP addresses in every URL below.
+   - **WebUI**: `http://[IP]:[PORT:9797]/`
+   - **Extra Parameters**: `--user 99:100`, so its files belong to `nobody:users` like your other appdata
+
+3. Click **Add another Path, Port, Variable, Label or Device** once for each item below, choosing the **Config Type** shown first:
+
+   - **Port**: **Container Port** `9797`, **Host Port** `9797` (the status page).
+   - **Path**: **Container Path** `/data`, **Host Path** `/mnt/user/appdata/courmap-proxy/data`.
+   - **Path**: **Container Path** `/config`, **Host Path** `/mnt/user/appdata/courmap-proxy/config`.
+   - **Variable**: **Key** `SONARR_URL`, **Value** `http://sonarr:8989`.
+   - **Variable**: **Key** `SONARR_API_KEY`, **Value** the Sonarr API key from step 1.
+   - **Variable**: **Key** `INDEXER_NYAA_URL`, **Value** `http://prowlarr:9696/1/api`.
+   - **Variable**: **Key** `INDEXER_ANIMETOSHO_URL`, **Value** `http://prowlarr:9696/2/api`.
+
+   Give each a **Name** you will recognize later, such as "Sonarr URL".
+
+4. Click **Apply**. If the status page later says the data folder is not writable, run `chown -R 99:100 /mnt/user/appdata/courmap-proxy` in the Unraid terminal.
+
+</Steps>
+
+</TabItem>
+<TabItem label="Docker Compose">
+
+Add this service next to Sonarr and Prowlarr. In the same Compose file, it joins their network automatically.
+
+```yaml
+services:
+  courmap-proxy:
+    image: ghcr.io/courmap/proxy:edge
+    container_name: courmap-proxy
+    restart: unless-stopped
+    ports:
+      - "9797:9797"              # the status page
+    volumes:
+      - ./courmap/data:/data      # downloaded data and the unresolved log
+      - ./courmap/config:/config
+    environment:
+      SONARR_URL: http://sonarr:8989
+      SONARR_API_KEY: your-sonarr-api-key
+      INDEXER_NYAA_URL: http://prowlarr:9696/1/api
+      INDEXER_ANIMETOSHO_URL: http://prowlarr:9696/2/api
+```
+
+If Sonarr and Prowlarr live in a different Compose project, the proxy has to join their network. `docker inspect sonarr --format '{{range $name, $_ := .NetworkSettings.Networks}}{{$name}} {{end}}'` prints its name; put that name in place of `media_default` below:
+
+```yaml
+services:
+  courmap-proxy:
+    image: ghcr.io/courmap/proxy:edge
+    container_name: courmap-proxy
+    restart: unless-stopped
+    ports:
+      - "9797:9797"
+    volumes:
+      - ./courmap/data:/data
+      - ./courmap/config:/config
+    environment:
+      SONARR_URL: http://sonarr:8989
+      SONARR_API_KEY: your-sonarr-api-key
+      INDEXER_NYAA_URL: http://prowlarr:9696/1/api
+      INDEXER_ANIMETOSHO_URL: http://prowlarr:9696/2/api
+    networks: [arr]
+
+networks:
+  arr:
+    external: true
+    name: media_default   # the network Sonarr and Prowlarr are on
+```
+
+Start it with `docker compose up -d courmap-proxy`.
+
+</TabItem>
+</Tabs>
+
+Open the status page at `http://<your-host>:9797/`. Within a minute it should show a **Data version** and, next to **Sonarr**, how many series it found.
+
+## 4. Stop Prowlarr sending the same indexers to Sonarr directly
+
+If Prowlarr keeps syncing Nyaa and AnimeTosho to Sonarr, Sonarr sees every result twice: once rewritten through the proxy, once not. Prowlarr's app tags only *include* indexers (an app with tags receives just the indexers sharing one of them), so the way to leave the anime indexers out is to tag everything else.
+
+<Steps>
+
+1. In Prowlarr, open **Indexers**. For each indexer Sonarr should still get directly (anything you are not proxying), click it, type `sonarr` in **Tags**, press Enter, and click **Save**. If you proxy all of your indexers, skip this.
+
+2. Open **Settings**, then **Apps**, then your **Sonarr** app. Type `sonarr` in **Tags**, check that **Sync Level** is **Full Sync**, and click **Save**.
+
+3. Back on **Indexers**, click **Sync App Indexers**. Prowlarr removes from Sonarr every indexer without the `sonarr` tag.
+
+4. In Sonarr, open **Settings**, then **Indexers**, and check that the "(Prowlarr)" entries for your anime indexers are gone.
+
+</Steps>
+
+## 5. Add each proxy path to Sonarr
+
+<Steps>
+
+1. In Sonarr, open **Settings**, then **Indexers**, click **+**, and choose **Torznab** under **Custom**.
+
+2. Fill in:
+
+   - **Name**: `Nyaa (Courmap)`
+   - **URL**: `http://courmap-proxy:9797/nyaa`
+   - **API Path**: `/api`
+   - **API Key**: your **Prowlarr** API key (the proxy passes it on to Prowlarr)
+   - **Categories**: `5070`
+   - **Anime Categories**: `5070`
+
+   `5070` is the standard Torznab category number for TV/Anime, which anime indexers file their releases under. Sonarr searches **Anime Categories** for series whose type is Anime and **Categories** for the rest, so set both.
+
+3. Click **Test**. A green check means Sonarr reached Prowlarr through the proxy. Click **Save**.
+
+4. Repeat for `http://courmap-proxy:9797/animetosho`, named `AnimeTosho (Courmap)`.
+
+</Steps>
+
+## 6. Check that it works
+
+- **A test search.** Open an anime series in Sonarr that has a few episodes out, and click the person icon on an episode's row (**Interactive Search**). Results from your Courmap indexers show rewritten titles in the **Title** column, built from the series title in your own Sonarr:
+
+  | The indexer's original name | What Sonarr shows |
+  | --- | --- |
+  | `[SubsPlease] Spy x Family - 30 (1080p) [ABCD1234].mkv` | `Spy x Family S02E05 (1080p) [SubsPlease]` |
+
+  A release Courmap was not sure about keeps its original name; Sonarr treats it exactly as it would without the proxy.
+
+- **The status page** (`http://<your-host>:9797/`). Under **Data**: a data version and your Sonarr series count. Under **Indexers**: one row per path (`animetosho`, `nyaa`) with **Requests** counting up as Sonarr's RSS sync runs, **Rewritten** with the share of results the proxy renumbered, and **Passed through** with the reasons for the rest. Names it could not resolve are listed further down, with a block you can paste into a GitHub issue to help improve the data.
+
+## If something is off
+
+- **The Test button fails with HTTP 401:** the **API Key** in Sonarr must be Prowlarr's, not Sonarr's.
+- **Every result shows up twice:** Prowlarr still syncs that indexer to Sonarr; repeat step 4.
+- **The status page shows no data version:** the proxy downloads its data from GitHub when it starts; check the container can reach `github.com`.
+- **Sonarr cannot reach `courmap-proxy`:** the containers are not on one network; use IP addresses as described in step 2.
+
+The [Sonarr guide](/sonarr/) has every setting, exactly what the proxy rewrites and never touches, and more troubleshooting.

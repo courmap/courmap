@@ -42,7 +42,7 @@ services:
 
 Put it on the same Docker network as Sonarr and Prowlarr. Then:
 
-1. **In Prowlarr**, note each anime indexer's number: its Torznab feed is `http://prowlarr:9696/<number>/api`. Under Settings > Apps, stop Prowlarr syncing those indexers to Sonarr (set the Sonarr app's sync level to "Add and Remove Only" and remove them from Sonarr, or exclude them with tags). Otherwise Sonarr sees every result twice, once without the proxy.
+1. **In Prowlarr**, note each anime indexer's number: its Torznab feed is `http://prowlarr:9696/<number>/api`. Then stop Prowlarr syncing those indexers to Sonarr, or Sonarr sees every result twice, once without the proxy. Prowlarr's app tags only include indexers (and it re-adds indexers deleted from Sonarr by hand), so give a tag such as `sonarr` to every indexer Sonarr should still get directly, add that tag to the Sonarr app under Settings > Apps with Sync Level "Full Sync", and click "Sync App Indexers": Prowlarr removes the untagged anime indexers from Sonarr.
 2. **In Sonarr**, go to Settings > Indexers and add a Torznab indexer for each proxied feed:
    - URL: `http://courmap-proxy:9797/nyaa`
    - API Path: `/api`

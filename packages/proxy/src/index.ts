@@ -6,4 +6,4 @@ export { createProxyServer, type ProxyDeps } from './server.js';
 export { SonarrClient, cleanTitle, type SonarrEpisode, type SonarrSeries, type SonarrStatus } from './sonarr.js';
 export { Stats, type IndexerStats, type UnresolvedEntry } from './stats.js';
 export { issueText, statusHtml, statusJson } from './status.js';
-export { emptyFeed, ensureNamespace, items, replaceItems, rewriteCaps, rewriteItem } from './torznab.js';
+export { detectProtocol, emptyFeed, ensureNamespace, items, replaceItems, rewriteCaps, rewriteItem, type Protocol } from './feed.js';

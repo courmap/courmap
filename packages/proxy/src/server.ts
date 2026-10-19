@@ -6,7 +6,7 @@ import { translateSearch } from './search.js';
 import type { SonarrClient } from './sonarr.js';
 import type { Stats } from './stats.js';
 import { statusHtml, statusJson } from './status.js';
-import { emptyFeed, ensureNamespace, errorXml, items, replaceItems, rewriteCaps, rewriteItem } from './torznab.js';
+import { detectProtocol, emptyFeed, ensureNamespace, errorXml, items, replaceItems, rewriteCaps, rewriteItem, type Protocol } from './feed.js';
 
 export interface ProxyDeps {
   indexers: IndexerConfig[];
@@ -26,10 +26,11 @@ interface Upstream {
 }
 
 /**
- * The proxy's HTTP server. Each upstream feed is served at /<name>/api and behaves like a
- * Torznab indexer to Sonarr: caps advertise the TV search parameters the proxy translates,
- * searches are translated, and every result title is resolved and rewritten (or passed through
- * unchanged). / is the status page, /status.json its data, /health a liveness check.
+ * The proxy's HTTP server. Each upstream feed is served at /<name>/api and behaves like the
+ * indexer behind it, Torznab or Newznab, to Sonarr: caps advertise the TV search parameters the
+ * proxy translates, searches are translated, and every result title is resolved and rewritten
+ * (or passed through unchanged). / is the status page, /status.json its data, /health a
+ * liveness check.
  */
 export function createProxyServer(deps: ProxyDeps): Server {
   const rewriter = new Rewriter(deps.data, deps.sonarr);
@@ -49,6 +50,18 @@ export function createProxyServer(deps: ProxyDeps): Server {
     }
   };
 
+  /** What Sonarr's parser must read the tvdbid from: the configured type, else what the feed's results showed. */
+  const protocolOf = (ix: IndexerConfig): Protocol => ix.type ?? deps.stats.of(ix.name).detected ?? 'torznab';
+
+  /** Remembers what a response says about its protocol, and warns once when it contradicts the configured type. */
+  const observe = (ix: IndexerConfig, body: string) => {
+    const seen = detectProtocol(body);
+    if (!seen) return;
+    const stats = deps.stats.of(ix.name);
+    if (ix.type && seen !== ix.type && stats.detected !== seen) log(`${ix.name}: configured as ${ix.type}, but its feed looks like ${seen}; check INDEXER_${ix.name.toUpperCase().replace(/-/g, '_')}_TYPE`);
+    stats.detected = seen;
+  };
+
   const feed = async (ix: IndexerConfig, params: URLSearchParams, res: ServerResponse) => {
     const stats = deps.stats.of(ix.name);
     stats.requests++;
@@ -56,6 +69,7 @@ export function createProxyServer(deps: ProxyDeps): Server {
     if (t === 'caps') {
       const up = await upstream(ix, params);
       if (up.status !== 200) stats.upstreamErrors++;
+      // Caps carry no protocol marker (nor does Sonarr read one), so they pass through with only the TV search rewritten.
       return send(res, up.status, up.contentType, up.status === 200 ? rewriteCaps(up.body) : up.body);
     }
     const isSearch = params.has('q') || params.has('tvdbid') || params.has('season');
@@ -70,9 +84,15 @@ export function createProxyServer(deps: ProxyDeps): Server {
     const ok = responses.filter((r) => r.status === 200 && /<rss\b/.test(r.body));
     stats.upstreamErrors += responses.length - ok.length;
     if (ok.length === 0) {
+      // Newznab reports errors (a bad API key, a request limit) as HTTP 200 with an <error> document, which
+      // Sonarr reads by its code: pass it on as it is, not as a gateway failure.
+      const apiError = responses.find((r) => r.status === 200 && /<error[\s/>]/.test(r.body));
+      if (apiError) return send(res, 200, apiError.contentType, apiError.body);
       const first = responses[0]!;
       return send(res, first.status === 200 ? 502 : first.status, first.contentType, first.body || errorXml(900, `upstream ${ix.name} failed`));
     }
+    for (const r of ok) observe(ix, r.body);
+    const protocol = protocolOf(ix);
     // Merge results of several queries, dropping duplicates.
     const seen = new Set<string>();
     const merged = ok.flatMap((r) => items(r.body)).filter((i) => !seen.has(i.key) && seen.add(i.key));
@@ -87,9 +107,9 @@ export function createProxyServer(deps: ProxyDeps): Server {
         continue;
       }
       deps.stats.record(ix.name, item.title, outcome);
-      out.push(outcome.kind === 'rewritten' ? rewriteItem(item.xml, outcome.title, outcome.tvdbId) : item.xml);
+      out.push(outcome.kind === 'rewritten' ? rewriteItem(item.xml, outcome.title, outcome.tvdbId, protocol) : item.xml);
     }
-    send(res, 200, 'application/rss+xml; charset=utf-8', ensureNamespace(replaceItems(ok[0]!.body, out)));
+    send(res, 200, 'application/rss+xml; charset=utf-8', ensureNamespace(replaceItems(ok[0]!.body, out), protocol));
   };
 
   return createServer((req: IncomingMessage, res: ServerResponse) => {
@@ -107,7 +127,7 @@ export function createProxyServer(deps: ProxyDeps): Server {
       if (!ix) return send(res, 404, 'text/plain', `no indexer "${parts[0]}"; configured: ${[...byName.keys()].join(', ') || 'none'}`);
       // Sonarr calls <base>/api; accept the bare base too.
       if (parts.length > 2 || (parts[1] !== undefined && parts[1] !== 'api')) return send(res, 404, 'text/plain', 'not found');
-      if (!url.searchParams.has('t')) return send(res, 200, 'application/rss+xml', emptyFeed(`Courmap proxy: ${ix.name}`));
+      if (!url.searchParams.has('t')) return send(res, 200, 'application/rss+xml', emptyFeed(`Courmap proxy: ${ix.name}`, protocolOf(ix)));
       await feed(ix, url.searchParams, res);
     })().catch((err: Error) => {
       log(`request failed: ${err.stack ?? err.message}`);
@@ -128,7 +148,7 @@ export const exportJson = (deps: Pick<ProxyDeps, 'stats' | 'data'>) => ({
 export const exportText = (deps: Pick<ProxyDeps, 'stats'>) =>
   [...deps.stats.unresolvedList().map((e) => e.name), ...deps.stats.assistedList().flatMap((a) => a.examples)].join('\n') + '\n';
 
-const statusInput = (deps: ProxyDeps) => ({ version: deps.version, data: deps.data.status, sonarr: deps.sonarr.status, stats: deps.stats, indexers: deps.indexers.map((i) => i.name) });
+const statusInput = (deps: ProxyDeps) => ({ version: deps.version, data: deps.data.status, sonarr: deps.sonarr.status, stats: deps.stats, indexers: deps.indexers.map((i) => ({ name: i.name, ...(i.type && { type: i.type }) })) });
 
 function send(res: ServerResponse, status: number, contentType: string, body: string): void {
   res.writeHead(status, { 'Content-Type': contentType, 'Cache-Control': 'no-store' });

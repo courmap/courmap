@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildAliasIndex, normalizeTitle, parseEpisodeRange, parseRef, parseTargetRange, projectForward, projectReverse, type ProjectionRow } from '../src/index.js';
+import { aliasBands, buildAliasIndex, normalizeTitle, parseEpisodeRange, parseRef, parseTargetRange, projectForward, projectReverse, type ProjectionRow } from '../src/index.js';
 
 describe('parseEpisodeRange', () => {
   it.each([
@@ -120,6 +120,22 @@ describe('projection math', () => {
     const rows = [row({ ep_from: 892, ep_to: null, season: 21, target_from: 1 })];
     expect(projectForward(rows, 'regular', 1000)).toEqual({ season: 21, from: 109, to: 109 });
     expect(projectReverse(rows, 21, 109)).toEqual([{ kind: 'regular', from: 1000, to: 1000 }]);
+  });
+});
+
+describe('alias bands (decision S4.3)', () => {
+  const shared = (alias: string, n: number) => Array.from({ length: n }, (_, i) => [alias, `w${String(i).padStart(3, '0')}`] as const);
+  const pairs = [...shared('solo', 1), ...shared('pair', 2), ...shared('five', 5), ...shared('six', 6), ...shared('fifty', 50), ...shared('fifty one', 51)];
+
+  it('sorts aliases into unique, shared, flagged and excluded bands', () => {
+    const bands = aliasBands(pairs);
+    expect([bands.unique, bands.shared]).toEqual([1, 2]);
+    expect(bands.review.map(([a, ws]) => [a, ws.length])).toEqual([['fifty', 50], ['six', 6]]);
+    expect(bands.excluded.map(([a, ws]) => [a, ws.length])).toEqual([['fifty one', 51]]);
+  });
+
+  it('keeps flagged aliases in the resolver index and drops excluded ones', () => {
+    expect(buildAliasIndex('v', pairs).aliases.map(([a]) => a)).toEqual(['fifty', 'five', 'pair', 'six', 'solo']);
   });
 });
 

@@ -1,4 +1,4 @@
-import type { AiringLine, RelationLine } from '@courmap/builder';
+import { rejectsAiring, rejectsRelation, type AiringLine, type RelationLine } from '@courmap/builder';
 import type { WorkRecord } from '@courmap/core';
 import type { AniListMedia } from './anilist.js';
 import { seasonName, type SeasonRef } from './season.js';
@@ -145,8 +145,10 @@ export function classify(input: ClassifyInput): Classification {
     if (want === 'airing' || want === 'finished') {
       const episodes = m.episodes ?? (want === 'airing' ? w.episodes : null);
       const differs = want !== w.status || (episodes !== null && episodes !== w.episodes);
+      const rejected = rejectsAiring(state.rejected, w.id, { episodes, status: want });
+      if (differs && rejected) notes.set(m.id, `airing update rejected in data/rejected.yaml: ${rejected.reason}`);
       // A finished work with no count on AniList tells us nothing to write.
-      if (differs && (episodes !== null || want === 'airing')) {
+      if (differs && !rejected && (episodes !== null || want === 'airing')) {
         const line: AiringLine = { work: w.id, episodes, status: want, origin: 'bot', anilist: m.id };
         const was = `${w.status}, ${w.episodes ?? '?'} episodes here`;
         const manualStatus = hasOwn(manual, 'status') && want !== w.status;
@@ -172,8 +174,11 @@ export function classify(input: ClassifyInput): Classification {
       }
     }
 
-    // Prequel relations.
-    const cands = [...(prequels.get(w.id)?.values() ?? [])];
+    // Prequel relations. A candidate a maintainer rejected is never proposed again.
+    const all = [...(prequels.get(w.id)?.values() ?? [])];
+    const cands = all.filter((c) => !rejectsRelation(state.rejected, c.work, c.prequel));
+    const rejectedRel = all.map((c) => rejectsRelation(state.rejected, c.work, c.prequel)).find((r) => r !== undefined);
+    if (rejectedRel && rejectedRel.kind === 'relation' && w.prequel !== rejectedRel.prequel) notes.set(m.id, `prequel ${rejectedRel.prequel} rejected in data/rejected.yaml: ${rejectedRel.reason}`);
     if (cands.length > 1 && !cands.some((c) => c.prequel === w.prequel)) {
       findings.push({ ...at, tier: 'C', kind: 'relation-conflict', summary: `AniList names ${cands.length} prequels in the data: ${cands.map((c) => c.prequel).join(', ')}`, data: { ...at.data, candidates: cands } });
     } else if (cands.length === 1 && cands[0]!.prequel !== w.prequel) {

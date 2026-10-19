@@ -1,0 +1,16 @@
+# Bot proposals a maintainer rejected (schema/rejected.schema.json). The bots read this file
+# before proposing anything and never propose a matching change again; pnpm validate checks it.
+# Hand-written only. To reject a bot PR: close it, then add an entry here with the reason and a
+# link to the PR.
+rejected:
+  - kind: relation
+    work: wushen-zhuzai-da-wei-pian
+    prequel: wushen-zhuzai
+    reason: >-
+      Both works have been airing side by side since 2022 (720 and 448 episodes), so it is
+      doubtful that Da Wei Pian simply follows Wushen Zhuzai, and a prequel link would feed
+      absolute numbering.
+    decided_by: Xwolv
+    date: 2026-10-19
+    link: https://github.com/courmap/courmap/pull/10
+    origin: manual

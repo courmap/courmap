@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/courmap/courmap/main/schema/rejected.schema.json",
+  "title": "RejectedFile",
+  "description": "Bot proposals a maintainer rejected: data/rejected.yaml. The bots read it before proposing anything and never propose a matching change again. Hand-written only (origin: manual).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "rejected"
+  ],
+  "properties": {
+    "rejected": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "kind"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "relation",
+              "airing"
+            ]
+          }
+        },
+        "discriminator": {
+          "propertyName": "kind"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/$defs/relation"
+          },
+          {
+            "$ref": "#/$defs/airing"
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "relation": {
+      "title": "RelationRejection",
+      "description": "A prequel link the bots must not propose: `prequel` as the prequel of `work`.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "work",
+        "prequel",
+        "reason",
+        "decided_by",
+        "date",
+        "origin"
+      ],
+      "properties": {
+        "kind": {
+          "const": "relation"
+        },
+        "work": {
+          "$ref": "#/$defs/slug"
+        },
+        "prequel": {
+          "$ref": "#/$defs/slug"
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        },
+        "decided_by": {
+          "$ref": "#/$defs/decided_by"
+        },
+        "date": {
+          "$ref": "#/$defs/date"
+        },
+        "link": {
+          "$ref": "#/$defs/link"
+        },
+        "origin": {
+          "const": "manual"
+        }
+      }
+    },
+    "airing": {
+      "title": "AiringRejection",
+      "description": "An airing or count update the bots must not propose for `work`. Without `episodes` and `status` it covers every airing update for the work; with them, only updates to exactly those values.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "work",
+        "reason",
+        "decided_by",
+        "date",
+        "origin"
+      ],
+      "properties": {
+        "kind": {
+          "const": "airing"
+        },
+        "work": {
+          "$ref": "#/$defs/slug"
+        },
+        "episodes": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "status": {
+          "enum": [
+            "airing",
+            "finished"
+          ]
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        },
+        "decided_by": {
+          "$ref": "#/$defs/decided_by"
+        },
+        "date": {
+          "$ref": "#/$defs/date"
+        },
+        "link": {
+          "$ref": "#/$defs/link"
+        },
+        "origin": {
+          "const": "manual"
+        }
+      }
+    },
+    "reason": {
+      "description": "Why the proposal was rejected, in a sentence.",
+      "type": "string",
+      "minLength": 1
+    },
+    "decided_by": {
+      "description": "Who rejected it.",
+      "type": "string",
+      "minLength": 1
+    },
+    "date": {
+      "description": "When it was rejected (YYYY-MM-DD).",
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "link": {
+      "description": "The pull request or issue where it was rejected.",
+      "type": "string",
+      "format": "uri"
+    }
+  }
+}

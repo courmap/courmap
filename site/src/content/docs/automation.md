@@ -24,6 +24,24 @@ Bots keep the data current. They detect changes, write the data, and open a pull
 
 Bots never edit files in `data/works/`: their data lives in `data/seeds/airing.jsonl` and `data/seeds/relations.jsonl`, and any hand-written file wins over it key by key.
 
+## Rejected proposals stay rejected
+
+Closing a bot pull request is not enough on its own: the next scan would see the same AniList data and open it again. When a maintainer rejects a proposal, they close the pull request and add an entry to `data/rejected.yaml` with the reason and a link to it:
+
+```yaml
+rejected:
+  - kind: relation            # or airing
+    work: wushen-zhuzai-da-wei-pian
+    prequel: wushen-zhuzai
+    reason: Both works have been airing side by side since 2022, so the order is doubtful.
+    decided_by: Xwolv
+    date: 2026-10-19
+    link: https://github.com/courmap/courmap/pull/10
+    origin: manual
+```
+
+The bots read this file before proposing anything and never propose a matching change again; the Season tracker shows the reason instead. A `relation` entry blocks that one prequel link. An `airing` entry blocks every status or count update for the work, or, with `episodes` or `status`, only updates to exactly those values, so a later, different count still comes through. `pnpm validate` checks the file against its schema and that every work it names exists. To undo a rejection, delete the entry.
+
 ## Where to look
 
 - A pinned **Season tracker** issue per anime season lists every show and its state: mapped, auto-update, awaiting review, conflict, waiting for seed, or upcoming. The bots rewrite it on every run.

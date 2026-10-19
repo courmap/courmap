@@ -8,7 +8,7 @@ import { compile, type JSONSchema } from 'json-schema-to-typescript';
 
 const root = fileURLToPath(new URL('../../../', import.meta.url));
 const outDir = path.join(root, 'packages/core/src/generated');
-const kinds = ['work', 'sequence', 'group'] as const;
+const kinds = ['work', 'sequence', 'group', 'rejected'] as const;
 const check = process.argv.includes('--check');
 
 const banner = (kind: string) =>

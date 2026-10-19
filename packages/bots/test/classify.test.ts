@@ -99,3 +99,30 @@ describe('a finished flip with another count', async () => {
     expect(run(13).findings.map((f) => [f.work, f.tier, f.kind])).toEqual([['beta', 'A', 'finished']]);
   });
 });
+
+describe('data/rejected.yaml', async () => {
+  const fall = [media(301, { status: 'FINISHED', episodes: 12, prequel: [300] }), media(200, { episodes: 13 })];
+  const rejection = { decided_by: 'Xwolv', date: '2026-10-19', origin: 'manual' as const, link: 'https://github.com/courmap/courmap/pull/10' };
+
+  it('never proposes a rejected prequel or airing update again, and says why in the tracker', async () => {
+    const state = await loadState(dir);
+    state.rejected = [
+      { kind: 'relation', work: 'delta-2', prequel: 'delta', reason: 'the two air side by side', ...rejection },
+      { kind: 'airing', work: 'beta', episodes: 13, reason: 'AniList miscounts this one', ...rejection },
+    ];
+    const c = classify({ state, seasons: [{ ref: { season: 'FALL', year: 2026 }, media: fall }], airing: [], now });
+    expect(c.findings.filter((f) => f.work === 'delta-2' || f.work === 'beta')).toEqual([]);
+    expect(c.proposed.relations).toEqual([]);
+    expect(c.proposed.airing.find((a) => a.work === 'beta')).toBeUndefined();
+    const notes = Object.fromEntries(c.tracker.get('Fall 2026')!.map((r) => [r.work, r.note]));
+    expect(notes['delta-2']).toBe('prequel delta rejected in data/rejected.yaml: the two air side by side');
+    expect(notes.beta).toBe('airing update rejected in data/rejected.yaml: AniList miscounts this one');
+  });
+
+  it('still proposes a different count than the rejected one', async () => {
+    const state = await loadState(dir);
+    state.rejected = [{ kind: 'airing', work: 'beta', episodes: 13, reason: 'AniList miscounts this one', ...rejection }];
+    const c = classify({ state, seasons: [{ ref: { season: 'FALL', year: 2026 }, media: [media(200, { episodes: 14 })] }], airing: [], now });
+    expect(c.findings.filter((f) => f.work === 'beta').map((f) => [f.tier, f.kind])).toEqual([['A', 'count-bump']]);
+  });
+});

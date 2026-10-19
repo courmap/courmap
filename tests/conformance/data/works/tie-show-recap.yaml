@@ -1,0 +1,12 @@
+id: tie-show-recap
+type: ova
+year: 2024
+episodes: 2
+titles:
+  romaji: Tie Show Recap
+ids:
+  anidb: 1012
+  anilist: 2012
+aliases:
+  - Tie Show
+notes: Conformance fixture. All IDs are fake. An OVA with the TV title as a synonym.

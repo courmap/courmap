@@ -161,8 +161,8 @@ cases:
     verified: true
     source: hand-written
     notes: >-
-      Currently ambiguous: a 2016 Suntory commercial shares the alias and the year, and none of
-      the decision S3.4 tie-breakers separates them. Kept as an honest failure.
+      Regression case for decision S4.4: a 2016 Suntory commercial shares the alias and the year;
+      title rank (a synonym there) and type (a special) separate them.
 
   # Group overrides (no real group data yet, so this runs on the conformance fixture)
   - name: "[FixtureSubs] Split Show Part 2 - 105 [1080p]"

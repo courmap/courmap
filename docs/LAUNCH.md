@@ -2,7 +2,7 @@
 
 Everything still open before the public launch post (r/sonarr, r/selfhosted, anime self-hosting Discords). Each item says who does it and how to check it is done. Claude Code updates this file at the end of every session; Xwolv ticks items off by saying so in the session prompt.
 
-Last updated 2026-10-19, session 8. Status: **not ready.** 10 of 19 items are done and 3 are partly done; what is left is mostly real-world use (proxy week, corpus, screenshots, testers).
+Last updated 2026-10-19, maintenance session after session 8. Status: **not ready.** 10 of 19 items are done and 3 are partly done; what is left is mostly real-world use (proxy week, corpus, screenshots, testers).
 
 Legend: [x] done, [ ] open, [~] partly done.
 
@@ -49,16 +49,19 @@ Legend: [x] done, [ ] open, [~] partly done.
     - The 2026-10-19 07:30 scan fired 7h22 late (14:52 UTC, run 39272913674, actor xwolvos). It updated the 12 bot PRs, then stopped at issue #13 because `SEED_PR_TOKEN` cannot edit issues, and still reported success. Both are fixed: issues use the workflow's own token, and the scan step fails when the scan fails (decision S8.3).
     - Every push to `main`, including the last change to each workflow file, came from xwolvos, so schedules run as an account with access.
     - Crons now avoid busy minutes (scan 07:23 daily; seed 06:17, release 09:13, weekly bots 10:47 on Tuesdays), with the Worker watchdog 30 minutes behind each.
+    - No scheduled run has happened since session 8 (checked 2026-10-19 18:45 UTC); the first slots under the new crons are on 2026-10-20.
     - Verify: `gh run list --workflow bots.yml --event schedule` lists runs on consecutive days that update issues #13 to #29 instead of duplicating them, and seed and release show a `schedule` run on Tuesday 2026-10-20.
 14. [ ] **A week of real proxy traffic with no wrong imports.** Who: Xwolv, on the Unraid server, since 2026-10-19.
     Verify: Sonarr's history for the week shows no anime episode imported as the wrong episode; the status page's export is imported with `pnpm corpus:from-proxy` (item 16).
 15. [ ] **Bot PRs and issues reviewed.** Who: Xwolv.
     - Open now: 11 bot PRs and 15 bot issues (#13 to #27), plus the two season trackers.
+    - Claude Code's recommendations (2026-10-19): merge #3 to #9, #11 and #12; edit #2 (drop the 1-episode Koori no Jouheki 2nd Season line, keep the other four); hold #10 (both Wushen Zhuzai entries are still airing side by side, so the link is doubtful). Sequel links are safe for the proxy since it no longer offsets a sequel into a series that does not hold its prequels, or by a prequel still airing.
+    - The PRs all append to the same seeds file, so after one merges the others show conflicts until the next scan rebuilds them on `main`.
     - chitose-kun-wa-ramune-bin-no-naka-part-2 and dark-machine-the-animation (11 vs 12 episodes) stay as tier C issues for now (Xwolv, session 8).
     - Verify: no bot PR or `mapping-conflict` issue older than a week without a decision.
 16. [ ] **Corpus large enough to trust.** Who: Xwolv supplies names (proxy exports); Claude Code imports and verifies them with Xwolv.
     - Proposed launch bar: at least 200 verified cases, most of them real names from the proxy, with a 95% pass rate. The M2 milestone remains 1,000.
-    - Today: 35 verified cases, all passing.
+    - Today: 35 cases, all verified and passing; no proxy export has arrived yet.
     - Verify: `pnpm corpus` reports at least 200 verified at 95% or more.
 17. [ ] **Screenshots in the Sonarr guide.** Who: Xwolv takes them; Claude Code places them. Six placeholders are in `site/src/content/docs/sonarr.mdx`:
     - Prowlarr indexers with the ID visible.
@@ -80,6 +83,7 @@ Legend: [x] done, [ ] open, [~] partly done.
 - [x] SEED_PR_TOKEN works for bot PRs (CI ran on all 12). Fine-grained tokens expire: Xwolv renews it before its expiry date. Who: Xwolv.
 - [x] Assisted numbering and the corpus loop from proxy exports (session 7).
 - [x] `pnpm check:tokens` in CI: no GitHub token can be committed (session 8).
+- [x] Assisted numbering cannot import a wrong episode through a bot prequel link (maintenance session after session 8).
 
 ## Launch post
 

@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { writeFile, rename } from 'node:fs/promises';
 import path from 'node:path';
 import type { AssistedMapping } from './assist.js';
+import type { Protocol } from './feed.js';
 import type { PassReason, RewriteOutcome } from './rewrite.js';
 
 export interface IndexerStats {
@@ -15,6 +16,8 @@ export interface IndexerStats {
   passed: Partial<Record<PassReason, number>>;
   upstreamErrors: number;
   lastSearch: string | null;
+  /** What the upstream feed's results say its protocol is; null until a feed has said. */
+  detected: Protocol | null;
 }
 
 export interface UnresolvedEntry {
@@ -64,7 +67,7 @@ export class Stats {
 
   of(indexer: string): IndexerStats {
     let s = this.indexers.get(indexer);
-    if (!s) this.indexers.set(indexer, (s = { requests: 0, searches: 0, translated: 0, items: 0, rewritten: 0, assisted: 0, passed: {}, upstreamErrors: 0, lastSearch: null }));
+    if (!s) this.indexers.set(indexer, (s = { requests: 0, searches: 0, translated: 0, items: 0, rewritten: 0, assisted: 0, passed: {}, upstreamErrors: 0, lastSearch: null, detected: null }));
     return s;
   }
 

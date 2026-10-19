@@ -126,3 +126,105 @@ export function sonarrParse(title: string): { title: string; season: number; epi
   if (seasonOnly?.groups) return { title: seasonOnly.groups.title!.trim(), season: Number(seasonOnly.groups.season), episodes: [], fullSeason: true, group };
   return null;
 }
+
+// ---- Newznab (usenet) ----
+
+/** One item as a Newznab indexer serves it: an NZB enclosure and download link carrying the API key. */
+export function newznabItem(title: string, i: number, extra = ''): string {
+  const esc = title.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  // The ID comes from the title, so the same release has the same GUID in every result list.
+  const id = 1000 + [...title].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 100000, 7);
+  const nzb = `https://usenet.example/api?t=get&amp;id=${id}&amp;apikey=usenet-key`;
+  return `<item>
+      <title>${esc}</title>
+      <guid isPermaLink="true">https://usenet.example/details/${id}</guid>
+      <link>${nzb}</link>
+      <comments>https://usenet.example/details/${id}#comments</comments>
+      <pubDate>Mon, 19 Oct 2026 12:00:00 +0000</pubDate>
+      <category>TV &gt; Anime</category>
+      <enclosure url="${nzb}" length="${734003200 + i}" type="application/x-nzb"/>
+      <newznab:attr name="category" value="5000"/>
+      <newznab:attr name="category" value="5070"/>
+      <newznab:attr name="size" value="${734003200 + i}"/>
+      <newznab:attr name="grabs" value="${3 + i}"/>
+      <newznab:attr name="usenetdate" value="Mon, 19 Oct 2026 11:58:00 +0000"/>${extra}
+    </item>`;
+}
+
+export const newznabRss = (titles: string[], offset = 0, extra = '') => `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:newznab="http://www.newznab.com/DTD/2010/feeds/attributes/">
+  <channel>
+    <title>Fake Usenet</title>
+    <newznab:response offset="0" total="${titles.length}"/>
+    ${titles.map((t, i) => newznabItem(t, offset + i, extra)).join('\n    ')}
+  </channel>
+</rss>
+`;
+
+/** Caps as a Newznab indexer serves them: limits, registration, TV search with rid and tvdbid, categories. */
+export const NEWZNAB_CAPS = `<?xml version="1.0" encoding="UTF-8"?>
+<caps>
+  <server version="1.0" title="Fake Usenet" strapline="Test" email="x@example.org" url="https://usenet.example/" image="https://usenet.example/logo.png"/>
+  <limits max="100" default="50"/>
+  <registration available="yes" open="no"/>
+  <searching>
+    <search available="yes" supportedParams="q,group"/>
+    <tv-search available="yes" supportedParams="q,rid,tvdbid,season,ep"/>
+    <movie-search available="yes" supportedParams="q,imdbid"/>
+  </searching>
+  <categories>
+    <category id="5000" name="TV"><subcat id="5070" name="Anime"/></category>
+  </categories>
+</caps>
+`;
+
+/** A fake Newznab anime indexer, keyed like fakeProwlarr; downloads would need its own API key. */
+export function fakeNewznab(rssTitles: string[], searches: Record<string, string[]>, opts: { tvdbAttr?: string } = {}): Promise<FakeServer> {
+  const extra = opts.tvdbAttr ?? '';
+  return serve((url, res) => {
+    if (url.searchParams.get('apikey') !== 'usenet-key') return void res.writeHead(200, { 'Content-Type': 'application/xml' }).end('<error code="100" description="Incorrect user credentials"/>');
+    const t = url.searchParams.get('t');
+    if (t === 'caps') return void res.writeHead(200, { 'Content-Type': 'application/xml' }).end(NEWZNAB_CAPS);
+    const q = url.searchParams.get('q');
+    const titles = q === null || q === '' ? rssTitles : (searches[q.toLowerCase()] ?? []);
+    res.writeHead(200, { 'Content-Type': 'application/rss+xml' }).end(newznabRss(titles, q ? 100 : 0, extra));
+  });
+}
+
+/**
+ * Which namespace Sonarr would read an item attribute from: the one bound to the prefix the
+ * attribute carries, as the root declares it. Sonarr's Newznab parser reads only
+ * {http://www.newznab.com/DTD/2010/feeds/attributes/}attr and its Torznab parser only
+ * {http://torznab.com/schemas/2015/feed}attr (NewznabRssParser.cs, TorznabRssParser.cs).
+ */
+export function attrNamespace(feedXml: string, itemXml: string, name: string): string | null {
+  const prefix = new RegExp(String.raw`<([a-z]+):attr\s+name="${name}"`, 'i').exec(itemXml)?.[1];
+  if (!prefix) return null;
+  const root = /<rss\b[^>]*>/i.exec(feedXml)?.[0] ?? '';
+  return new RegExp(`xmlns:${prefix}="([^"]*)"`).exec(root)?.[1] ?? null;
+}
+
+/**
+ * Whether Sonarr's indexer test accepts a caps response, ported from NewznabCapabilitiesProvider.cs
+ * (ParseCapabilities) and Newznab.cs (TestCapabilities): a <caps> root, numeric limits, an
+ * `available` attribute on each search element, then either text search with "q" or a TV search
+ * with "q", "tvdbid" or "rid" plus "season" and "ep". Returns the failure, or null when it passes.
+ */
+export function sonarrCapsFailure(caps: string): string | null {
+  if (!/^\s*(?:<\?xml[^>]*\?>\s*)?<caps[\s>]/.test(caps)) return 'root element is not <caps>';
+  const limits = /<limits\b([^>]*)\/?>/.exec(caps)?.[1];
+  if (limits !== undefined && !/\bdefault="\d+"/.test(limits)) return 'limits has no numeric default';
+  if (limits !== undefined && !/\bmax="\d+"/.test(limits)) return 'limits has no numeric max';
+  const params = (tag: string) => {
+    const attrs = new RegExp(String.raw`<${tag}\b([^>]*?)/?>`).exec(caps)?.[1];
+    if (attrs === undefined) return null;
+    const available = /\bavailable="([^"]*)"/.exec(attrs)?.[1];
+    if (available === undefined) throw new Error(`${tag} has no "available" attribute (Sonarr would fall back to its defaults)`);
+    return available === 'yes' ? (/\bsupportedParams="([^"]*)"/.exec(attrs)?.[1]?.split(',') ?? []) : null;
+  };
+  const search = params('search');
+  const tv = params('tv-search');
+  if (search?.includes('q')) return null;
+  if (tv && ['q', 'tvdbid', 'rid'].some((p) => tv.includes(p)) && ['season', 'ep'].every((p) => tv.includes(p))) return null;
+  return 'search parameters not supported';
+}

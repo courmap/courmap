@@ -1,4 +1,5 @@
 import type { DataStatus } from './data.js';
+import type { Protocol } from './feed.js';
 import type { SonarrStatus } from './sonarr.js';
 import { mappingYaml } from './assist.js';
 import type { AssistedEntry, IndexerStats, Stats, UnresolvedEntry } from './stats.js';
@@ -8,7 +9,8 @@ export interface StatusInput {
   data: DataStatus;
   sonarr: SonarrStatus;
   stats: Stats;
-  indexers: string[];
+  /** Each configured indexer, with its configured protocol when one is set. */
+  indexers: { name: string; type?: Protocol }[];
 }
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -21,7 +23,7 @@ export function statusJson(s: StatusInput) {
     started: s.stats.started,
     data: s.data,
     sonarr: s.sonarr,
-    indexers: Object.fromEntries(s.indexers.map((n) => [n, s.stats.of(n)])),
+    indexers: Object.fromEntries(s.indexers.map(({ name, type }) => [name, { ...s.stats.of(name), type: type ?? null }])),
     unresolved: s.stats.unresolvedList(),
     assisted: s.stats.assistedList(),
   };
@@ -56,12 +58,17 @@ export function issueText(list: UnresolvedEntry[], dataVersion: string | null, a
 
 /** The proxy's status page: data version, refreshes, hit rates and unresolved names. */
 export function statusHtml(s: StatusInput): string {
-  const row = (name: string, x: IndexerStats) => {
+  /** The protocol as configured, as learned from the feed, or not known yet. */
+  const protocolCell = (type: Protocol | undefined, x: IndexerStats) => {
+    if (type) return x.detected && x.detected !== type ? `${type} <span class="bad">(feed looks like ${x.detected})</span>` : type;
+    return x.detected ? `${x.detected} (detected)` : '<span class="muted">not known yet</span>';
+  };
+  const row = (name: string, type: Protocol | undefined, x: IndexerStats) => {
     const passed = Object.entries(x.passed)
       .sort((a, b) => b[1]! - a[1]!)
       .map(([k, v]) => `${esc(k)} ${v}`)
       .join(', ');
-    return `<tr><td>${esc(name)}</td><td>${x.requests}</td><td>${x.searches} (${x.translated} translated)</td><td>${x.items}</td><td>${x.rewritten} (${pct(x.rewritten, x.items)})${x.assisted ? `, ${x.assisted} assisted` : ''}</td><td>${passed || '0'}</td><td>${x.upstreamErrors}</td></tr>`;
+    return `<tr><td>${esc(name)}</td><td>${protocolCell(type, x)}</td><td>${x.requests}</td><td>${x.searches} (${x.translated} translated)</td><td>${x.items}</td><td>${x.rewritten} (${pct(x.rewritten, x.items)})${x.assisted ? `, ${x.assisted} assisted` : ''}</td><td>${passed || '0'}</td><td>${x.upstreamErrors}</td></tr>`;
   };
   const list = s.stats.unresolvedList();
   const assisted = s.stats.assistedList();
@@ -108,8 +115,8 @@ export function statusHtml(s: StatusInput): string {
 
 <h2>Indexers</h2>
 <div class="scroll"><table>
-<tr><th>Path</th><th>Requests</th><th>Searches</th><th>Items</th><th>Rewritten</th><th>Passed through</th><th>Upstream errors</th></tr>
-${s.indexers.map((n) => row(n, s.stats.of(n))).join('\n')}
+<tr><th>Path</th><th>Protocol</th><th>Requests</th><th>Searches</th><th>Items</th><th>Rewritten</th><th>Passed through</th><th>Upstream errors</th></tr>
+${s.indexers.map((i) => row(i.name, i.type, s.stats.of(i.name))).join('\n')}
 </table></div>
 
 <h2>Assisted numbering (${assisted.length})</h2>

@@ -5,7 +5,7 @@ import { DataManager } from '../src/data.js';
 import { createProxyServer } from '../src/server.js';
 import { SonarrClient } from '../src/sonarr.js';
 import { Stats } from '../src/stats.js';
-import { items } from '../src/torznab.js';
+import { items } from '../src/feed.js';
 import { fakeProwlarr, fakeSonarr, fixtureDump, sonarrParse, tmp } from './helpers.js';
 
 const RSS = [

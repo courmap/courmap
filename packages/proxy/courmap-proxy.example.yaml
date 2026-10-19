@@ -9,6 +9,10 @@ sonarr:
   api_key: your-sonarr-api-key
   refresh_minutes: 60
 indexers:
-  # Served at http://courmap-proxy:9797/<name>; url is the Prowlarr indexer's Torznab feed.
+  # Served at http://courmap-proxy:9797/<name>; url is the indexer's Torznab or Newznab feed (for
+  # Prowlarr, http://prowlarr:9696/<indexer id>/api).
   - { name: nyaa, url: "http://prowlarr:9696/1/api" }
   - { name: animetosho, url: "http://prowlarr:9696/2/api" }
+  # A usenet indexer. type is torznab (torrents) or newznab (usenet); when it is left out, the
+  # proxy learns it from the feed's first results. Setting it avoids a wrong guess on an empty feed.
+  # - { name: geek, url: "http://prowlarr:9696/3/api", type: newznab }

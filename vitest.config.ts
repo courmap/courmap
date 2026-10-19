@@ -6,7 +6,7 @@ export default defineConfig({
   resolve: { conditions: ['@courmap/source'] },
   ssr: { resolve: { conditions: ['@courmap/source'] } },
   test: {
-    include: ['packages/*/test/**/*.test.ts'],
+    include: ['packages/*/test/**/*.test.ts', 'worker/test/**/*.test.ts'],
     testTimeout: 30_000,
   },
 });

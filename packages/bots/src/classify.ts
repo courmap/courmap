@@ -142,13 +142,13 @@ export function classify(input: ClassifyInput): Classification {
     // Counts and status. Tier A needs the counts to agree or to grow (cedya77's counts for airing
     // works lag behind); a smaller count, or a finished work airing again, is for a person.
     const want = m.status ? STATUS[m.status] : undefined;
-    // AniList lists 1 episode for an airing TV season it has no count for yet (Koori no Jouheki
-    // 2nd Season, PR #2): a placeholder, never a count to write. A real count in the data stays;
-    // a placeholder there (an upcoming work, or 1) becomes unknown.
-    const placeholder = want === 'airing' && m.format === 'TV' && m.episodes === 1;
-    const dataPlaceholder = w.status === 'upcoming' || w.episodes === 1;
     if (want === 'airing' || want === 'finished') {
-      const episodes = placeholder ? (dataPlaceholder ? null : w.episodes) : (m.episodes ?? (want === 'airing' ? w.episodes : null));
+      let episodes = m.episodes ?? (want === 'airing' ? w.episodes : null);
+      // 1 episode on an airing TV season is a placeholder (Koori no Jouheki 2nd Season, PR #2),
+      // whether AniList shows it or the data carries it from before the premiere: never a count
+      // to write. A real count in the data stays; otherwise the count is unknown.
+      const placeholder = want === 'airing' && m.format === 'TV' && episodes === 1;
+      if (placeholder) episodes = w.status !== 'upcoming' && w.episodes !== 1 ? w.episodes : null;
       const differs = want !== w.status || (episodes !== null && episodes !== w.episodes);
       const rejected = rejectsAiring(state.rejected, w.id, { episodes, status: want });
       if (differs && rejected) notes.set(m.id, `airing update rejected in data/rejected.yaml: ${rejected.reason}`);

@@ -11,4 +11,5 @@
 {"id":"zeta","type":"tv","status":"upcoming","year":2026,"episodes":2,"titles":{"romaji":"Zeta"},"ids":{"anilist":600,"tvdb_show":7100},"projections":{"tvdb_show":[{"season":1,"episodes":"1-2"}]},"origin":{"default":"offline-db"}}
 {"id":"eta","type":"tv","status":"upcoming","year":2026,"episodes":12,"titles":{"romaji":"Eta"},"ids":{"anilist":650,"tvdb_show":7200},"projections":{"tvdb_show":[{"season":1,"episodes":"1-12"}]},"origin":{"default":"offline-db"}}
 {"id":"theta","type":"tv","status":"upcoming","year":2026,"episodes":1,"titles":{"romaji":"Theta"},"ids":{"anilist":800},"origin":{"default":"offline-db"}}
+{"id":"kappa","type":"tv","status":"upcoming","year":2026,"episodes":1,"titles":{"romaji":"Kappa"},"ids":{"anilist":802},"origin":{"default":"offline-db"}}
 {"id":"iota","type":"tv","status":"airing","year":2026,"episodes":12,"titles":{"romaji":"Iota"},"ids":{"anilist":801},"origin":{"default":"offline-db"}}

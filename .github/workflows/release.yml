@@ -5,11 +5,19 @@ name: release
 #            release data-<data_version> with them. Needs no R2 secrets.
 #   r2:      sync the static shards to R2, meta.json last. A dry run (upload plan only) until all
 #            four R2 secrets exist.
+#   r2-tag:  run by hand with a tag (gh workflow run release.yml -f tag=data-2026.43): rebuild the
+#            shards from that release's published dump, check they match its meta.json, and sync
+#            them to R2. Publishes nothing on GitHub.
 on:
   schedule:
     # Off the hour and half hour: GitHub delays or drops scheduled runs at busy minutes.
     - cron: '13 9 * * 2' # Tuesdays 09:13 UTC, after the seed job (06:17)
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Sync an existing release to R2 instead of publishing (for example data-2026.43)'
+        required: false
+        default: ''
 
 permissions:
   contents: write # create the GitHub release and its tag
@@ -20,6 +28,7 @@ concurrency:
 
 jobs:
   publish:
+    if: inputs.tag == '' || inputs.tag == null
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.assets.outputs.version }}
@@ -150,5 +159,58 @@ jobs:
           done
           if [ -n "$missing" ]; then
             echo "::notice::R2 dry run: missing secrets (R2_ENDPOINT, R2_BUCKET, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY). The GitHub release is published; shards are not uploaded."
+          fi
+          pnpm release upload --dir out/shards/v1 --prune
+
+  r2-tag:
+    if: inputs.tag != '' && inputs.tag != null
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ inputs.tag }}
+      GH_TOKEN: ${{ github.token }}
+      S3_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+      S3_BUCKET: ${{ secrets.R2_BUCKET }}
+      S3_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      S3_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Download the release and check its checksums
+        run: |
+          case "$TAG" in data-*) ;; *) echo "::error::$TAG is not a data release tag"; exit 1 ;; esac
+          gh release download "$TAG" -D out/release
+          (cd out/release && sha256sum -c SHA256SUMS)
+          cp out/release/meta.json out/published-meta.json
+          gunzip -c "out/release/courmap-${TAG#data-}.sqlite.gz" > out/courmap.sqlite
+
+      # The shard generator writes exactly what DumpDataset returns, so shards built from the
+      # published dump are that release's shards. meta.json must come out byte for byte the same.
+      - name: Rebuild the shards from the published dump
+        run: |
+          pnpm builder shards --from out/courmap.sqlite --out out/shards/v1
+          pnpm release meta --dir out/shards/v1 --assets out/release --repo "$GITHUB_REPOSITORY"
+          if ! cmp out/published-meta.json out/shards/v1/meta.json; then
+            echo "::error::The rebuilt meta.json differs from the one published with $TAG; not uploading."
+            diff <(jq -S . out/published-meta.json) <(jq -S . out/shards/v1/meta.json) || true
+            exit 1
+          fi
+
+      - name: Sync the shards to R2 (meta.json last), or print the plan without the secrets
+        run: |
+          missing=""
+          for s in S3_ENDPOINT S3_BUCKET S3_ACCESS_KEY_ID S3_SECRET_ACCESS_KEY; do
+            [ -n "${!s}" ] || missing="$missing $s"
+          done
+          if [ -n "$missing" ]; then
+            echo "::notice::R2 dry run: missing secrets (R2_ENDPOINT, R2_BUCKET, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY). Shards are not uploaded."
           fi
           pnpm release upload --dir out/shards/v1 --prune

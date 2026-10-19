@@ -1,0 +1,9 @@
+id: asw-split-1
+type: ona
+year: 2023
+episodes: 3
+titles:
+  romaji: Assist Split
+ids:
+  anilist: 8010
+notes: Proxy test fixture, fake IDs. A short prequel that Sonarr keeps as its own series.

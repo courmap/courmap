@@ -1,0 +1,10 @@
+id: asw-other-2
+type: tv
+year: 2025
+episodes: 12
+titles:
+  romaji: Assist Other Next
+ids:
+  anilist: 8013
+prequel: asw-other-1
+notes: Proxy test fixture, fake IDs. A sequel whose prequel has its own TVDB show.

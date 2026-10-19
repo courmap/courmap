@@ -10,7 +10,7 @@ Bots keep the data current. They detect changes, write the data, and open a pull
 | Bot | When | Watches |
 | --- | --- | --- |
 | Season scanner | Daily | AniList's current and next season: IDs, format, status, episode counts and prequel or sequel relations. About ten batched requests a day, no titles. |
-| Airing tracker | Daily | AniList's status and episode count for every work Courmap lists as airing. |
+| Airing tracker | Daily | AniList's status and episode count for every [work](/concepts/works/) Courmap lists as airing. |
 | Seed job | Weekly (Tuesday) | New releases of anime-offline-database and Anime-Lists, as one pull request. |
 | Projection checker | Weekly | TMDB season episode counts against Courmap's TMDB mappings. Nothing it reads is stored. |
 
@@ -19,7 +19,7 @@ Bots keep the data current. They detect changes, write the data, and open a pull
 | Tier | Label | When | What you do |
 | --- | --- | --- | --- |
 | A | `auto` | Counts agree across sources: an airing work's count grows, a show finishes with the count Courmap expects. | Nothing. These merge once tier A is switched on; until then, a glance and merge. |
-| B | `needs-review` | AniList names a sequel's prequel, or an update changes an existing absolute sequence. | Check the diff in the pull request body (which prequel and which absolute numbers change) and approve or edit. About a minute. |
+| B | `needs-review` | AniList names a sequel's prequel, or an update changes an existing [absolute sequence](/concepts/absolute-sequences/). | Check the diff in the pull request body (which prequel and which absolute numbers change) and approve or edit. About a minute. |
 | C | `mapping-conflict` or `good first mapping` | Sources disagree, a count shrinks, a manual file is involved, a change would renumber a finished work, or a new show still has no TVDB or TMDB mapping four weeks after it premiered. | Real judgment, as an issue with every source's data attached. `good first mapping` issues are a good place to start contributing. |
 
 Bots never edit files in `data/works/`: their data lives in `data/seeds/airing.jsonl` and `data/seeds/relations.jsonl`, and any hand-written file wins over it key by key.

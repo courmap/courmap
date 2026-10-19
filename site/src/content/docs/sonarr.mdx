@@ -5,7 +5,7 @@ description: Install the Courmap proxy, add it to Sonarr, and understand what it
 
 import { Aside, Steps } from '@astrojs/starlight/components';
 
-The Courmap proxy is a Torznab indexer proxy. It sits between Prowlarr and Sonarr, resolves every anime release name with Courmap, and rewrites the ones it is sure about into the numbering Sonarr understands.
+The Courmap proxy is a Torznab indexer proxy. It sits between Prowlarr and Sonarr, resolves every anime [release name](/concepts/release-names/) with Courmap, and rewrites the ones it is sure about into the numbering Sonarr understands.
 
 ```
 Sonarr  ->  Courmap proxy (/nyaa, /animetosho, ...)  ->  Prowlarr indexer feeds
@@ -29,7 +29,7 @@ Boxes marked "Screenshot to add" will be replaced with screenshots from a real i
 
 The series title comes from your own Sonarr, matched by TVDB ID, so Sonarr always recognizes it. For series where Sonarr uses scene numbering (XEM), the proxy writes the episode's scene numbers, because that is how Sonarr reads SxxEyy for those series. Everything else in a result (download link, size, seeders, categories) reaches Sonarr unchanged.
 
-Searches are translated too. Sonarr searches by TVDB ID, season and episode, which anime indexers do not understand. The proxy turns that into the work's own title plus its episode number (and the franchise title plus the absolute number, when fansubs number it that way), sends those searches to Prowlarr, and rewrites the results.
+Searches are translated too. Sonarr searches by TVDB ID, season and episode, which anime indexers do not understand. The proxy turns that into the [work](/concepts/works/)'s own title plus its episode number (and the franchise title plus the [absolute number](/concepts/absolute-sequences/), when fansubs number it that way), sends those searches to Prowlarr, and rewrites the results.
 
 ## Install
 

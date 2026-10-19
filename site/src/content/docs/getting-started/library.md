@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-`@courmap/client` answers three questions: which work is this ID, what is this episode in every other numbering, and which work and episode is this release name. It runs locally, either over the weekly SQLite dump (fully offline) or over static files fetched on demand.
+`@courmap/client` answers three questions: which [work](/concepts/works/) is this ID, what is this episode in every other numbering, and which work and episode is this [release name](/concepts/release-names/). It runs locally, either over the weekly SQLite dump (fully offline) or over static files fetched on demand.
 
 ## Install
 

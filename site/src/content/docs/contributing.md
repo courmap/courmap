@@ -7,14 +7,14 @@ Mappings are YAML files in [`data/`](https://github.com/courmap/courmap/tree/mai
 
 ## The rules that matter
 
-- **Seeds and overrides.** About 33,000 works come from seed data in `data/seeds/` (never edit it). To fix one, add `data/works/<id>.yaml` with the same `id` and only the parts that change: an `ids.<provider>` key or a `projections.<provider>` block replaces the seed's, any other key you set wins, `aliases` are added to the seed's, and `null` removes a seed value.
+- **Seeds and overrides.** About 33,000 [works](/concepts/works/) come from seed data in `data/seeds/` (never edit it). To fix one, add `data/works/<id>.yaml` with the same `id` and only the parts that change: an `ids.<provider>` key or a `projections.<provider>` block replaces the seed's, any other key you set wins, `aliases` are added to the seed's, and `null` removes a seed value.
 - **Slugs are permanent.** A work's id never changes once published. A new work's id is its romaji title in lowercase kebab-case.
 - **Never guess an ID.** Use IDs you can see on the provider's site, and link them in `sources:`.
 - **Check before pushing.** `pnpm validate` runs every check CI runs on the data and names the file, line and fix for each problem.
 
 ## A split cour
 
-AniDB and AniList split a season in two; TVDB keeps one season. Each half is its own work, and the second half's TVDB projection starts after the first:
+AniDB and AniList split a season in two; TVDB keeps one season. Each half is its own work, and the second half's TVDB [projection](/concepts/projections/) starts after the first:
 
 ```yaml
 id: spy-x-family-part-2
@@ -91,5 +91,5 @@ Link releases that show the quirk in `sources:`. See [group overrides](/concepts
 ## Reading the checks on your pull request
 
 - **validate** runs the same checks as `pnpm validate`, plus round trips: every episode translated to each provider and back must return itself.
-- The **resolver corpus** comment shows the pass rate on real release names before and after your change. It must not drop, and no name expected to be ambiguous may come back as ok.
+- The **resolver corpus** comment shows the pass rate on real [release names](/concepts/release-names/) before and after your change. It must not drop, and no name expected to be ambiguous may come back as ok.
 - Bot pull requests (labeled `auto` or `needs-review`) include a diff of which works' prequels or absolute numbers change; see [how automation works](/automation/).

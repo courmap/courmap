@@ -501,6 +501,7 @@ Only tier B and C ever wait on a person, and both end as a reviewed PR that ship
 - Derived data counts too. Any change to an existing absolute sequence (manual or derived: a member added, removed or renumbered) is at least tier B, and the PR body lists every work whose absolute numbers shift, with the old and new range. A change that shifts absolute numbers on a finished work is tier C, because releases already numbered that way exist. Appending a new member after the last one shifts nothing and stays tier B.
 - Auto-merges batch into the weekly data release, so a bad one is caught by the release diff and reverted with the next tag.
 - A bot that fails twice in a row opens an issue on itself instead of failing silently.
+- Schedules run off the hour and half hour (bots 07:23 daily and 10:47 Tuesdays, seed 06:17 and release 09:13 Tuesdays), since GitHub delays or drops scheduled runs at busy minutes. A watchdog in the Worker (Cloudflare Cron Triggers, 30 minutes after each schedule) dispatches any of those workflows that has not run that day, once it has a `GITHUB_DISPATCH_TOKEN` secret.
 - GitHub disables scheduled workflows in public repos after 60 days without activity; the bots' own commits keep the repo active, and a monthly heartbeat job covers quiet periods.
 
 **Your one place to look**

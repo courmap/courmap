@@ -481,11 +481,12 @@ Only tier B and C ever wait on a person, and both end as a reviewed PR that ship
 | --- | --- | --- | --- |
 | A: auto-merge | New single-cour work where IDs exist in the seeds and episode counts agree across AniList, TVDB offsets and TMDB; count bumps on airing works; closing an open range when a show finishes and counts agree | Writes the YAML, opens a PR labeled `auto`, merges when CI is green | None |
 | B: one-click review | Sequel detected via AniList relations: the bot proposes a projection from the prequel's pattern (next TVDB season, or continued numbering if Anime-Lists already has an offset) and an absolute-sequence entry | Opens a PR labeled `needs-review` with a translation diff comment | Approve or edit, about a minute each |
-| C: issue | Counts disagree, a work still lacks TVDB/TMDB IDs four weeks after premiere, a seed changes an existing mapping, or an unresolved-name cluster crosses a threshold | Opens an issue labeled `mapping-conflict` or `good first mapping` with all source data attached | Real judgment; the queue contributors pick up |
+| C: issue | Counts disagree, a work still lacks TVDB/TMDB IDs four weeks after premiere, a seed changes an existing mapping, a change shifts absolute numbers on a finished work, or an unresolved-name cluster crosses a threshold | Opens an issue labeled `mapping-conflict` or `good first mapping` with all source data attached | Real judgment; the queue contributors pick up |
 
 **Guardrails**
 
 - Bots only add files or bump counts on bot-origin files. Any change to an `origin: manual` mapping is always tier C.
+- Derived data counts too. Any change to an existing absolute sequence (manual or derived: a member added, removed or renumbered) is at least tier B, and the PR body lists every work whose absolute numbers shift, with the old and new range. A change that shifts absolute numbers on a finished work is tier C, because releases already numbered that way exist. Appending a new member after the last one shifts nothing and stays tier B.
 - Auto-merges batch into the weekly data release, so a bad one is caught by the release diff and reverted with the next tag.
 - A bot that fails twice in a row opens an issue on itself instead of failing silently.
 - GitHub disables scheduled workflows in public repos after 60 days without activity; the bots' own commits keep the repo active, and a monthly heartbeat job covers quiet periods.

@@ -75,6 +75,16 @@ describe('classifier', async () => {
   });
 });
 
+describe('an update that puts a projection out of bounds', async () => {
+  const state = await loadState(dir);
+  it('is a count conflict, never an update (Chitose-kun Part 2 and Dark Machine went 12 to 11 in the first live PR)', () => {
+    const c = classify({ state, seasons: [{ ref: { season: 'FALL', year: 2026 }, media: [media(650, { episodes: 11 })] }], airing: [], now });
+    expect(c.findings.map((f) => [f.work, f.tier, f.kind])).toEqual([['eta', 'C', 'count-conflict']]);
+    expect(c.findings[0]!.summary).toMatch(/AniList says airing, 11 episodes, but projections.tvdb_show disagrees/);
+    expect(c.proposed.airing).toEqual([]);
+  });
+});
+
 describe('a finished flip with another count', async () => {
   const state = await loadState(dir);
   const run = (episodes: number) => classify({ state, seasons: [{ ref: { season: 'FALL', year: 2026 }, media: [media(200, { status: 'FINISHED', episodes })] }], airing: [], now });

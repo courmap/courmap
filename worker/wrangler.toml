@@ -1,0 +1,24 @@
+# The optional Courmap Worker (decision S6.3). Deployed from main by .github/workflows/worker.yml
+# with a CLOUDFLARE_API_TOKEN secret scoped to Workers; served at courmap.<account>.workers.dev
+# until api.courmap.com exists.
+name = "courmap"
+main = "src/index.ts"
+compatibility_date = "2026-10-01"
+workers_dev = true
+
+[vars]
+# The shard root. Until data.courmap.com is live the Worker has no data to read.
+DATA_URL = "https://data.courmap.com/v1/"
+
+# 60 requests a minute per client IP; past that, HTTP 429.
+[[ratelimits]]
+name = "LIMITER"
+namespace_id = "1001"
+  [ratelimits.simple]
+  limit = 60
+  period = 60
+
+[alias]
+"@courmap/client/remote" = "../packages/client/src/browser.ts"
+"@courmap/core" = "../packages/core/src/index.ts"
+"@courmap/parser" = "../packages/parser/src/index.ts"

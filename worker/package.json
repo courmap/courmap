@@ -1,0 +1,16 @@
+{
+  "name": "@courmap/worker",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The optional Courmap Worker: lookup, translate, resolve and search over the static shards",
+  "license": "Apache-2.0",
+  "type": "module",
+  "dependencies": {
+    "@courmap/client": "workspace:*"
+  },
+  "devDependencies": {
+    "@courmap/builder": "workspace:*",
+    "esbuild": "0.28.2",
+    "yaml": "2.9.1"
+  }
+}

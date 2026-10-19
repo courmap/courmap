@@ -611,7 +611,7 @@ SQLite access in Node via `better-sqlite3` for the builder and offline client; t
 8. Release workflow: dumps, checksums, R2 sync, `meta.json` last. Check: a dry run against a staging bucket.
 9. `packages/bots`: detectors, classifier and the three tiers, in dry-run mode (open PRs, never auto-merge) for one full season before tier A merges are switched on. Check: zero tier A PRs a reviewer would have rejected.
 10. `packages/proxy`, the Sonarr Torznab proxy. Check: an end-to-end test where a Sonarr search for a split-cour show's TVDB S01E17 returns the absolute-numbered release rewritten so Sonarr grabs it, then a week of real RSS traffic on a test install with no wrong imports.
-11. Optional Worker. Check: conformance suite green against the deployed Worker.
+11. Optional Worker. Check: the conformance suite green through the Worker's handler in CI, and the deployed Worker answering exactly like the library on the latest data release (`worker/scripts/check-deployed.ts`).
 12. README and docs site to the quality bar above. Check: fresh-eyes test passed on all three front doors.
 
 **Constraints to keep in the agent's instructions**

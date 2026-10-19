@@ -31,6 +31,9 @@ env:
   # checks would not run on bot PRs. SEED_PR_TOKEN (fine-grained: contents, pull requests and
   # issues, read and write) avoids that.
   GH_TOKEN: ${{ secrets.SEED_PR_TOKEN || github.token }}
+  # Issues and labels use the built-in token (issues: write above): they need not trigger other
+  # workflows, and SEED_PR_TOKEN could not edit issues on the 2026-10-19 scheduled run.
+  GH_ISSUES_TOKEN: ${{ github.token }}
 
 jobs:
   scan:
@@ -51,7 +54,10 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Season scanner, airing tracker and classifier (opens PRs and issues, never merges)
-        run: pnpm bots scan --apply --json "$RUNNER_TEMP/findings.json" | tee "$RUNNER_TEMP/scan.log"
+        run: |
+          # Without pipefail, tee's exit status hid a failed scan (2026-10-19).
+          set -o pipefail
+          pnpm bots scan --apply --json "$RUNNER_TEMP/findings.json" | tee "$RUNNER_TEMP/scan.log"
 
       - name: Job summary
         if: always()
@@ -69,6 +75,8 @@ jobs:
 
       - name: Open an issue when the bots fail twice in a row
         if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: .github/scripts/bot-failure.sh scan
 
   weekly:
@@ -99,4 +107,6 @@ jobs:
 
       - name: Open an issue when the bots fail twice in a row
         if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: .github/scripts/bot-failure.sh weekly

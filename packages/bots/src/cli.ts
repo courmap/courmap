@@ -124,7 +124,7 @@ async function main(argv: string[]): Promise<number> {
   }
   const apply = values.apply === true;
   const log = (l: string) => console.log(l);
-  const writer = new GitHubWriter({ apply, repoDir: process.cwd(), log });
+  const writer = new GitHubWriter({ apply, repoDir: process.cwd(), log, issuesToken: process.env.GH_ISSUES_TOKEN || undefined });
   const limits = { prs: Number(values['max-prs']), issues: Number(values['max-issues']) };
 
   if (command === 'scan') {

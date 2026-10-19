@@ -14,6 +14,14 @@ The optional HTTP API (decision S6.3): a Cloudflare Worker serving lookup, trans
 
 Errors are `{ code, message, field?, candidates? }` with HTTP 400 (`invalid_input`), 404 (`not_found`) or 409 (`ambiguous`). Every response allows any origin. Clients are limited to 60 requests a minute (HTTP 429 with `Retry-After`); anything heavier should use the library or the dumps.
 
+## Schedule watchdog
+
+GitHub runs scheduled workflows on a best effort basis and may drop them. The Worker's Cron Triggers (`wrangler.toml`) fire 30 minutes after the bots, seed and release schedules; if that workflow has not run that day, the Worker dispatches it. It does nothing until a fine-grained GitHub token with Actions: write on `courmap/courmap` is stored as a Worker secret:
+
+```sh
+cd worker && npx wrangler@4.151.2 secret put GITHUB_DISPATCH_TOKEN
+```
+
 ## Develop and deploy
 
 ```sh

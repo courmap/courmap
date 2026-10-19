@@ -4,7 +4,8 @@ name: seed
 # (or update) a pull request with the diff. Never pushes to main.
 on:
   schedule:
-    - cron: '0 6 * * 2' # Tuesdays 06:00 UTC, after cedya77's weekly release
+    # Off the hour and half hour: GitHub delays or drops scheduled runs at busy minutes.
+    - cron: '17 6 * * 2' # Tuesdays 06:17 UTC, after cedya77's weekly release
   workflow_dispatch:
 
 permissions:

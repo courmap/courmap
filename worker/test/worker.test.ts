@@ -120,3 +120,43 @@ describe('Worker', async () => {
     expect(Object.keys(r.metafile.inputs).filter((f) => /node:|better-sqlite3|offline\.ts|disk-store\.ts/.test(f))).toEqual([]);
   });
 });
+
+describe('schedule watchdog (decision S7.3)', async () => {
+  const { watchdog, WATCHED } = await import('../src/watchdog.js');
+  const now = new Date('2026-10-20T07:53:00Z');
+  const fake = (runsToday: number) => {
+    const calls: { url: string; init?: RequestInit }[] = [];
+    const f = (async (url: string, init?: RequestInit) => {
+      calls.push({ url, ...(init && { init }) });
+      return url.endsWith('/dispatches') ? new Response(null, { status: 204 }) : new Response(JSON.stringify({ total_count: runsToday }));
+    }) as unknown as typeof fetch;
+    return { f, calls };
+  };
+
+  it('does nothing without the dispatch token', async () => {
+    const { f, calls } = fake(0);
+    expect(await watchdog('53 7 * * *', {}, now, f)).toEqual({ workflow: 'bots.yml', action: 'disabled' });
+    expect(calls).toEqual([]);
+  });
+
+  it('leaves a workflow that already ran today alone', async () => {
+    const { f, calls } = fake(1);
+    expect(await watchdog('53 7 * * *', { GITHUB_DISPATCH_TOKEN: 't' }, now, f)).toEqual({ workflow: 'bots.yml', action: 'already-ran' });
+    expect(calls[0]!.url).toContain('/actions/workflows/bots.yml/runs?created=%3E%3D2026-10-20');
+    expect(calls).toHaveLength(1);
+  });
+
+  it('dispatches a workflow whose schedule did not fire', async () => {
+    const { f, calls } = fake(0);
+    expect(await watchdog('53 7 * * *', { GITHUB_DISPATCH_TOKEN: 't' }, now, f)).toEqual({ workflow: 'bots.yml', action: 'dispatched' });
+    expect(JSON.parse(String(calls[1]!.init!.body))).toEqual({ ref: 'main', inputs: { job: 'scan' } });
+  });
+
+  it('backs up every GitHub schedule, 30 minutes later, and wrangler.toml lists the same crons', () => {
+    const wrangler = readFileSync(path.join(root, 'worker/wrangler.toml'), 'utf8');
+    expect(JSON.parse(/crons = (\[.*\])/.exec(wrangler)![1]!)).toEqual(Object.keys(WATCHED));
+    const github = (file: string) => [...readFileSync(path.join(root, '.github/workflows', file), 'utf8').matchAll(/cron: '([^']+)'/g)].map((m) => m[1]!);
+    const later = (cron: string) => cron.replace(/^(\d+) /, (_, m: string) => `${Number(m) + 30} `);
+    expect(Object.keys(WATCHED)).toEqual([later(github('bots.yml')[0]!), later(github('seed.yml')[0]!), later(github('release.yml')[0]!)]);
+  });
+});

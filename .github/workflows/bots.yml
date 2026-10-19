@@ -6,8 +6,9 @@ name: bots
 #   weekly: projection checker (TMDB, CI only, nothing stored) and the digest (ntfy, Discord)
 on:
   schedule:
-    - cron: '30 7 * * *' # daily
-    - cron: '0 10 * * 2' # weekly, Tuesdays after the seed (06:00) and release (09:00) jobs
+    # Off the hour and half hour: GitHub delays or drops scheduled runs at busy minutes.
+    - cron: '23 7 * * *' # daily
+    - cron: '47 10 * * 2' # weekly, Tuesdays after the seed (06:17) and release (09:13) jobs
   workflow_dispatch:
     inputs:
       job:
@@ -33,7 +34,7 @@ env:
 
 jobs:
   scan:
-    if: github.event.schedule == '30 7 * * *' || (github.event_name == 'workflow_dispatch' && inputs.job == 'scan')
+    if: github.event.schedule == '23 7 * * *' || (github.event_name == 'workflow_dispatch' && inputs.job == 'scan')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -71,7 +72,7 @@ jobs:
         run: .github/scripts/bot-failure.sh scan
 
   weekly:
-    if: github.event.schedule == '0 10 * * 2' || (github.event_name == 'workflow_dispatch' && inputs.job == 'weekly')
+    if: github.event.schedule == '47 10 * * 2' || (github.event_name == 'workflow_dispatch' && inputs.job == 'weekly')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

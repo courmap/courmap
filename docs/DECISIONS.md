@@ -280,3 +280,10 @@ Numbered S4.1 to S4.7, in the order Xwolv gave them.
   - Publishing uses `npm publish <tgz> --provenance --access public`, in dependency order.
   - The first verification caught a consumer-facing bug: `offline.d.ts` exposes `better-sqlite3` types, so `@types/better-sqlite3` is now a dependency of `@courmap/client`, not a devDependency.
   - First dry run (2026-10-19): core 30.7 kB (37 files), parser 8.7 kB (7 files), client 9.6 kB (15 files); none of the names exists on npm yet.
+- **S7.3 Scheduled runs** (decided by Xwolv): check whether the 07:30 UTC scans fired; if not, investigate and propose a fix.
+- **What the investigation found, and the fix.**
+  - No scheduled run of any workflow had happened by 2026-10-19 13:47 UTC: the 07:30 bots scan created no run at all, not even a skipped one, so the job conditions were not the cause.
+  - The workflow is active on `main` (the default branch), Actions are enabled, the repository is public and not a fork, and the cron was last changed by an admin six hours before the slot. Org-level Actions policy could not be read with the available token.
+  - GitHub documents that scheduled events may be delayed or dropped under load, naming the start of every hour as such a time; `:30` is also a common slot, and newly registered schedules missing their first slots is a frequently reported behavior.
+  - The fix has two parts. All crons moved off the hour and half hour (bots `23 7 * * *` and `47 10 * * 2`, seed `17 6 * * 2`, release `13 9 * * 2`). The Worker gained a watchdog: Cloudflare Cron Triggers 30 minutes after each schedule ask the GitHub API whether the workflow ran that day and dispatch it if not. A test keeps the two cron lists in step.
+  - Rationale: the bots must never fail silently, and Cron Triggers are a second, independent scheduler. The watchdog stays inert until Xwolv adds a fine-grained token with Actions: write as the Worker secret `GITHUB_DISPATCH_TOKEN`.

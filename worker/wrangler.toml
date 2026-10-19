@@ -18,6 +18,12 @@ namespace_id = "1001"
   limit = 60
   period = 60
 
+# The schedule watchdog (worker/src/watchdog.ts): 30 minutes after each GitHub schedule, dispatch
+# the workflow if it has not run today. Inert until the GITHUB_DISPATCH_TOKEN secret is set
+# (wrangler secret put GITHUB_DISPATCH_TOKEN).
+[triggers]
+crons = ["53 7 * * *", "47 6 * * 2", "43 9 * * 2"]
+
 [alias]
 "@courmap/client/remote" = "../packages/client/src/browser.ts"
 "@courmap/core" = "../packages/core/src/index.ts"

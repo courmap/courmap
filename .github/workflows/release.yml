@@ -7,7 +7,8 @@ name: release
 #            four R2 secrets exist.
 on:
   schedule:
-    - cron: '0 9 * * 2' # Tuesdays 09:00 UTC, after the seed job (06:00)
+    # Off the hour and half hour: GitHub delays or drops scheduled runs at busy minutes.
+    - cron: '13 9 * * 2' # Tuesdays 09:13 UTC, after the seed job (06:17)
   workflow_dispatch:
 
 permissions:

@@ -43,6 +43,7 @@ pnpm corpus:import <file>     # add release names from a text file as unverified
 pnpm builder aliases          # alias quality bands (shared by more than 5 works flagged, more than 50 excluded)
 pnpm bots scan                # season scanner, airing tracker, classifier; prints only (--apply opens PRs and issues)
 pnpm release assets --dump out/courmap.sqlite --out out/release   # release assets and SHA256SUMS
+node packages/proxy/scripts/bundle.mjs dev   # the Sonarr proxy as one file (the Docker image runs it)
 pnpm check                    # everything CI runs
 ```
 

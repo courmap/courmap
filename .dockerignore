@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+out
+.cache
+.git
+data
+tests
+packages/*/test
+packages/proxy/docker/proxy.mjs

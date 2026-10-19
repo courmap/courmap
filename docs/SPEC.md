@@ -437,7 +437,7 @@ There is no server to run. Data changes only when a PR merges, so everything is 
 /v1/groups.json                        # every release group with aliases and overrides
 ```
 
-4. **Client library** (TypeScript, published to npm as `@courmap/client`; other languages port against the conformance suite) implements `lookup`, `translate` and `resolve` locally against either the shards (fetch on demand, cache by `data_version`) or a downloaded dump (fully offline). PVRs like Transpondarr should use the dump mode: no network call per RSS item.
+4. **Client library** (TypeScript, published to npm as `@courmap/client` with `@courmap/core` and `@courmap/parser`, by `.github/workflows/npm.yml` with provenance when a `client-vX.Y.Z` tag is pushed; other languages port against the conformance suite) implements `lookup`, `translate` and `resolve` locally against either the shards (fetch on demand, cache by `data_version`) or a downloaded dump (fully offline). PVRs like Transpondarr should use the dump mode: no network call per RSS item.
 5. **Optional Worker** at `api.courmap.com` (a `workers.dev` address until the domain exists): a Cloudflare Worker on the free tier for curl-and-go users, backed by the same shards through the remote client. It serves lookup, translate, resolve and search as `GET`, plus `POST` batches of at most 100 translates or 25 resolves; open CORS; Cloudflare rate limiting in front. It deploys from `main` only, with a `CLOUDFLARE_API_TOKEN` repository secret scoped to Workers. It is a convenience and the lowest priority (built after the docs site); if abused it is switched off and nothing breaks, including the docs site's try-it box, which never calls it.
 
 **Caching contract**

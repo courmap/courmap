@@ -1,8 +1,25 @@
 {
   "name": "@courmap/client",
-  "version": "0.0.0",
-  "description": "Courmap client: anime episode lookup and translation across providers",
+  "version": "0.1.0",
+  "description": "Courmap client: translate anime episodes between AniDB, AniList, MAL, Kitsu, TVDB, TMDB, IMDb and absolute numbering, and resolve release names, offline or remote",
+  "keywords": [
+    "anime",
+    "episode",
+    "numbering",
+    "anidb",
+    "anilist",
+    "myanimelist",
+    "kitsu",
+    "tvdb",
+    "tmdb",
+    "sonarr",
+    "release-name"
+  ],
   "license": "Apache-2.0",
+  "homepage": "https://courmap.pages.dev/",
+  "bugs": {
+    "url": "https://github.com/courmap/courmap/issues"
+  },
   "type": "module",
   "repository": {
     "type": "git",
@@ -26,7 +43,10 @@
     }
   },
   "files": [
-    "dist"
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json"
@@ -34,11 +54,29 @@
   "dependencies": {
     "@courmap/core": "workspace:*",
     "@courmap/parser": "workspace:*",
-    "better-sqlite3": "^12.11.1"
+    "better-sqlite3": "^12.11.1",
+    "@types/better-sqlite3": "^9.6.0"
   },
   "devDependencies": {
     "@courmap/builder": "workspace:*",
-    "@types/better-sqlite3": "^9.6.0",
     "yaml": "^2.9.1"
+  },
+  "engines": {
+    "node": ">=22.15"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "browser": "./dist/browser.js",
+        "default": "./dist/index.js"
+      },
+      "./remote": {
+        "types": "./dist/browser.d.ts",
+        "default": "./dist/browser.js"
+      }
+    }
   }
 }

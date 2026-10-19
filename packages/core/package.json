@@ -1,8 +1,21 @@
 {
   "name": "@courmap/core",
-  "version": "0.0.0",
-  "description": "Shared types, normalization and the translation engine for Courmap",
+  "version": "0.1.0",
+  "description": "Courmap core: the translation and resolution engine, data model and normalization shared by every Courmap client",
+  "keywords": [
+    "anime",
+    "episode",
+    "numbering",
+    "anidb",
+    "anilist",
+    "tvdb",
+    "tmdb"
+  ],
   "license": "Apache-2.0",
+  "homepage": "https://courmap.pages.dev/",
+  "bugs": {
+    "url": "https://github.com/courmap/courmap/issues"
+  },
   "type": "module",
   "repository": {
     "type": "git",
@@ -17,9 +30,25 @@
     }
   },
   "files": [
-    "dist"
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json"
+  },
+  "engines": {
+    "node": ">=22.15"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
   }
 }

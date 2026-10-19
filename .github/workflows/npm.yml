@@ -1,0 +1,80 @@
+name: npm
+
+# Publishes @courmap/core, @courmap/parser and @courmap/client to npm with provenance when a
+# client-vX.Y.Z tag is pushed (decision S7.2). The tag must match the packages' version. Every
+# run packs and verifies the tarballs in a clean project (Node, types, browser bundle); without
+# the NPM_TOKEN secret it ends with npm publish --dry-run.
+on:
+  push:
+    tags: ['client-v*']
+  pull_request:
+    paths:
+      - packages/core/**
+      - packages/parser/**
+      - packages/client/**
+      - scripts/pack-npm.mjs
+      - scripts/verify-npm.ts
+      - .github/workflows/npm.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # npm provenance
+
+concurrency:
+  group: npm-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Same checks as the validate workflow
+        run: pnpm check
+
+      - name: Pack (the tag must match the packages' version)
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/client-v* ]]; then
+            node scripts/pack-npm.mjs --expect "${GITHUB_REF#refs/tags/client-v}"
+          else
+            node scripts/pack-npm.mjs
+          fi
+
+      - name: Verify the tarballs in a clean project (Node, types, browser bundle)
+        run: pnpm exec tsx --conditions=@courmap/source scripts/verify-npm.ts
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: npm-tarballs
+          path: out/npm
+          retention-days: 30
+
+      - name: Publish core, parser and client, or dry-run without NPM_TOKEN
+        run: |
+          live=false
+          if [[ "$GITHUB_REF" == refs/tags/client-v* ]] && [ -n "$NODE_AUTH_TOKEN" ]; then live=true; fi
+          for p in core parser client; do
+            tgz=$(ls out/npm/courmap-$p-*.tgz)
+            if [ "$live" = true ]; then
+              npm publish "$tgz" --provenance --access public
+            else
+              npm publish "$tgz" --dry-run --provenance=false --access public
+            fi
+          done
+          if [ "$live" != true ]; then
+            echo "::notice::npm dry run: $( [ -z "$NODE_AUTH_TOKEN" ] && echo 'NPM_TOKEN is not set' || echo 'not a client-v* tag' ). Nothing was published."
+          fi

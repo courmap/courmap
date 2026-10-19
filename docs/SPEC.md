@@ -226,7 +226,6 @@ CREATE TABLE aliases (
 );
 CREATE INDEX idx_alias_norm ON aliases(normalized);
 CREATE INDEX idx_alias_work ON aliases(work_id);
-CREATE VIRTUAL TABLE alias_trigrams USING fts5(normalized, work_id UNINDEXED, tokenize = 'trigram');
 
 CREATE TABLE groups (
   id      TEXT PRIMARY KEY,
@@ -337,7 +336,7 @@ Resolution is parse, match, interpret, score. Each step records a reason string,
 2. **Normalize the title.** NFKC, then one folding table: `×` becomes `x`; stars, music notes, hearts, colons and CJK or full-width punctuation become spaces. Then lowercase, fold macrons, strip other punctuation and filler words (`the`, `season`, `part`, `cour`), collapse spaces. The same function builds `aliases.normalized`.
 3. **Match candidates.**
     1. Exact hit in the alias index. An alias several works share splits its title weight across them; season token, episode fit, year, title rank and type then break the tie. An alias shared by more than 50 works (a broadcast slot such as "Minna no Uta", a label such as "Music") is not in the index at all.
-    2. No exact hit: trigram FTS search, keep the top 10 above a similarity floor.
+    2. No exact hit: trigram search over the same alias index (computed by the client, not stored in the dump), keep the top 10 above a similarity floor.
     3. Season token present (`S2`, `2nd Season`, `Part 2`): prefer works whose aliases or prequel chain position agree.
 4. **Interpret the number** against each candidate, in order:
     1. Group override for this group and work, if any.

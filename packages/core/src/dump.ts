@@ -3,8 +3,8 @@ import type { Dataset } from './engine.js';
 import type { GroupRecord, Meta, ProjectionRow, SequenceRecord, WorkRecord, WorkStatus, WorkType } from './model.js';
 import type { EpisodeKind, ProjectionProvider, Provider } from './providers.js';
 
-/** Dump schema versions this code reads (meta.schema_version). */
-export const SUPPORTED_DUMP_SCHEMA_VERSIONS: ReadonlySet<string> = new Set(['3']);
+/** Dump schema versions this code reads (meta.schema_version). Version 4 only drops the unused FTS5 table. */
+export const SUPPORTED_DUMP_SCHEMA_VERSIONS: ReadonlySet<string> = new Set(['3', '4']);
 
 /**
  * The two calls the dump reader needs from a SQLite driver. better-sqlite3 in Node, and any

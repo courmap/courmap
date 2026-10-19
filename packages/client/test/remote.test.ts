@@ -28,7 +28,7 @@ describe('remote client', async () => {
 
   it('writes the spec layout, meta.json included', () => {
     const meta = JSON.parse(readFileSync(path.join(root, 'meta.json'), 'utf8')) as Record<string, unknown>;
-    expect(meta).toMatchObject({ data_version: '2026.01', schema_version: '3', counts: { works: 10, sequences: 2, groups: 1 } });
+    expect(meta).toMatchObject({ data_version: '2026.01', schema_version: '4', counts: { works: 10, sequences: 2, groups: 1 } });
     expect(JSON.parse(readFileSync(path.join(root, 'refs', 'tvdb_show', '5.json'), 'utf8'))).toMatchObject({ '5002': ['split-show', 'split-show-part-2'] });
     expect(JSON.parse(readFileSync(path.join(root, 'refs', 'imdb', '0.json'), 'utf8'))).toEqual({ tt0000001: ['simple-show'], tt0000007: ['a-movie'] });
   });
@@ -84,7 +84,7 @@ describe('remote client', async () => {
   it('serves the same alias index and groups as the dump and the in-memory records (decision S3.4)', async () => {
     const offline = new SqliteDataset(dump);
     try {
-      const memory = new MemoryDataset(v.records!, { data_version: '2026.01', git_sha: 'test', built_at: '', schema_version: '3' });
+      const memory = new MemoryDataset(v.records!, { data_version: '2026.01', git_sha: 'test', built_at: '', schema_version: '4' });
       const remote = new RemoteDataset(server.url);
       const index = await offline.aliasIndex();
       expect(await remote.aliasIndex()).toEqual(index);

@@ -4,6 +4,7 @@ import { parseArgs } from 'node:util';
 import { buildAssets } from './assets.js';
 import { fillMetaDumps } from './meta.js';
 import { verifyRelease } from './verify.js';
+import { makeBadges, readJsonOrNull, writeBadges } from './badges.js';
 import { targetFromEnv, uploadShards } from './upload.js';
 
 const USAGE = `Usage: courmap-release <command> [options]
@@ -15,6 +16,8 @@ Commands:
                                       and add meta.json to the release assets
   verify --dir <assets> --repo <owner/name>
                                       Check a release directory before publishing it
+  badges --out <dir> [--meta <meta.json>] [--corpus <file>] [--trackers <file>] [--season <name>]
+                                      Write the README badge files (shields.io endpoint JSON)
   upload --dir <shards> [--prefix v1/] [--dry-run] [--prune]
                                       Publish a shard tree to S3-compatible storage, meta.json last
 
@@ -32,6 +35,10 @@ async function main(argv: string[]): Promise<number> {
       dir: { type: 'string' },
       assets: { type: 'string' },
       repo: { type: 'string' },
+      meta: { type: 'string' },
+      corpus: { type: 'string' },
+      trackers: { type: 'string' },
+      season: { type: 'string' },
       prefix: { type: 'string', default: 'v1/' },
       'dry-run': { type: 'boolean' },
       prune: { type: 'boolean' },
@@ -64,6 +71,20 @@ async function main(argv: string[]): Promise<number> {
     for (const p of r.problems) console.error(`problem: ${p}`);
     console.log(r.problems.length === 0 ? `Release data-${r.dataVersion} verified: ${r.files.join(', ')}` : `\n${r.problems.length} problem(s); do not publish`);
     return r.problems.length === 0 ? 0 : 1;
+  }
+  if (command === 'badges') {
+    if (!values.out) return (console.error('badges needs --out'), 1);
+    const now = new Date();
+    const season = values.season ?? `${['Winter', 'Spring', 'Summer', 'Fall'][Math.floor(now.getUTCMonth() / 3)]} ${now.getUTCFullYear()}`;
+    const badges = makeBadges({
+      meta: await readJsonOrNull(values.meta),
+      corpus: await readJsonOrNull(values.corpus),
+      trackers: await readJsonOrNull(values.trackers),
+      season,
+    });
+    for (const [name, b] of Object.entries(badges)) console.log(`${name}: ${b.label} | ${b.message}`);
+    await writeBadges(values.out, badges);
+    return 0;
   }
   if (command === 'upload') {
     if (!values.dir) return (console.error('upload needs --dir'), 1);

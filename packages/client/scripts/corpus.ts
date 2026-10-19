@@ -1,5 +1,5 @@
 // Runs tests/releases.yaml and checks it against tests/releases.baseline.json.
-// Usage: pnpm corpus [--update-baseline] [--summary <file>]
+// Usage: pnpm corpus [--update-baseline] [--summary <file>] [--json <file>]
 // Fails when the verified pass rate drops below the baseline, or when any case expected to be
 // ambiguous or unmatched comes back ok. Writes a Markdown report to --summary, or to
 // $GITHUB_STEP_SUMMARY in CI.
@@ -55,7 +55,7 @@ const want = (c: CorpusCase) =>
   c.expect.status === 'ok' ? `ok ${c.expect.work ?? ''} ${c.expect.episode ?? ''}${c.expect.episode_to ? `-${c.expect.episode_to}` : ''}`.trim() : `${c.expect.status}${c.expect.top ? ` (top ${c.expect.top})` : ''}`;
 
 async function main(): Promise<number> {
-  const { values } = parseArgs({ options: { 'update-baseline': { type: 'boolean' }, summary: { type: 'string' } } });
+  const { values } = parseArgs({ options: { 'update-baseline': { type: 'boolean' }, summary: { type: 'string' }, json: { type: 'string' } } });
   const { cases } = parse(readFileSync(corpusFile, 'utf8')) as { cases: CorpusCase[] };
   const clients = { data: await client(`${root}data`), conformance: await client(`${root}tests/conformance/data`) };
   const outcomes: Outcome[] = [];
@@ -86,6 +86,8 @@ async function main(): Promise<number> {
   const report = lines.join('\n');
   console.log(report);
   for (const file of new Set([values.summary, process.env.GITHUB_STEP_SUMMARY])) if (file) appendFileSync(file, `${report}\n`);
+  // Machine-readable result, for the README badge.
+  if (values.json) writeFileSync(values.json, `${JSON.stringify({ verified: verified.length, passed, pass_rate: Number(rate.toFixed(4)), unverified: unverified.length })}\n`);
 
   if (values['update-baseline']) {
     writeFileSync(baselineFile, `${JSON.stringify({ verified: verified.length, passed, pass_rate: Number(rate.toFixed(4)) }, null, 2)}\n`);

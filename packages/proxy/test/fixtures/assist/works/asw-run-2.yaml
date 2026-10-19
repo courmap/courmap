@@ -1,0 +1,11 @@
+id: asw-run-2
+type: ona
+status: airing
+year: 2021
+episodes: 10
+titles:
+  romaji: Assist Run Arc
+ids:
+  anilist: 8015
+prequel: asw-run-1
+notes: Proxy test fixture, fake IDs. A sequel that airs alongside its prequel.

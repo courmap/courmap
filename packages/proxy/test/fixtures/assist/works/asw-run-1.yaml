@@ -1,0 +1,10 @@
+id: asw-run-1
+type: ona
+status: airing
+year: 2020
+episodes: 30
+titles:
+  romaji: Assist Run
+ids:
+  anilist: 8014
+notes: Proxy test fixture, fake IDs. Still airing, so its count of 30 will grow.

@@ -98,6 +98,9 @@ export async function assistNumbering(client: CourmapClient, sonarr: SonarrClien
     method = 'absolute';
     const unknown = chain.find((w) => w.episodes === null);
     if (unknown) return fail('assist-no-numbering', `prequel ${unknown.id} has no known episode count, so absolute numbers cannot be summed`);
+    // A prequel still airing has a count that will grow, which would shift every number after it.
+    const running = chain.find((w) => w.status === 'airing' || w.status === 'upcoming');
+    if (running) return fail('assist-no-numbering', `prequel ${running.id} is still ${running.status}, so its episode count is not final`);
     if (!regular.some((e) => e.absoluteEpisodeNumber != null)) return fail('assist-no-numbering', `${series.title} has no absolute numbers in Sonarr`);
     // Summing prequel counts only fits a series that starts with the chain's first work. A sequel
     // Sonarr keeps as its own series (numbered from 1) would otherwise land on the wrong episode.

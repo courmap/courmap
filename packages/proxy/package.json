@@ -1,0 +1,39 @@
+{
+  "name": "@courmap/proxy",
+  "version": "0.0.0",
+  "description": "Courmap Sonarr Torznab proxy: rewrites anime release names into the numbering Sonarr understands",
+  "license": "Apache-2.0",
+  "type": "module",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/courmap/courmap.git",
+    "directory": "packages/proxy"
+  },
+  "bin": {
+    "courmap-proxy": "./dist/main.js"
+  },
+  "exports": {
+    ".": {
+      "@courmap/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "bundle": "esbuild src/main.ts --bundle --platform=node --target=node22 --format=esm --conditions=@courmap/source --external:better-sqlite3 --banner:js=\"import { createRequire as __cr } from 'node:module'; const require = __cr(import.meta.url);\" --outfile=docker/proxy.mjs"
+  },
+  "dependencies": {
+    "@courmap/client": "workspace:*",
+    "@courmap/core": "workspace:*",
+    "better-sqlite3": "^12.11.1",
+    "yaml": "^2.9.1"
+  },
+  "devDependencies": {
+    "@courmap/builder": "workspace:*"
+  }
+}

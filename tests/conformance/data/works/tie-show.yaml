@@ -1,0 +1,10 @@
+id: tie-show
+type: tv
+year: 2024
+episodes: 12
+titles:
+  romaji: Tie Show
+ids:
+  anidb: 1011
+  anilist: 2011
+notes: Conformance fixture. All IDs are fake. Shares its title with an OVA (decision S4.4 tie-breakers).

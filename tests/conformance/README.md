@@ -4,7 +4,7 @@ Language-neutral cases that every Courmap client must pass, in every mode (offli
 
 ## Layout
 
-- `data/`: a small fixture dataset with fake IDs, laid out like the repo's `data/`. It covers a simple show, a split cour sharing one TVDB season, specials, one-to-many and many-to-one episode splits, an open-ended long-runner, a seasonless (absolute order) projection, a movie, a movie AniDB splits into parts, and two absolute sequences sharing one work (one marked default).
+- `data/`: a small fixture dataset with fake IDs, laid out like the repo's `data/`. It covers a simple show, a split cour sharing one TVDB season, specials, one-to-many and many-to-one episode splits, an open-ended long-runner, a seasonless (absolute order) projection, a movie, a movie AniDB splits into parts, a TV work and an OVA sharing a title (resolver tie-breakers), and two absolute sequences sharing one work (one marked default).
 - `cases/*.yaml`: the cases, grouped by operation.
 
 ## Building the fixture dump

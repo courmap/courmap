@@ -51,6 +51,16 @@ cases:
     release: "[Other] Simple Shwo - 05"
     expect_resolve: { status: ambiguous, top: [simple-show] }
 
+  - name: title rank and type together break a tie (a TV title over an OVA synonym)
+    op: resolve
+    release: "[Other] Tie Show - 01"
+    expect_resolve: { status: ok, work: tie-show, episode: 1, confidence: 0.862 }  # evidence 1 against 0.4 x 0.4
+
+  - name: title rank alone does not decide (an OVA marker turns the type preference off)
+    op: resolve
+    release: "[Other] Tie Show OVA - 01"
+    expect_resolve: { status: ambiguous, top: [tie-show, tie-show-recap] }
+
   - name: an alias two works share, with nothing to break the tie
     op: resolve
     release: "[Other] Twin Title - 01"

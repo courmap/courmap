@@ -272,6 +272,28 @@ function yearFit(w: WorkRecord, year: number | null): { fit: number; reason: str
   return { fit: MISMATCH, reason: `year ${year} does not match (${w.year})` };
 }
 
+/** Tie-breaker weight when the alias is only a synonym of the work, not one of its titles (decision S4.4). */
+export const SYNONYM_WEIGHT = 0.4;
+/** Tie-breaker weight by type (decision S4.4): tv and movie over ova and ona, over special and anything else. */
+export const TYPE_WEIGHT: Readonly<Record<string, number>> = { tv: 1, movie: 1, ova: 0.4, ona: 0.4 };
+const OTHER_TYPE_WEIGHT = 0.2;
+// Neither tie-breaker decides alone (a 1 to 0.4 split leaves the leader at 0.71), both together
+// do (1 to 0.16 gives 0.86): see OK_FLOOR.
+
+/**
+ * Title rank and type as tie-breakers among the works sharing one alias (decision S4.4). The
+ * romaji title is the primary one; a hit on any of the work's titles beats a hit on a synonym.
+ * Type preference is skipped when the release names a special kind (OVA, movie, special),
+ * since the marker is then the better evidence.
+ */
+function preference(w: WorkRecord, hit: AliasHit, parsed: ParsedRelease): { weight: number; reason: string | null } {
+  const isTitle = [w.titles.romaji, w.titles.english, w.titles.native].some((t) => t !== null && normalizeTitle(t) === hit.alias);
+  const title = isTitle ? 1 : SYNONYM_WEIGHT;
+  const type = parsed.special !== null ? 1 : (TYPE_WEIGHT[w.type] ?? OTHER_TYPE_WEIGHT);
+  const reasons = [!isTitle && 'the alias is a synonym, not a title', type < 1 && `type ${w.type}`].filter(Boolean);
+  return { weight: title * type, reason: reasons.length > 0 ? reasons.join(', ') : null };
+}
+
 const round = (x: number) => Math.round(x * 1000) / 1000;
 
 async function projectionsFor(ds: Dataset, workId: string, episode: number): Promise<ResolvedProjections> {
@@ -307,10 +329,11 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease): Promise<Resol
   // Score each (alias hit, work); a shared alias splits its weight by each sharer's evidence.
   const best = new Map<string, ResolveCandidate>();
   for (const hit of hits) {
-    const scored: { evidence: number; cand: Omit<ResolveCandidate, 'confidence'> }[] = [];
+    const scored: { evidence: number; pref: { weight: number; reason: string | null }; cand: Omit<ResolveCandidate, 'confidence'> }[] = [];
     for (const id of hit.works) {
       const w = await ds.getWork(id);
       if (!w) continue;
+      const pref = preference(w, hit, parsed);
       const placement = await place(ctx, w);
       const season = await seasonFit(ds, w, hit, placement, parsed);
       const year = yearFit(w, parsed.year);
@@ -318,6 +341,7 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease): Promise<Resol
       const shared = hit.works.length > 1 ? `, shared by ${hit.works.length} works` : '';
       scored.push({
         evidence: placement.fit * season.fit * year.fit,
+        pref,
         cand: {
           work: placement.work.id,
           episode: placement.episode,
@@ -325,6 +349,18 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease): Promise<Resol
           reason: [titleReason + shared, placement.reason, season.reason, year.reason].filter(Boolean).join('; '),
         },
       });
+    }
+    // Title rank and type only break ties or widen a lead: weights are relative to the sharer the
+    // other evidence favors (the best preference among equals), so they never overturn it.
+    if (scored.length > 1) {
+      const lead = scored.reduce((a, b) => (b.evidence > a.evidence || (b.evidence === a.evidence && b.pref.weight > a.pref.weight) ? b : a));
+      for (const x of scored) {
+        const weight = Math.min(1, x.pref.weight / lead.pref.weight);
+        if (weight < 1) {
+          x.evidence *= weight;
+          x.cand.reason += `; ${x.pref.reason} (preferring ${lead.cand.work})`;
+        }
+      }
     }
     const total = scored.reduce((s, x) => s + x.evidence, 0);
     for (const { evidence, cand } of scored) {

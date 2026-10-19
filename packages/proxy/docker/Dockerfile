@@ -1,4 +1,4 @@
-# ghcr.io/courmap/proxy: the Courmap Sonarr Torznab proxy (packages/proxy).
+# ghcr.io/courmap/proxy: the Courmap Sonarr Torznab and Newznab proxy (packages/proxy).
 # Build from the repository root:
 #   docker buildx build -f packages/proxy/docker/Dockerfile --platform linux/amd64,linux/arm64 .
 
@@ -22,7 +22,7 @@ RUN npm init -y >/dev/null && npm install --omit=dev --no-audit --no-fund better
 # 3. Runtime.
 FROM node:22-bookworm-slim
 LABEL org.opencontainers.image.source="https://github.com/courmap/courmap" \
-      org.opencontainers.image.description="Courmap Sonarr Torznab proxy: anime release names in the numbering Sonarr understands" \
+      org.opencontainers.image.description="Courmap Sonarr Torznab and Newznab proxy: anime release names in the numbering Sonarr understands" \
       org.opencontainers.image.licenses="Apache-2.0"
 ENV NODE_ENV=production PORT=9797 DATA_DIR=/data COURMAP_CONFIG=/config/courmap-proxy.yaml
 WORKDIR /app

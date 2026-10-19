@@ -41,7 +41,7 @@ services:
       INDEXER_NYAA_URL: http://prowlarr:9696/1/api
 ```
 
-Then add `http://courmap-proxy:9797/nyaa` to Sonarr as a Torznab indexer. [Sonarr guide](https://courmap.com/sonarr/), including Unraid.
+Then add `http://courmap-proxy:9797/nyaa` to Sonarr as a Torznab indexer (a Newznab indexer for usenet). [Sonarr guide](https://courmap.com/sonarr/), including Unraid.
 
 ### Developers
 

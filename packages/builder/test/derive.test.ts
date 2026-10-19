@@ -91,4 +91,11 @@ describe('AniList relations (Xwolv decision S4.1): manual over AniList over deri
   it('derives prequels only for works neither source covers', () => {
     expect([prequelOf('rel-d'), originOf('rel-d')]).toEqual(['rel-c', 'derived']);
   });
+
+  it('applies airing lines over seeds, and manual keys over airing lines', () => {
+    const seed = result.records!.works.get('rel-seed')!;
+    expect([seed.episodes, seed.status]).toEqual([13, 'finished']);
+    const manual = result.records!.works.get('rel-seed-manual')!;
+    expect([manual.episodes, manual.status]).toEqual([25, 'airing']);
+  });
 });

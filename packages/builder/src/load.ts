@@ -14,6 +14,8 @@ export const SEED_ORIGINS: readonly Origin[] = ['bot', 'offline-db', 'anime-list
 export const SEED_SHARD_RE = /^works-\d{3}\.jsonl$/;
 /** Prequel relations written by the bots from AniList (decision S4.1), next to the seed shards. */
 export const RELATIONS_FILE = 'relations.jsonl';
+/** Episode counts and status of airing works, written by the bots' airing tracker. */
+export const AIRING_FILE = 'airing.jsonl';
 
 /** A hand-written YAML file under works/, sequences/ or groups/. */
 export interface SourceFile {
@@ -40,6 +42,8 @@ export interface LoadedData {
   seeds: SeedSource[];
   /** Lines of data/seeds/relations.jsonl. */
   relations: SeedSource[];
+  /** Lines of data/seeds/airing.jsonl. */
+  airing: SeedSource[];
 }
 
 const toPosix = (p: string) => p.split(path.sep).join('/');
@@ -83,8 +87,9 @@ export async function loadData(dataDir: string, reporter: Reporter, cwd = proces
 
   const seeds: SeedSource[] = [];
   for (const abs of await listDir(path.join(dataDir, 'seeds'), (n) => SEED_SHARD_RE.test(n))) seeds.push(...(await readJsonl(abs, reporter, cwd)));
-  const relations = (await listDir(path.join(dataDir, 'seeds'), (n) => n === RELATIONS_FILE)).length > 0 ? await readJsonl(path.join(dataDir, 'seeds', RELATIONS_FILE), reporter, cwd) : [];
-  return { files, seeds, relations };
+  const optional = async (name: string) =>
+    (await listDir(path.join(dataDir, 'seeds'), (n) => n === name)).length > 0 ? readJsonl(path.join(dataDir, 'seeds', name), reporter, cwd) : [];
+  return { files, seeds, relations: await optional(RELATIONS_FILE), airing: await optional(AIRING_FILE) };
 }
 
 /** One JSON value per line; blank lines are skipped and bad lines reported as seed-parse. */

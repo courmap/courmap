@@ -59,7 +59,14 @@ export class DataManager {
       await this.open(this.opts.dump);
       return;
     }
-    await mkdir(this.opts.dataDir, { recursive: true });
+    try {
+      await mkdir(this.opts.dataDir, { recursive: true });
+      await writeFile(path.join(this.opts.dataDir, '.write-test'), '');
+      await rm(path.join(this.opts.dataDir, '.write-test'), { force: true });
+    } catch (err) {
+      this.status.lastError = `the data folder ${this.opts.dataDir} is not writable (${(err as NodeJS.ErrnoException).code ?? (err as Error).message}); fix its owner or permissions`;
+      return;
+    }
     const pointer = path.join(this.opts.dataDir, 'current.json');
     if (existsSync(pointer)) {
       try {

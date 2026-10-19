@@ -2,8 +2,12 @@ name: npm
 
 # Publishes @courmap/core, @courmap/parser and @courmap/client to npm with provenance when a
 # client-vX.Y.Z tag is pushed (decision S7.2). The tag must match the packages' version. Every
-# run packs and verifies the tarballs in a clean project (Node, types, browser bundle); without
-# the NPM_TOKEN secret it ends with npm publish --dry-run.
+# run packs and verifies the tarballs in a clean project (Node, types, browser bundle).
+#
+# Authentication (decision S8.4): npm trusted publishing (OIDC, no secret) once it is configured
+# on all three packages and the repository variable NPM_TRUSTED_PUBLISHING is true; until then the
+# NPM_TOKEN secret. npm tries OIDC first and falls back to the token. With neither, or on a run
+# that is not a client-v* tag, it ends with npm publish --dry-run.
 on:
   push:
     tags: ['client-v*']
@@ -19,7 +23,7 @@ on:
 
 permissions:
   contents: read
-  id-token: write # npm provenance
+  id-token: write # npm trusted publishing (OIDC) and provenance
 
 concurrency:
   group: npm-${{ github.ref }}
@@ -30,6 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      TRUSTED: ${{ vars.NPM_TRUSTED_PUBLISHING }}
     steps:
       - uses: actions/checkout@v4
 
@@ -40,6 +45,9 @@ jobs:
           node-version: 22
           cache: pnpm
           registry-url: https://registry.npmjs.org
+
+      # Trusted publishing needs npm 11.5.1 or later; Node 22 ships npm 10.
+      - run: npm install -g npm@11.6.2
 
       - run: pnpm install --frozen-lockfile
 
@@ -63,18 +71,39 @@ jobs:
           path: out/npm
           retention-days: 30
 
-      - name: Publish core, parser and client, or dry-run without NPM_TOKEN
+      - name: Publish core, parser and client, or dry-run
+        id: publish
         run: |
           live=false
-          if [[ "$GITHUB_REF" == refs/tags/client-v* ]] && [ -n "$NODE_AUTH_TOKEN" ]; then live=true; fi
+          auth="none"
+          if [ "$TRUSTED" = true ]; then auth="trusted publishing (OIDC)"; elif [ -n "$NODE_AUTH_TOKEN" ]; then auth="NPM_TOKEN"; fi
+          if [[ "$GITHUB_REF" == refs/tags/client-v* ]] && [ "$auth" != none ]; then live=true; fi
           for p in core parser client; do
             tgz=$(ls out/npm/courmap-$p-*.tgz)
+            version=$(tar -xOzf "$tgz" package/package.json | jq -r .version)
             if [ "$live" = true ]; then
-              npm publish "$tgz" --provenance --access public
+              # A rerun after a partial publish skips what is already on npm.
+              if npm view "@courmap/$p@$version" version >/dev/null 2>&1; then
+                echo "@courmap/$p@$version is already on npm; skipped."
+              else
+                npm publish "$tgz" --provenance --access public
+              fi
             else
               npm publish "$tgz" --dry-run --provenance=false --access public
             fi
           done
-          if [ "$live" != true ]; then
-            echo "::notice::npm dry run: $( [ -z "$NODE_AUTH_TOKEN" ] && echo 'NPM_TOKEN is not set' || echo 'not a client-v* tag' ). Nothing was published."
+          if [ "$live" = true ]; then
+            echo "Published with $auth."
+            echo "version=$version" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::npm dry run: $( [ "$auth" = none ] && echo 'neither NPM_TRUSTED_PUBLISHING nor NPM_TOKEN is set' || echo 'not a client-v* tag' ). Nothing was published."
           fi
+
+      - name: Install the published packages from npm in a clean project (Node, types, browser bundle)
+        if: steps.publish.outputs.version != ''
+        run: |
+          for i in 1 2 3 4 5 6 7 8 9 10; do
+            npm view "@courmap/client@${{ steps.publish.outputs.version }}" version >/dev/null 2>&1 && break
+            echo "Waiting for the registry ($i)"; sleep 30
+          done
+          pnpm exec tsx --conditions=@courmap/source scripts/verify-npm.ts --registry "${{ steps.publish.outputs.version }}"

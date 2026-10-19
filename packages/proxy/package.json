@@ -1,7 +1,7 @@
 {
   "name": "@courmap/proxy",
   "version": "0.0.0",
-  "description": "Courmap Sonarr Torznab proxy: rewrites anime release names into the numbering Sonarr understands",
+  "description": "Courmap Sonarr Torznab and Newznab proxy: rewrites anime release names into the numbering Sonarr understands",
   "license": "Apache-2.0",
   "type": "module",
   "private": true,

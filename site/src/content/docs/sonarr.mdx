@@ -1,14 +1,14 @@
 ---
 title: Sonarr guide
-description: Install the Courmap proxy, add it to Sonarr, and understand what it rewrites.
+description: Install the Courmap proxy for torrent or usenet indexers, add it to Sonarr, and understand what it rewrites.
 ---
 
 import { Aside, Steps } from '@astrojs/starlight/components';
 
-The Courmap proxy is a Torznab indexer proxy. It sits between Prowlarr and Sonarr, resolves every anime [release name](/concepts/release-names/) with Courmap, and rewrites the ones it is sure about into the numbering Sonarr understands.
+The Courmap proxy is a Torznab and Newznab indexer proxy, for torrents and usenet alike. It sits between your indexers (usually through Prowlarr) and Sonarr, resolves every anime [release name](/concepts/release-names/) with Courmap, and rewrites the ones it is sure about into the numbering Sonarr understands.
 
 ```
-Sonarr  ->  Courmap proxy (/nyaa, /animetosho, ...)  ->  Prowlarr indexer feeds
+Sonarr  ->  Courmap proxy (/nyaa, /animetosho, /geek, ...)  ->  indexer feeds (torrent or usenet)
 ```
 
 <Aside type="caution" title="Screenshots are placeholders">
@@ -19,7 +19,7 @@ Boxes marked "Screenshot to add" will be replaced with screenshots from a real i
 
 | Release | What Sonarr gets |
 | --- | --- |
-| Resolved, one episode | `<your Sonarr series title> S01E17 <original quality and tags> [Group]`, plus the Torznab `tvdbid` attribute |
+| Resolved, one episode | `<your Sonarr series title> S01E17 <original quality and tags> [Group]`, plus the `tvdbid` attribute, written the way Sonarr reads it for that protocol (`torznab:attr` for torrents, `newznab:attr` for usenet) |
 | A batch that is exactly one TVDB season | A season pack: `<title> S01 <tags> [Group]` |
 | A batch inside one season | A range: `<title> S01E05-E08 <tags> [Group]` |
 | A batch spanning seasons | Unchanged |
@@ -27,13 +27,13 @@ Boxes marked "Screenshot to add" will be replaced with screenshots from a real i
 | A show that is not in your Sonarr | Unchanged |
 | Resolved, but Courmap has no TVDB numbering for it yet | Numbered from your own Sonarr when exactly one of your series matches it and the numbering is certain ("assisted"); otherwise unchanged |
 
-The series title comes from your own Sonarr, matched by TVDB ID, so Sonarr always recognizes it. For series where Sonarr uses scene numbering (XEM), the proxy writes the episode's scene numbers, because that is how Sonarr reads SxxEyy for those series. Everything else in a result (download link, size, seeders, categories) reaches Sonarr unchanged.
+The series title comes from your own Sonarr, matched by TVDB ID, so Sonarr always recognizes it. For series where Sonarr uses scene numbering (XEM), the proxy writes the episode's scene numbers, because that is how Sonarr reads SxxEyy for those series. Everything else in a result (the torrent or NZB enclosure and download link, size, seeders, grabs, dates, categories) reaches Sonarr unchanged.
 
 Searches are translated too. Sonarr searches by TVDB ID, season and episode, which anime indexers do not understand. The proxy turns that into the [work](/concepts/works/)'s own title plus its episode number (and the franchise title plus the [absolute number](/concepts/absolute-sequences/), when fansubs number it that way), sends those searches to Prowlarr, and rewrites the results.
 
 ## Install
 
-The steps below use Prowlarr. Jackett, or any other Torznab feed, works the same way with a different feed address; see [Not using Prowlarr?](/getting-started/sonarr/#not-using-prowlarr).
+The steps below use Prowlarr and show torrent indexers; usenet indexers add one setting (the type) and a different Sonarr indexer type, described where they differ. Jackett, or any other Torznab or Newznab feed, works the same way with a different feed address; see [Not using Prowlarr?](/getting-started/sonarr/#not-using-prowlarr).
 
 <Steps>
 
@@ -57,7 +57,7 @@ The steps below use Prowlarr. Jackett, or any other Torznab feed, works the same
          INDEXER_ANIMETOSHO_URL: http://prowlarr:9696/2/api
    ```
 
-   Use the same Docker network as Sonarr and Prowlarr. Each `INDEXER_<NAME>_URL` is one Prowlarr indexer's Torznab feed: open the indexer in Prowlarr and note its number, which is the `1` in `http://prowlarr:9696/1/api`.
+   Use the same Docker network as Sonarr and Prowlarr. Each `INDEXER_<NAME>_URL` is one Prowlarr indexer's feed: open the indexer in Prowlarr and note its number, which is the `1` in `http://prowlarr:9696/1/api`. **For a usenet indexer, add `INDEXER_<NAME>_TYPE: newznab`** (for example `INDEXER_GEEK_URL: http://prowlarr:9696/3/api` and `INDEXER_GEEK_TYPE: newznab`); torrent indexers need no type, and an indexer without one is detected from its first results.
 
    > **Screenshot to add:** Prowlarr, Indexers list, with the anime indexer's ID visible.
 
@@ -65,7 +65,7 @@ The steps below use Prowlarr. Jackett, or any other Torznab feed, works the same
 
    > **Screenshot to add:** Prowlarr, Settings, Apps, Sonarr app dialog, with Sync Level and Tags.
 
-3. Add the proxy to Sonarr. Open **Settings**, then **Indexers**, then **+**, and choose **Torznab** under Custom. Fill in:
+3. Add the proxy to Sonarr. Open **Settings**, then **Indexers**, then **+**, and choose **Torznab** under Custom for a torrent indexer, or **Newznab** under Custom for a usenet one. Fill in:
 
    - **Name**: `Nyaa (Courmap)`
    - **URL**: `http://courmap-proxy:9797/nyaa`
@@ -74,9 +74,11 @@ The steps below use Prowlarr. Jackett, or any other Torznab feed, works the same
    - **Categories** and **Anime Categories**: `5070` (TV/Anime)
    - **Anime Standard Format Search**: optional; the proxy translates both kinds of search
 
-   Click **Test**, then **Save**. Repeat for each proxied indexer.
+   For a usenet indexer the **Name** and **URL** are your own (`Geek (Courmap)`, `http://courmap-proxy:9797/geek`), the **API Key** is the usenet indexer's own key (or Prowlarr's, if the feed comes from Prowlarr), and `5070` goes in **Categories** and **Anime Categories** the same way. 5070 is the TV/Anime category on usenet indexers too.
 
-   > **Screenshot to add:** Sonarr, Settings, Indexers, Add Torznab dialog, filled in for the proxy.
+   Click **Test**, then **Save**. Repeat for each proxied indexer. Add each one as the type it is: a torrent feed as Newznab, or a usenet feed as Torznab, returns results Sonarr cannot use.
+
+   > **Screenshot to add:** Sonarr, Settings, Indexers, Add Torznab and Add Newznab dialogs, filled in for the proxy.
 
 4. Open the status page at `http://<your-host>:9797/` and check that it shows a data version and your series count.
 
@@ -106,7 +108,8 @@ The steps below use Prowlarr. Jackett, or any other Torznab feed, works the same
 | Variable | Default | Meaning |
 | --- | --- | --- |
 | `SONARR_URL`, `SONARR_API_KEY` | none | Your Sonarr. Without them every release passes through unchanged. |
-| `INDEXER_<NAME>_URL` | none | An upstream Torznab feed, served at `/<name>` (lowercase, underscores become hyphens). |
+| `INDEXER_<NAME>_URL` | none | An upstream Torznab or Newznab feed, served at `/<name>` (lowercase, underscores become hyphens). |
+| `INDEXER_<NAME>_TYPE` | detected | `torznab` (torrents) or `newznab` (usenet). When unset, the proxy learns it from the feed's first results. A type that disagrees with the feed is flagged on the status page. |
 | `INDEXER_<NAME>_APIKEY` | none | The upstream key, if you would rather not use the one Sonarr sends. |
 | `COURMAP_DUMP` | none | A fixed local dump; the proxy then never downloads data. |
 | `COURMAP_META_URL` | the latest GitHub data release | Where the current data version and dump are announced. |
@@ -114,11 +117,11 @@ The steps below use Prowlarr. Jackett, or any other Torznab feed, works the same
 | `SONARR_REFRESH_MINUTES` | `60` | How often the series list is reloaded. |
 | `PORT`, `DATA_DIR`, `TIMEOUT_SECONDS` | `9797`, `/data`, `60` | Port, data folder and upstream timeout. |
 
-An optional YAML file at `/config/courmap-proxy.yaml` can hold the same settings; environment variables win over it.
+An optional YAML file at `/config/courmap-proxy.yaml` can hold the same settings (`type: newznab` on an indexer entry); environment variables win over it.
 
 ## The status page
 
-`http://<your-host>:9797/` shows the data version and its last refresh, the Sonarr connection, and per indexer how many requests, searches and results it saw, how many results it rewrote, and why the rest passed through. Below that are the works numbered with your Sonarr's help ("assisted") and the release names Courmap could not resolve, with a block of text you can paste into a GitHub issue to help improve the data: assisted works appear in it as ready-made mapping files. Nothing on the page is sent anywhere.
+`http://<your-host>:9797/` shows the data version and its last refresh, the Sonarr connection, and per indexer its protocol (torznab or newznab, as set or detected), how many requests, searches and results it saw, how many results it rewrote, and why the rest passed through. Below that are the works numbered with your Sonarr's help ("assisted") and the release names Courmap could not resolve, with a block of text you can paste into a GitHub issue to help improve the data: assisted works appear in it as ready-made mapping files. Nothing on the page is sent anywhere.
 
 > **Screenshot to add:** the unresolved names section with the "Copy as GitHub issue" block.
 
@@ -127,5 +130,7 @@ An optional YAML file at `/config/courmap-proxy.yaml` can hold the same settings
 - **The status page says no data is loaded.** The proxy downloads the latest data release from GitHub on start; check that the container can reach `github.com`, or set `COURMAP_DUMP` to a local dump.
 - **"The data folder is not writable".** On Unraid, run `chown -R 99:100 /mnt/user/appdata/courmap-proxy`.
 - **Sonarr's test fails with HTTP 401.** The API key Sonarr sends is passed to Prowlarr; use the Prowlarr API key, not Sonarr's.
+- **Sonarr's log says "did you intend to add a Torznab indexer?".** A torrent feed was added to Sonarr as a Newznab indexer; add torrent feeds as Torznab.
+- **The status page says "feed looks like newznab" (or torznab).** `INDEXER_<NAME>_TYPE` disagrees with the indexer's results; correct it, or remove it to let the proxy detect the type.
 - **Every result arrives twice.** Prowlarr still syncs the same indexer to Sonarr directly; see step 2.
 - **A release is not rewritten.** The status page lists why: not resolved, no TVDB mapping, a show that is not in your Sonarr, or a batch spanning seasons. Unresolved names make good bug reports.

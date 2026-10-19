@@ -11,9 +11,18 @@
   },
   "exports": {
     ".": {
-      "@courmap/source": "./src/index.ts",
+      "@courmap/source": {
+        "browser": "./src/browser.ts",
+        "default": "./src/index.ts"
+      },
       "types": "./dist/index.d.ts",
+      "browser": "./dist/browser.js",
       "default": "./dist/index.js"
+    },
+    "./remote": {
+      "@courmap/source": "./src/browser.ts",
+      "types": "./dist/browser.d.ts",
+      "default": "./dist/browser.js"
     }
   },
   "files": [
@@ -25,7 +34,8 @@
   "dependencies": {
     "@courmap/core": "workspace:*",
     "@courmap/parser": "workspace:*",
-    "better-sqlite3": "^12.11.1"
+    "better-sqlite3": "^12.11.1",
+    "fzstd": "0.1.1"
   },
   "devDependencies": {
     "@courmap/builder": "workspace:*",

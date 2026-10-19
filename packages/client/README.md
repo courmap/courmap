@@ -29,4 +29,4 @@ import { createRemoteClient } from '@courmap/client/remote';
 const courmap = createRemoteClient(); // https://data.courmap.com/v1/ by default
 ```
 
-Documentation: [courmap.pages.dev](https://courmap.pages.dev/getting-started/library/). Code: Apache-2.0. The data is ODbL 1.0 + DbCL 1.0; see the [repository](https://github.com/courmap/courmap).
+Documentation: [courmap.com](https://courmap.com/getting-started/library/). Code: Apache-2.0. The data is ODbL 1.0 + DbCL 1.0; see the [repository](https://github.com/courmap/courmap).

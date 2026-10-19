@@ -16,7 +16,7 @@ One pull request fixes one show: edit or add a single file under `data/works/` (
 3. Do not copy AniDB titles into the repo.
 4. Run `pnpm validate` locally. CI runs the same checks plus the test suites.
 
-The [contributing guide](https://courmap.pages.dev/contributing/) has worked examples for split cours, specials, long-runners and release groups.
+The [contributing guide](https://courmap.com/contributing/) has worked examples for split cours, specials, long-runners and release groups.
 
 ## From real traffic to the corpus and the data
 

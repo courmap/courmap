@@ -2,8 +2,10 @@ name: worker
 
 # The optional Worker (worker/; decision S6.3). Bundles with Wrangler on every change; deploys
 # from main when CLOUDFLARE_API_TOKEN (scoped to Workers) and CLOUDFLARE_ACCOUNT_ID exist, and is
-# a dry run otherwise. After a deploy, step 11's check compares the deployed Worker with the
-# library on the latest data release, once data.courmap.com serves shards.
+# a dry run otherwise. It is served only at api.courmap.com (wrangler.toml turns workers.dev and
+# preview addresses off). After a deploy it checks that the dashboard-managed GITHUB_DISPATCH_TOKEN
+# secret is still there, then step 11's check compares the deployed Worker with the library on the
+# latest data release.
 on:
   push:
     branches: [main]
@@ -57,9 +59,20 @@ jobs:
             echo "::notice::Worker dry run: CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID are not both set. The bundle was built; nothing was deployed."
             exit 0
           fi
-          npx --yes wrangler@4.151.2 deploy | tee "$RUNNER_TEMP/deploy.log"
-          url=$(grep -oE 'https://[a-z0-9.-]+\.workers\.dev' "$RUNNER_TEMP/deploy.log" | head -1)
-          echo "url=$url" >> "$GITHUB_OUTPUT"
+          npx --yes wrangler@4.151.2 deploy
+          echo "url=https://api.courmap.com" >> "$GITHUB_OUTPUT"
+
+      - name: The watchdog's secret survived the deploy
+        if: steps.deploy.outputs.url != ''
+        working-directory: worker
+        run: |
+          # Secret names only; values are never readable. Set in the Cloudflare dashboard, not here.
+          if npx --yes wrangler@4.151.2 secret list --format json | jq -e 'any(.[]; .name == "GITHUB_DISPATCH_TOKEN")' > /dev/null; then
+            echo "GITHUB_DISPATCH_TOKEN is set on the Worker."
+          else
+            echo "::error::The Worker has no GITHUB_DISPATCH_TOKEN secret, so the schedule watchdog is inert. Set it in the Cloudflare dashboard (Workers & Pages, courmap, Settings, Variables and Secrets)."
+            exit 1
+          fi
 
       - name: Check the deployed Worker against the library (step 11)
         if: steps.deploy.outputs.url != ''

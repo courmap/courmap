@@ -197,6 +197,7 @@ Numbered S4.1 to S4.7, in the order Xwolv gave them.
 - **The digest also counts flagged aliases** (S4.3), and says "Nothing needs review this week." when there is nothing to do.
 - **A failing bot opens an issue on its second consecutive failure,** per job, labeled `bot-failure` (`.github/scripts/bot-failure.sh`). Rationale: the guardrail in the spec; one failure is often a network blip.
 - **Bot PRs use `SEED_PR_TOKEN` when it exists,** for checkout, push and `gh`. Rationale: pushes and PRs made with the built-in token do not trigger the validate workflow, so bot PRs would arrive without CI.
+- **Bot issues are found by title, and labels are added after creation.** The first live run (2026-10-19, run 39254320166) created 15 issues and both Season trackers without labels: `gh issue create --label` dropped them with no error under `SEED_PR_TOKEN`, and pinning failed. Since the writer then searched by label, the next run would have opened every issue again. The writer now matches open issues by exact title, adds missing labels with `gh issue edit --add-label` and checks they stuck, and logs the actual error when pinning fails. Rationale: duplicates every day would bury the queue; a missing label is now visible in the log.
 
 ## Decided by Xwolv (2026-10-19, session 5)
 

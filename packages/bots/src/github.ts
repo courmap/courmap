@@ -43,9 +43,24 @@ export class GitHubWriter {
     for (const [name, color] of Object.entries(colors)) await this.gh(['label', 'create', name, '--color', color, '--force']);
   }
 
-  private async findIssue(title: string, label: string): Promise<number | null> {
-    const list = JSON.parse(await this.gh(['issue', 'list', '--state', 'open', '--label', label, '--limit', '200', '--json', 'number,title'])) as { number: number; title: string }[];
-    return list.find((i) => i.title === title)?.number ?? null;
+  /**
+   * The open issue with exactly this title. Matched by title alone, never by label: the first
+   * live run created its issues without labels, and a label filter would have opened them again.
+   */
+  private async findIssue(title: string): Promise<{ number: number; labels: string[] } | null> {
+    const list = JSON.parse(await this.gh(['issue', 'list', '--state', 'open', '--limit', '1000', '--json', 'number,title,labels'])) as { number: number; title: string; labels: { name: string }[] }[];
+    const hit = list.find((i) => i.title === title);
+    return hit ? { number: hit.number, labels: hit.labels.map((l) => l.name) } : null;
+  }
+
+  /** Adds missing labels and checks they stuck; `gh issue create --label` dropped them silently in CI. */
+  private async ensureIssueLabels(ref: string, want: string[], have: string[]): Promise<void> {
+    const missing = want.filter((l) => !have.includes(l));
+    if (missing.length === 0) return;
+    await this.gh(['issue', 'edit', ref, '--add-label', missing.join(',')]);
+    const now = JSON.parse(await this.gh(['issue', 'view', ref, '--json', 'labels'])) as { labels: { name: string }[] };
+    const still = missing.filter((l) => !now.labels.some((x) => x.name === l));
+    if (still.length > 0) this.log(`could not label ${ref} with ${still.join(', ')}`);
   }
 
   /** Creates the issue, or rewrites the body of the open one with the same title. Returns its URL (or a placeholder in dry run). */
@@ -54,17 +69,25 @@ export class GitHubWriter {
       this.log(`issue "${title}" [${labels.join(', ')}]`);
       return `(dry run) ${title}`;
     }
-    const existing = await this.findIssue(title, labels[labels.length - 1]!);
+    const existing = await this.findIssue(title);
     const file = await tempFile(body);
     try {
+      let url: string;
+      let have: string[] = [];
       if (existing !== null) {
-        await this.gh(['issue', 'edit', String(existing), '--body-file', file]);
-        this.log(`updated issue #${existing} "${title}"`);
-        return (await this.gh(['issue', 'view', String(existing), '--json', 'url', '--jq', '.url']));
+        await this.gh(['issue', 'edit', String(existing.number), '--body-file', file]);
+        url = await this.gh(['issue', 'view', String(existing.number), '--json', 'url', '--jq', '.url']);
+        have = existing.labels;
+        this.log(`updated issue #${existing.number} "${title}"`);
+      } else {
+        url = await this.gh(['issue', 'create', '--title', title, '--body-file', file]);
+        this.log(`opened issue ${url} "${title}"`);
       }
-      const url = await this.gh(['issue', 'create', '--title', title, '--body-file', file, ...labels.flatMap((l) => ['--label', l])]);
-      this.log(`opened issue ${url} "${title}"`);
-      if (opts.pin) await this.gh(['issue', 'pin', url]).catch(() => this.log(`could not pin ${url}`));
+      await this.ensureIssueLabels(url, labels, have);
+      if (opts.pin) {
+        const pinned = (JSON.parse(await this.gh(['issue', 'view', url, '--json', 'isPinned'])) as { isPinned?: boolean }).isPinned;
+        if (!pinned) await this.gh(['issue', 'pin', url]).catch((err: Error) => this.log(`could not pin ${url}: ${err.message.split('\n').filter(Boolean).pop()}`));
+      }
       return url;
     } finally {
       await rm(path.dirname(file), { recursive: true, force: true });

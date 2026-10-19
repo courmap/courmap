@@ -117,6 +117,9 @@ importers:
       '@courmap/builder':
         specifier: workspace:*
         version: link:../builder
+      esbuild:
+        specifier: 0.28.2
+        version: 0.28.2
 
   packages/release:
     dependencies:

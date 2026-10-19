@@ -1,0 +1,73 @@
+name: proxy
+
+# Builds the Sonarr proxy image (packages/proxy/docker/Dockerfile) for linux/amd64 and
+# linux/arm64 and publishes it to ghcr.io/courmap/proxy:
+#   push to main   -> :edge and :sha-<commit>
+#   tag proxy-vX.Y.Z -> :X.Y.Z and :latest
+#   pull request   -> build only, nothing pushed
+on:
+  push:
+    branches: [main]
+    tags: ['proxy-v*']
+    paths:
+      - packages/proxy/**
+      - packages/client/**
+      - packages/core/**
+      - packages/parser/**
+      - pnpm-lock.yaml
+      - .github/workflows/proxy.yml
+  pull_request:
+    paths:
+      - packages/proxy/**
+      - .github/workflows/proxy.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: proxy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version and tags
+        id: v
+        run: |
+          image=ghcr.io/courmap/proxy
+          if [[ "$GITHUB_REF" == refs/tags/proxy-v* ]]; then
+            version="${GITHUB_REF#refs/tags/proxy-v}"
+            tags="$image:$version,$image:latest"
+          else
+            version="edge-${GITHUB_SHA::7}"
+            tags="$image:edge,$image:sha-${GITHUB_SHA::7}"
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tags=$tags" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-qemu-action@v3
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        if: github.event_name != 'pull_request'
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: packages/proxy/docker/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          build-args: VERSION=${{ steps.v.outputs.version }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.v.outputs.tags }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

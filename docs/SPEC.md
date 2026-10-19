@@ -504,6 +504,17 @@ Only tier B and C ever wait on a person, and both end as a reviewed PR that ship
 - A pinned **Season tracker** issue per anime season, rewritten by the bot daily: every new show with its state (auto-mapped, awaiting review, conflict).
 - A weekly digest pushed to ntfy or Discord: "14 auto-merged, 3 need review, 1 conflict", with links. If the digest says zero needs review, there is nothing to do that week.
 
+## Sonarr proxy
+
+`packages/proxy`, published as `ghcr.io/courmap/proxy` for linux/amd64 and linux/arm64. It sits between Sonarr and Prowlarr. Each upstream Torznab feed gets its own path (`/<name>/api`), so a user adds one proxy indexer in Sonarr per upstream indexer, with the Prowlarr API key, which the proxy passes on.
+
+- **Data.** The proxy runs on the offline dump. It checks `meta.json` daily, downloads a dump only when `data_version` changes, verifies the SHA-256 that `meta.json` gives, and swaps atomically: requests in flight finish on the old dump, and a failed download or checksum never replaces a working one. The last dump is reopened on restart before any network. A fixed local dump (`COURMAP_DUMP`) disables downloads. With no dump, every release passes through unchanged.
+- **Results.** Each release name is resolved. On `ok`, the title becomes `<Sonarr series title> SxxEyy <original tags> <group>` and the Torznab `tvdbid` attribute is set. The series title comes from the user's own Sonarr (`/api/v3/series`, cached and refreshed hourly), matched by TVDB ID. The group goes last as `[Group]`, or as `-Group` when it is hyphenated, because those are the only places Sonarr's parser finds a group at the end of a title. A version is kept as `S01E05v2`. For a series with scene numbering, the episode's scene numbers are written, because Sonarr reads SxxEyy as scene numbers first. Ambiguous or unmatched names, works without a TVDB season mapping, shows that are not in Sonarr, and numbers Sonarr would read as another episode all pass through unchanged.
+- **Batches.** A batch that is exactly one full TVDB season (per Sonarr's episode list) becomes a season pack, `Sxx`. A range inside one season becomes `SxxEyy-Ezz`. Anything spanning seasons passes through unchanged.
+- **Searches.** Caps advertise TV search with `q, season, ep, tvdbid`. A search by TVDB ID with season and episode, by TVDB ID with an absolute number (anime series, mapped through Sonarr's episode list), or by a title Sonarr knows, is translated to text searches: the work's romaji title plus its canonical episode, and, when the work's default absolute sequence numbers it differently, the sequence's first work's title plus the absolute number. A season search sends the title of every work in that TVDB season. Results of all queries are merged and rewritten. RSS and searches the proxy cannot translate go upstream unchanged.
+- **Unresolved reports** (decision S5.3). Logged locally (`<data>/unresolved.jsonl`, the 500 most recent distinct names) and shown on a status page at `/`, together with the data version, the last refresh, the Sonarr connection and per-indexer hit rates, plus a "copy as GitHub issue" text block. Nothing is reported over the network in v1.
+- **Configuration.** Environment variables, plus an optional YAML file (`/config/courmap-proxy.yaml`). The package README has a docker-compose example and Unraid steps.
+
 ## Documentation plan
 
 Docs are a launch requirement, not a follow-up: nothing is announced until a stranger can go from the README to a working setup in under five minutes on their path. There are three audiences, so there are three front doors.
@@ -595,7 +606,7 @@ SQLite access in Node via `better-sqlite3` for the builder and offline client; t
 7. `packages/parser` and resolve. Check: corpus pass rate reported on every PR and never decreases.
 8. Release workflow: dumps, checksums, R2 sync, `meta.json` last. Check: a dry run against a staging bucket.
 9. `packages/bots`: detectors, classifier and the three tiers, in dry-run mode (open PRs, never auto-merge) for one full season before tier A merges are switched on. Check: zero tier A PRs a reviewer would have rejected.
-10. `packages/proxy`, the Sonarr Torznab proxy. Check: a week of real RSS traffic on a test install with no wrong imports.
+10. `packages/proxy`, the Sonarr Torznab proxy. Check: an end-to-end test where a Sonarr search for a split-cour show's TVDB S01E17 returns the absolute-numbered release rewritten so Sonarr grabs it, then a week of real RSS traffic on a test install with no wrong imports.
 11. Optional Worker. Check: conformance suite green against the deployed Worker.
 12. README and docs site to the quality bar above. Check: fresh-eyes test passed on all three front doors.
 
@@ -619,7 +630,7 @@ Ship the translation API before the resolver: translation is useful on its own a
 
 M2 is the piece nobody else has; M0 and M1 make it possible, and M3 is what turns a repo into infrastructure.
 
-**Sonarr integration:** Sonarr has no plugin system and relies on TheXEM for scene numbering, so the M3 deliverable is a Torznab proxy between Prowlarr and Sonarr. It resolves each release name and rewrites the title into numbering Sonarr understands, keeping group and quality tags. Exporting gap-filling mappings to TheXEM is a secondary path; an upstream Sonarr PR is a later goal, not a launch dependency.
+**Sonarr integration:** Sonarr has no plugin system and relies on TheXEM for scene numbering, so the M3 deliverable is a Torznab proxy between Prowlarr and Sonarr (see "Sonarr proxy"). It resolves each release name and rewrites the title into numbering Sonarr understands, keeping group and quality tags. Exporting gap-filling mappings to TheXEM is a secondary path; an upstream Sonarr PR is a later goal, not a launch dependency.
 
 **Open questions**
 

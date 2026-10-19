@@ -1,0 +1,14 @@
+# Courmap proxy configuration. Copy to /config/courmap-proxy.yaml. Environment variables win
+# over anything here.
+port: 9797
+data_dir: /data
+refresh_hours: 24
+# dump: /data/courmap.sqlite   # a fixed local dump instead of downloading from data.courmap.com
+sonarr:
+  url: http://sonarr:8989
+  api_key: your-sonarr-api-key
+  refresh_minutes: 60
+indexers:
+  # Served at http://courmap-proxy:9797/<name>; url is the Prowlarr indexer's Torznab feed.
+  - { name: nyaa, url: "http://prowlarr:9696/1/api" }
+  - { name: animetosho, url: "http://prowlarr:9696/2/api" }

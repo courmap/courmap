@@ -36,7 +36,7 @@ export default defineConfig({
     starlight({
       title: 'Courmap',
       description: 'One anime episode, every numbering: AniDB, AniList, MAL, Kitsu, TVDB, TMDB, IMDb and absolute.',
-      logo: { src: './src/assets/logo.svg', alt: 'Courmap' },
+      logo: { src: './src/assets/logo.svg', alt: 'Courmap logo' },
       favicon: '/favicon.svg',
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/courmap/courmap' }],
       editLink: { baseUrl: 'https://github.com/courmap/courmap/edit/main/site/' },

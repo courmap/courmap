@@ -2,10 +2,15 @@
 title: Courmap
 description: One anime episode, every numbering. Translate episodes between AniDB, AniList, MAL, Kitsu, TVDB, TMDB, IMDb and absolute numbering, and resolve release names.
 template: splash
+# The tab title: Starlight would otherwise render "Courmap | Courmap".
+head:
+  - tag: title
+    content: 'Courmap: anime episode numbering, mapped across every provider'
 hero:
   tagline: One anime episode, every numbering. Courmap translates an episode between AniDB, AniList, MAL, Kitsu, TVDB, TMDB, IMDb and absolute (fansub) numbering, and resolves release names to the right show and episode.
   image:
     file: ../../assets/logo.svg
+    alt: 'The Courmap logo: two nested arcs forming a C, with five points on the outer arc linked to five on the inner one, like an episode mapped between two numberings.'
   actions:
     - text: Try it
       link: /try/

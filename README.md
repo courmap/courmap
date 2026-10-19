@@ -1,4 +1,4 @@
-![Courmap](assets/banner.png)
+![Courmap: anime episode numbering, mapped across every provider.](assets/banner.png)
 
 [![CI](https://github.com/courmap/courmap/actions/workflows/validate.yml/badge.svg)](https://github.com/courmap/courmap/actions/workflows/validate.yml)
 [![data](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcourmap%2Fcourmap%2Fbadges%2Fdata.json)](https://github.com/courmap/courmap/releases/latest)

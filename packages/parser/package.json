@@ -1,8 +1,18 @@
 {
   "name": "@courmap/parser",
-  "version": "0.0.0",
-  "description": "Courmap release-name parser: group, title, season, episode, version and quality tags",
+  "version": "0.1.0",
+  "description": "Courmap parser: an anime release-name tokenizer (group, title, season, episode, quality, flags)",
+  "keywords": [
+    "anime",
+    "release-name",
+    "parser",
+    "fansub"
+  ],
   "license": "Apache-2.0",
+  "homepage": "https://courmap.pages.dev/",
+  "bugs": {
+    "url": "https://github.com/courmap/courmap/issues"
+  },
   "type": "module",
   "repository": {
     "type": "git",
@@ -17,7 +27,10 @@
     }
   },
   "files": [
-    "dist"
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json"
@@ -27,5 +40,18 @@
   },
   "devDependencies": {
     "yaml": "^2.9.1"
+  },
+  "engines": {
+    "node": ">=22.15"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true,
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    }
   }
 }

@@ -69,7 +69,7 @@ const problems: string[] = [];
 const counts = { executed: 0, yaml: 0, json: 0, shell: 0, skipped: 0 };
 const notExecuted = new Set<string>();
 
-const files = [path.join(root, 'README.md'), path.join(root, 'packages/proxy/README.md'), ...docs(path.join(root, 'site/src/content/docs'))].filter(existsSync);
+const files = [path.join(root, 'README.md'), ...['proxy', 'client', 'core', 'parser'].map((p) => path.join(root, `packages/${p}/README.md`)), ...docs(path.join(root, 'site/src/content/docs'))].filter(existsSync);
 const all = files.flatMap(snippets);
 
 const work = mkdtempSync(path.join(tmpdir(), 'courmap-snippets-'));
@@ -82,6 +82,7 @@ try {
     `const real = globalThis.fetch;\nglobalThis.fetch = (input, init) => real(String(input).replace('https://data.courmap.com/v1/', process.env.COURMAP_SNIPPET_DATA), init);\n`,
   );
   const client = pathToFileURL(path.join(root, 'packages/client/src/index.ts')).href;
+  const parser = pathToFileURL(path.join(root, 'packages/parser/src/index.ts')).href;
   // tsx's CLI through this Node, asynchronously: the local shard server runs in this process.
   const tsxCli = path.join(root, 'node_modules/tsx/dist/cli.mjs');
   const run = promisify(execFile);
@@ -94,7 +95,7 @@ try {
         continue;
       }
       const file = path.join(work, `snippet-${counts.executed}.mts`);
-      writeFileSync(file, s.code.replace(/from '@courmap\/client(?:\/remote)?'/g, `from '${client}'`));
+      writeFileSync(file, s.code.replace(/from '@courmap\/client(?:\/remote)?'/g, `from '${client}'`).replace(/from '@courmap\/parser'/g, `from '${parser}'`));
       let stdout = '';
       try {
         stdout = (

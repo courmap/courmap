@@ -206,7 +206,7 @@ The proxy is not tied to Prowlarr: it sits in front of any Torznab feed. Sonarr'
   - **Leave Jackett's title tweaks off.** Some Jackett indexers offer to "improve Sonarr compatibility" by adding season information to titles. Keep that off for indexers behind the proxy: Courmap resolves the original name.
 - **Another Torznab feed**, such as a tracker's own Torznab API, works the same way: put its address in `INDEXER_<NAME>_URL`. If it needs a key other than the one Sonarr sends, set `INDEXER_<NAME>_APIKEY`.
 - **Sonarr's built-in Nyaa indexer** cannot go through the proxy: it reads Nyaa's own RSS feed, not Torznab, so there is nothing for the proxy to sit in front of. Add Prowlarr or Jackett to use Courmap.
-- **Usenet (Newznab) indexers** are not supported.
+- **Usenet (Newznab) indexers** are not supported yet; support is planned in [issue #30](https://github.com/courmap/courmap/issues/30). Until then they keep working in Sonarr as they do today, just without Courmap's numbering fixes.
 
 ## If something is off
 

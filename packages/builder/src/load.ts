@@ -12,6 +12,8 @@ export const SEED_ORIGINS: readonly Origin[] = ['bot', 'offline-db', 'anime-list
 
 /** Seed shards are `data/seeds/works-NNN.jsonl`; other files in data/seeds/ are registry and reports. */
 export const SEED_SHARD_RE = /^works-\d{3}\.jsonl$/;
+/** Prequel relations written by the bots from AniList (decision S4.1), next to the seed shards. */
+export const RELATIONS_FILE = 'relations.jsonl';
 
 /** A hand-written YAML file under works/, sequences/ or groups/. */
 export interface SourceFile {
@@ -36,6 +38,8 @@ export interface SeedSource {
 export interface LoadedData {
   files: SourceFile[];
   seeds: SeedSource[];
+  /** Lines of data/seeds/relations.jsonl. */
+  relations: SeedSource[];
 }
 
 const toPosix = (p: string) => p.split(path.sep).join('/');
@@ -78,18 +82,23 @@ export async function loadData(dataDir: string, reporter: Reporter, cwd = proces
   }
 
   const seeds: SeedSource[] = [];
-  for (const abs of await listDir(path.join(dataDir, 'seeds'), (n) => SEED_SHARD_RE.test(n))) {
-    const file = toPosix(path.relative(cwd, abs));
-    const lines = (await readFile(abs, 'utf8')).split('\n');
-    lines.forEach((text, i) => {
-      if (text.trim() === '') return;
-      const loc = makeLineLocator(file, i + 1);
-      try {
-        seeds.push({ file, line: i + 1, data: JSON.parse(text) as unknown, loc });
-      } catch (err) {
-        reporter.report(loc, 'seed-parse', [], `not valid JSON: ${(err as Error).message}`);
-      }
-    });
-  }
-  return { files, seeds };
+  for (const abs of await listDir(path.join(dataDir, 'seeds'), (n) => SEED_SHARD_RE.test(n))) seeds.push(...(await readJsonl(abs, reporter, cwd)));
+  const relations = (await listDir(path.join(dataDir, 'seeds'), (n) => n === RELATIONS_FILE)).length > 0 ? await readJsonl(path.join(dataDir, 'seeds', RELATIONS_FILE), reporter, cwd) : [];
+  return { files, seeds, relations };
+}
+
+/** One JSON value per line; blank lines are skipped and bad lines reported as seed-parse. */
+async function readJsonl(abs: string, reporter: Reporter, cwd: string): Promise<SeedSource[]> {
+  const file = toPosix(path.relative(cwd, abs));
+  const out: SeedSource[] = [];
+  (await readFile(abs, 'utf8')).split('\n').forEach((text, i) => {
+    if (text.trim() === '') return;
+    const loc = makeLineLocator(file, i + 1);
+    try {
+      out.push({ file, line: i + 1, data: JSON.parse(text) as unknown, loc });
+    } catch (err) {
+      reporter.report(loc, 'seed-parse', [], `not valid JSON: ${(err as Error).message}`);
+    }
+  });
+  return out;
 }

@@ -1,0 +1,10 @@
+id: rel-c
+type: tv
+episodes: 12
+ids:
+  anidb: 900203
+  tvdb_show: 900200
+projections:
+  tvdb_show:
+    - { season: 3, episodes: 1-12 }
+notes: TVDB order would derive rel-b as the prequel; the AniList relation says rel-a.

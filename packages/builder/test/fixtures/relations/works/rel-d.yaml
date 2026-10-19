@@ -1,0 +1,10 @@
+id: rel-d
+type: tv
+episodes: 12
+ids:
+  anidb: 900204
+  tvdb_show: 900200
+projections:
+  tvdb_show:
+    - { season: 4, episodes: 1-12 }
+notes: No relation, so the derived prequel (rel-c) stays.

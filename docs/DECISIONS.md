@@ -151,3 +151,10 @@ Numbered as Xwolv numbered them for this session.
 - **The pass-rate gate compares against a committed baseline,** `tests/releases.baseline.json`, updated with `pnpm corpus --update-baseline`. A second, absolute gate fails CI whenever a case expected to be ambiguous or unmatched returns ok. Rationale: "never decreasing" needs a reference point, and the ambiguity rule must not be traded for pass rate.
 - **Failing hand-written cases stay in the corpus.** Kimi no Na wa (2016) is expected ok and currently ambiguous. Rationale: recording today's answer as the expectation would hide a known weakness.
 - **Imported cases record today's answer as their expectation, unverified.** Rationale: a person checks each one; until then it does not count.
+
+## Decided by Xwolv (2026-10-18, session 4)
+
+Numbered S4.1 to S4.7, in the order Xwolv gave them.
+
+- **S4.1 AniList relations** (decided by Xwolv). Only `PREQUEL` and `SEQUEL` build prequel chains. Bot-sourced relations live in `data/seeds/relations.jsonl` with `origin: bot`. Precedence: manual over AniList, AniList over derived.
+- **Relation line format.** `{"work", "prequel", "relation", "origin": "bot", "anilist": [work, prequel]}`, one line per work, keyed by slug with the AniList IDs kept for tracing; a `SEQUEL` edge is stored reversed as the sequel's prequel. A line naming an unknown work (or the work itself as prequel, or a second line for the same work) is a warning and is ignored; a malformed line (another relation type, another origin, unknown field) is an error. Rationale: seeds can drop a work between bot runs, and a seed PR must never fail because a relation went stale, while a malformed line is a bot bug worth stopping for.

@@ -65,3 +65,30 @@ describe('derived prequels and sequences (Xwolv decisions S3.6, S3.7)', async ()
     }
   });
 });
+
+// fixtures/relations: five works on one TVDB show plus seeds/relations.jsonl from the bots.
+describe('AniList relations (Xwolv decision S4.1): manual over AniList over derived', async () => {
+  const result = await validate(fileURLToPath(new URL('./fixtures/relations/', import.meta.url)), { cwd: fileURLToPath(new URL('./fixtures/relations/', import.meta.url)) });
+  const prequelOf = (id: string) => result.records!.works.get(id)!.prequel;
+  const originOf = (id: string) => result.records!.origins.works.get(id)!.prequel;
+
+  it('validates, warning about a relation to a work that is not in the data', () => {
+    expect(result.ok).toBe(true);
+    expect(result.diagnostics.map((d) => [d.severity, d.code, d.line, d.message])).toEqual([
+      ['warning', 'relation', 4, 'work "rel-gone" is not a known work; the relation is ignored'],
+    ]);
+  });
+
+  it('keeps a manual prequel over a relation', () => {
+    expect([prequelOf('rel-b'), originOf('rel-b')]).toEqual(['rel-a', 'manual']);
+  });
+
+  it('lets a relation replace the prequel TVDB order would derive', () => {
+    expect([prequelOf('rel-c'), originOf('rel-c')]).toEqual(['rel-a', 'bot']);
+    expect([prequelOf('rel-ova'), originOf('rel-ova')]).toEqual(['rel-a', 'bot']);
+  });
+
+  it('derives prequels only for works neither source covers', () => {
+    expect([prequelOf('rel-d'), originOf('rel-d')]).toEqual(['rel-c', 'derived']);
+  });
+});

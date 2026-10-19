@@ -173,6 +173,7 @@ export function checkFiles(loaded: LoadedData, reporter: Reporter): CheckedFiles
   const ids = [...new Set([...manualWorks.keys(), ...seedWorks.keys()])].sort();
   const merged = ids.map((id) => mergeWork(manualWorks.get(id) ?? null, seedWorks.get(id) ?? null));
   const works = new Map(merged.map((w) => [w.id, w]));
+  applyRelations(loaded.relations, works, reporter);
   for (const w of merged) checkWork(w, knownIds.work, reporter);
   checkProviderIds(merged, reporter);
   checkSharedTargets(merged, reporter);
@@ -180,6 +181,61 @@ export function checkFiles(loaded: LoadedData, reporter: Reporter): CheckedFiles
   const derived = deriveFromTvdb(merged, sequences);
   checkGroups(groups, works, sequences, derived, knownIds.work, reporter);
   return { works: merged, sequences, groups, derived };
+}
+
+/** A line of data/seeds/relations.jsonl: an AniList PREQUEL or SEQUEL edge, as written by the bots. */
+export interface RelationLine {
+  work: string;
+  prequel: string;
+  /** The AniList relation type the edge came from, seen from `work` (SEQUEL edges are stored reversed). */
+  relation: 'PREQUEL' | 'SEQUEL';
+  origin: 'bot';
+  /** AniList IDs of work and prequel, for tracing. */
+  anilist?: [number, number];
+}
+
+function relationProblem(raw: unknown): string | null {
+  if (typeof raw !== 'object' || raw === null) return 'a relation line must be an object';
+  const r = raw as Record<string, unknown>;
+  for (const k of ['work', 'prequel'] as const) if (typeof r[k] !== 'string' || r[k] === '') return `${k} must be a work id`;
+  if (r.relation !== 'PREQUEL' && r.relation !== 'SEQUEL') return 'relation must be PREQUEL or SEQUEL (other AniList relations never build prequel chains)';
+  if (r.origin !== 'bot') return 'origin must be bot';
+  const extra = Object.keys(r).filter((k) => !['work', 'prequel', 'relation', 'origin', 'anilist'].includes(k));
+  if (extra.length > 0) return `unknown field "${extra[0]}"`;
+  return null;
+}
+
+/**
+ * Applies AniList relations from the bots (Xwolv decision S4.1). Precedence is manual, then
+ * AniList, then derived: a relation sets a work's prequel only when no manual file or seed gave
+ * it one, and derived prequels later fill only works that still have none. A relation naming a
+ * work that is not in the data (a seed that left) is a warning and is ignored, so a seed run
+ * never fails because of it.
+ */
+function applyRelations(lines: readonly SeedSource[], works: Map<string, MergedWork>, reporter: Reporter): void {
+  const seen = new Map<string, number>();
+  for (const src of lines) {
+    const problem = relationProblem(src.data);
+    if (problem) {
+      reporter.report(src.loc, 'relation', [], problem);
+      continue;
+    }
+    const r = src.data as RelationLine;
+    const warn = (msg: string) => reporter.report(src.loc, 'relation', [], msg, { work: r.work, severity: 'warning' });
+    if (seen.has(r.work)) {
+      warn(`work "${r.work}" already has a relation on line ${seen.get(r.work)}; this one is ignored`);
+      continue;
+    }
+    seen.set(r.work, src.line);
+    const w = works.get(r.work);
+    if (!w) warn(`work "${r.work}" is not a known work; the relation is ignored`);
+    else if (r.prequel === r.work) warn(`work "${r.work}" cannot be its own prequel; the relation is ignored`);
+    else if (!works.has(r.prequel)) warn(`prequel "${r.prequel}" is not a known work; the relation is ignored`);
+    else if (w.data.prequel === undefined) {
+      w.data.prequel = r.prequel;
+      w.origins.prequel = 'bot';
+    }
+  }
 }
 
 function checkSeedOrigin(origin: unknown): string | null {

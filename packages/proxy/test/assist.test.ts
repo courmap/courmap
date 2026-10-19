@@ -51,6 +51,9 @@ describe('Sonarr-assisted numbering', async () => {
     series(100, 'Assist Projected', 2024, seasons([12, 12])), // TVDB 9100, the real projection's show
     series(5, 'Assist Projected', 2024, seasons([12])), // a decoy with the same title
     series(6, 'Assist Orphan', 2024, seasons([12, 12])), // season 2 is asw-orphan-2, whose prequel the data lacks
+    series(7, 'Assist Split', 2023, seasons([3])), // asw-split-1 alone
+    series(8, 'Assist Split Two', 2024, seasons([12])), // its sequel as a separate series, absolute 1-12
+    series(10, 'Assist Other Next', 2025, seasons([12])), // asw-other-2; its prequel is TVDB 9009, not this show
   ];
   const { rewriter, close } = await setup(library);
   afterAll(close);
@@ -88,6 +91,12 @@ describe('Sonarr-assisted numbering', async () => {
 
   it('does not read a sequel with a missing prequel as the first season', async () => {
     expect(await rewriter.rewrite('[Other] Assist Orphan 2nd Season - 05 [1080p]')).toMatchObject({ kind: 'pass', reason: 'assist-no-numbering', detail: expect.stringContaining('has 2 seasons and nothing shows asw-orphan-2 is the first') });
+  });
+
+  it('does not offset a sequel that Sonarr keeps as its own series', async () => {
+    // Prequel counts (3) plus episode 1 would be absolute 4 here, the wrong episode.
+    expect(await rewriter.rewrite('[Other] Assist Split Two - 01 [1080p]')).toMatchObject({ kind: 'pass', reason: 'assist-no-numbering', detail: expect.stringContaining('does not start with asw-split-1') });
+    expect(await rewriter.rewrite('[Other] Assist Other Next - 01 [1080p]')).toMatchObject({ kind: 'pass', reason: 'assist-no-numbering', detail: expect.stringContaining('does not start with asw-other-1') });
   });
 
   it('never overrides a real projection from the data', async () => {

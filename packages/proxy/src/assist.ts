@@ -35,6 +35,9 @@ export type AssistResult =
 
 const MAX_CHAIN = 50;
 
+/** A work's titles and aliases, for matching Sonarr series. */
+const titlesOf = (work: Work): string[] => [work.titles.romaji, work.titles.english, work.titles.native, ...work.aliases].filter((t): t is string => !!t);
+
 /** The works before `work` in its prequel chain, nearest first, or null when the chain loops. */
 async function prequels(client: CourmapClient, work: Work): Promise<Work[] | null> {
   const out: Work[] = [];
@@ -64,8 +67,7 @@ export async function assistNumbering(client: CourmapClient, sonarr: SonarrClien
   if (work.ids.tvdb_show !== undefined) series = sonarr.seriesByTvdb(Number(work.ids.tvdb_show));
   if (!series) {
     matchedBy = 'title';
-    const titles = [work.titles.romaji, work.titles.english, work.titles.native, ...work.aliases].filter((t): t is string => !!t);
-    const found = sonarr.matchSeries(titles, work.year);
+    const found = sonarr.matchSeries(titlesOf(work), work.year);
     if (found.length === 0) return fail('assist-no-match', `no Sonarr series matches the titles of ${workId}`);
     if (found.length > 1) return fail('assist-ambiguous', `${found.length} Sonarr series match ${workId}: ${found.map((s) => s.title).join(', ')}`);
     series = found[0]!;
@@ -97,6 +99,12 @@ export async function assistNumbering(client: CourmapClient, sonarr: SonarrClien
     const unknown = chain.find((w) => w.episodes === null);
     if (unknown) return fail('assist-no-numbering', `prequel ${unknown.id} has no known episode count, so absolute numbers cannot be summed`);
     if (!regular.some((e) => e.absoluteEpisodeNumber != null)) return fail('assist-no-numbering', `${series.title} has no absolute numbers in Sonarr`);
+    // Summing prequel counts only fits a series that starts with the chain's first work. A sequel
+    // Sonarr keeps as its own series (numbered from 1) would otherwise land on the wrong episode.
+    const root = chain[chain.length - 1]!;
+    const rootInSeries =
+      root.ids.tvdb_show !== undefined ? Number(root.ids.tvdb_show) === series.tvdbId : sonarr.matchSeries(titlesOf(root), root.year).some((s) => s.tvdbId === series.tvdbId);
+    if (!rootInSeries) return fail('assist-no-numbering', `${series.title} does not start with ${root.id}, the first work of ${workId}'s prequel chain, so its absolute numbers cannot be offset by the prequel counts`);
     const offset = chain.reduce((sum, w) => sum + w.episodes!, 0);
     number = (e) => regular.find((x) => x.absoluteEpisodeNumber === offset + e);
   }

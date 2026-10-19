@@ -1,0 +1,10 @@
+id: asw-split-2
+type: ona
+year: 2024
+episodes: 12
+titles:
+  romaji: Assist Split Two
+ids:
+  anilist: 8011
+prequel: asw-split-1
+notes: Proxy test fixture, fake IDs. A sequel that Sonarr keeps as a separate series numbered from 1.

@@ -1,0 +1,13 @@
+id: asw-other-1
+type: tv
+year: 2022
+episodes: 24
+titles:
+  romaji: Assist Other
+ids:
+  anilist: 8012
+  tvdb_show: 9009
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-24 }
+notes: Proxy test fixture, fake IDs. Its TVDB show is not the one its sequel matches.

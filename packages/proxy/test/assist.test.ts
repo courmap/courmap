@@ -54,6 +54,7 @@ describe('Sonarr-assisted numbering', async () => {
     series(7, 'Assist Split', 2023, seasons([3])), // asw-split-1 alone
     series(8, 'Assist Split Two', 2024, seasons([12])), // its sequel as a separate series, absolute 1-12
     series(10, 'Assist Other Next', 2025, seasons([12])), // asw-other-2; its prequel is TVDB 9009, not this show
+    series(11, 'Assist Run', 2020, seasons([40]), ['Assist Run Arc']), // asw-run-1 still airing, then asw-run-2
   ];
   const { rewriter, close } = await setup(library);
   afterAll(close);
@@ -97,6 +98,10 @@ describe('Sonarr-assisted numbering', async () => {
     // Prequel counts (3) plus episode 1 would be absolute 4 here, the wrong episode.
     expect(await rewriter.rewrite('[Other] Assist Split Two - 01 [1080p]')).toMatchObject({ kind: 'pass', reason: 'assist-no-numbering', detail: expect.stringContaining('does not start with asw-split-1') });
     expect(await rewriter.rewrite('[Other] Assist Other Next - 01 [1080p]')).toMatchObject({ kind: 'pass', reason: 'assist-no-numbering', detail: expect.stringContaining('does not start with asw-other-1') });
+  });
+
+  it('does not offset by a prequel that is still airing', async () => {
+    expect(await rewriter.rewrite('[Other] Assist Run Arc - 02 [1080p]')).toMatchObject({ kind: 'pass', reason: 'assist-no-numbering', detail: expect.stringContaining('asw-run-1 is still airing') });
   });
 
   it('never overrides a real projection from the data', async () => {

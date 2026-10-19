@@ -26,6 +26,7 @@ interface WorkRow {
   title_english: string | null;
   title_native: string | null;
   prequel_id: string | null;
+  prequel_origin: string | null;
 }
 
 const Q = {
@@ -154,6 +155,7 @@ export class DumpDataset implements Dataset {
       ids,
       projections,
       prequel: w.prequel_id,
+      prequel_origin: w.prequel_id === null ? null : w.prequel_origin,
       sequences: memberships.map((m) => ({
         sequence: m.sequence_id,
         ep_from: m.ep_from,

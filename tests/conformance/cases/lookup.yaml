@@ -19,6 +19,7 @@ cases:
         tmdb_show:
           - { kind: regular, ep_from: 1, ep_to: 12, season: 1, target_from: 1, target_to: null }
       prequel: null
+      prequel_origin: null
       sequences: []
       aliases: [Simple Show, "The Simple Show: Example", Simple]
 
@@ -41,6 +42,7 @@ cases:
         tmdb_show:
           - { kind: regular, ep_from: 1, ep_to: 12, season: 2, target_from: 1, target_to: null }
       prequel: split-show
+      prequel_origin: manual
       sequences:
         - { sequence: part-two-only, ep_from: 1, ep_to: 12, absolute_start: 101, default: false }
         - { sequence: split-show-absolute, ep_from: 1, ep_to: 12, absolute_start: 13, default: true }
@@ -68,6 +70,7 @@ cases:
           - { kind: regular, ep_from: 1, ep_to: 2, season: 1, target_from: 1, target_to: 1 }
           - { kind: regular, ep_from: 3, ep_to: 12, season: 1, target_from: 2, target_to: null }
       prequel: null
+      prequel_origin: null
       sequences: []
       aliases: [Specials Show]
 
@@ -91,6 +94,7 @@ cases:
         tmdb_show:
           - { kind: regular, ep_from: 1, ep_to: 100, season: 1, target_from: 1, target_to: null }
       prequel: null
+      prequel_origin: null
       sequences: []
       aliases: [Long Runner]
 
@@ -109,6 +113,7 @@ cases:
       ids: { anidb: "1007", anilist: "2007", tmdb_movie: "7001", imdb: tt0000007 }
       projections: {}
       prequel: null
+      prequel_origin: null
       sequences: []
       aliases: [A Movie]
 
@@ -116,3 +121,22 @@ cases:
     op: lookup
     ref: tvdb_show:5001
     expect_id: simple-show
+
+  - name: a prequel from an AniList relation carries prequel_origin bot
+    op: lookup
+    ref: anilist:2022
+    expect:
+      data_version: conformance
+      id: classic-show-2005
+      type: tv
+      status: finished
+      year: 2005
+      episodes: 30
+      specials: null
+      titles: { romaji: Classic Show (2005), english: null, native: null }
+      ids: { anidb: "1022", anilist: "2022" }
+      projections: {}
+      prequel: classic-show
+      prequel_origin: bot
+      sequences: []
+      aliases: [Classic Show (2005), Classic]

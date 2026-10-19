@@ -1,0 +1,12 @@
+id: classic-show
+type: tv
+year: 1979
+episodes: 50
+titles:
+  romaji: Classic Show
+ids:
+  anidb: 1021
+  anilist: 2021
+aliases:
+  - Classic
+notes: Conformance fixture. All IDs are fake. The original of a remake chained by an AniList relation.

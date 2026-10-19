@@ -43,6 +43,7 @@ const base = (over: Partial<WorkRecord>): WorkRecord => ({
   ids: { anidb: '1', tvdb_show: '100' },
   projections: { tvdb_show: [{ kind: 'regular', ep_from: 1, ep_to: 12, season: 1, target_from: 1, target_to: null }] },
   prequel: null,
+  prequel_origin: null,
   sequences: [],
   aliases: [],
   ...over,

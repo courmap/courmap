@@ -35,6 +35,10 @@ importers:
       '@courmap/core':
         specifier: workspace:*
         version: link:../core
+    devDependencies:
+      '@courmap/parser':
+        specifier: workspace:*
+        version: link:../parser
 
   packages/builder:
     dependencies:

@@ -120,6 +120,8 @@ function aliasHits(m: Matcher, parsed: ParsedRelease): AliasHit[] {
     // Season tokens also appear as "2nd" or "s2"; Part and Cour tokens only as the number.
     if (parsed.season !== null) for (const v of [`${b} ${n}`, `${b} ${n}${ordinalSuffix(n!)}`, `${b} s${n}`]) tryExact(v, true);
     else if (parsed.part !== null) tryExact(`${b} ${n}`, true);
+    // The parser takes "(2005)" out of the title as a year; remakes carry it in their title ("Doraemon (2005)").
+    if (parsed.year !== null) tryExact(`${b} ${parsed.year}`, false);
     tryExact(b, false);
   }
   if (hits.length > 0) return hits;
@@ -155,7 +157,8 @@ async function placeOne(ctx: Ctx, w: WorkRecord, e: number, season: number | nul
   const override = ctx.group?.overrides.find((o) => o.work === w.id);
   if (override) {
     const tag = `group ${ctx.group!.id}`;
-    if (override.numbering === 'continue_prequel' && w.prequel) {
+    // An AniList prequel (origin bot) orders the chain but never implies numbering (decision S5.2).
+    if (override.numbering === 'continue_prequel' && w.prequel && w.prequel_origin !== 'bot') {
       const prequel = await ds.getWork(w.prequel);
       if (prequel?.episodes != null && inRange(w, e - prequel.episodes)) {
         return { work: w, episode: e - prequel.episodes, fit: 1, viaTvdbSeason: false, reason: `${tag} numbers ${w.id} after ${prequel.id}'s ${prequel.episodes} episodes` };
@@ -232,6 +235,17 @@ async function place(ctx: Ctx, w: WorkRecord): Promise<Placement> {
 // ---------------------------------------------------------------------------
 // Scoring
 
+/** The works before w in its prequel chain, nearest first. */
+async function earlierInChain(ds: Dataset, w: WorkRecord): Promise<string[]> {
+  const out: string[] = [];
+  let cur: WorkRecord | undefined = w;
+  while (cur?.prequel && !out.includes(cur.prequel) && cur.prequel !== w.id && out.length < 50) {
+    out.push(cur.prequel);
+    cur = await ds.getWork(cur.prequel);
+  }
+  return out;
+}
+
 async function chainPosition(ds: Dataset, w: WorkRecord): Promise<number> {
   let pos = 1;
   let cur: WorkRecord | undefined = w;
@@ -251,9 +265,17 @@ const firstTvdbSeason = (w: WorkRecord) => w.projections.tvdb_show?.find((r) => 
  * one is a mismatch. A season token matches the work's place in its prequel chain or its TVDB
  * season; a part (or cour) token matches the chain position only, since parts share a season.
  */
-async function seasonFit(ds: Dataset, w: WorkRecord, hit: AliasHit, placement: Placement, parsed: ParsedRelease): Promise<{ fit: number; reason: string | null }> {
+async function seasonFit(ds: Dataset, w: WorkRecord, hit: AliasHit, placement: Placement, parsed: ParsedRelease, fuzzyWorks: ReadonlySet<string>): Promise<{ fit: number; reason: string | null }> {
   const n = parsed.season ?? parsed.part;
-  if (n === null) return w.prequel ? { fit: MISMATCH, reason: 'no season token, and this work is a sequel' } : { fit: 1, reason: null };
+  if (n === null) {
+    // No token reads as the first season, but only against the works it could be confused with:
+    // the penalty applies when the alias is shared with an earlier work of the chain (decision S5.1).
+    // A trigram match counts as shared when an earlier work also matched the query by trigram.
+    if (!w.prequel) return { fit: 1, reason: null };
+    const shares = (id: string) => (hit.similarity === 1 ? hit.works.includes(id) : fuzzyWorks.has(id));
+    const earlier = (await earlierInChain(ds, w)).filter(shares);
+    return earlier.length > 0 ? { fit: MISMATCH, reason: `no season token, and the alias is shared with its prequel ${earlier[0]}` } : { fit: 1, reason: null };
+  }
   const what = parsed.season !== null ? 'season' : 'part';
   if (hit.viaSeason) return { fit: 1, reason: `${what} ${n} is in the alias` };
   if (placement.viaTvdbSeason) return { fit: 1, reason: null };
@@ -325,6 +347,7 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease): Promise<Resol
   const m = matcherFor(await ds.aliasIndex());
   const hits = aliasHits(m, parsed);
   const ctx: Ctx = { ds, parsed, group: findGroup(await ds.groups(), parsed.group) };
+  const fuzzyWorks = new Set(hits.filter((h) => h.similarity < 1).flatMap((h) => h.works));
 
   // Score each (alias hit, work); a shared alias splits its weight by each sharer's evidence.
   const best = new Map<string, ResolveCandidate>();
@@ -335,7 +358,7 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease): Promise<Resol
       if (!w) continue;
       const pref = preference(w, hit, parsed);
       const placement = await place(ctx, w);
-      const season = await seasonFit(ds, w, hit, placement, parsed);
+      const season = await seasonFit(ds, w, hit, placement, parsed, fuzzyWorks);
       const year = yearFit(w, parsed.year);
       const titleReason = hit.similarity === 1 ? `title alias "${hit.alias}" exact` : `title alias "${hit.alias}" similar (${round(hit.similarity)})`;
       const shared = hit.works.length > 1 ? `, shared by ${hit.works.length} works` : '';

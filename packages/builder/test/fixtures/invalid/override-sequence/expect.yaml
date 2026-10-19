@@ -15,4 +15,5 @@ errors:
   - code: missing-prequel
     file: groups/somesubs.yaml
     line: 5
-    message: continue_prequel needs work "b" to have a prequel
+    message: continue_prequel needs work "b" to have a prequel from a manual file, a seed or TVDB order (AniList relations do not count)
+warnings: []

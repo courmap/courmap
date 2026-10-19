@@ -604,8 +604,11 @@ function checkGroups(
         else if (!seqMembers.has(o.sequence)) at('sequence', 'override-sequence', `sequence "${o.sequence}" is not in data/sequences/`);
         else if (!seqMembers.get(o.sequence)!.has(o.work)) at('sequence', 'override-sequence', `work "${o.work}" is not a member of sequence "${o.sequence}"`);
       }
-      if (o.numbering === 'continue_prequel' && works.get(o.work) && works.get(o.work)!.data.prequel === undefined && !derived.prequels.has(o.work)) {
-        at('numbering', 'missing-prequel', `continue_prequel needs work "${o.work}" to have a prequel`);
+      const target = works.get(o.work);
+      // An AniList prequel (origin bot) never implies numbering (decision S5.2), so it does not count.
+      const numberingPrequel = target && target.data.prequel !== undefined && target.origins.prequel !== 'bot';
+      if (o.numbering === 'continue_prequel' && target && !numberingPrequel && !derived.prequels.has(o.work)) {
+        at('numbering', 'missing-prequel', `continue_prequel needs work "${o.work}" to have a prequel from a manual file, a seed or TVDB order (AniList relations do not count)`);
       }
     });
   }

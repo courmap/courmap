@@ -89,6 +89,7 @@ export function toRecords(files: CheckedFiles): Records {
       ids,
       projections,
       prequel: w.prequel ?? files.derived.prequels.get(w.id) ?? null,
+      prequel_origin: w.prequel !== undefined ? (origins.prequel ?? null) : files.derived.prequels.has(w.id) ? 'derived' : null,
       sequences: [],
       aliases,
     });

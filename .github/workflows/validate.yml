@@ -15,6 +15,12 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    services:
+      # S3-compatible server for the end-to-end shard upload test (packages/release).
+      s3mock:
+        image: adobe/s3mock:5.2.3
+        ports:
+          - 9090:9090
     steps:
       - uses: actions/checkout@v4
 
@@ -45,8 +51,15 @@ jobs:
       - name: Generate static shards from the dump
         run: pnpm builder shards --from out/courmap.sqlite --out out/shards/v1
 
-      - name: Tests (broken fixtures, round trips, conformance in every mode)
+      - name: Wait for the S3-compatible test server
+        run: |
+          for i in $(seq 1 60); do curl -sf -o /dev/null http://localhost:9090/ && exit 0; sleep 1; done
+          echo "::error::S3Mock did not answer on port 9090"; exit 1
+
+      - name: Tests (broken fixtures, round trips, conformance in every mode, S3 upload)
         run: pnpm test
+        env:
+          S3_TEST_ENDPOINT: http://localhost:9090
 
       - name: Resolver corpus (verified pass rate must not drop; no ambiguous case may return ok)
         id: corpus

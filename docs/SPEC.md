@@ -255,8 +255,8 @@ The API is a client library contract first and an HTTP surface second. The same 
 | Operation | Library call | Optional Worker endpoint | Data it reads |
 | --- | --- | --- | --- |
 | Lookup | `lookup(ref): Promise<Work>` | `GET /v1/lookup?ref=anilist:20002` | `refs/{provider}/{shard}.json` then `works/{id}.json` |
-| Translate | `translate(ref, episode, targets): Promise<TranslateResult>` | `GET /v1/translate?from=anilist:20002&episode=5&to=tvdb_show,absolute`; `POST` batch up to 500 | Work file, plus its sequence file for `absolute` |
-| Resolve | `resolve(releaseName): Promise<ResolveResult>` | `GET /v1/resolve?release=...`; `POST` batch up to 100 | `aliases/<prefix>.json` (and `aliases/grams/` for fuzzy matching), then work, sequence and group files |
+| Translate | `translate(ref, episode, targets): Promise<TranslateResult>` | `GET /v1/translate?from=anilist:20002&episode=5&to=tvdb_show,absolute`; `POST` batch up to 100 | Work file, plus its sequence file for `absolute` |
+| Resolve | `resolve(releaseName): Promise<ResolveResult>` | `GET /v1/resolve?release=...`; `POST` batch up to 25 | `aliases/<prefix>.json` (and `aliases/grams/` for fuzzy matching), then work, sequence and group files |
 | Search | `search(query): Promise<WorkSummary[]>` | `GET /v1/search?q=frieren` | `aliases/<prefix>.json`, `aliases/grams/` |
 | Meta | `meta(): Promise<Meta>` | static `/v1/meta.json` | `meta.json` |
 
@@ -438,7 +438,7 @@ There is no server to run. Data changes only when a PR merges, so everything is 
 ```
 
 4. **Client library** (TypeScript, published to npm as `@courmap/client`; other languages port against the conformance suite) implements `lookup`, `translate` and `resolve` locally against either the shards (fetch on demand, cache by `data_version`) or a downloaded dump (fully offline). PVRs like Transpondarr should use the dump mode: no network call per RSS item.
-5. **Optional Worker** at `api.courmap.com`: a Cloudflare Worker on the free tier exposing `/v1/translate` and `/v1/resolve` for curl-and-go users, backed by the same shards. It is a convenience; if abused it is switched off and nothing breaks, including the docs site's try-it box, which never calls it.
+5. **Optional Worker** at `api.courmap.com` (a `workers.dev` address until the domain exists): a Cloudflare Worker on the free tier for curl-and-go users, backed by the same shards through the remote client. It serves lookup, translate, resolve and search as `GET`, plus `POST` batches of at most 100 translates or 25 resolves; open CORS; Cloudflare rate limiting in front. It deploys from `main` only, with a `CLOUDFLARE_API_TOKEN` repository secret scoped to Workers. It is a convenience and the lowest priority (built after the docs site); if abused it is switched off and nothing breaks, including the docs site's try-it box, which never calls it.
 
 **Caching contract**
 
@@ -536,7 +536,7 @@ Docs are a launch requirement, not a follow-up: nothing is announced until a str
 3. Live badges: data version, current-season coverage, resolver corpus pass rate, CI status.
 4. Below the fold: how it works in one diagram, how it differs from TheXEM and Anime-Lists (and how it builds on them), license and attribution.
 
-**Docs site** (built from `/docs` in the repo, VitePress or Astro Starlight, on Cloudflare Pages at `courmap.com`)
+**Docs site** (Astro Starlight in `site/`, deployed to Cloudflare Pages by `.github/workflows/docs.yml`; at `courmap.pages.dev` until `courmap.com` exists, which stays defined in `packages/core/src/site.ts`)
 
 - **Try it**: a box where you paste a release name and see the resolve result and its projections. It runs `@courmap/client` in the browser in remote mode against `data.courmap.com`, with no Worker involved, so it doubles as a live demo of remote mode. Built with step 12.
 - **Getting started**: the three paths, each a single page.

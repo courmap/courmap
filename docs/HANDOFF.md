@@ -2,7 +2,7 @@
 
 Where the build stands, for the next session. Read CLAUDE.md, docs/SPEC.md and docs/DECISIONS.md first, as always; this file only says what is done and what is next. `docs/LAUNCH.md` lists everything open before the public launch. Update both at the end of every session.
 
-Last updated 2026-10-19, end of session 8.
+Last updated 2026-10-19, after the maintenance session that followed session 8.
 
 ## Done
 
@@ -23,6 +23,14 @@ Last updated 2026-10-19, end of session 8.
   - `@courmap/core`, `parser` and `client` 0.1.0 are published with provenance and verified from the registry (Node, types, browser bundle).
   - `npm.yml` is ready for trusted publishing (npm 11.6.2, `NPM_TRUSTED_PUBLISHING` repository variable, token fallback, idempotent reruns, a post-publish registry check).
 - **GHCR:** `ghcr.io/courmap/proxy` is public; an anonymous pull works.
+- **Maintenance session (same day, 18:45 UTC):**
+  - No scheduled run had happened yet, and no proxy exports were attached, so there was nothing to import.
+  - Reviewing the 10 bot sequel PRs found two ways assisted numbering could import a wrong episode once those prequel links land:
+    - a sequel that Sonarr keeps as its own series was offset by the prequel counts;
+    - an airing prequel's growing count was summed.
+  - Both are fixed with tests: the series must hold the chain's first work, and every prequel must have finished.
+  - Applying all 10 links to a copy of the data changed none of 32 sample resolutions.
+  - Fall 2026 TVDB coverage is 61 of 85 series (71.8%; TV 57 of 76). That is unchanged from session 7, because no data merged since. The tracker issue #28 is stale (12:48 UTC), because the 14:52 scan crashed before rewriting it.
 
 ## Next
 

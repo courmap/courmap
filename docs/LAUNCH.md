@@ -80,6 +80,7 @@ Legend: [x] done, [ ] open, [~] partly done.
       - Logo images have meaningful alt text.
       - Key terms link to their concept pages on first use.
     - The build, snippets and all 2,825 internal links and anchors check out.
+    - Jackett tested end to end (2026-10-19: Jackett, Sonarr 4.0.20, the proxy image): the quick start has a "Not using Prowlarr?" section, and the guide and proxy README point to it.
     - Every page of the docs plan exists, and every snippet runs in CI (`pnpm snippets`).
     - The README badges read the `badges` branch.
 

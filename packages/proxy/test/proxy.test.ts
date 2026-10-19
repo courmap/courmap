@@ -146,3 +146,15 @@ describe('Sonarr Torznab proxy', async () => {
     expect(await res.text()).toContain('Invalid API Key');
   });
 });
+
+describe('export for corpus:from-proxy', async () => {
+  const { exportJson, exportText } = await import('../src/server.js');
+  const { Stats: S } = await import('../src/stats.js');
+  it('serves the shape packages/client/scripts/corpus-from-proxy.ts reads', () => {
+    const stats = new S(null);
+    stats.record('nyaa', '[Other] Unknown Thing - 03 [1080p]', { kind: 'pass', reason: 'unmatched', detail: 'no candidate', resolved: null });
+    const out = exportJson({ stats, data: { status: { dataVersion: '2026.43', file: null, lastCheck: null, lastChange: null, lastError: null } } as never });
+    expect(out).toEqual({ courmap_proxy_export: 1, data_version: '2026.43', unresolved: [{ name: '[Other] Unknown Thing - 03 [1080p]', status: 'unmatched', count: 1, detail: 'no candidate' }], assisted: [] });
+    expect(exportText({ stats })).toBe('[Other] Unknown Thing - 03 [1080p]\n');
+  });
+});

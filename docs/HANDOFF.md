@@ -2,7 +2,7 @@
 
 Where the build stands, for the next session. Read CLAUDE.md, docs/SPEC.md and docs/DECISIONS.md first, as always; this file only says what is done and what is next. `docs/LAUNCH.md` lists everything open before the public launch. Update both at the end of every session.
 
-Last updated 2026-10-19, after the Newznab session.
+Last updated 2026-10-19, after the category guidance session.
 
 ## Done
 
@@ -48,6 +48,11 @@ Last updated 2026-10-19, after the Newznab session.
   - `packages/proxy/src/feed.ts` (was `torznab.ts`) holds the protocol-aware feed handling; `test/newznab.test.ts` has 19 tests including a mixed setup.
   - Docs: quick start (Torrent and Usenet tabs), guide, proxy README. LAUNCH.md item 20 is partly done.
   - Found on the way: the docs' "Spy x Family - 30" rewrite example was wrong (ambiguous in the data); it is now "- 17".
+- **Duplicate-indexer guidance (Refs #30):** the docs used to tell users to set the Courmap copy to Categories 5070 and drop Prowlarr's copy, which removed regular TV searches for indexers that carry both.
+  - Source and a real Prowlarr, Sonarr and proxy run (DECISIONS.md, "Duplicate-indexer guidance"): Prowlarr's Sonarr app has separate Sync Categories and Anime Sync Categories, which Full Sync overwrites on every sync; Sonarr searches standard series in Categories and anime series in Anime Categories.
+  - New recommendation in the quick start (step 4), guide and proxy README: clear Anime Sync Categories in Prowlarr (Full Sync, no tags); Courmap copy with Categories empty, Anime Categories 5070, Indexer Priority 10; the tag method only for anime-only indexers like Nyaa, and both together when you have both kinds.
+  - Why priority 10: Prowlarr expands the TV category to include anime, so its copy still returns anime releases in RSS, and at equal priority Sonarr grabbed the unrewritten one.
+  - The screenshot for Prowlarr's Sonarr app (LAUNCH.md item 17) should show Show Advanced on and Anime Sync Categories cleared.
 
 ## Next
 

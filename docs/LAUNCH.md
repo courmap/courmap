@@ -2,7 +2,7 @@
 
 Everything still open before the public launch post (r/sonarr, r/selfhosted, anime self-hosting Discords). Each item says who does it and how to check it is done. Claude Code updates this file at the end of every session; Xwolv ticks items off by saying so in the session prompt.
 
-Last updated 2026-10-19, Newznab session. Status: **not ready.** 10 of 20 items are done and 4 are partly done; what is left is mostly real-world use (proxy week, corpus, screenshots, testers).
+Last updated 2026-10-19, category guidance session. Status: **not ready.** 10 of 20 items are done and 4 are partly done; what is left is mostly real-world use (proxy week, corpus, screenshots, testers).
 
 Legend: [x] done, [ ] open, [~] partly done.
 
@@ -69,7 +69,7 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Verify: `pnpm corpus` reports at least 200 verified at 95% or more.
 17. [ ] **Screenshots in the Sonarr guide.** Who: Xwolv takes them; Claude Code places them. Six placeholders are in `site/src/content/docs/sonarr.mdx`:
     - Prowlarr indexers with the ID visible.
-    - Prowlarr's Sonarr app sync settings.
+    - Prowlarr's Sonarr app dialog with Show Advanced on and **Anime Sync Categories** cleared (quick start step 4A).
     - Sonarr's Add Torznab dialog.
     - The status page after a day.
     - The Unraid Add Container form.
@@ -96,6 +96,7 @@ Legend: [x] done, [ ] open, [~] partly done.
 - [x] Assisted numbering and the corpus loop from proxy exports (session 7).
 - [x] `pnpm check:tokens` in CI: no GitHub token can be committed (session 8).
 - [x] Assisted numbering cannot import a wrong episode through a bot prequel link (maintenance session after session 8).
+- [x] Duplicate-indexer guidance that keeps regular TV working (2026-10-19): for indexers with regular TV and anime, Prowlarr's copy keeps regular TV (Anime Sync Categories cleared, Full Sync, no tags) and the Courmap copy takes anime (Categories empty, Anime Categories 5070, Indexer Priority 10); the tag method is for anime-only indexers like Nyaa. Checked with real Prowlarr, Sonarr 4.0.20 and the proxy in Docker; not with a live torrent or usenet indexer (quick start step 4, decision in DECISIONS.md).
 
 ## Launch post
 

@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/courmap/courmap/actions/workflows/validate.yml/badge.svg)](https://github.com/courmap/courmap/actions/workflows/validate.yml)
 [![data](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcourmap%2Fcourmap%2Fbadges%2Fdata.json)](https://github.com/courmap/courmap/releases/latest)
-[![coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcourmap%2Fcourmap%2Fbadges%2Fcoverage.json)](https://courmap.pages.dev/coverage/)
+[![coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcourmap%2Fcourmap%2Fbadges%2Fcoverage.json)](https://courmap.com/coverage/)
 [![resolver corpus](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcourmap%2Fcourmap%2Fbadges%2Fcorpus.json)](tests/releases.yaml)
 
 **Courmap translates an anime episode between AniDB, AniList, MAL, Kitsu, TVDB, TMDB, IMDb and absolute (fansub) numbering, and resolves release names to the right show and episode, as open data and a library with no server to run.**
@@ -19,7 +19,7 @@ One release, every numbering (from data release `data-2026.43`):
 | TMDB | 120089 | S01E17 |
 | Absolute | `spy-x-family-absolute` | 17 |
 
-The fansub group's episode 17 is the fifth episode of the second cour, which AniDB, AniList, MAL and Kitsu list as its own entry and TVDB and TMDB keep in season 1. [Try it in your browser](https://courmap.pages.dev/try/).
+The fansub group's episode 17 is the fifth episode of the second cour, which AniDB, AniList, MAL and Kitsu list as its own entry and TVDB and TMDB keep in season 1. [Try it in your browser](https://courmap.com/try/).
 
 ## Pick your path
 
@@ -41,7 +41,7 @@ services:
       INDEXER_NYAA_URL: http://prowlarr:9696/1/api
 ```
 
-Then add `http://courmap-proxy:9797/nyaa` to Sonarr as a Torznab indexer. [Sonarr guide](https://courmap.pages.dev/sonarr/), including Unraid.
+Then add `http://courmap-proxy:9797/nyaa` to Sonarr as a Torznab indexer. [Sonarr guide](https://courmap.com/sonarr/), including Unraid.
 
 ### Developers
 
@@ -56,7 +56,7 @@ console.log(r.status, r.match?.work, r.match?.episode); // ok sousou-no-frieren 
 courmap.close();
 ```
 
-Works fully offline over the weekly SQLite dump, or fetches small static files on demand, in Node, browsers and Workers. [Library quickstart](https://courmap.pages.dev/getting-started/library/).
+Works fully offline over the weekly SQLite dump, or fetches small static files on demand, in Node, browsers and Workers. [Library quickstart](https://courmap.com/getting-started/library/).
 
 ### Contributors
 
@@ -75,7 +75,7 @@ pnpm install
 pnpm validate
 ```
 
-[Contributing guide](https://courmap.pages.dev/getting-started/contributing/).
+[Contributing guide](https://courmap.com/getting-started/contributing/).
 
 ## How it works
 
@@ -85,7 +85,7 @@ Every provider maps to one canonical **work** (usually one cour, film or OVA), n
 - **Built on Anime-Lists and anime-offline-database:** Courmap joins them, adds corrections, absolute sequences and release-name resolution, and checks the result.
 - **Never guesses silently:** an unsure answer is `ambiguous`, with its candidates.
 
-Documentation: [courmap.pages.dev](https://courmap.pages.dev). Design: [docs/SPEC.md](docs/SPEC.md).
+Documentation: [courmap.com](https://courmap.com). Design: [docs/SPEC.md](docs/SPEC.md).
 
 ## License and attribution
 

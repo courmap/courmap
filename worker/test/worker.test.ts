@@ -38,7 +38,7 @@ describe('Worker', async () => {
   });
   const env: Env = { DATA_URL: server.url };
   const call = async (pathAndQuery: string, init?: RequestInit, e: Env = env) => {
-    const res = await handle(new Request(`https://courmap.example.workers.dev${pathAndQuery}`, init), e);
+    const res = await handle(new Request(`https://api.courmap.com${pathAndQuery}`, init), e);
     return { status: res.status, headers: res.headers, body: res.status === 204 ? null : ((await res.json()) as Record<string, unknown>) };
   };
 
@@ -158,5 +158,16 @@ describe('schedule watchdog (decision S7.3)', async () => {
     const github = (file: string) => [...readFileSync(path.join(root, '.github/workflows', file), 'utf8').matchAll(/cron: '([^']+)'/g)].map((m) => m[1]!);
     const later = (cron: string) => cron.replace(/^(\d+) /, (_, m: string) => `${Number(m) + 30} `);
     expect(Object.keys(WATCHED)).toEqual([later(github('bots.yml')[0]!), later(github('seed.yml')[0]!), later(github('release.yml')[0]!)]);
+  });
+
+  it('deploys only to api.courmap.com, reads data.courmap.com and keeps the dispatch token out of the config', () => {
+    const wrangler = readFileSync(path.join(root, 'worker/wrangler.toml'), 'utf8');
+    expect(wrangler).toMatch(/^workers_dev = false$/m);
+    expect(wrangler).toMatch(/^preview_urls = false$/m);
+    expect(wrangler).toMatch(/^routes = \[\{ pattern = "api\.courmap\.com", custom_domain = true \}\]$/m);
+    const vars = /^\[vars\]\n([\s\S]*?)(?=^\[)/m.exec(wrangler)![1]!;
+    expect(vars).toMatch(/^DATA_URL = "https:\/\/data\.courmap\.com\/v1\/"$/m);
+    // A dashboard-managed secret: naming it as a var or anywhere else in the config would let a deploy replace it.
+    expect(wrangler.split('\n').filter((l) => !l.startsWith('#')).join('\n')).not.toContain('GITHUB_DISPATCH_TOKEN');
   });
 });

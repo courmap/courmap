@@ -1,13 +1,15 @@
 # The optional Courmap Worker (decision S6.3). Deployed from main by .github/workflows/worker.yml
-# with a CLOUDFLARE_API_TOKEN secret scoped to Workers; served at courmap.<account>.workers.dev
-# until api.courmap.com exists.
+# with a CLOUDFLARE_API_TOKEN secret scoped to Workers; served only at api.courmap.com.
 name = "courmap"
 main = "src/index.ts"
 compatibility_date = "2026-10-01"
-workers_dev = true
+# No workers.dev or preview addresses: a deploy must never turn them back on.
+workers_dev = false
+preview_urls = false
+routes = [{ pattern = "api.courmap.com", custom_domain = true }]
 
 [vars]
-# The shard root. Until data.courmap.com is live the Worker has no data to read.
+# The shard root: the R2 bucket's custom domain.
 DATA_URL = "https://data.courmap.com/v1/"
 
 # 60 requests a minute per client IP; past that, HTTP 429.
@@ -19,8 +21,9 @@ namespace_id = "1001"
   period = 60
 
 # The schedule watchdog (worker/src/watchdog.ts): 30 minutes after each GitHub schedule, dispatch
-# the workflow if it has not run today. Inert until the GITHUB_DISPATCH_TOKEN secret is set
-# (wrangler secret put GITHUB_DISPATCH_TOKEN).
+# the workflow if it has not run today. GITHUB_DISPATCH_TOKEN is a secret managed in the Cloudflare
+# dashboard (Workers & Pages, courmap, Settings, Variables and Secrets). Deploys keep secrets; never
+# put it here or in any committed file (pnpm check:tokens).
 [triggers]
 crons = ["53 7 * * *", "47 6 * * 2", "43 9 * * 2"]
 

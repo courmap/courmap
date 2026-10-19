@@ -1,7 +1,7 @@
 name: docs
 
 # The docs site (site/, Astro Starlight; decision S6.4). Builds on every pull request and push;
-# deploys to Cloudflare Pages (courmap.pages.dev) from main when the CLOUDFLARE_API_TOKEN and
+# deploys to Cloudflare Pages (courmap.com) from main when the CLOUDFLARE_API_TOKEN and
 # CLOUDFLARE_ACCOUNT_ID secrets exist, and is a dry run (build only) otherwise. Snippets in the
 # docs and README are checked by the validate workflow (pnpm check runs pnpm snippets).
 on:

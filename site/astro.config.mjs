@@ -30,8 +30,8 @@ const localShardServer = {
 };
 
 export default defineConfig({
-  // courmap.pages.dev until courmap.com exists; the domain itself lives in packages/core/src/site.ts.
-  site: process.env.SITE_URL ?? 'https://courmap.pages.dev',
+  // The domain itself lives in packages/core/src/site.ts.
+  site: process.env.SITE_URL ?? 'https://courmap.com',
   integrations: [
     starlight({
       title: 'Courmap',

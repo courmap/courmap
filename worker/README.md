@@ -30,4 +30,4 @@ npx wrangler@4.151.2 dev --var DATA_URL:http://127.0.0.1:<port>/v1/   # in worke
 npx tsx --conditions=@courmap/source worker/scripts/check-deployed.ts <worker url> courmap.sqlite
 ```
 
-`.github/workflows/worker.yml` bundles it on every change and deploys from `main` when the `CLOUDFLARE_API_TOKEN` (Workers: Edit) and `CLOUDFLARE_ACCOUNT_ID` secrets exist. It is served at `courmap.<account>.workers.dev` until `api.courmap.com` exists. `DATA_URL` in `wrangler.toml` points at `data.courmap.com`, which serves shards once R2 is set up.
+`.github/workflows/worker.yml` bundles it on every change and deploys from `main` when the `CLOUDFLARE_API_TOKEN` (Workers: Edit) and `CLOUDFLARE_ACCOUNT_ID` secrets exist. It is served only at `api.courmap.com` (a custom domain; the `workers.dev` and preview addresses are off in `wrangler.toml`). `DATA_URL` in `wrangler.toml` points at `data.courmap.com`, the R2 bucket's custom domain. The watchdog's `GITHUB_DISPATCH_TOKEN` is a Worker secret set in the Cloudflare dashboard; deploys keep it, and it never goes in `wrangler.toml` or any committed file.

@@ -34,8 +34,7 @@
   "dependencies": {
     "@courmap/core": "workspace:*",
     "@courmap/parser": "workspace:*",
-    "better-sqlite3": "^12.11.1",
-    "fzstd": "0.1.1"
+    "better-sqlite3": "^12.11.1"
   },
   "devDependencies": {
     "@courmap/builder": "workspace:*",

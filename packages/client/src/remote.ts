@@ -1,5 +1,4 @@
-import { COURMAP_URLS, refShard, type AliasIndex, type Dataset, type GroupRecord, type Meta, type Provider, type SequenceRecord, type WorkRecord } from '@courmap/core';
-import { decompress } from 'fzstd';
+import { COURMAP_URLS, refShard, type AliasEntry, type Dataset, type GroupRecord, type Meta, type Provider, type SequenceRecord, type WorkRecord } from '@courmap/core';
 import { createClient, type CourmapClient } from './client.js';
 
 /**
@@ -30,7 +29,7 @@ const HOUR = 60 * 60 * 1000;
  * A Dataset over the static shards (docs/SPEC.md, "Hosting"): fetches files on demand from
  * baseUrl (the /v1/ root) and caches them by data_version. Missing files (404) mean the
  * record does not exist; any other HTTP failure is an error. It uses only fetch and plain
- * JavaScript (zstd included), so it runs unchanged in Node, browsers and Workers (decision S4.7).
+ * JavaScript, so it runs unchanged in Node, browsers and Workers (decision S4.7).
  */
 export class RemoteDataset implements Dataset {
   private readonly base: string;
@@ -73,9 +72,14 @@ export class RemoteDataset implements Dataset {
     return SAFE.test(id) ? this.file<SequenceRecord>(`sequences/${id}.json`) : undefined;
   }
 
-  /** aliases.json.zst: one download per data_version, decompressed in memory. */
-  async aliasIndex(): Promise<AliasIndex> {
-    return (await this.file<AliasIndex>('aliases.json.zst', 'zstd'))!;
+  /** aliases/<prefix>.json: one prefix shard of the alias index, fetched when a title needs it. */
+  async aliasShard(prefix: string): Promise<AliasEntry[]> {
+    return SAFE.test(prefix) ? ((await this.file<AliasEntry[]>(`aliases/${prefix}.json`)) ?? []) : [];
+  }
+
+  /** aliases/grams/<n>.json: one bucket of the trigram set, fetched for fuzzy matching only. */
+  async aliasGrams(bucket: number): Promise<Record<string, string[]>> {
+    return Number.isInteger(bucket) && bucket >= 0 ? ((await this.file<Record<string, string[]>>(`aliases/grams/${bucket}.json`)) ?? {}) : {};
   }
 
   async groups(): Promise<GroupRecord[]> {
@@ -93,7 +97,7 @@ export class RemoteDataset implements Dataset {
   }
 
   /** One shard file for the current data_version: memory, then the store, then network. */
-  private async file<T>(rel: string, encoding: 'json' | 'zstd' = 'json'): Promise<T | undefined> {
+  private async file<T>(rel: string): Promise<T | undefined> {
     const { data_version } = await this.meta();
     if (this.filesVersion !== data_version) {
       this.files = new Map();
@@ -101,14 +105,14 @@ export class RemoteDataset implements Dataset {
     }
     let p = this.files.get(rel);
     if (!p) {
-      p = this.load(data_version, rel, encoding);
+      p = this.load(data_version, rel);
       this.files.set(rel, p);
       p.catch(() => this.files.delete(rel)); // retry failures next time
     }
     return (await p) as T | undefined;
   }
 
-  private async load(version: string, rel: string, encoding: 'json' | 'zstd'): Promise<unknown> {
+  private async load(version: string, rel: string): Promise<unknown> {
     const store = this.opts.store;
     const cached = await store?.read(version, rel);
     if (cached !== undefined) return cached === null ? undefined : (JSON.parse(cached) as unknown);
@@ -118,7 +122,7 @@ export class RemoteDataset implements Dataset {
       return undefined;
     }
     if (!res.ok) throw new Error(`GET ${this.base}${rel}: HTTP ${res.status}`);
-    const body = encoding === 'zstd' ? new TextDecoder().decode(decompress(new Uint8Array(await res.arrayBuffer()))) : await res.text();
+    const body = await res.text();
     const value = JSON.parse(body) as unknown;
     await store?.write(version, rel, body);
     return value;

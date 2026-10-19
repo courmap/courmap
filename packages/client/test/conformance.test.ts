@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 import { afterAll, describe, expect, it } from 'vitest';
 import { parse } from 'yaml';
 import { MemoryDataset, compile, generateShards, validate } from '@courmap/builder';
+import { aliasShardKey, gramBucket } from '@courmap/core';
 import { CourmapError, createClient, createOfflineClient, createRemoteClient, type CourmapClient } from '../src/index.js';
 import { serveStatic, type StaticServer } from './static-server.js';
 
@@ -110,3 +111,22 @@ describe('conformance', async () => {
     });
   }
 });
+
+interface ShardCases {
+  keys: { normalized: string; key: string }[];
+  buckets: { trigram: string; bucket: number }[];
+  shards: { prefix: string; entries: [string, string[]][] }[];
+}
+
+// tests/conformance/shards.yaml: the alias index layout (decision S6.1), checked against the core
+// functions and against the files the shard generator wrote for the remote mode.
+describe('conformance: alias shard layout', () => {
+  const x = parse(readFileSync(path.join(conformance, 'shards.yaml'), 'utf8')) as ShardCases;
+  it.each(x.keys)('key of "$normalized" is $key', ({ normalized, key }) => expect(aliasShardKey(normalized)).toBe(key));
+  it.each(x.buckets)('bucket of "$trigram" is $bucket', ({ trigram, bucket }) => expect(gramBucket(trigram)).toBe(bucket));
+  it.each(x.shards)('aliases/$prefix.json', async ({ prefix, entries }) => {
+    const res = await fetch(`${server!.url}aliases/${prefix}.json`);
+    expect(await res.json()).toEqual(entries);
+  });
+});
+

@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterAll, beforeEach, describe, expect, it } from 'vitest';
 import { MemoryDataset, compile, generateShards, validate } from '@courmap/builder';
+import { GRAM_BUCKETS, aliasShardKey } from '@courmap/core';
 import { RemoteDataset, SqliteDataset, createRemoteClient } from '../src/index.js';
 import { serveStatic } from './static-server.js';
 
@@ -81,20 +82,30 @@ describe('remote client', async () => {
     await expect(createRemoteClient(server.url).lookup('anidb:1004')).rejects.toThrow(/HTTP 500/);
   });
 
-  it('serves the same alias index and groups as the dump and the in-memory records (decision S3.4)', async () => {
+  it('serves the same alias shards, trigram set and groups as the dump and the in-memory records (decision S6.1)', async () => {
     const offline = new SqliteDataset(dump);
     try {
       const memory = new MemoryDataset(v.records!, { data_version: '2026.01', git_sha: 'test', built_at: '', schema_version: '4' });
       const remote = new RemoteDataset(server.url);
-      const index = await offline.aliasIndex();
-      expect(await remote.aliasIndex()).toEqual(index);
-      expect(await memory.aliasIndex()).toEqual(index);
+      const all = offline.allAliasShards();
+      expect(all.shards.size).toBeGreaterThan(5);
+      for (const [key, entries] of all.shards) {
+        expect(await remote.aliasShard(key), key).toEqual(entries);
+        expect(await memory.aliasShard(key), key).toEqual(entries);
+      }
+      for (let b = 0; b < GRAM_BUCKETS; b++) {
+        expect(await remote.aliasGrams(b)).toEqual(all.grams.get(b) ?? {});
+        expect(await memory.aliasGrams(b)).toEqual(all.grams.get(b) ?? {});
+      }
+      expect(await remote.aliasShard('zz')).toEqual([]);
       expect(await remote.groups()).toEqual(await offline.groups());
       expect(await memory.groups()).toEqual(await offline.groups());
-      // Deduplicated by normalized form, every work listed, nothing under 3 characters.
-      expect(index.aliases.find(([n]) => n === 'split show')).toEqual(['split show', ['split-show']]);
-      expect(index.aliases.every(([n]) => [...n].length >= 3)).toBe(true);
-      expect(new Set(index.aliases.map(([n]) => n)).size).toBe(index.aliases.length);
+      // Deduplicated by normalized form, every work listed, nothing under 3 characters, keyed by prefix.
+      expect(await remote.aliasShard('sp')).toContainEqual(['split show', ['split-show']]);
+      const entries = [...all.shards.values()].flat();
+      expect(entries.every(([n]) => [...n].length >= 3)).toBe(true);
+      expect(new Set(entries.map(([n]) => n)).size).toBe(entries.length);
+      for (const [key, list] of all.shards) for (const [n] of list) expect(aliasShardKey(n)).toBe(key);
     } finally {
       offline.close();
     }

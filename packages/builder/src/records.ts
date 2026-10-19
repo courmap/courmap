@@ -4,7 +4,8 @@ import {
   parseEpisodeRange,
   buildAliasIndex,
   normalizeTitle,
-  type AliasIndex,
+  LocalAliasShards,
+  type AliasEntry,
   type Dataset,
   type GroupRecord,
   type Meta,
@@ -183,11 +184,14 @@ export class MemoryDataset implements Dataset {
     return this.records.sequences.get(id);
   }
 
-  private aliasCache: AliasIndex | null = null;
+  private readonly aliasShards = new LocalAliasShards(() => buildAliasIndex(this.metaValue.data_version, aliasPairs(this.records)));
 
-  async aliasIndex(): Promise<AliasIndex> {
-    this.aliasCache ??= buildAliasIndex(this.metaValue.data_version, aliasPairs(this.records));
-    return this.aliasCache;
+  async aliasShard(prefix: string): Promise<AliasEntry[]> {
+    return this.aliasShards.shard(prefix);
+  }
+
+  async aliasGrams(bucket: number): Promise<Record<string, string[]>> {
+    return this.aliasShards.grams(bucket);
   }
 
   async groups(): Promise<GroupRecord[]> {

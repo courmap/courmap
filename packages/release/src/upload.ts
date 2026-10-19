@@ -36,7 +36,7 @@ export interface UploadReport {
 const META_CACHE = 'public, max-age=300';
 const SHARD_CACHE = 'public, max-age=3600, stale-while-revalidate=86400';
 
-const contentType = (key: string) => (key.endsWith('.json') ? 'application/json' : key.endsWith('.zst') ? 'application/zstd' : 'application/octet-stream');
+const contentType = (key: string) => (key.endsWith('.json') ? 'application/json' : 'application/octet-stream');
 
 export function s3Client(t: S3Target): S3Client {
   return new S3Client({

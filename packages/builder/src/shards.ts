@@ -1,6 +1,5 @@
 import { existsSync, readdirSync } from 'node:fs';
 import { mkdir, rm, writeFile } from 'node:fs/promises';
-import { zstdCompressSync } from 'node:zlib';
 import path from 'node:path';
 import Database from 'better-sqlite3';
 import { DumpDataset, refShard, type Provider, type SqlReader } from '@courmap/core';
@@ -11,6 +10,8 @@ export interface ShardReport {
   sequences: number;
   groups: number;
   refShards: Partial<Record<Provider, number>>;
+  /** Prefix shards of the alias index. */
+  aliasShards: number;
 }
 
 // Same adapter as the offline client's; kept local so the builder does not depend on the client.
@@ -31,7 +32,8 @@ function reader(db: Database.Database): SqlReader {
  * Writes the static shards (docs/SPEC.md, "Hosting") from a compiled dump into outDir, which
  * becomes the /v1/ root. Every file is exactly what the offline client returns for the same
  * record. meta.json is written last, so a reader never sees a half-written version.
- * aliases.json.zst holds the alias index for resolve and search; groups.json lists every group.
+ * aliases/ holds the alias index for resolve and search in prefix shards plus a trigram set;
+ * groups.json lists every group.
  */
 export async function generateShards(dumpPath: string, outDir: string): Promise<ShardReport> {
   if (existsSync(outDir) && readdirSync(outDir).length > 0 && !existsSync(path.join(outDir, 'meta.json'))) {
@@ -43,15 +45,15 @@ export async function generateShards(dumpPath: string, outDir: string): Promise<
     const ds = new DumpDataset(reader(db), dumpPath);
     // Tens of thousands of small files: write them through a bounded pool, creating each directory once.
     let files = 0;
+    let aliasShards = 0;
     const dirs = new Map<string, Promise<unknown>>();
     const pending = new Set<Promise<void>>();
-    const write = async (rel: string, value: unknown, zstd = false) => {
+    const write = async (rel: string, value: unknown) => {
       const file = path.join(outDir, rel);
       const dir = path.dirname(file);
       if (!dirs.has(dir)) dirs.set(dir, mkdir(dir, { recursive: true }));
       const json = JSON.stringify(value);
-      const body = zstd ? zstdCompressSync(Buffer.from(json, 'utf8')) : json;
-      const job = dirs.get(dir)!.then(() => writeFile(file, body)).finally(() => pending.delete(job));
+      const job = dirs.get(dir)!.then(() => writeFile(file, json)).finally(() => pending.delete(job));
       pending.add(job);
       files++;
       if (pending.size >= 64) await Promise.race(pending);
@@ -81,8 +83,11 @@ export async function generateShards(dumpPath: string, outDir: string): Promise<
     for (const id of groupIds) await write(`groups/${id}.json`, await ds.getGroup(id));
     // Small enough to fetch whole: what resolve needs to recognize groups.
     await write('groups.json', await ds.groups());
-    // The resolver's alias index (decision S3.4), zstd-compressed.
-    await write('aliases.json.zst', await ds.aliasIndex(), true);
+    // The resolver's alias index in prefix shards plus the trigram set (decision S6.1).
+    const aliases = ds.allAliasShards();
+    for (const [key, entries] of aliases.shards) await write(`aliases/${key}.json`, entries);
+    for (const [bucket, grams] of aliases.grams) await write(`aliases/grams/${bucket}.json`, grams);
+    aliasShards = aliases.shards.size;
 
     await flush(); // every shard is on disk before meta.json
     const providerRefs: Partial<Record<Provider, number>> = {};
@@ -94,7 +99,7 @@ export async function generateShards(dumpPath: string, outDir: string): Promise<
       dumps: null,
     });
     await flush();
-    return { files, works: workIds.length, sequences: sequenceIds.length, groups: groupIds.length, refShards };
+    return { files, works: workIds.length, sequences: sequenceIds.length, groups: groupIds.length, refShards, aliasShards };
   } finally {
     db.close();
   }

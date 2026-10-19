@@ -94,8 +94,8 @@ describe.skipIf(!endpoint)('shard upload to S3-compatible storage', async () => 
     expect(meta.ContentType).toBe('application/json');
     const work = await client.send(new HeadObjectCommand({ Bucket: target.bucket, Key: 'v1/works/simple-show.json' }));
     expect(work.CacheControl).toBe('public, max-age=3600, stale-while-revalidate=86400');
-    const aliases = await client.send(new HeadObjectCommand({ Bucket: target.bucket, Key: 'v1/aliases.json.zst' }));
-    expect(aliases.ContentType).toBe('application/zstd');
+    const aliases = await client.send(new HeadObjectCommand({ Bucket: target.bucket, Key: 'v1/aliases/si.json' }));
+    expect(aliases.ContentType).toBe('application/json');
   });
 
   it('skips unchanged files, and prunes stale ones only after meta.json', async () => {

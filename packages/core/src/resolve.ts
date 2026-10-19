@@ -1,8 +1,9 @@
-import type { AliasIndex } from './aliases.js';
+import { MIN_ALIAS_LENGTH } from './aliases.js';
+import { aliasShardKey, gramBucket, trigrams, type AliasEntry } from './alias-shards.js';
 import { translate, type Dataset } from './engine.js';
 import { CourmapError } from './errors.js';
 import type { GroupRecord, WorkRecord } from './model.js';
-import { normalizeTitle } from './normalize.js';
+import { codePointLength, normalizeTitle } from './normalize.js';
 import type { ParsedRelease, ResolveCandidate, ResolvedProjections, ResolveMatch, ResolveResult, WorkSummary } from './release.js';
 
 /** A winner needs at least this confidence... */
@@ -12,55 +13,34 @@ export const CLEAR_MARGIN = 0.1;
 /** Trigram matches below this similarity are not candidates. */
 export const FUZZY_FLOOR = 0.6;
 const FUZZY_TOP = 10;
-/** Candidates rescored exactly after the rare-trigram pass. */
-const FUZZY_POOL = 300;
+/** Prefix shards searched for trigram matches: the query's own plus the best by shared rare trigrams. */
+const FUZZY_SHARDS = 6;
 /**
  * Evidence when a tie-breaker disagrees: a season token that does not match, no season token on a
  * sequel (no token reads as the first season), a year two or more off, a number nothing places.
  */
 export const MISMATCH = 0.05;
 const MAX_BATCH = 500;
-/** Trigrams in more aliases than this carry no signal ("  a", "ion") and are skipped. */
-const COMMON_GRAM = 5000;
 
 // ---------------------------------------------------------------------------
-// Alias matching
+// Alias matching, over the prefix shards and the trigram set (decision S6.1)
 
-interface Matcher {
+/** Per shard: exact lookup and each alias's trigrams, built once per loaded shard. */
+interface ShardIndex {
   exact: Map<string, string[]>;
-  names: string[];
-  works: string[][];
-  sizes: number[];
-  grams: Map<string, number[]>;
+  grams: Set<string>[];
+}
+const shardIndexes = new WeakMap<AliasEntry[], ShardIndex>();
+
+function indexShard(shard: AliasEntry[]): ShardIndex {
+  let ix = shardIndexes.get(shard);
+  if (!ix) shardIndexes.set(shard, (ix = { exact: new Map(shard), grams: shard.map(([a]) => trigrams(a)) }));
+  return ix;
 }
 
-const matchers = new WeakMap<AliasIndex, Matcher>();
-
-function trigrams(s: string): Set<string> {
-  const cp = [...`  ${s} `];
-  const out = new Set<string>();
-  for (let i = 0; i + 3 <= cp.length; i++) out.add(cp.slice(i, i + 3).join(''));
-  return out;
-}
-
-function matcherFor(index: AliasIndex): Matcher {
-  let m = matchers.get(index);
-  if (m) return m;
-  m = { exact: new Map(), names: [], works: [], sizes: [], grams: new Map() };
-  index.aliases.forEach(([name, works], i) => {
-    m!.exact.set(name, works);
-    m!.names.push(name);
-    m!.works.push(works);
-    const grams = trigrams(name);
-    m!.sizes.push(grams.size);
-    for (const g of grams) {
-      let list = m!.grams.get(g);
-      if (!list) m!.grams.set(g, (list = []));
-      list.push(i);
-    }
-  });
-  matchers.set(index, m);
-  return m;
+async function exactWorks(ds: Dataset, normalized: string): Promise<string[] | undefined> {
+  if (codePointLength(normalized) < MIN_ALIAS_LENGTH) return undefined;
+  return indexShard(await ds.aliasShard(aliasShardKey(normalized))).exact.get(normalized);
 }
 
 interface AliasHit {
@@ -72,33 +52,40 @@ interface AliasHit {
   viaSeason: boolean;
 }
 
-/** Trigram (Dice) matches for q, best first. Deterministic: ties go to the alias that sorts first. */
-function fuzzy(m: Matcher, q: string): { i: number; similarity: number }[] {
+/**
+ * Trigram (Dice) matches for q, best first. The trigram set names the prefix shards that share
+ * q's informative trigrams; the query's own shard and the best few others are searched exactly.
+ * Deterministic: ties go to the alias that sorts first.
+ */
+async function fuzzy(ds: Dataset, q: string): Promise<{ alias: string; works: string[]; similarity: number }[]> {
   const qg = trigrams(q);
-  const shared = new Map<number, number>();
-  for (const g of qg) {
-    const list = m.grams.get(g);
-    if (!list || list.length > COMMON_GRAM) continue;
-    for (const i of list) shared.set(i, (shared.get(i) ?? 0) + 1);
+  const buckets = new Map<number, Record<string, string[]>>();
+  for (const b of [...new Set([...qg].map(gramBucket))].sort((x, y) => x - y)) buckets.set(b, await ds.aliasGrams(b));
+  const score = new Map<string, number>();
+  for (const g of qg) for (const p of buckets.get(gramBucket(g))![g] ?? []) score.set(p, (score.get(p) ?? 0) + 1);
+  const own = aliasShardKey(q);
+  const ranked = [...score].filter(([p]) => p !== own).sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1));
+  const prefixes = [own, ...ranked.slice(0, FUZZY_SHARDS - 1).map(([p]) => p)];
+  const out: { alias: string; works: string[]; similarity: number }[] = [];
+  for (const p of prefixes) {
+    const shard = await ds.aliasShard(p);
+    const ix = indexShard(shard);
+    shard.forEach(([alias, works], i) => {
+      const ag = ix.grams[i]!;
+      let c = 0;
+      for (const g of qg) if (ag.has(g)) c++;
+      const similarity = (2 * c) / (qg.size + ag.size);
+      if (similarity >= FUZZY_FLOOR) out.push({ alias, works, similarity });
+    });
   }
-  // Rare trigrams only find candidates; similarity is then computed over every trigram.
-  const pool = [...shared].sort((a, b) => b[1] - a[1] || a[0] - b[0]).slice(0, FUZZY_POOL);
-  const out: { i: number; similarity: number }[] = [];
-  for (const [i] of pool) {
-    const ag = trigrams(m.names[i]!);
-    let c = 0;
-    for (const g of qg) if (ag.has(g)) c++;
-    const similarity = (2 * c) / (qg.size + ag.size);
-    if (similarity >= FUZZY_FLOOR) out.push({ i, similarity });
-  }
-  out.sort((a, b) => b.similarity - a.similarity || (m.names[a.i]! < m.names[b.i]! ? -1 : 1));
+  out.sort((a, b) => b.similarity - a.similarity || (a.alias < b.alias ? -1 : a.alias > b.alias ? 1 : 0));
   return out.slice(0, FUZZY_TOP);
 }
 
 const ordinalSuffix = (n: number) => (n % 100 >= 11 && n % 100 <= 13 ? 'th' : (['th', 'st', 'nd', 'rd'][n % 10] ?? 'th'));
 
 /** Exact hits for the title and its season variants; trigram hits only when nothing matches exactly. */
-function aliasHits(m: Matcher, parsed: ParsedRelease): AliasHit[] {
+async function aliasHits(ds: Dataset, parsed: ParsedRelease): Promise<AliasHit[]> {
   const title = parsed.title!;
   const bases = [normalizeTitle(title)];
   // A trailing special word ("Show Movie") may or may not be part of the alias.
@@ -109,23 +96,24 @@ function aliasHits(m: Matcher, parsed: ParsedRelease): AliasHit[] {
   const n = parsed.season ?? parsed.part;
   const hits: AliasHit[] = [];
   const seen = new Set<string>();
-  const tryExact = (q: string, viaSeason: boolean) => {
-    const works = m.exact.get(q);
-    if (works && !seen.has(q)) {
+  const tryExact = async (q: string, viaSeason: boolean) => {
+    if (seen.has(q)) return;
+    const works = await exactWorks(ds, q);
+    if (works) {
       seen.add(q);
       hits.push({ alias: q, works, similarity: 1, viaSeason });
     }
   };
   for (const b of bases) {
     // Season tokens also appear as "2nd" or "s2"; Part and Cour tokens only as the number.
-    if (parsed.season !== null) for (const v of [`${b} ${n}`, `${b} ${n}${ordinalSuffix(n!)}`, `${b} s${n}`]) tryExact(v, true);
-    else if (parsed.part !== null) tryExact(`${b} ${n}`, true);
+    if (parsed.season !== null) for (const v of [`${b} ${n}`, `${b} ${n}${ordinalSuffix(n!)}`, `${b} s${n}`]) await tryExact(v, true);
+    else if (parsed.part !== null) await tryExact(`${b} ${n}`, true);
     // The parser takes "(2005)" out of the title as a year; remakes carry it in their title ("Doraemon (2005)").
-    if (parsed.year !== null) tryExact(`${b} ${parsed.year}`, false);
-    tryExact(b, false);
+    if (parsed.year !== null) await tryExact(`${b} ${parsed.year}`, false);
+    await tryExact(b, false);
   }
-  if (hits.length > 0) return hits;
-  for (const f of fuzzy(m, bases[0]!)) hits.push({ alias: m.names[f.i]!, works: m.works[f.i]!, similarity: f.similarity, viaSeason: false });
+  if (hits.length > 0 || !bases[0]) return hits;
+  for (const f of await fuzzy(ds, bases[0])) hits.push({ ...f, viaSeason: false });
   return hits;
 }
 
@@ -344,8 +332,7 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease): Promise<Resol
   const base: Omit<ResolveResult, 'status' | 'match' | 'candidates'> = { data_version, parsed };
   if (!parsed.title) return { ...base, status: 'unmatched', match: null, candidates: [] };
 
-  const m = matcherFor(await ds.aliasIndex());
-  const hits = aliasHits(m, parsed);
+  const hits = await aliasHits(ds, parsed);
   const ctx: Ctx = { ds, parsed, group: findGroup(await ds.groups(), parsed.group) };
   const fuzzyWorks = new Set(hits.filter((h) => h.similarity < 1).flatMap((h) => h.works));
 
@@ -420,10 +407,9 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease): Promise<Resol
 export async function search(ds: Dataset, query: string, limit = 10): Promise<WorkSummary[]> {
   const q = normalizeTitle(query);
   if (!q) return [];
-  const m = matcherFor(await ds.aliasIndex());
   const scores = new Map<string, number>();
-  for (const id of m.exact.get(q) ?? []) scores.set(id, 1);
-  for (const f of fuzzy(m, q)) for (const id of m.works[f.i]!) if (!scores.has(id) || scores.get(id)! < f.similarity) scores.set(id, round(f.similarity));
+  for (const id of (await exactWorks(ds, q)) ?? []) scores.set(id, 1);
+  for (const f of await fuzzy(ds, q)) for (const id of f.works) if (!scores.has(id) || scores.get(id)! < f.similarity) scores.set(id, round(f.similarity));
   const out: WorkSummary[] = [];
   for (const [id, score] of [...scores].sort((a, b) => b[1] - a[1] || (a[0] < b[0] ? -1 : 1)).slice(0, limit)) {
     const w = (await ds.getWork(id))!;

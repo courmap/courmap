@@ -1,0 +1,39 @@
+---
+/**
+ * A small episode diagram: one lane per numbering, segments laid out on a shared axis so the
+ * same episodes line up across lanes. Used by the concept pages.
+ *   lanes: [{ label, segments: [{ from, to, text, tone? }] }]  (from and to are axis positions)
+ */
+interface Segment { from: number; to: number; text: string; tone?: 'a' | 'b' | 'c' | 'muted' }
+interface Lane { label: string; segments: Segment[] }
+interface Props { lanes: Lane[]; caption: string; axis?: number }
+const { lanes, caption } = Astro.props;
+const axis = Astro.props.axis ?? Math.max(...lanes.flatMap((l) => l.segments.map((s) => s.to)));
+---
+<figure class="epmap">
+  <div class="epmap-grid" style={`--axis: ${axis}`} role="img" aria-label={caption}>
+    {lanes.map((lane) => (
+      <>
+        <div class="epmap-label">{lane.label}</div>
+        <div class="epmap-lane">
+          {lane.segments.map((s) => (
+            <span class={`epmap-seg epmap-${s.tone ?? 'a'}`} style={`grid-column: ${s.from} / ${s.to + 1}`}>{s.text}</span>
+          ))}
+        </div>
+      </>
+    ))}
+  </div>
+  <figcaption>{caption}</figcaption>
+</figure>
+<style>
+  .epmap { margin: 1.5rem 0; }
+  .epmap-grid { display: grid; grid-template-columns: max-content 1fr; gap: 0.4rem 0.75rem; align-items: center; overflow-x: auto; }
+  .epmap-label { font-size: var(--sl-text-sm); color: var(--sl-color-gray-3); white-space: nowrap; }
+  .epmap-lane { display: grid; grid-template-columns: repeat(var(--axis), minmax(0.6rem, 1fr)); gap: 2px; min-width: 18rem; }
+  .epmap-seg { font-size: var(--sl-text-xs); padding: 0.3rem 0.4rem; border-radius: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; }
+  .epmap-a { background: var(--sl-color-accent); color: #fff; }
+  .epmap-b { background: #2f6f73; color: #fff; }
+  .epmap-c { background: #6b5b95; color: #fff; }
+  .epmap-muted { background: var(--sl-color-gray-5); color: var(--sl-color-gray-2); }
+  figcaption { font-size: var(--sl-text-sm); color: var(--sl-color-gray-3); margin-top: 0.5rem; }
+</style>

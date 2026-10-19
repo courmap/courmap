@@ -1,0 +1,53 @@
+---
+title: Projections
+description: How season-based providers lay out a work's episodes.
+sidebar:
+  order: 2
+---
+
+import EpisodeMap from '../../../components/EpisodeMap.astro';
+
+A **projection** says where a range of a work's canonical episodes lands in a season-based provider: which season, and which episode numbers. TVDB and TMDB need projections; AniDB, AniList, MAL and Kitsu do not, because they number episodes the way the work does.
+
+```yaml
+projections:
+  tvdb_show:
+    - { season: 2, episodes: 1-24 }             # canonical 1-24 are S02E01-E24
+  tmdb_show:
+    - { season: 1, episodes: 1-24, start: 25 }  # canonical 1-24 are S01E25-E48
+```
+
+- `episodes` is a range of the work's own episodes (`1-24`, `S1-S2` for specials, `892-` while a long-runner airs).
+- `season` is the provider's season; `start` is the provider episode the range starts at (it defaults to the first canonical number).
+- `target` handles splits: one canonical episode that a provider shows as two (`{ episodes: 12, target: 12-13 }`), or two that it merges into one.
+- Ranges never overlap, and a projection that stops before the last episode must say why (`coverage: partial` with `notes`).
+
+## Worked example: The Apothecary Diaries, season 2
+
+TVDB and TMDB disagree about the second season of Kusuriya no Hitorigoto. TVDB gives it season 2; TMDB continues season 1.
+
+<EpisodeMap
+  caption="kusuriya-no-hitorigoto-2nd-season episode 5 is TVDB S02E05 and TMDB S01E29."
+  axis={48}
+  lanes={[
+    { label: 'Works', segments: [{ from: 1, to: 24, text: 'kusuriya-no-hitorigoto 1-24' }, { from: 25, to: 48, text: '2nd-season 1-24', tone: 'b' }] },
+    { label: 'TVDB 431162', segments: [{ from: 1, to: 24, text: 'S01E01-E24', tone: 'muted' }, { from: 25, to: 48, text: 'S02E01-E24', tone: 'c' }] },
+    { label: 'TMDB 220542', segments: [{ from: 1, to: 48, text: 'S01E01-E48', tone: 'muted' }] },
+  ]}
+/>
+
+Because both are written as projections of the same work, translating between them needs no TVDB-to-TMDB table: TVDB S02E05 goes to the work (episode 5), and the work goes to TMDB (S01E29).
+
+## Specials
+
+Specials have their own canonical kind (`S1`, `S2`, following AniDB) and usually land in TVDB season 0:
+
+```yaml
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-25 }
+    - { kind: special, season: 0, episodes: S1-S6 }
+    - { kind: special, season: 0, episodes: S7-S10, start: 8 }
+```
+
+That is Attack on Titan's first season (`shingeki-no-kyojin`): its specials S1 to S6 are TVDB S00E01 to E06, and S7 to S10 are S00E08 to E11: TVDB's S00E07 is not one of AniDB's specials, so the second range skips it.

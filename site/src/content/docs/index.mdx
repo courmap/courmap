@@ -1,0 +1,51 @@
+---
+title: Courmap
+description: One anime episode, every numbering. Translate episodes between AniDB, AniList, MAL, Kitsu, TVDB, TMDB, IMDb and absolute numbering, and resolve release names.
+template: splash
+hero:
+  tagline: One anime episode, every numbering. Courmap translates an episode between AniDB, AniList, MAL, Kitsu, TVDB, TMDB, IMDb and absolute (fansub) numbering, and resolves release names to the right show and episode.
+  image:
+    file: ../../assets/logo.svg
+  actions:
+    - text: Try it
+      link: /try/
+      icon: right-arrow
+    - text: View on GitHub
+      link: https://github.com/courmap/courmap
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## The problem, in one release
+
+`[SubsPlease] Spy x Family - 17 (1080p)` is episode 17 to the fansub group, episode 5 of "Part 2" to AniDB, AniList, MAL and Kitsu, and S01E17 to TVDB and TMDB. Every anime tool reinvents this translation. Courmap does it once, as open data, with a confidence score and a reason for every answer.
+
+| Numbering | ID | Episode |
+| --- | --- | --- |
+| Release name | `[SubsPlease] Spy x Family - 17` | 17 |
+| AniDB | 17061 | 5 |
+| AniList | 142838 | 5 |
+| MyAnimeList | 50602 | 5 |
+| Kitsu | 45619 | 5 |
+| TVDB | 405920 | S01E17 |
+| TMDB | 120089 | S01E17 |
+| Absolute | `spy-x-family-absolute` | 17 |
+
+## Pick your path
+
+<CardGrid>
+  <LinkCard title="Sonarr and self-hosted users" description="Run the Courmap proxy between Prowlarr and Sonarr so anime episodes import as the right episode." href="/getting-started/sonarr/" />
+  <LinkCard title="Developers" description="Install @courmap/client and translate or resolve in three calls, online or fully offline." href="/getting-started/library/" />
+  <LinkCard title="Contributors" description="Fix a wrong mapping once, for everyone, in a small YAML pull request." href="/getting-started/contributing/" />
+</CardGrid>
+
+## What it is
+
+<CardGrid>
+  <Card title="Open data" icon="document">Mappings live as reviewable YAML in a public repository, seeded from anime-offline-database and Anime-Lists and corrected through pull requests. Data is ODbL 1.0 + DbCL 1.0.</Card>
+  <Card title="No server" icon="rocket">Weekly SQLite and JSON dumps on GitHub Releases, static JSON shards for on-demand use, and a client library that does the work locally.</Card>
+  <Card title="Never guesses silently" icon="warning">An unsure answer comes back as ambiguous, with the candidates and their scores, never as a confident wrong episode.</Card>
+  <Card title="Kept current" icon="seti:clock">Bots watch each anime season and open pull requests and issues; people review only where sources disagree.</Card>
+</CardGrid>

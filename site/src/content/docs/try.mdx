@@ -1,0 +1,18 @@
+---
+title: Try it
+description: Paste a release name and see how Courmap resolves it, running entirely in your browser.
+---
+
+import TryIt from '../../components/TryIt.tsx';
+
+Paste a release name and Courmap resolves it to a work and episode, with every provider's numbering. This runs the [`@courmap/client`](/getting-started/library/) library in your browser, in remote mode: it fetches only the few static files the name needs (an alias shard, the works it matches) and computes the answer locally. There is no API server involved.
+
+<TryIt client:load />
+
+What the result means:
+
+- **ok**: one clear winner above the confidence floor (0.85) with a lead of at least 0.1 over the runner-up.
+- **ambiguous**: no clear winner. Courmap never picks one silently; the candidates are listed with their scores and reasons.
+- **unmatched**: no work has a title or alias close enough.
+
+The reason line explains how the answer was reached: which alias matched, how the number was read (a canonical episode, a TVDB season, or an absolute number walked through a sequence) and which tie-breakers applied. See [how release names are resolved](/concepts/release-names/).

@@ -1,0 +1,39 @@
+---
+title: Group overrides
+description: A release group's known numbering quirk for a work.
+sidebar:
+  order: 4
+---
+
+import EpisodeMap from '../../../components/EpisodeMap.astro';
+
+Some release groups number a show their own way. A **group override** records that, so when the resolver sees that group's name in a release it reads the number the group's way.
+
+```yaml
+# data/groups/examplesubs.yaml (an illustration, not a real group)
+id: examplesubs
+aliases: [ExampleSubs, ExSubs]
+overrides:
+  - { work: example-show-part-2, numbering: continue_prequel }
+```
+
+Three kinds of numbering exist:
+
+| `numbering` | Meaning |
+| --- | --- |
+| `continue_prequel` | The group continues the prequel's numbering: a 12-episode first cour, then 13, 14 and so on for this work. |
+| `absolute` | The group numbers by an absolute sequence: the work's default one, or another named with `sequence:`. |
+| `offset` | The group's number minus `offset` is the canonical episode. |
+
+<EpisodeMap
+  caption="With continue_prequel, ExampleSubs' episode 15 of Example Show is the second cour's episode 3."
+  axis={24}
+  lanes={[
+    { label: 'ExampleSubs', segments: [{ from: 1, to: 12, text: '1-12', tone: 'muted' }, { from: 13, to: 24, text: '13-24', tone: 'c' }] },
+    { label: 'Works', segments: [{ from: 1, to: 12, text: 'example-show-part-1 1-12' }, { from: 13, to: 24, text: 'example-show-part-2 1-12', tone: 'b' }] },
+  ]}
+/>
+
+`continue_prequel` needs a prequel that comes from a hand-written file, a seed or TVDB order: a prequel that only comes from an AniList relation orders works but never implies numbering, so validation rejects the override until a stronger source exists.
+
+There is no real group data in Courmap yet. If you know a group's quirk, a pull request with a group file and `sources:` links to the group's releases is welcome; see [Contributing mappings](/contributing/#a-release-group-with-its-own-numbering).

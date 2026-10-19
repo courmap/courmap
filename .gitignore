@@ -11,3 +11,6 @@ coverage/
 
 # seed downloads (packages/seed)
 .cache/
+
+# Browser automation artifacts
+.playwright-mcp/

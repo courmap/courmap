@@ -119,7 +119,7 @@ void t; void createRemoteClient; void browserClient; void CourmapError;
   const b = await browser.resolve('[Other] Split Show - 13 [1080p]');
   if (b.match?.work !== 'split-show-part-2' || b.match.episode !== 1) throw new Error(`browser bundle answered ${JSON.stringify(b.match)}`);
   console.log(`browser: @courmap/client/remote bundles to ${Math.round(bundle.outputFiles[0]!.text.length / 1024)} KB with no Node-only module and resolves with only browser globals`);
-  console.log(`\nnpm tarballs verified: ${Object.values(tarballs).map((f) => path.basename(f)).join(', ')}`);
+  console.log(registryVersion ? `\nnpm packages ${registryVersion} verified from the registry` : `\nnpm tarballs verified: ${Object.values(tarballs).map((f) => path.basename(f)).join(', ')}`);
 } finally {
   await server?.close();
   rmSync(work, { recursive: true, force: true });

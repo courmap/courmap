@@ -58,25 +58,38 @@ describe('GitHubWriter', () => {
     expect(ghCalls.length).toBe(calls);
   });
 
-  it('opens an issue once, then finds it by title and rewrites it', async () => {
-    const issues: { number: number; title: string }[] = [];
+  it('opens an issue once, labels it, then finds it by title (not label) and rewrites it', async () => {
+    const issues: { number: number; title: string; labels: { name: string }[] }[] = [];
     const calls: string[][] = [];
     const ghIssues: Runner = async (cmd, args) => {
       if (cmd === 'git') return '';
       calls.push(args);
-      if (args[1] === 'list') return JSON.stringify(issues);
-      if (args[1] === 'create') {
-        issues.push({ number: 7, title: args[args.indexOf('--title') + 1]! });
+      const [, sub] = args;
+      if (sub === 'list') return JSON.stringify(issues);
+      if (sub === 'create') {
+        // As in the first live run: created without labels.
+        issues.push({ number: 7, title: args[args.indexOf('--title') + 1]!, labels: [] });
         return 'https://github.com/x/y/issues/7';
       }
-      if (args[1] === 'view') return 'https://github.com/x/y/issues/7';
+      if (sub === 'edit' && args.includes('--add-label')) {
+        issues[0]!.labels.push(...args[args.indexOf('--add-label') + 1]!.split(',').map((name) => ({ name })));
+        return '';
+      }
+      if (sub === 'view' && args.includes('labels')) return JSON.stringify({ labels: issues[0]!.labels });
+      if (sub === 'view' && args.includes('isPinned')) return JSON.stringify({ isPinned: calls.some((c) => c[1] === 'pin') });
+      if (sub === 'view') return 'https://github.com/x/y/issues/7';
       return '';
     };
     const w = new GitHubWriter({ apply: true, repoDir: work, run: ghIssues, log: () => {} });
     await w.upsertIssue('Season tracker: Fall 2026', 'one', ['bot', 'season-tracker'], { pin: true });
     await w.upsertIssue('Season tracker: Fall 2026', 'two', ['bot', 'season-tracker'], { pin: true });
-    expect(calls.map((c) => c.slice(0, 2).join(' '))).toEqual(['issue list', 'issue create', 'issue pin', 'issue list', 'issue edit', 'issue view']);
-    expect(calls[0]).toEqual(expect.arrayContaining(['--label', 'season-tracker']));
+    expect(calls.map((c) => c.slice(0, 2).join(' '))).toEqual([
+      'issue list', 'issue create', 'issue edit', 'issue view', 'issue view', 'issue pin',
+      'issue list', 'issue edit', 'issue view', 'issue view',
+    ]);
+    expect(issues).toHaveLength(1);
+    expect(issues[0]!.labels.map((l) => l.name)).toEqual(['bot', 'season-tracker']);
+    expect(calls[0]).not.toContain('--label');
   });
 
   it('only logs in dry run', async () => {

@@ -45,12 +45,14 @@ services:
 
 Put it on the same Docker network as Sonarr and Prowlarr. (No Prowlarr? Any Torznab feed works. With Jackett, use the indexer's "Copy Torznab Feed" address plus `api`, for example `http://jackett:9117/api/v2.0/indexers/nyaasi/results/torznab/api`, and the Jackett API key in Sonarr. Sonarr's built-in Nyaa indexer reads RSS, not Torznab, so it cannot go through the proxy.) Then:
 
-1. **In Prowlarr**, note each anime indexer's number: its Torznab feed is `http://prowlarr:9696/<number>/api`. Then stop Prowlarr syncing those indexers to Sonarr, or Sonarr sees every result twice, once without the proxy. Prowlarr's app tags only include indexers (and it re-adds indexers deleted from Sonarr by hand), so give a tag such as `sonarr` to every indexer Sonarr should still get directly, add that tag to the Sonarr app under Settings > Apps with Sync Level "Full Sync", and click "Sync App Indexers": Prowlarr removes the untagged anime indexers from Sonarr.
+1. **In Prowlarr**, note each anime indexer's number: its Torznab feed is `http://prowlarr:9696/<number>/api`. Then keep Prowlarr's own copies for regular TV: Sonarr searches standard series in an indexer's Categories and anime series in its Anime Categories, so Prowlarr's copy can handle regular TV while the Courmap copy handles anime. For an indexer that carries both, clear **Anime Sync Categories** in Settings > Apps > Sonarr (Show Advanced), keep Full Sync and no tags, and click "Sync App Indexers". For an anime-only indexer such as Nyaa, remove Prowlarr's copy with a tag: tag the indexers Sonarr should still get directly and the Sonarr app with the same tag, then sync. (Prowlarr rewrites both category lists of its copies on every sync, so change them in Prowlarr, not in Sonarr.)
 2. **In Sonarr**, go to Settings > Indexers and add a Torznab indexer for each proxied torrent feed (a Newznab indexer for each usenet one, see below):
    - URL: `http://courmap-proxy:9797/nyaa`
    - API Path: `/api`
    - API Key: your Prowlarr API key (the proxy passes it on)
-   - Categories and Anime Categories: your anime categories, usually `5070`
+   - Categories: empty for an indexer that also carries regular TV (Prowlarr's copy serves those); `5070` for an anime-only indexer
+   - Anime Categories: `5070`
+   - Indexer Priority: `10`, so the Courmap copy wins over Prowlarr's (25) when both return the same release
    - Optional: turn on "Anime Standard Format Search"; the proxy translates both kinds of search.
 3. Open `http://<host>:9797/` to check that the data version and the Sonarr series count show up.
 
@@ -59,7 +61,7 @@ Put it on the same Docker network as Sonarr and Prowlarr. (No Prowlarr? Any Torz
 Usenet works like torrents, with three differences:
 
 - **Say it is usenet.** Set `INDEXER_<NAME>_TYPE=newznab` next to the indexer's `INDEXER_<NAME>_URL`. Torrent indexers can say `torznab`. When it is left out the proxy learns the protocol from the feed's first results, which is fine for most setups; setting it is safer on a feed that may be empty at first. The status page shows what each indexer is, and flags a type that disagrees with its feed.
-- **In Sonarr, add a Newznab indexer.** Settings > Indexers > **+** > **Newznab** (Custom). URL `http://courmap-proxy:9797/<name>`, API Path `/api`, **API Key** the usenet indexer's own key (or Prowlarr's, if the feed comes from Prowlarr; the proxy passes it on), and **5070** (TV/Anime) in **Anime Categories** and **Categories**. Pick the type that matches the indexer: Sonarr reads the two protocols' results differently, so a mismatch returns nothing useful (its log hints at it, for example "did you intend to add a Torznab indexer?").
+- **In Sonarr, add a Newznab indexer.** Settings > Indexers > **+** > **Newznab** (Custom). URL `http://courmap-proxy:9797/<name>`, API Path `/api`, **API Key** the usenet indexer's own key (or Prowlarr's, if the feed comes from Prowlarr; the proxy passes it on). Set **5070** (TV/Anime) in **Anime Categories**, leave **Categories** empty, and set **Indexer Priority** to 10. Pick the type that matches the indexer: Sonarr reads the two protocols' results differently, so a mismatch returns nothing useful (its log hints at it, for example "did you intend to add a Torznab indexer?").
 - **Downloads do not go through the proxy.** NZB links point straight at your indexer, as before.
 
 Without a Prowlarr in the middle, point the URL at the indexer itself, for example `INDEXER_GEEK_URL=https://api.nzbgeek.info/api` (the indexer's API address).
@@ -97,7 +99,7 @@ Environment variables win over the optional YAML file at `/config/courmap-proxy.
    - **Variables:** `SONARR_URL` (for example `http://sonarr:8989`), `SONARR_API_KEY` (Sonarr > Settings > General), and one `INDEXER_<NAME>_URL` per indexer (for example `INDEXER_NYAA_URL` = `http://prowlarr:9696/1/api`). For a usenet indexer add `INDEXER_<NAME>_TYPE` = `newznab` (for example `INDEXER_GEEK_URL` and `INDEXER_GEEK_TYPE`).
 4. **Apply.** Open the WebUI at `http://<unraid-ip>:9797/` and check that the page shows a data version and your series count.
 5. If the status page says the data folder is not writable, run `chown -R 99:100 /mnt/user/appdata/courmap-proxy` from the Unraid terminal.
-6. Add the indexers in Sonarr as described above, using `http://courmap-proxy:9797/<name>`. Remove or disable the same indexers' direct Prowlarr entries in Sonarr.
+6. Add the indexers in Sonarr as described above, using `http://courmap-proxy:9797/<name>`. Then keep Prowlarr's own copies for regular TV as described in step 1 above.
 
 ## Status page
 

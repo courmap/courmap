@@ -61,7 +61,7 @@ The steps below use Prowlarr and show torrent indexers; usenet indexers add one 
 
    > **Screenshot to add:** Prowlarr, Indexers list, with the anime indexer's ID visible.
 
-2. Stop Prowlarr syncing those indexers to Sonarr directly, or every result reaches Sonarr twice, once without the proxy. Prowlarr's app tags only include indexers, and it re-adds any indexer you delete from Sonarr by hand, so tag the indexers Sonarr should still get directly: give each of them a tag such as `sonarr` (Prowlarr, **Indexers**, the indexer, **Tags**), add the same tag to your Sonarr app (**Settings**, **Apps**, Sonarr, **Tags**) with **Sync Level** set to **Full Sync**, then click **Sync App Indexers** on the **Indexers** page. Prowlarr then removes the untagged anime indexers from Sonarr. The [quick start](/getting-started/sonarr/#4-stop-prowlarr-sending-the-same-indexers-to-sonarr-directly) has the clicks step by step.
+2. Keep Prowlarr's own copies for regular TV. Sonarr searches standard series in an indexer's **Categories** and anime series in its **Anime Categories**, so Prowlarr's copy can keep handling regular TV while the Courmap copy handles anime. For an indexer that carries both, clear **Anime Sync Categories** in Prowlarr's Sonarr app (**Settings**, **Apps**, Sonarr, **Show Advanced**), keep **Full Sync** and no tags, and click **Sync App Indexers**. For an anime-only indexer such as Nyaa, remove Prowlarr's copy with a tag instead. The [quick start](/getting-started/sonarr/#4-keep-prowlarrs-copies-for-regular-tv) has the clicks step by step, and why. Do not change the categories of Prowlarr's copies in Sonarr: Prowlarr rewrites them on every sync.
 
    > **Screenshot to add:** Prowlarr, Settings, Apps, Sonarr app dialog, with Sync Level and Tags.
 
@@ -71,10 +71,12 @@ The steps below use Prowlarr and show torrent indexers; usenet indexers add one 
    - **URL**: `http://courmap-proxy:9797/nyaa`
    - **API Path**: `/api`
    - **API Key**: your Prowlarr API key (Prowlarr, Settings, General)
-   - **Categories** and **Anime Categories**: `5070` (TV/Anime)
+   - **Categories**: leave empty for an indexer that also carries regular TV (Prowlarr's copy serves those); `5070` for an anime-only indexer
+   - **Anime Categories**: `5070` (TV/Anime)
+   - **Indexer Priority**: `10`, so the Courmap copy wins over Prowlarr's (25) when both return the same release
    - **Anime Standard Format Search**: optional; the proxy translates both kinds of search
 
-   For a usenet indexer the **Name** and **URL** are your own (`Geek (Courmap)`, `http://courmap-proxy:9797/geek`), the **API Key** is the usenet indexer's own key (or Prowlarr's, if the feed comes from Prowlarr), and `5070` goes in **Categories** and **Anime Categories** the same way. 5070 is the TV/Anime category on usenet indexers too.
+   For a usenet indexer the **Name** and **URL** are your own (`Geek (Courmap)`, `http://courmap-proxy:9797/geek`), the **API Key** is the usenet indexer's own key (or Prowlarr's, if the feed comes from Prowlarr), and `5070` goes in **Anime Categories** the same way (5070 is the TV/Anime category on usenet indexers too). Most usenet indexers also carry regular TV, so leave **Categories** empty.
 
    Click **Test**, then **Save**. Repeat for each proxied indexer. Add each one as the type it is: a torrent feed as Newznab, or a usenet feed as Torznab, returns results Sonarr cannot use.
 
@@ -132,5 +134,5 @@ An optional YAML file at `/config/courmap-proxy.yaml` can hold the same settings
 - **Sonarr's test fails with HTTP 401.** The API key Sonarr sends is passed to Prowlarr; use the Prowlarr API key, not Sonarr's.
 - **Sonarr's log says "did you intend to add a Torznab indexer?".** A torrent feed was added to Sonarr as a Newznab indexer; add torrent feeds as Torznab.
 - **The status page says "feed looks like newznab" (or torznab).** `INDEXER_<NAME>_TYPE` disagrees with the indexer's results; correct it, or remove it to let the proxy detect the type.
-- **Every result arrives twice.** Prowlarr still syncs the same indexer to Sonarr directly; see step 2.
+- **A release arrives twice, or an anime release was grabbed under its original name.** Prowlarr's copy of the indexer still returns anime releases from the TV category. Give the Courmap copy a lower **Indexer Priority** than Prowlarr's (10 against 25), clear **Anime Sync Categories** in Prowlarr, and remove the Prowlarr copy of an anime-only indexer; see step 2.
 - **A release is not rewritten.** The status page lists why: not resolved, no TVDB mapping, a show that is not in your Sonarr, or a batch spanning seasons. Unresolved names make good bug reports.

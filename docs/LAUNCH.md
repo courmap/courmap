@@ -2,7 +2,7 @@
 
 Everything still open before the public launch post (r/sonarr, r/selfhosted, anime self-hosting Discords). Each item says who does it and how to check it is done. Claude Code updates this file at the end of every session; Xwolv ticks items off by saying so in the session prompt.
 
-Last updated 2026-10-19, maintenance session after session 8. Status: **not ready.** 10 of 20 items are done and 3 are partly done; what is left is mostly real-world use (proxy week, corpus, screenshots, testers).
+Last updated 2026-10-19, Newznab session. Status: **not ready.** 10 of 20 items are done and 4 are partly done; what is left is mostly real-world use (proxy week, corpus, screenshots, testers).
 
 Legend: [x] done, [ ] open, [~] partly done.
 
@@ -42,9 +42,11 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Verify: `npm view @courmap/client version` prints the newest version, and the npm page shows the provenance badge.
 12. [ ] **Proxy 0.1.0.** Who: Claude Code, after item 14. Tag `proxy-v0.1.0`.
     Verify: `docker pull ghcr.io/courmap/proxy:0.1.0` and `:latest`.
-20. [ ] **Usenet (Newznab) support in the proxy:** [#30](https://github.com/courmap/courmap/issues/30). Who: Claude Code builds it; Xwolv reviews.
-    - Today the proxy supports Torznab only; the quick start says Usenet support is planned and links the issue.
-    - Verify: every box under "Done when" in #30 is ticked, including a Newznab indexer passing Sonarr's test through the proxy and a new `:edge` image.
+20. [~] **Usenet (Newznab) support in the proxy:** [#30](https://github.com/courmap/courmap/issues/30). Who: Claude Code built it; Xwolv verifies on his own Sonarr.
+    - Built: `INDEXER_<NAME>_TYPE=newznab|torznab` (detected from the feed's first results when unset), Newznab attributes written in the right namespace, caps and errors passed through, a new `:edge` image, and docs (quick start tabs for Torznab and Newznab, guide, proxy README).
+    - Tested against a fake Newznab feed (19 tests) and by hand with a real Sonarr 4.0.20 and a fake usenet indexer: the indexer test passes, interactive search and RSS sync work, Sonarr reads the TVDB ID and size. Not tested against a live usenet indexer.
+    - Open (Xwolv): in his Sonarr, add a Newznab indexer through the proxy and check that it passes Sonarr's test, and that RSS and automatic searches return rewritten, correctly numbered results. Then Claude Code ticks the last two boxes in #30 and closes it.
+    - Verify: every box under "Done when" in #30 is ticked, and #30 is closed by the commit that records Xwolv's confirmation.
 
 ## Data and quality
 

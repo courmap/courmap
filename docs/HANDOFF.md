@@ -2,7 +2,7 @@
 
 Where the build stands, for the next session. Read CLAUDE.md, docs/SPEC.md and docs/DECISIONS.md first, as always; this file only says what is done and what is next. `docs/LAUNCH.md` lists everything open before the public launch. Update both at the end of every session.
 
-Last updated 2026-10-19, after the maintenance session that followed session 8.
+Last updated 2026-10-19, after the Newznab session.
 
 ## Done
 
@@ -42,16 +42,23 @@ Last updated 2026-10-19, after the maintenance session that followed session 8.
   - The Sonarr quick start was rewritten for first-time self-hosters.
   - The Prowlarr advice was wrong in three places (the guide, the quick start and the proxy README); all now say to tag what Sonarr should still get directly. Prowlarr's app tags only include, and it re-adds indexers deleted from Sonarr.
   - The home page has a title and an explanation under its table; logo alt text and concept links are in place.
+- **Newznab (usenet) support in the proxy, issue #30** (code, tests, docs and DECISIONS.md done; Xwolv's own-Sonarr check pending):
+  - `INDEXER_<NAME>_TYPE=torznab|newznab` (YAML `type:`); unset means learned from the feed's first results. Caps carry no protocol marker, so they pass through unchanged apart from the TV search.
+  - The one real difference between the protocols is the attribute namespace Sonarr reads the `tvdbid` from (`newznab:attr` against `torznab:attr`). Confirmed on a real Sonarr 4.0.20: the old image's usenet results had `tvdbId` 0, the new image's 405920.
+  - `packages/proxy/src/feed.ts` (was `torznab.ts`) holds the protocol-aware feed handling; `test/newznab.test.ts` has 19 tests including a mixed setup.
+  - Docs: quick start (Torrent and Usenet tabs), guide, proxy README. LAUNCH.md item 20 is partly done.
+  - Found on the way: the docs' "Spy x Family - 30" rewrite example was wrong (ambiguous in the data); it is now "- 17".
 
 ## Next
 
-1. **Check the 2026-10-20 schedules.**
+1. **Newznab sign-off (issue #30).** Xwolv adds a Newznab indexer through the proxy in his own Sonarr (Settings, Indexers, Newznab, URL `http://<proxy>:9797/<name>`, categories 5070) and checks that it passes the test and that RSS and automatic searches return rewritten, correctly numbered results. When he confirms: tick the last two boxes in #30, mark LAUNCH.md item 20 done, and make that commit's message say `Closes #30` (until then every commit says `Refs #30`).
+2. **Check the 2026-10-20 schedules.**
    - The bots scan at 07:23 UTC: it should update issues #13 to #29 with the built-in token. Check the job summary and for "could not label" or "could not pin" lines.
    - Seed at 06:17, release at 09:13 (it computes data version 2026.43 again, finds that tag on another commit, warns and skips; data-2026.44 and its automatic R2 sync come on 2026-10-27), weekly bots at 10:47.
    - The watchdog triggers at 06:47, 07:53 and 09:43. Its result is only in the Cloudflare Worker logs; ask Xwolv, or add a small status record (for example a KV entry or a GitHub job summary) if it should be checkable from here.
-2. **Trusted publishing:** once Xwolv has configured all three packages and set `NPM_TRUSTED_PUBLISHING`, the next `client-v*` tag proves it. Then tell Xwolv `NPM_TOKEN` can be deleted (LAUNCH.md item 11).
-3. **Proxy week exports:** run `pnpm corpus:from-proxy export.json`, then verify the cases with Xwolv (LAUNCH.md item 16).
-4. **After proxy week:** tag `proxy-v0.1.0` (LAUNCH.md item 12).
+3. **Trusted publishing:** once Xwolv has configured all three packages and set `NPM_TRUSTED_PUBLISHING`, the next `client-v*` tag proves it. Then tell Xwolv `NPM_TOKEN` can be deleted (LAUNCH.md item 11).
+4. **Proxy week exports:** run `pnpm corpus:from-proxy export.json`, then verify the cases with Xwolv (LAUNCH.md item 16).
+5. **After proxy week:** tag `proxy-v0.1.0` (LAUNCH.md item 12).
 
 ## Known gaps and notes
 
@@ -64,6 +71,7 @@ Last updated 2026-10-19, after the maintenance session that followed session 8.
 See `docs/LAUNCH.md`. In short:
 
 - **npm trusted publishing:** configure all three packages, then set the `NPM_TRUSTED_PUBLISHING` variable.
+- **Newznab check:** the two #30 boxes only his Sonarr can tick (indexer test, RSS and automatic searches).
 - **Proxy week:** exports from the status page.
 - **Screenshots:** the six for the Sonarr guide.
 - **Bot PRs and issues:** decide the 11 open PRs and 15 issues.

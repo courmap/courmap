@@ -38,6 +38,10 @@ Last updated 2026-10-19, after the maintenance session that followed session 8.
   - #10 closed and recorded in the new `data/rejected.yaml` (schema, `pnpm validate`, read by the classifier).
   - The airing tracker treats a 1 on an airing TV season as a placeholder.
   - A dry-run scan afterwards proposed neither #10's link nor a 1-episode Koori count.
+- **Docs polish (same day):**
+  - The Sonarr quick start was rewritten for first-time self-hosters.
+  - The Prowlarr advice was wrong in three places (the guide, the quick start and the proxy README); all now say to tag what Sonarr should still get directly. Prowlarr's app tags only include, and it re-adds indexers deleted from Sonarr.
+  - The home page has a title and an explanation under its table; logo alt text and concept links are in place.
 
 ## Next
 

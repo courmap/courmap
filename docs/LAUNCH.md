@@ -73,6 +73,13 @@ Legend: [x] done, [ ] open, [~] partly done.
 18. [ ] **Fresh-eyes test on all three front doors** (Sonarr users, developers, contributors). Who: Xwolv finds testers who have never seen the project; Claude Code fixes every place they stall.
     - Verify: each tester reaches a working result in under five minutes (proxy resolving releases, a first `translate` result, a first PR passing CI), and every stall became a docs fix.
 19. [x] **Docs, README and snippets.** Who: Claude Code. Done in session 6; re-verified in session 8 after the domain switch and the npm release (no page points at the old hosts or calls the packages unpublished).
+    - Polished 2026-10-19:
+      - The Sonarr quick start now stands alone: API keys, Prowlarr indexer IDs, one path per indexer, category 5070, shared networks, Unraid and Compose tabs, and what success looks like.
+      - The Prowlarr sync advice is corrected: app tags only include, so tag what Sonarr should still get directly.
+      - The home page has a real tab title and explains why the example's numbers differ.
+      - Logo images have meaningful alt text.
+      - Key terms link to their concept pages on first use.
+    - The build, snippets and all 2,825 internal links and anchors check out.
     - Every page of the docs plan exists, and every snippet runs in CI (`pnpm snippets`).
     - The README badges read the `badges` branch.
 

@@ -1,0 +1,4 @@
+{"id":"tm-a","type":"tv","status":"finished","year":2024,"episodes":12,"ids":{"anilist":1,"tmdb_show":8000},"projections":{"tmdb_show":[{"season":1,"episodes":"1-12"}]},"origin":{"default":"offline-db"}}
+{"id":"tm-b","type":"tv","status":"finished","year":2025,"episodes":12,"ids":{"anilist":2,"tmdb_show":8000},"projections":{"tmdb_show":[{"season":2,"episodes":"1-12"}]},"origin":{"default":"offline-db"}}
+{"id":"tm-c","type":"tv","status":"finished","year":2026,"episodes":12,"ids":{"anilist":3,"tmdb_show":8000},"projections":{"tmdb_show":[{"season":3,"episodes":"1-12"}]},"origin":{"default":"offline-db"}}
+{"id":"tm-gone","type":"tv","status":"finished","year":2026,"episodes":12,"ids":{"anilist":4,"tmdb_show":8001},"projections":{"tmdb_show":[{"season":1,"episodes":"1-12"}]},"origin":{"default":"offline-db"}}

@@ -1,0 +1,30 @@
+{
+  "name": "@courmap/bots",
+  "version": "0.0.0",
+  "description": "Courmap bots: season scanner, airing tracker, classifier, PR and issue writer, weekly digest",
+  "license": "Apache-2.0",
+  "type": "module",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/courmap/courmap.git",
+    "directory": "packages/bots"
+  },
+  "exports": {
+    ".": {
+      "@courmap/source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "dependencies": {
+    "@courmap/builder": "workspace:*",
+    "@courmap/core": "workspace:*"
+  }
+}

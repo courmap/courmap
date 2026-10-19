@@ -469,11 +469,13 @@ flowchart LR
 
 Only tier B and C ever wait on a person, and both end as a reviewed PR that ships in the next weekly release.
 
+**How the bots write data.** Bots never edit `data/works/`. Tier A and B PRs change only the two bot files in `data/seeds/`: `airing.jsonl` (counts and status) and `relations.jsonl` (prequels), both `origin: bot` and overridden key by key by any manual file. Tier A is one PR (`bots/airing-updates`, label `auto`); each sequel is its own tier B PR (`bots/sequel-<work>`, label `needs-review`, at most 10 new ones a day); tier C issues are found again by title and updated instead of duplicated. The classifier's rules, beyond the table: counts that shrink while airing, a finish with a different count, or a finished work airing again are tier C; a count that runs past a seed projection is a tier C `good first mapping` issue (`projection-short`) until Anime-Lists catches up; an AniList prequel of another type (a movie before a series) is never chained, since a prequel gives the series the sequel penalty in resolve; music videos are ignored; missing TVDB/TMDB IDs are only raised for TV and movies. Every proposal is compiled together with the current data before any PR opens, and one that does not validate becomes a tier C issue. Until step 9's check passes, the bots run in dry-run mode: they open PRs and issues but never merge.
+
 **Detectors** (GitHub Actions cron)
 
 | Detector | Schedule | Watches | Emits |
 | --- | --- | --- | --- |
-| Season scanner | Daily; plus a pre-season run two weeks before Jan, Apr, Jul, Oct | AniList current and next season: IDs, format, status, episode count, prequel/sequel relations. A handful of batched requests a day, only these fields | New-work candidates, sequel candidates, count changes |
+| Season scanner | Daily (the next season is always included, so the run two weeks before Jan, Apr, Jul, Oct needs no extra schedule) | AniList current and next season: IDs, format, status, episode count, start date, prequel/sequel relations. About 10 batched requests a day (50 media each, at most one every 2 s), only these fields, never titles | New-work candidates, sequel candidates, count changes |
 | Airing tracker | Daily | AniList airing schedule for works with `status: airing` | Episode count bumps; `finished` status flips |
 | Seed differ | Weekly, after the cedya77 release | cedya77 `latest` release vs last import | New cross-provider IDs, merged or split entries, dead IDs |
 | Anime-Lists differ | Weekly | Commits to `anime-list-master.xml` | New or changed TVDB/TMDB offsets and episode maps |

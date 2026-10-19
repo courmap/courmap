@@ -2,11 +2,11 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, unlinkSync, writeFileSync
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { gunzipSync } from 'node:zlib';
+import { gunzipSync, gzipSync } from 'node:zlib';
 import { CreateBucketCommand, HeadObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { afterAll, describe, expect, it } from 'vitest';
 import { compile, generateShards, validate } from '@courmap/builder';
-import { buildAssets, fillMetaDumps, s3Client, uploadShards, type S3Target } from '../src/index.js';
+import { buildAssets, fillMetaDumps, s3Client, verifyRelease, uploadShards, type S3Target } from '../src/index.js';
 
 const root = fileURLToPath(new URL('../../../', import.meta.url));
 const tmp = mkdtempSync(path.join(tmpdir(), 'courmap-release-'));
@@ -27,12 +27,13 @@ describe('release assets', async () => {
   it('builds dumps, license, attribution and checksums deterministically', async () => {
     const a = await buildAssets(dump, path.join(tmp, 'a'), root);
     const b = await buildAssets(dump, path.join(tmp, 'b'), root);
-    expect(a.files).toEqual(['courmap-2026.01.sqlite.gz', 'courmap-2026.01.json.gz', 'LICENSE', 'ATTRIBUTION.md', 'SHA256SUMS']);
+    expect(a.files).toEqual(['courmap-2026.01.sqlite.gz', 'courmap-2026.01.json.gz', 'LICENSE', 'DATA_LICENSE', 'ATTRIBUTION.md', 'SHA256SUMS']);
     for (const f of a.files) expect(readFileSync(path.join(tmp, 'b', f)), f).toEqual(readFileSync(path.join(tmp, 'a', f)));
     expect(b.sha256).toEqual(a.sha256);
-    expect(readFileSync(path.join(tmp, 'a', 'LICENSE'), 'utf8')).toBe(readFileSync(path.join(root, 'DATA_LICENSE'), 'utf8'));
+    expect(readFileSync(path.join(tmp, 'a', 'LICENSE'), 'utf8')).toBe(readFileSync(path.join(root, 'LICENSE'), 'utf8'));
+    expect(readFileSync(path.join(tmp, 'a', 'DATA_LICENSE'), 'utf8')).toBe(readFileSync(path.join(root, 'DATA_LICENSE'), 'utf8'));
     const sums = readFileSync(path.join(tmp, 'a', 'SHA256SUMS'), 'utf8').trim().split('\n');
-    expect(sums).toHaveLength(4);
+    expect(sums).toHaveLength(5);
     for (const line of sums) expect(line).toMatch(/^[0-9a-f]{64} {2}\S+$/);
   });
 
@@ -55,6 +56,25 @@ describe('release assets', async () => {
     expect(sums).toContain(`${dumps.sqlite.sha256}  courmap-2026.01.sqlite.gz`);
     expect(sums).toContain(`${dumps.json.sha256}  courmap-2026.01.json.gz`);
     expect(JSON.parse(readFileSync(path.join(shards, 'meta.json'), 'utf8')).dumps).toEqual(dumps);
+    // meta.json is a release asset too, covered by SHA256SUMS (decision S6.2).
+    expect(readFileSync(path.join(assets, 'meta.json'), 'utf8')).toBe(readFileSync(path.join(shards, 'meta.json'), 'utf8'));
+    expect(readFileSync(path.join(assets, 'SHA256SUMS'), 'utf8')).toMatch(/^[0-9a-f]{64} {2}meta\.json$/m);
+  });
+
+  it('verifies a complete release, and catches a tampered one', async () => {
+    const assets = path.join(tmp, 'v');
+    await buildAssets(dump, assets, root);
+    await fillMetaDumps(shards, assets, 'courmap/courmap');
+    const ok = await verifyRelease(assets, root, 'courmap/courmap');
+    expect(ok.problems).toEqual([]);
+    expect(ok.files).toEqual(['ATTRIBUTION.md', 'DATA_LICENSE', 'LICENSE', 'SHA256SUMS', 'courmap-2026.01.json.gz', 'courmap-2026.01.sqlite.gz', 'meta.json']);
+    writeFileSync(path.join(assets, 'courmap-2026.01.json.gz'), gzipSync(Buffer.from('{"meta":{"data_version":"2026.01"},"works":[]}')));
+    const bad = await verifyRelease(assets, root, 'courmap/courmap');
+    expect(bad.problems).toEqual([
+      'SHA256SUMS: wrong checksum for courmap-2026.01.json.gz',
+      'meta.json dumps.json.sha256 does not match courmap-2026.01.json.gz',
+      'the JSON dump has no works',
+    ]);
   });
 
   it('refuses assets from another data version', async () => {

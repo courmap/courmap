@@ -7,9 +7,13 @@
  * - api.courmap.com: the optional Worker
  */
 export const COURMAP_DOMAIN = 'courmap.com';
+/** The GitHub repository; data releases are tagged data-<data_version> there. */
+export const COURMAP_REPO = 'courmap/courmap';
 
 export const COURMAP_URLS = {
   docs: `https://${COURMAP_DOMAIN}/`,
   data: `https://data.${COURMAP_DOMAIN}/v1/`,
   api: `https://api.${COURMAP_DOMAIN}/v1/`,
+  /** meta.json of the latest data release on GitHub (decision S6.2): needs no R2 or domain. */
+  releaseMeta: `https://github.com/${COURMAP_REPO}/releases/latest/download/meta.json`,
 } as const;

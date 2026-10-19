@@ -71,7 +71,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env, readFile: (p: s
   return {
     port: num(env.PORT, f.port ?? 9797),
     dataDir: env.DATA_DIR ?? f.data_dir ?? '/data',
-    metaUrl: env.COURMAP_META_URL ?? f.meta_url ?? `${COURMAP_URLS.data}meta.json`,
+    metaUrl: env.COURMAP_META_URL ?? f.meta_url ?? COURMAP_URLS.releaseMeta,
     dump: env.COURMAP_DUMP ?? f.dump ?? null,
     refreshHours: num(env.REFRESH_HOURS, f.refresh_hours ?? 24),
     sonarr: sonarrUrl && sonarrKey ? { url: sonarrUrl.replace(/\/+$/, ''), apiKey: sonarrKey, refreshMinutes: num(env.SONARR_REFRESH_MINUTES, f.sonarr?.refresh_minutes ?? 60) } : null,

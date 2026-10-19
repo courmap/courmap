@@ -121,7 +121,7 @@ describe('config', () => {
       { name: 'anime-tosho', url: 'http://prowlarr:9696/2/api', apikey: 'p2' },
       { name: 'nyaa', url: 'http://prowlarr:9696/1/api' },
     ]);
-    expect(c.metaUrl).toBe('https://data.courmap.com/v1/meta.json');
+    expect(c.metaUrl).toBe('https://github.com/courmap/courmap/releases/latest/download/meta.json');
   });
 
   it('rejects an indexer URL without a scheme', () => {

@@ -13,7 +13,7 @@ What it does with each result:
 - **Ambiguous or unmatched:** the release passes through unchanged, so Sonarr behaves exactly as it does without the proxy. The name is logged locally and shown on the status page.
 - **Searches:** Sonarr's searches by TVDB ID, season and episode, or by absolute number, are translated into what anime indexers understand: the work's own title plus its episode number, and the franchise title plus the absolute number when fansubs number it that way.
 
-Nothing is sent anywhere except to your own Prowlarr, your own Sonarr and `data.courmap.com` (for the weekly data). Unresolved names stay on your machine.
+Nothing is sent anywhere except to your own Prowlarr, your own Sonarr and GitHub (for the weekly data release). Unresolved names stay on your machine.
 
 ## Run it with Docker Compose
 
@@ -35,7 +35,7 @@ services:
       # The proxy serves it at http://courmap-proxy:9797/<name>.
       INDEXER_NYAA_URL: http://prowlarr:9696/1/api
       INDEXER_ANIMETOSHO_URL: http://prowlarr:9696/2/api
-      # Until data.courmap.com publishes dumps, point at a local one instead:
+      # Data updates come from the latest GitHub data release. To pin a local dump instead:
       # COURMAP_DUMP: /data/courmap.sqlite
 ```
 
@@ -60,7 +60,7 @@ Environment variables win over the optional YAML file at `/config/courmap-proxy.
 | `INDEXER_<NAME>_URL` | none | An upstream Torznab feed, served at `/<name>` (underscores become hyphens, lowercase). |
 | `INDEXER_<NAME>_APIKEY` | none | The upstream key, if you would rather not use the one Sonarr sends. |
 | `COURMAP_DUMP` | none | A fixed local dump. The proxy then never downloads data. |
-| `COURMAP_META_URL` | `https://data.courmap.com/v1/meta.json` | Where the current data version and dump are announced. |
+| `COURMAP_META_URL` | `https://github.com/courmap/courmap/releases/latest/download/meta.json` | Where the current data version and dump are announced: the latest GitHub data release. |
 | `REFRESH_HOURS` | `24` | How often `meta.json` is checked. A dump is downloaded only when the data version changes, and its SHA-256 is checked before it replaces the old one. |
 | `SONARR_REFRESH_MINUTES` | `60` | How often the series list is reloaded. |
 | `PORT` | `9797` | Listening port. |

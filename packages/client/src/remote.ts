@@ -1,11 +1,22 @@
-import { refShard, type AliasIndex, type Dataset, type GroupRecord, type Meta, type Provider, type SequenceRecord, type WorkRecord } from '@courmap/core';
+import { COURMAP_URLS, refShard, type AliasIndex, type Dataset, type GroupRecord, type Meta, type Provider, type SequenceRecord, type WorkRecord } from '@courmap/core';
+import { decompress } from 'fzstd';
 import { createClient, type CourmapClient } from './client.js';
+
+/**
+ * A persistent cache for shard files, keyed by data_version and path. The Node entry point
+ * provides one on disk (`cacheDir`); in a browser or Worker the in-memory cache is enough.
+ */
+export interface ShardStore {
+  /** The cached body: a JSON string, null for a cached 404, undefined for a miss. */
+  read(version: string, rel: string): Promise<string | null | undefined>;
+  write(version: string, rel: string, body: string | null): Promise<void>;
+}
 
 export interface RemoteOptions {
   /** Defaults to the global fetch. */
   fetch?: typeof fetch;
-  /** On-disk cache directory. Files are stored under <cacheDir>/<data_version>/, so a new data version starts a fresh cache. */
-  cacheDir?: string;
+  /** Persistent cache beyond memory. */
+  store?: ShardStore;
   /** How long meta.json is trusted before it is fetched again. Default: one hour (the caching contract). */
   metaMaxAgeMs?: number;
   /** Clock, for tests. */
@@ -18,7 +29,8 @@ const HOUR = 60 * 60 * 1000;
 /**
  * A Dataset over the static shards (docs/SPEC.md, "Hosting"): fetches files on demand from
  * baseUrl (the /v1/ root) and caches them by data_version. Missing files (404) mean the
- * record does not exist; any other HTTP failure is an error.
+ * record does not exist; any other HTTP failure is an error. It uses only fetch and plain
+ * JavaScript (zstd included), so it runs unchanged in Node, browsers and Workers (decision S4.7).
  */
 export class RemoteDataset implements Dataset {
   private readonly base: string;
@@ -31,11 +43,12 @@ export class RemoteDataset implements Dataset {
   private filesVersion: string | null = null;
 
   constructor(
-    baseUrl: string,
+    baseUrl: string = COURMAP_URLS.data,
     private readonly opts: RemoteOptions = {},
   ) {
     this.base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
-    this.fetchFn = opts.fetch ?? fetch;
+    // Called unbound, browsers reject window.fetch ("Illegal invocation"), so wrap it.
+    this.fetchFn = opts.fetch ?? ((input, init) => fetch(input, init));
     this.maxAge = opts.metaMaxAgeMs ?? HOUR;
     this.now = opts.now ?? Date.now;
   }
@@ -79,7 +92,7 @@ export class RemoteDataset implements Dataset {
     return meta;
   }
 
-  /** One shard file for the current data_version: memory, then disk, then network. */
+  /** One shard file for the current data_version: memory, then the store, then network. */
   private async file<T>(rel: string, encoding: 'json' | 'zstd' = 'json'): Promise<T | undefined> {
     const { data_version } = await this.meta();
     if (this.filesVersion !== data_version) {
@@ -96,50 +109,23 @@ export class RemoteDataset implements Dataset {
   }
 
   private async load(version: string, rel: string, encoding: 'json' | 'zstd'): Promise<unknown> {
-    const disk = this.opts.cacheDir ? await diskCache(this.opts.cacheDir, version, rel) : null;
-    const cached = await disk?.read();
-    if (cached) return cached.value;
+    const store = this.opts.store;
+    const cached = await store?.read(version, rel);
+    if (cached !== undefined) return cached === null ? undefined : (JSON.parse(cached) as unknown);
     const res = await this.fetchFn(this.base + rel);
     if (res.status === 404) {
-      await disk?.write(null);
+      await store?.write(version, rel, null);
       return undefined;
     }
     if (!res.ok) throw new Error(`GET ${this.base}${rel}: HTTP ${res.status}`);
-    const body = encoding === 'zstd' ? await unzstd(new Uint8Array(await res.arrayBuffer())) : await res.text();
+    const body = encoding === 'zstd' ? new TextDecoder().decode(decompress(new Uint8Array(await res.arrayBuffer()))) : await res.text();
     const value = JSON.parse(body) as unknown;
-    await disk?.write(body);
+    await store?.write(version, rel, body);
     return value;
   }
 }
 
-/** zstd via node:zlib (Node 22.15 and later), loaded only when needed. A Worker build would swap in a JS decoder. */
-async function unzstd(bytes: Uint8Array): Promise<string> {
-  const { zstdDecompressSync } = await import('node:zlib');
-  return zstdDecompressSync(bytes).toString('utf8');
-}
-
-/** File-backed cache entry. fs is imported lazily so bundles without a disk cache (the Worker) never load it. */
-async function diskCache(dir: string, version: string, rel: string) {
-  const [{ mkdir, readFile, writeFile }, path] = await Promise.all([import('node:fs/promises'), import('node:path')]);
-  const file = path.join(dir, version, ...rel.split('/'));
-  return {
-    // A cached 404 is stored as the literal "null". A miss is null; a hit wraps the value.
-    read: async (): Promise<{ value: unknown } | null> => {
-      try {
-        const text = await readFile(file, 'utf8');
-        return { value: text === 'null' ? undefined : (JSON.parse(text) as unknown) };
-      } catch {
-        return null;
-      }
-    },
-    write: async (body: string | null) => {
-      await mkdir(path.dirname(file), { recursive: true });
-      await writeFile(file, body ?? 'null');
-    },
-  };
-}
-
-/** A client over the static shards at baseUrl (the /v1/ root). */
-export function createRemoteClient(baseUrl: string, opts: RemoteOptions = {}): CourmapClient {
+/** A client over the static shards at baseUrl (the /v1/ root; default https://data.courmap.com/v1/). */
+export function createRemoteClient(baseUrl: string = COURMAP_URLS.data, opts: RemoteOptions = {}): CourmapClient {
   return createClient(new RemoteDataset(baseUrl, opts));
 }

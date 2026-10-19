@@ -260,7 +260,7 @@ The API is a client library contract first and an HTTP surface second. The same 
 | Search | `search(query): Promise<WorkSummary[]>` | `GET /v1/search?q=frieren` | `aliases.json.zst` |
 | Meta | `meta(): Promise<Meta>` | static `/v1/meta.json` | `meta.json` |
 
-Library modes: `createRemoteClient(baseUrl)` fetches shards on demand with an on-disk cache keyed by `data_version`; `createOfflineClient(dumpPath)` reads the SQLite dump with no network at all. Results must be identical across modes, enforced by a shared conformance test suite in CI (`tests/conformance/`).
+Library modes: `createRemoteClient(baseUrl)` (default `https://data.courmap.com/v1/`) fetches shards on demand, cached by `data_version` in memory and, in Node, optionally on disk; `createOfflineClient(dumpPath)` reads the SQLite dump with no network at all. Results must be identical across modes, enforced by a shared conformance test suite in CI (`tests/conformance/`).
 
 **Refs**
 
@@ -414,7 +414,7 @@ There is no server to run. Data changes only when a PR merges, so everything is 
 
 1. **GitHub Actions** builds on every merge to main (free for public repos).
 2. **GitHub Release assets**: the full SQLite and JSON dumps with SHA-256 checksums, tagged `data-YYYY.WW`. This is the primary product for serious consumers.
-3. **Static JSON shards** on Cloudflare R2 behind a custom domain (zero egress fees, no file-count limit), fronted by Cloudflare's cache:
+3. **Static JSON shards** on Cloudflare R2 behind the custom domain `data.courmap.com` (zero egress fees, no file-count limit), fronted by Cloudflare's cache:
 
 ```
 /v1/meta.json                          # data_version, git_sha, built_at, schema_version, counts, dump URLs
@@ -430,7 +430,7 @@ There is no server to run. Data changes only when a PR merges, so everything is 
 ```
 
 4. **Client library** (TypeScript, published to npm as `@courmap/client`; other languages port against the conformance suite) implements `lookup`, `translate` and `resolve` locally against either the shards (fetch on demand, cache by `data_version`) or a downloaded dump (fully offline). PVRs like Transpondarr should use the dump mode: no network call per RSS item.
-5. **Optional Worker**: a Cloudflare Worker on the free tier exposing `/v1/translate` and `/v1/resolve` for curl-and-go users, backed by the same shards. It is a convenience; if abused it is switched off and nothing breaks.
+5. **Optional Worker** at `api.courmap.com`: a Cloudflare Worker on the free tier exposing `/v1/translate` and `/v1/resolve` for curl-and-go users, backed by the same shards. It is a convenience; if abused it is switched off and nothing breaks, including the docs site's try-it box, which never calls it.
 
 **Caching contract**
 
@@ -514,8 +514,9 @@ Docs are a launch requirement, not a follow-up: nothing is announced until a str
 3. Live badges: data version, current-season coverage, resolver corpus pass rate, CI status.
 4. Below the fold: how it works in one diagram, how it differs from TheXEM and Anime-Lists (and how it builds on them), license and attribution.
 
-**Docs site** (built from `/docs` in the repo, VitePress or Astro Starlight, on Cloudflare Pages under the same domain)
+**Docs site** (built from `/docs` in the repo, VitePress or Astro Starlight, on Cloudflare Pages at `courmap.com`)
 
+- **Try it**: a box where you paste a release name and see the resolve result and its projections. It runs `@courmap/client` in the browser in remote mode against `data.courmap.com`, with no Worker involved, so it doubles as a live demo of remote mode. Built with step 12.
 - **Getting started**: the three paths, each a single page.
 - **Concepts**: works, projections, absolute sequences and group overrides, each with a diagram and one worked show.
 - **Sonarr guide**: install, add the indexer, what the proxy rewrites and what it never touches, troubleshooting, screenshots from a real install.
@@ -539,7 +540,7 @@ Docs are a launch requirement, not a follow-up: nothing is announced until a str
 
 Build in the order below; each step ends with a check that runs in CI, so a step is done when its check is green, not when the code looks right. Stack: TypeScript on Node 22 LTS or later, pnpm workspaces, Vitest, strict `tsconfig`, ESM only.
 
-**Naming:** project Courmap; GitHub org `courmap`, main repo `courmap/courmap`; npm packages under the `@courmap` scope (`@courmap/client`, `@courmap/proxy`, `@courmap/builder`); Docker image `ghcr.io/courmap/proxy`; shards and docs on a courmap domain once registered.
+**Naming:** project Courmap; GitHub org `courmap`, main repo `courmap/courmap`; npm packages under the `@courmap` scope (`@courmap/client`, `@courmap/proxy`, `@courmap/builder`); Docker image `ghcr.io/courmap/proxy`. Domains: `courmap.com` serves the docs site (Cloudflare Pages), `data.courmap.com` serves the static shards from R2 through a custom domain (`https://data.courmap.com/v1/`), and `api.courmap.com` serves the optional Worker. The domain is defined once, in `packages/core/src/site.ts` (`COURMAP_DOMAIN`, `COURMAP_URLS`); everything else derives from it.
 
 **Brand assets:** `assets/logo.svg` (master), `assets/logo.png` (1024 px avatar) and `assets/banner.png` (1600 x 400 README header) are provided by Xwolv. Wordmark font is Space Grotesk (SIL OFL). Colors: ink `#16181D`, paper `#F4F1EA`, vermilion `#E04E39`, muted text `#A9A59C`.
 
@@ -574,7 +575,7 @@ DATA_LICENSE                # ODbL 1.0 + DbCL 1.0 (data/ and dumps)
 ATTRIBUTION.md
 ```
 
-SQLite access in Node via `better-sqlite3` for the builder and offline client; the Worker and remote client use the JSON shards only.
+SQLite access in Node via `better-sqlite3` for the builder and offline client; the Worker and remote client use the JSON shards only. The remote client has a browser entry (`@courmap/client/remote`, also picked by the `browser` export condition) with no Node-only imports; zstd is decoded in plain JavaScript, so the same code runs in Node, browsers and Workers. CI bundles it for the browser and runs the bundle with only browser globals.
 
 **Build order**
 
@@ -617,7 +618,8 @@ M2 is the piece nobody else has; M0 and M1 make it possible, and M3 is what turn
 
 - [x] Name: Courmap (GitHub org `courmap`).
 - [x] Stack: TypeScript on Node, matching Offbeat. Go or C# clients come from the conformance suite, ideally written by their ecosystems.
-- [ ] Create the `@courmap` npm org and register a courmap domain; put the domain into the hosting section.
+- [x] Domains: `courmap.com` (docs), `data.courmap.com` (shards), `api.courmap.com` (Worker).
+- [ ] Create the `@courmap` npm org.
 - [ ] Offer Anime-Lists maintainers episode mappings back upstream once the project has momentum.
 - [ ] How to model broadcast vs Blu-ray numbering differences and recap episodes.
 - [ ] Pitch Transpondarr's maintainer on consuming Courmap for its planned long-runner handling.

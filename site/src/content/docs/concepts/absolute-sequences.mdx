@@ -1,0 +1,34 @@
+---
+title: Absolute sequences
+description: How fansubs number long series, and how Courmap maps it.
+sidebar:
+  order: 3
+---
+
+import EpisodeMap from '../../../components/EpisodeMap.astro';
+
+Fansub groups often number a multi-cour show continuously: the second cour starts at 13, not at 1. An **absolute sequence** is an ordered chain of works numbered that way. It is what lets Courmap read "Spy x Family - 17" as the fifth episode of Part 2.
+
+```yaml
+# data/sequences/spy-x-family-absolute.yaml
+id: spy-x-family-absolute
+members:
+  - { work: spy-x-family, episodes: 1-12, absolute_start: 1 }
+  - { work: spy-x-family-part-2, episodes: 1-13, absolute_start: 13 }
+```
+
+<EpisodeMap
+  caption="Absolute 17 is Part 2 episode 5, the release name Spy x Family - 17."
+  axis={25}
+  lanes={[
+    { label: 'Absolute', segments: [{ from: 1, to: 25, text: '1-25', tone: 'c' }] },
+    { label: 'Works', segments: [{ from: 1, to: 12, text: 'spy-x-family 1-12' }, { from: 13, to: 25, text: 'spy-x-family-part-2 1-13', tone: 'b' }] },
+  ]}
+/>
+
+- A work can belong to several sequences (a fansub numbering and a streaming numbering, say). One of its memberships is marked `default: true`, and the `absolute` translation target always answers in that one.
+- Most sequences are not hand-written: works that share a TVDB show and continue each other without a gap form a **derived** sequence in TVDB order, named `<first work>-absolute`. A hand-written sequence for any of those works replaces the derived one.
+- AniList's sequel relations order works into prequel chains but never create or extend a sequence; only TVDB order and hand-written files do.
+- Changing an existing sequence renumbers releases people already have, so the bots treat any such change as needing review, and a change that shifts a finished work's numbers as a conflict for a person.
+
+In the client, `translate(ref, episode, ['absolute'])` gives a work's absolute number, and `translate('absolute:spy-x-family-absolute', 17, [...])` goes the other way.

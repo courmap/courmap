@@ -1,0 +1,57 @@
+---
+title: Works
+description: The canonical unit every provider maps to.
+sidebar:
+  order: 1
+---
+
+import EpisodeMap from '../../../components/EpisodeMap.astro';
+
+A **work** is Courmap's canonical unit: usually one cour, one film or one OVA, at the finest grain any provider uses. It matches how AniDB and AniList split shows, so the second half of a split season is its own work even when TVDB files it under the same season as the first half.
+
+Every provider maps to works, never to each other. With eight providers, mapping each pair would mean 28 mapping sets to keep consistent; mapping each provider to the work means eight, and any translation is two hops: provider to work, work to provider.
+
+<EpisodeMap
+  caption="Spy x Family's first season is two works. AniDB, AniList, MAL and Kitsu split it the same way; TVDB and TMDB keep one season of 25 episodes."
+  axis={25}
+  lanes={[
+    { label: 'Works', segments: [{ from: 1, to: 12, text: 'spy-x-family 1-12' }, { from: 13, to: 25, text: 'spy-x-family-part-2 1-13', tone: 'b' }] },
+    { label: 'AniList', segments: [{ from: 1, to: 12, text: '140960: 1-12' }, { from: 13, to: 25, text: '142838: 1-13', tone: 'b' }] },
+    { label: 'TVDB 405920', segments: [{ from: 1, to: 25, text: 'Season 1: E01-E25', tone: 'muted' }] },
+  ]}
+/>
+
+## Worked example: Spy x Family
+
+`data/works/spy-x-family-part-2.yaml` describes the second cour:
+
+```yaml
+id: spy-x-family-part-2
+type: tv
+status: finished
+year: 2022
+episodes: 13
+titles:
+  romaji: Spy x Family Part 2
+ids:
+  anidb: 17061
+  anilist: 142838
+  mal: 50602
+  kitsu: 45619
+  tvdb_show: 405920
+  tmdb_show: 120089
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-13, start: 13 }
+  tmdb_show:
+    - { season: 1, episodes: 1-13, start: 13 }
+prequel: spy-x-family
+```
+
+- **The id** (`spy-x-family-part-2`) is a slug from the romaji title. It never changes once published, so tools can store it.
+- **Canonical episodes** are the work's own numbering: regular episodes 1 to 13, plus specials (`S1`, `S2` and so on) and credits, trailers and parodies as separate kinds, following AniDB.
+- **AniDB, AniList, MAL and Kitsu** number episodes the way the work does, so their episode numbers need no mapping.
+- **TVDB and TMDB** lay the episodes out in seasons, described by [projections](/concepts/projections/).
+- **`prequel`** links the work to the one it follows. It orders sequels; it never changes how episodes are numbered.
+
+Most works are not hand-written: about 33,000 come from seed datasets, and a YAML file with the same id overrides a seed key by key.

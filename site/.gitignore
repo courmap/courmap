@@ -1,0 +1,7 @@
+dist/
+.astro/
+node_modules/
+# Generated at build time (pnpm site:gen): TypeDoc output, the data format reference, coverage.
+src/content/docs/reference/library/api/
+src/content/docs/reference/data-format.md
+src/content/docs/coverage.md

@@ -1,0 +1,24 @@
+{
+  "name": "@courmap/site",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The Courmap docs site (Astro Starlight)",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "gen": "node scripts/gen-api.mjs && node scripts/gen-data-format.mjs && node scripts/gen-coverage.mjs",
+    "dev": "pnpm run gen && astro dev",
+    "build": "pnpm run gen && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/preact": "6.1.0",
+    "@astrojs/starlight": "0.42.6",
+    "@courmap/client": "workspace:*",
+    "@courmap/core": "workspace:*",
+    "astro": "7.4.0",
+    "preact": "11.0.1",
+    "typedoc": "0.28.20",
+    "typedoc-plugin-markdown": "4.14.0"
+  }
+}

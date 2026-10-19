@@ -1,5 +1,5 @@
 import { CourmapError } from './errors.js';
-import type { AliasIndex } from './aliases.js';
+import type { AliasEntry } from './alias-shards.js';
 import type {
   EpisodeInput,
   GroupRecord,
@@ -35,8 +35,10 @@ export interface Dataset {
   /** Work ids carrying this provider ID, sorted ascending. */
   findWorkIds(provider: Provider, providerId: string): Promise<string[]>;
   getSequence(id: string): Promise<SequenceRecord | undefined>;
-  /** The full alias index (for resolve and search), built with buildAliasIndex. */
-  aliasIndex(): Promise<AliasIndex>;
+  /** One prefix shard of the alias index ([] when there is none), as shardAliasIndex splits it. */
+  aliasShard(prefix: string): Promise<AliasEntry[]>;
+  /** One bucket of the trigram set for fuzzy matching ({} when empty). */
+  aliasGrams(bucket: number): Promise<Record<string, string[]>>;
   /** Every release group, sorted by id. */
   groups(): Promise<GroupRecord[]>;
 }

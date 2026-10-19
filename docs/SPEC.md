@@ -256,8 +256,8 @@ The API is a client library contract first and an HTTP surface second. The same 
 | --- | --- | --- | --- |
 | Lookup | `lookup(ref): Promise<Work>` | `GET /v1/lookup?ref=anilist:20002` | `refs/{provider}/{shard}.json` then `works/{id}.json` |
 | Translate | `translate(ref, episode, targets): Promise<TranslateResult>` | `GET /v1/translate?from=anilist:20002&episode=5&to=tvdb_show,absolute`; `POST` batch up to 500 | Work file, plus its sequence file for `absolute` |
-| Resolve | `resolve(releaseName): Promise<ResolveResult>` | `GET /v1/resolve?release=...`; `POST` batch up to 100 | `aliases.json.zst`, then work, sequence and group files |
-| Search | `search(query): Promise<WorkSummary[]>` | `GET /v1/search?q=frieren` | `aliases.json.zst` |
+| Resolve | `resolve(releaseName): Promise<ResolveResult>` | `GET /v1/resolve?release=...`; `POST` batch up to 100 | `aliases/<prefix>.json` (and `aliases/grams/` for fuzzy matching), then work, sequence and group files |
+| Search | `search(query): Promise<WorkSummary[]>` | `GET /v1/search?q=frieren` | `aliases/<prefix>.json`, `aliases/grams/` |
 | Meta | `meta(): Promise<Meta>` | static `/v1/meta.json` | `meta.json` |
 
 Library modes: `createRemoteClient(baseUrl)` (default `https://data.courmap.com/v1/`) fetches shards on demand, cached by `data_version` in memory and, in Node, optionally on disk; `createOfflineClient(dumpPath)` reads the SQLite dump with no network at all. Results must be identical across modes, enforced by a shared conformance test suite in CI (`tests/conformance/`).
@@ -336,7 +336,7 @@ Resolution is parse, match, interpret, score. Each step records a reason string,
 2. **Normalize the title.** NFKC, then one folding table: `×` becomes `x`; stars, music notes, hearts, colons and CJK or full-width punctuation become spaces. Then lowercase, fold macrons, strip other punctuation and filler words (`the`, `season`, `part`, `cour`), collapse spaces. The same function builds `aliases.normalized`.
 3. **Match candidates.**
     1. Exact hit in the alias index (a year the parser took out of the title is also tried as part of the alias, since remakes carry it: "Doraemon (2005)"). An alias several works share splits its title weight across them; season token, episode fit, year, title rank and type then break the tie. An alias shared by more than 50 works (a broadcast slot such as "Minna no Uta", a label such as "Music") is not in the index at all.
-    2. No exact hit: trigram search over the same alias index (computed by the client, not stored in the dump), keep the top 10 above a similarity floor.
+    2. No exact hit: trigram search. The trigram set names the prefix shards that share the query's trigrams; the query's own shard and the five best others are searched, and the top 10 above a similarity floor are kept. Every mode runs this over the same shards, so offline, in-memory and remote results are identical.
     3. Season token present (`S2`, `2nd Season`, `Part 2`): prefer works whose aliases or prequel chain position agree.
 4. **Interpret the number** against each candidate, in order:
     1. Group override for this group and work, if any.
@@ -427,9 +427,14 @@ There is no server to run. Data changes only when a PR merges, so everything is 
                                        #   IMDb uses the digits after "tt" (every IMDb ID starts with tt)
 /v1/sequences/{sequence_id}.json
 /v1/groups/{group_id}.json
-/v1/aliases.json.zst                   # alias index for resolvers: every normalized alias once, with all
-                                       #   works using it; forms under 3 characters and forms shared by
-                                       #   more than 50 works dropped; zstd JSON
+/v1/aliases/{prefix}.json              # the alias index, split by the first two characters of each
+                                       #   normalized alias: [[alias, [work_id, ...]], ...], sorted.
+                                       #   a-z and 0-9 stay as they are, any other character becomes
+                                       #   "_" plus six hex digits ("葬送" -> _00846c_009001). Forms under
+                                       #   3 characters and forms shared by more than 50 works are left out
+/v1/aliases/grams/{0..255}.json        # the trigram set for fuzzy matching: { trigram: [prefix, ...] }
+                                       #   for Latin trigrams found under at most 50 prefixes and in at
+                                       #   most 5,000 aliases; bucket = FNV-1a of the trigram's UTF-8 mod 256
 /v1/groups.json                        # every release group with aliases and overrides
 ```
 
@@ -593,7 +598,7 @@ DATA_LICENSE                # ODbL 1.0 + DbCL 1.0 (data/ and dumps)
 ATTRIBUTION.md
 ```
 
-SQLite access in Node via `better-sqlite3` for the builder and offline client; the Worker and remote client use the JSON shards only. The remote client has a browser entry (`@courmap/client/remote`, also picked by the `browser` export condition) with no Node-only imports; zstd is decoded in plain JavaScript, so the same code runs in Node, browsers and Workers. CI bundles it for the browser and runs the bundle with only browser globals.
+SQLite access in Node via `better-sqlite3` for the builder and offline client; the Worker and remote client use the JSON shards only. The remote client has a browser entry (`@courmap/client/remote`, also picked by the `browser` export condition) with no Node-only imports, so the same code runs in Node, browsers and Workers. CI bundles it for the browser and runs the bundle with only browser globals.
 
 **Build order**
 

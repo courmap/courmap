@@ -1,0 +1,21 @@
+# The alias index layout every port must produce and read (docs/SPEC.md, "Hosting", /v1/aliases/).
+# keys: the prefix shard of a normalized alias. buckets: the trigram set file of a trigram
+# (FNV-1a over its UTF-8 bytes, mod 256). shards: whole files from the fixture dataset.
+keys:
+  - { normalized: "simple show", key: si }
+  - { normalized: "spy x family", key: sp }
+  - { normalized: "86 eighty six", key: "86" }
+  - { normalized: "a movie", key: a_000020 }          # a space is not a-z or 0-9
+  - { normalized: "葬送のフリーレン", key: _00846c_009001 }
+buckets:
+  - { trigram: "  s", bucket: 218 }
+  - { trigram: "spl", bucket: 110 }
+  - { trigram: "how", bucket: 141 }
+  - { trigram: "ow ", bucket: 241 }
+  - { trigram: "葬送の", bucket: 244 }
+shards:
+  - prefix: sp
+    entries:
+      - [specials show, [specials-show]]
+      - [split show, [split-show]]
+      - [split show 2, [split-show-part-2]]   # "Part" is a filler word

@@ -1,4 +1,5 @@
 import { buildAliasIndex, type AliasIndex } from './aliases.js';
+import { LocalAliasShards, type AliasEntry, type AliasShardSet } from './alias-shards.js';
 import type { Dataset } from './engine.js';
 import type { GroupRecord, Meta, ProjectionRow, SequenceRecord, WorkRecord, WorkStatus, WorkType } from './model.js';
 import type { EpisodeKind, ProjectionProvider, Provider } from './providers.js';
@@ -102,12 +103,28 @@ export class DumpDataset implements Dataset {
     };
   }
 
-  async aliasIndex(): Promise<AliasIndex> {
+  /** The full alias index, built once from the aliases table. */
+  aliasIndex(): AliasIndex {
     this.aliasCache ??= buildAliasIndex(
       this.metaValue.data_version,
       this.sql.all<{ normalized: string; work_id: string }>(Q.allAliases).map((r) => [r.normalized, r.work_id] as const),
     );
     return this.aliasCache;
+  }
+
+  private readonly aliasShards = new LocalAliasShards(() => this.aliasIndex());
+
+  async aliasShard(prefix: string): Promise<AliasEntry[]> {
+    return this.aliasShards.shard(prefix);
+  }
+
+  async aliasGrams(bucket: number): Promise<Record<string, string[]>> {
+    return this.aliasShards.grams(bucket);
+  }
+
+  /** Every prefix shard and trigram bucket, for the shard generator. */
+  allAliasShards(): AliasShardSet {
+    return this.aliasShards.all();
   }
 
   async groups(): Promise<GroupRecord[]> {

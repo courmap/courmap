@@ -93,6 +93,12 @@ describe('Worker', async () => {
     expect((await call('/v1/meta')).headers.get('Access-Control-Allow-Origin')).toBe('*');
   });
 
+  it('answers HEAD like GET without a body, and refuses other methods', async () => {
+    const head = await handle(new Request('https://api.courmap.com/v1/meta', { method: 'HEAD' }), env);
+    expect([head.status, head.headers.get('Content-Type'), head.headers.get('Access-Control-Allow-Origin'), await head.text()]).toEqual([200, (await call('/v1/meta')).headers.get('Content-Type'), '*', '']);
+    expect((await call('/v1/meta', { method: 'PUT' })).status).toBe(405);
+  });
+
   it('rate limits per client and explains missing parameters', async () => {
     const limited = await call('/v1/meta', undefined, { ...env, LIMITER: { limit: async () => ({ success: false }) } });
     expect(limited.status).toBe(429);

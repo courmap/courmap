@@ -22,7 +22,7 @@ export const MAX_RESOLVE_BATCH = 25;
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, HEAD, POST, OPTIONS',
   'Access-Control-Allow-Headers': 'Content-Type',
   'Access-Control-Max-Age': '86400',
 };
@@ -73,7 +73,12 @@ async function readBatch(request: Request, key: string, max: number): Promise<un
 export async function handle(request: Request, env: Env): Promise<Response> {
   const url = new URL(request.url);
   if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: CORS });
-  if (request.method !== 'GET' && request.method !== 'POST') return json(405, { code: 'invalid_input', message: 'GET, POST or OPTIONS' });
+  // HEAD (curl -I, uptime checks): the GET answer without its body.
+  if (request.method === 'HEAD') {
+    const res = await handle(new Request(request.url, { method: 'GET', headers: request.headers }), env);
+    return new Response(null, { status: res.status, headers: res.headers });
+  }
+  if (request.method !== 'GET' && request.method !== 'POST') return json(405, { code: 'invalid_input', message: 'GET, HEAD, POST or OPTIONS' });
 
   if (env.LIMITER) {
     const key = request.headers.get('CF-Connecting-IP') ?? 'unknown';

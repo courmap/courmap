@@ -1,0 +1,62 @@
+name: docs
+
+# The docs site (site/, Astro Starlight; decision S6.4). Builds on every pull request and push;
+# deploys to Cloudflare Pages (courmap.pages.dev) from main when the CLOUDFLARE_API_TOKEN and
+# CLOUDFLARE_ACCOUNT_ID secrets exist, and is a dry run (build only) otherwise. Snippets in the
+# docs and README are checked by the validate workflow (pnpm check runs pnpm snippets).
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: read # the coverage page reads the Season tracker issues
+
+concurrency:
+  group: docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  site:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Compile the data (for the coverage page)
+        run: pnpm compile --out out/courmap.sqlite
+
+      - name: Build the site (TypeDoc, data format and coverage pages are generated first)
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: pnpm --filter @courmap/site build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site
+          path: site/dist
+          retention-days: 7
+
+      - name: Deploy to Cloudflare Pages, or report the dry run
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        working-directory: site
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "::notice::Docs dry run: CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID are not both set. The site was built and kept as an artifact; nothing was deployed."
+            exit 0
+          fi
+          npx --yes wrangler@4.151.2 pages project create courmap --production-branch main >/dev/null 2>&1 || true
+          npx --yes wrangler@4.151.2 pages deploy dist --project-name courmap --branch main --commit-hash "$GITHUB_SHA"

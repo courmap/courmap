@@ -1,0 +1,10 @@
+id: asw-long
+type: tv
+status: airing
+year: 2020
+episodes: null
+titles:
+  romaji: Assist Long
+ids:
+  anilist: 8003
+notes: Proxy test fixture, fake IDs. Airing, count unknown.

@@ -1,0 +1,9 @@
+id: asw-first
+type: tv
+year: 2024
+episodes: 12
+titles:
+  romaji: Assist First
+ids:
+  anilist: 8001
+notes: Proxy test fixture, fake IDs. First of a chain, no TVDB projection.

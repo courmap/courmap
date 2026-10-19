@@ -1,0 +1,10 @@
+id: asw-second
+type: tv
+year: 2025
+episodes: 12
+titles:
+  romaji: Assist Second
+ids:
+  anilist: 8002
+prequel: asw-first
+notes: Proxy test fixture, fake IDs. Sequel; Sonarr files it as season 2 of Assist First.

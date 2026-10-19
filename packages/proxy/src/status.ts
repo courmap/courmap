@@ -1,6 +1,7 @@
 import type { DataStatus } from './data.js';
 import type { SonarrStatus } from './sonarr.js';
-import type { IndexerStats, Stats, UnresolvedEntry } from './stats.js';
+import { mappingYaml } from './assist.js';
+import type { AssistedEntry, IndexerStats, Stats, UnresolvedEntry } from './stats.js';
 
 export interface StatusInput {
   version: string;
@@ -22,22 +23,35 @@ export function statusJson(s: StatusInput) {
     sonarr: s.sonarr,
     indexers: Object.fromEntries(s.indexers.map((n) => [n, s.stats.of(n)])),
     unresolved: s.stats.unresolvedList(),
+    assisted: s.stats.assistedList(),
   };
 }
 
-/** A GitHub issue body listing unresolved names, for the user to paste (nothing is sent automatically). */
-export function issueText(list: UnresolvedEntry[], dataVersion: string | null, max = 50): string {
+/**
+ * A GitHub issue body, for the user to paste (nothing is sent automatically): unresolved names,
+ * and every Sonarr-assisted mapping as the data/works override a contributor PR would add.
+ */
+export function issueText(list: UnresolvedEntry[], dataVersion: string | null, assisted: AssistedEntry[] = [], max = 50): string {
   const cell = (t: string) => t.replace(/\|/g, '\\|');
-  return [
-    `### Release names Courmap could not resolve`,
-    '',
-    `Reported from the Courmap proxy, data version ${dataVersion ?? 'unknown'}. Names only; please check them before posting.`,
-    '',
-    '| Release name | Seen | Result |',
-    '| --- | --- | --- |',
-    ...list.slice(0, max).map((e) => `| \`${cell(e.name)}\` | ${e.count} | ${e.status}: ${cell(e.detail)} |`),
-    ...(list.length > max ? ['', `${list.length - max} more not listed.`] : []),
-  ].join('\n');
+  const out = [`Reported from the Courmap proxy, data version ${dataVersion ?? 'unknown'}. Please check everything before posting.`];
+  if (list.length > 0) {
+    out.push(
+      '',
+      '### Release names Courmap could not resolve',
+      '',
+      '| Release name | Seen | Result |',
+      '| --- | --- | --- |',
+      ...list.slice(0, max).map((e) => `| \`${cell(e.name)}\` | ${e.count} | ${e.status}: ${cell(e.detail)} |`),
+      ...(list.length > max ? ['', `${list.length - max} more not listed.`] : []),
+    );
+  }
+  if (assisted.length > 0) {
+    out.push('', '### Mappings numbered with Sonarr\'s help', '', 'The data has no TVDB projection for these works; this proxy derived one from Sonarr. Each block is a `data/works/` override ready for a pull request once checked on TVDB.');
+    for (const a of assisted.slice(0, max)) {
+      out.push('', `${a.mapping.work}: used ${a.count} times, for example \`${cell(a.examples[0] ?? '')}\``, '', '```yaml', mappingYaml(a.mapping), '```');
+    }
+  }
+  return out.join('\n');
 }
 
 /** The proxy's status page: data version, refreshes, hit rates and unresolved names. */
@@ -47,10 +61,11 @@ export function statusHtml(s: StatusInput): string {
       .sort((a, b) => b[1]! - a[1]!)
       .map(([k, v]) => `${esc(k)} ${v}`)
       .join(', ');
-    return `<tr><td>${esc(name)}</td><td>${x.requests}</td><td>${x.searches} (${x.translated} translated)</td><td>${x.items}</td><td>${x.rewritten} (${pct(x.rewritten, x.items)})</td><td>${passed || '0'}</td><td>${x.upstreamErrors}</td></tr>`;
+    return `<tr><td>${esc(name)}</td><td>${x.requests}</td><td>${x.searches} (${x.translated} translated)</td><td>${x.items}</td><td>${x.rewritten} (${pct(x.rewritten, x.items)})${x.assisted ? `, ${x.assisted} assisted` : ''}</td><td>${passed || '0'}</td><td>${x.upstreamErrors}</td></tr>`;
   };
   const list = s.stats.unresolvedList();
-  const issue = issueText(list, s.data.dataVersion);
+  const assisted = s.stats.assistedList();
+  const issue = issueText(list, s.data.dataVersion, assisted);
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -97,18 +112,34 @@ export function statusHtml(s: StatusInput): string {
 ${s.indexers.map((n) => row(n, s.stats.of(n))).join('\n')}
 </table></div>
 
+<h2>Assisted numbering (${assisted.length})</h2>
+<p class="muted">Works the data has no TVDB projection for, numbered from your Sonarr's episode list. Local to this install; the copy block below turns them into mapping contributions.</p>
+${
+  assisted.length === 0
+    ? '<p class="muted">None so far.</p>'
+    : `<div class="scroll"><table><tr><th>Work</th><th>Sonarr series</th><th>How</th><th>Used</th><th>Example</th></tr>
+${assisted.slice(0, 200).map((a) => `<tr><td><code>${esc(a.mapping.work)}</code></td><td>${esc(a.mapping.series.title)} (TVDB ${a.mapping.series.tvdbId})</td><td>${a.mapping.method === 'first-season' ? 'first season' : 'absolute'}, by ${a.mapping.matchedBy === 'tvdb-id' ? 'TVDB ID' : 'title'}</td><td>${a.count}</td><td><code>${esc(a.examples[0] ?? '')}</code></td></tr>`).join('\n')}
+</table></div>`
+}
+
 <h2>Unresolved release names (${list.length})</h2>
 ${
   list.length === 0
     ? '<p class="muted">None so far.</p>'
     : `<div class="scroll"><table><tr><th>Release name</th><th>Seen</th><th>Result</th><th>Last seen</th></tr>
 ${list.slice(0, 200).map((e) => `<tr><td><code>${esc(e.name)}</code></td><td>${e.count}</td><td>${esc(e.status)}: ${esc(e.detail)}</td><td>${esc(e.lastSeen)}</td></tr>`).join('\n')}
-</table></div>
-<h2>Copy as GitHub issue</h2>
-<p class="muted">Paste this into a new issue at github.com/courmap/courmap if you want to help. Check the names first; nothing is reported automatically.</p>
+</table></div>`
+}
+${
+  list.length + assisted.length === 0
+    ? ''
+    : `<h2>Copy as GitHub issue</h2>
+<p class="muted">Paste this into a new issue at github.com/courmap/courmap if you want to help. Check it first; nothing is reported automatically.</p>
 <textarea id="issue" readonly>${esc(issue)}</textarea>
 <p><button type="button" onclick="navigator.clipboard.writeText(document.getElementById('issue').value).then(()=>{this.textContent='Copied'})">Copy</button></p>`
 }
+<h2>Export</h2>
+<p class="muted"><a href="/export.json">export.json</a> (unresolved and assisted names, with details) or <a href="/export.txt">export.txt</a> (one release name per line), for <code>pnpm corpus:from-proxy</code> in the Courmap repository.</p>
 </main>
 </body>
 </html>

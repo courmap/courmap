@@ -25,6 +25,7 @@ Boxes marked "Screenshot to add" will be replaced with screenshots from a real i
 | A batch spanning seasons | Unchanged |
 | Ambiguous or unmatched | Unchanged, and logged on the status page |
 | A show that is not in your Sonarr | Unchanged |
+| Resolved, but Courmap has no TVDB numbering for it yet | Numbered from your own Sonarr when exactly one of your series matches it and the numbering is certain ("assisted"); otherwise unchanged |
 
 The series title comes from your own Sonarr, matched by TVDB ID, so Sonarr always recognizes it. For series where Sonarr uses scene numbering (XEM), the proxy writes the episode's scene numbers, because that is how Sonarr reads SxxEyy for those series. Everything else in a result (download link, size, seeders, categories) reaches Sonarr unchanged.
 
@@ -115,7 +116,7 @@ An optional YAML file at `/config/courmap-proxy.yaml` can hold the same settings
 
 ## The status page
 
-`http://<your-host>:9797/` shows the data version and its last refresh, the Sonarr connection, and per indexer how many requests, searches and results it saw, how many results it rewrote, and why the rest passed through. Below that is the list of release names Courmap could not resolve, with a block of text you can paste into a GitHub issue to help improve the data. Nothing on the page is sent anywhere.
+`http://<your-host>:9797/` shows the data version and its last refresh, the Sonarr connection, and per indexer how many requests, searches and results it saw, how many results it rewrote, and why the rest passed through. Below that are the works numbered with your Sonarr's help ("assisted") and the release names Courmap could not resolve, with a block of text you can paste into a GitHub issue to help improve the data: assisted works appear in it as ready-made mapping files. Nothing on the page is sent anywhere.
 
 > **Screenshot to add:** the unresolved names section with the "Copy as GitHub issue" block.
 

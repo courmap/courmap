@@ -2,59 +2,49 @@
 
 Where the build stands, for the next session. Read CLAUDE.md, docs/SPEC.md and docs/DECISIONS.md first, as always; this file only says what is done and what is next. Update it at the end of every session.
 
-Last updated 2026-10-19, end of session 4.
+Last updated 2026-10-19, end of session 5.
 
 ## Done
 
-- Build steps 1 to 8 are complete and green in CI. Step 8's check runs on every push: the shard upload goes end to end against S3Mock (`adobe/s3mock:5.2.3`, a service container in `validate.yml`).
-- Session 4 decisions S4.1 to S4.7 from Xwolv are applied, with spec text and DECISIONS.md entries:
-  - S4.1 AniList relations in `data/seeds/relations.jsonl` (manual over AniList over derived).
-  - S4.2 sequence changes are tier B, shifts on finished works tier C (`packages/bots/src/shifts.ts`).
-  - S4.3 alias bands: 205,972 unique, 6,883 shared by 2 to 5, 75 flagged (6 to 50), 2 excluded (over 50). `pnpm builder aliases`.
-  - S4.4 title-rank and type tie-breakers; Kimi no Na wa resolves; corpus 34/34.
-  - S4.5 no FTS5 table: the dump is 74.7 MB raw, 21.8 MB gzipped (was 115.6 and 38.3). Dump schema 4.
-  - S4.6 domains in `packages/core/src/site.ts`.
-  - S4.7 the client bundles for the browser (`@courmap/client/remote`); `packages/client/test/browser-bundle.test.ts` proves it.
-- `.github/workflows/release.yml` (weekly, Tuesdays 09:00 UTC, plus dispatch). Dry run until all four R2 secrets exist. `pnpm release meta` fills `meta.json` `dumps`.
-- Step 9 is built and running in dry-run mode: `packages/bots` and `.github/workflows/bots.yml`. The scan runs daily at 07:30 UTC; the projection checker and digest run Tuesdays at 10:00 UTC. Bots open PRs and issues but never merge. Bot data lives in `data/seeds/airing.jsonl` and `data/seeds/relations.jsonl`; the builder applies both (manual wins per key).
-
-## First bot dry run (local, print only, 2026-10-19)
-
-- 12 AniList requests. Fall 2026: 111 shows, Winter 2027: 65 (music videos excluded).
-- 66 tier A (39 finished, 27 count updates), 76 tier B (71 sequels, 5 sequence changes), 29 tier C (14 count conflicts, 10 projection-short, 3 missing IDs, 2 relation conflicts).
-- 13 shows are not in the data yet (11 upcoming OVAs, 2 ONAs waiting for cedya77).
-- The scheduled run opens at most 2 airing PRs, 10 sequel PRs and 15 issues a day, plus the two Season tracker issues.
+- **Build steps 1 to 9** are built and green in CI. Step 9 (bots) runs in dry-run mode on its schedule: the scan daily at 07:30 UTC, the weekly jobs on Tuesdays.
+- **Session 5 decisions S5.1 to S5.3** are applied:
+  - S5.1: the sequel penalty applies only to aliases shared with an earlier chain work. A trigram match counts as shared when an earlier work also matched by trigram.
+  - S5.2: AniList prequels order chains only. Work records carry `prequel_origin`, and `continue_prequel` ignores bot prequels. Doraemon (2005) - 01 is a corpus case; `packages/bots/test/regressions.test.ts` checks it with the bots' relation applied.
+  - S5.3: unresolved reports stay local.
+- **The resolver also tries a parsed year as part of the alias** ("Doraemon (2005)"). The corpus is 35/35.
+- **Step 10's code and its CI check are done.** `packages/proxy` is published by `.github/workflows/proxy.yml` as `ghcr.io/courmap/proxy:edge` for amd64 and arm64.
+  - The end-to-end test (a Sonarr search for TVDB S01E17 of a split cour, answered by the absolute-numbered release, rewritten so Sonarr parses it) is in `packages/proxy/test/proxy.test.ts`.
+  - DECISIONS.md, "Sonarr proxy", records what Sonarr's source says about matching.
 
 ## Next
 
-1. **Check the first scheduled runs** (needs Xwolv or an admin token: my account cannot dispatch workflows or list secrets):
-   - bots scan, 2026-10-19 07:30 UTC. Review what it opened. Step 9's check is "zero tier A PRs a reviewer would have rejected" over one full season.
-   - seed, 2026-10-20 06:00 UTC. Its new "Check the PR token" step prints whether `SEED_PR_TOKEN` authenticates. This is the confirmation Xwolv asked for, and it has not happened yet.
-   - release, 2026-10-20 09:00 UTC. The "Live or dry run" step names any missing R2 secrets.
-2. **Tune the bots from real runs.** Likely candidates: the sequel PR cap, issue volume, and whether `projection-short` should wait some days after premiere before opening an issue.
-3. **Step 10, the Sonarr proxy.** Do not start until the spec questions under "Before step 10" below are settled with Xwolv.
+1. **Step 10's real check:** Xwolv runs the image for a week of real RSS traffic with no wrong imports. Two things block that:
+   - The GHCR package is private. It needs an admin to set `courmap/proxy` to public; until then pulls need a GitHub token.
+   - There is no published dump yet: the release workflow is a dry run until the R2 secrets exist. Until then, run `pnpm compile --out courmap.sqlite` locally and mount it with `COURMAP_DUMP`.
+2. **Read the first bot runs** when they happen. As of 02:34 UTC on 2026-10-19 no scheduled run (bots, seed, release) had fired yet, so nothing has been opened on GitHub. Review what they open, and check the seed job's "Check the PR token" step.
+3. **When Xwolv's week finishes,** tag `proxy-v0.1.0` to publish `:0.1.0` and `:latest`, and log any misparsed release names as corpus cases.
+4. **Then step 11 (Worker).** Settle the spec questions under "Before steps 11 and 12" first.
 
 ## Known gaps and notes
 
-- **Not built from the detector table:** the seed differ and Anime-Lists differ as separate bots (the seed job's PR report covers the diff), unresolved-name reports (they need a place to receive reports, see below) and the monthly heartbeat job.
-- **Tier A cannot close open ranges.** A finished work with an open-ended projection becomes tier B, because seed projections are not the bots' to rewrite.
-- **The validate PR comment has no full translation diff yet.** Bot PR bodies list prequel and absolute-sequence changes; episode-level before/after on every PR (spec, "Validation CI") is still open.
-- **Commit hygiene.** The resolver's "movie with an episode number" penalty landed inside the corpus commit (7454e60) rather than its own commit.
-- **Local S3Mock on Docker Desktop for Windows is slow** (about 30 minutes for the 36,179-file tree). In CI it is quick; R2 timing is unknown until the secrets exist.
+- **The proxy never sees Sonarr's own decision.** If a rewritten title still gets rejected, the cause is only visible in Sonarr's logs. A week of real traffic is the test for that.
+- **Not built from the detector table:** the seed and Anime-Lists differs as separate bots, and the monthly heartbeat job.
+- **Tier A cannot close open ranges.** A finished work with an open-ended projection becomes tier B.
+- **No episode-level translation diff comment on PRs yet** (spec, "Validation CI").
+- **Commit hygiene.** The resolver's "movie with an episode number" penalty landed inside the corpus commit (7454e60).
 
-## Before step 10 (spec questions for Xwolv)
+## Before steps 11 and 12 (spec questions for Xwolv)
 
-- Output numbering: rewrite to TVDB `SxxEyy` from `tvdb_show` projections, and also set the Torznab `tvdbid` attribute so Sonarr matches the series by ID, not by title (we have no TVDB titles).
-- Ambiguous or unmatched names: pass the release through unchanged, so Sonarr behaves exactly as it does today.
-- Batches: a season pack (`S01`) or a multi-episode range.
-- Data mode: the offline dump, refreshed from `meta.json` `dumps` with SHA-256 checks.
-- Unresolved reports need a receiver: the Worker at `api.courmap.com` with storage, or GitHub issues. Either way it is new spec.
-- Resolver: the sequel penalty (no season token on a sequel) bites once AniList relations land. Doraemon (2005) gets Doraemon (1979) as its prequel. Proposal: apply the penalty only when the matched alias is shared with an earlier work in the chain.
+- **Resolve on the free Worker is not feasible as specified.** Resolve needs the whole alias index (`aliases.json.zst`, 3.2 MB compressed, about 15 MB of JSON). Decompressing and parsing it exceeds the free plan's CPU time per request. The try-it box has the same cost in a phone browser. Proposal: shard the alias index (for example by the first characters of each normalized form, plus a small trigram shard set for fuzzy matching) so a resolve loads a few small files. That changes the static layout under `/v1/` and needs a spec decision.
+- **Worker scope:** lookup and translate are cheap; resolve depends on the point above. Also decide the POST batch limits (500 and 100 in the spec) against CPU limits, CORS on `api.courmap.com`, and who holds the Cloudflare account token for deploys (an admin secret).
+- **Docs site:** VitePress or Astro Starlight is still open. The Sonarr guide needs screenshots from Xwolv's install. The README badges (data version, coverage, corpus) need a published release first.
 
 ## What Xwolv needs to provide
 
-- **Dispatch `seed.yml` and `release.yml` once,** or let Tuesday's schedule run them, then read the token check and the dry-run notice.
-- **`SEED_PR_TOKEN` scopes:** the bots use it too, so it needs Contents, Pull requests and Issues (read and write).
-- **R2:** the four secrets; the custom domain `data.courmap.com` on the bucket; a CORS rule allowing `GET` and `HEAD` from any origin.
-- **Optional secrets:** `TMDB_API_KEY` (the projection checker is skipped without it), `NTFY_URL`, `DISCORD_WEBHOOK_URL`.
-- **Release-name export** for `pnpm corpus:import <file>`: UTF-8, one name per line.
+- **Admin:**
+  - Make the GHCR package `courmap/proxy` public.
+  - Add the R2 secrets, the `data.courmap.com` custom domain and the CORS rule.
+  - Dispatch `seed.yml`, `release.yml` and `bots.yml` once, if you don't want to wait for the schedule.
+- **Optional secrets:** `TMDB_API_KEY`, `NTFY_URL`, `DISCORD_WEBHOOK_URL`.
+- **The week of proxy traffic,** and any release names it gets wrong.
+- **Release-name export** for `pnpm corpus:import <file>`.

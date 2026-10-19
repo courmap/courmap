@@ -97,6 +97,22 @@ jobs:
           fi
           echo "published=true" >> "$GITHUB_OUTPUT"
 
+      # The README reads its data, coverage and corpus badges from the badges branch: one commit,
+      # replaced on every release, so main never gets bot commits for them.
+      - name: Update the README badges
+        if: steps.release.outputs.published == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          pnpm corpus --json out/corpus.json > /dev/null
+          gh issue list --label season-tracker --state open --json title,body > out/trackers.json || echo '[]' > out/trackers.json
+          pnpm release badges --out out/badges --meta out/release/meta.json --corpus out/corpus.json --trackers out/trackers.json
+          cd out/badges
+          git init -q -b badges
+          git add .
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -q -m "Badges for ${{ steps.assets.outputs.tag }}"
+          git push -q -f "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" badges
+
   r2:
     needs: publish
     if: needs.publish.outputs.published == 'true'

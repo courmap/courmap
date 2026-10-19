@@ -102,12 +102,14 @@ describe('a finished flip with another count', async () => {
 
 describe('placeholder counts', async () => {
   const state = await loadState(dir);
-  const c = classify({ state, seasons: [{ ref: { season: 'FALL', year: 2026 }, media: [media(800, { episodes: 1 }), media(801, { episodes: 1 })] }], airing: [], now });
+  const c = classify({ state, seasons: [{ ref: { season: 'FALL', year: 2026 }, media: [media(800, { episodes: 1 }), media(801, { episodes: 1 }), media(802, { episodes: null })] }], airing: [], now });
 
   it('never proposes 1 episode for an airing TV season as a count (Koori no Jouheki 2nd Season, PR #2)', () => {
     // theta was upcoming with a placeholder 1: it starts airing with its count unknown, never 1.
     expect(c.proposed.airing).toContainEqual({ work: 'theta', episodes: null, status: 'airing', origin: 'bot', anilist: 800 });
     expect(c.findings.find((f) => f.work === 'theta')!.summary).toContain("AniList's 1 episode is a placeholder");
+    // kappa: AniList has no count yet, and the data's 1 is the same placeholder.
+    expect(c.proposed.airing).toContainEqual({ work: 'kappa', episodes: null, status: 'airing', origin: 'bot', anilist: 802 });
     // iota already airs with a real count of 12: nothing to propose.
     expect(c.findings.filter((f) => f.work === 'iota')).toEqual([]);
     expect(c.proposed.airing.find((a) => a.work === 'iota')).toBeUndefined();

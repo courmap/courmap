@@ -5,7 +5,12 @@ import path from 'node:path';
 import { promisify } from 'node:util';
 import { LABELS } from './report.js';
 
-const run = promisify(execFile);
+const execFileAsync = promisify(execFile);
+
+/** Runs a command and returns its trimmed stdout. Injected in tests. */
+export type Runner = (cmd: 'gh' | 'git', args: string[], cwd: string) => Promise<string>;
+
+const defaultRunner: Runner = async (cmd, args, cwd) => (await execFileAsync(cmd, args, { cwd, maxBuffer: 64 * 1024 * 1024 })).stdout.trim();
 
 /**
  * Opens and updates the bots' PRs and issues through the gh and git CLIs. It never merges and
@@ -16,7 +21,7 @@ export class GitHubWriter {
   readonly actions: string[] = [];
 
   constructor(
-    private readonly opts: { apply: boolean; repoDir: string; log?: (line: string) => void },
+    private readonly opts: { apply: boolean; repoDir: string; log?: (line: string) => void; run?: Runner },
   ) {}
 
   private log(line: string): void {
@@ -24,14 +29,12 @@ export class GitHubWriter {
     (this.opts.log ?? console.log)(`${this.opts.apply ? '' : '[dry run] '}${line}`);
   }
 
-  private async gh(args: string[]): Promise<string> {
-    const { stdout } = await run('gh', args, { cwd: this.opts.repoDir, maxBuffer: 64 * 1024 * 1024 });
-    return stdout.trim();
+  private gh(args: string[]): Promise<string> {
+    return (this.opts.run ?? defaultRunner)('gh', args, this.opts.repoDir);
   }
 
-  private async git(args: string[], cwd = this.opts.repoDir): Promise<string> {
-    const { stdout } = await run('git', args, { cwd, maxBuffer: 64 * 1024 * 1024 });
-    return stdout.trim();
+  private git(args: string[], cwd = this.opts.repoDir): Promise<string> {
+    return (this.opts.run ?? defaultRunner)('git', args, cwd);
   }
 
   async ensureLabels(): Promise<void> {
@@ -78,7 +81,8 @@ export class GitHubWriter {
       this.log(`PR ${branch} "${title}" [${labels.join(', ')}]: ${[...files.keys()].join(', ')}`);
       return null;
     }
-    await this.git(['fetch', '--quiet', 'origin', 'main']);
+    // An explicit refspec: actions/checkout makes a shallow clone that may not track origin/main.
+    await this.git(['fetch', '--quiet', 'origin', '+refs/heads/main:refs/remotes/origin/main']);
     const dir = await mkdtemp(path.join(tmpdir(), 'courmap-bots-'));
     try {
       await this.git(['worktree', 'add', '--quiet', '-B', branch, dir, 'origin/main']);

@@ -1,6 +1,7 @@
 import { Reporter, type Diagnostic } from './diagnostics.js';
 import { checkFiles, type CheckedFiles } from './checks.js';
 import { loadData } from './load.js';
+import { loadRejected } from './rejected.js';
 import { MemoryDataset, toRecords, type Records } from './records.js';
 import { checkRoundTrips } from './roundtrip.js';
 
@@ -32,6 +33,7 @@ export async function validate(dataDir: string, opts: ValidateOptions = {}): Pro
   const reporter = new Reporter();
   const loaded = await loadData(dataDir, reporter, opts.cwd);
   const checked = checkFiles(loaded, reporter);
+  await loadRejected(dataDir, reporter, { cwd: opts.cwd, works: new Set(checked.works.map((w) => w.id)) });
   const result: ValidateResult = {
     ok: false,
     diagnostics: reporter.diagnostics,

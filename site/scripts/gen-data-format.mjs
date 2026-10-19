@@ -13,6 +13,7 @@ const KINDS = [
   ['work', 'Works', 'data/works/<id>.yaml'],
   ['sequence', 'Absolute sequences', 'data/sequences/<id>.yaml'],
   ['group', 'Release groups', 'data/groups/<id>.yaml'],
+  ['rejected', 'Rejected bot proposals', 'data/rejected.yaml'],
 ];
 
 const cell = (s) => String(s ?? '').replace(/\|/g, '\\|').replace(/\n+/g, ' ');

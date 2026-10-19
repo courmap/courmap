@@ -23,3 +23,4 @@ export type {
 } from './generated/work.js';
 export type { SequenceFile, SequenceMember } from './generated/sequence.js';
 export type { GroupFile, GroupOverride } from './generated/group.js';
+export type { RejectedFile, RelationRejection, AiringRejection } from './generated/rejected.js';

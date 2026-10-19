@@ -6,6 +6,7 @@ import {
   Reporter,
   checkFiles,
   loadData,
+  loadRejected,
   makeLineLocator,
   toRecords,
   type AiringLine,
@@ -13,6 +14,7 @@ import {
   type LoadedData,
   type MergedWork,
   type Records,
+  type Rejection,
   type RelationLine,
   type SeedSource,
 } from '@courmap/builder';
@@ -29,6 +31,8 @@ export interface State {
   airing: AiringLine[];
   /** Bounds warnings the data already has, as boundsKey strings. */
   boundsWarnings: Set<string>;
+  /** data/rejected.yaml: proposals a maintainer rejected, never proposed again. */
+  rejected: Rejection[];
 }
 
 /** Bounds problems are warnings for seed-only works, so they never fail validation; the bots still must not add any. */
@@ -64,7 +68,11 @@ export async function loadState(dataDir: string): Promise<State> {
   if (!records) throw new Error(`${dataDir} does not validate: ${errors[0]!.file}:${errors[0]!.line ?? ''} ${errors[0]!.message}`);
   const byAnilist = new Map<number, string>();
   for (const w of records.works.values()) if (w.ids.anilist !== undefined) byAnilist.set(Number(w.ids.anilist), w.id);
-  return { dataDir, loaded, merged, records, byAnilist, relations, airing, boundsWarnings: new Set(bounds.keys()) };
+  const rejectedReporter = new Reporter();
+  const rejected = await loadRejected(dataDir, rejectedReporter, { works: new Set(records.works.keys()) });
+  const bad = rejectedReporter.diagnostics.find((d) => d.severity === 'error');
+  if (bad) throw new Error(`${bad.file}:${bad.line ?? ''} ${bad.message}`);
+  return { dataDir, loaded, merged, records, byAnilist, relations, airing, boundsWarnings: new Set(bounds.keys()), rejected };
 }
 
 /** Bot files are one JSON object per line, sorted by work, keys in a fixed order. */

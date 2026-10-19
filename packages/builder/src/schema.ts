@@ -10,7 +10,7 @@ const addFormats = addFormatsImport as unknown as (typeof addFormatsImport)['def
 /** schema/ at the repo root is the source of truth for every YAML kind. */
 export const SCHEMA_DIR = new URL('../../../schema/', import.meta.url);
 
-export function loadSchema(kind: FileKind): Record<string, unknown> {
+export function loadSchema(kind: SchemaKind): Record<string, unknown> {
   return JSON.parse(readFileSync(new URL(`${kind}.schema.json`, SCHEMA_DIR), 'utf8')) as Record<string, unknown>;
 }
 
@@ -21,16 +21,20 @@ export interface SchemaIssue {
   message: string;
 }
 
-let validators: Record<FileKind, ValidateFunction> | null = null;
+/** The YAML kinds with a schema: the data files, plus data/rejected.yaml. */
+export type SchemaKind = FileKind | 'rejected';
 
-function getValidators(): Record<FileKind, ValidateFunction> {
+let validators: Record<SchemaKind, ValidateFunction> | null = null;
+
+function getValidators(): Record<SchemaKind, ValidateFunction> {
   if (validators) return validators;
-  const ajv = new Ajv2020({ allErrors: true, strict: true, verbose: true });
+  const ajv = new Ajv2020({ allErrors: true, strict: true, verbose: true, discriminator: true });
   addFormats(ajv, ['uri']);
   validators = {
     work: ajv.compile(loadSchema('work')),
     sequence: ajv.compile(loadSchema('sequence')),
     group: ajv.compile(loadSchema('group')),
+    rejected: ajv.compile(loadSchema('rejected')),
   };
   return validators;
 }
@@ -53,6 +57,8 @@ function describe(e: ErrorObject): string {
       return `unknown field "${(e.params as { additionalProperty: string }).additionalProperty}"`;
     case 'enum':
       return `${show(e.data)} is not allowed; expected one of ${(e.params as { allowedValues: unknown[] }).allowedValues.map(show).join(', ')}`;
+    case 'const':
+      return `${show(e.data)} is not allowed; expected ${show((e.params as { allowedValue: unknown }).allowedValue)}`;
     case 'type':
       return `${show(e.data)} must be ${(e.params as { type: string | string[] }).type.toString().replace(',', ' or ')}`;
     case 'oneOf':
@@ -69,7 +75,7 @@ function describe(e: ErrorObject): string {
 }
 
 /** Validates a parsed file against its schema and returns readable issues, one per problem. */
-export function schemaIssues(kind: FileKind, data: unknown): SchemaIssue[] {
+export function schemaIssues(kind: SchemaKind, data: unknown): SchemaIssue[] {
   const validate = getValidators()[kind];
   if (validate(data)) return [];
   const errors = validate.errors ?? [];

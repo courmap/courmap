@@ -188,8 +188,8 @@ export async function runSeed(inputs: SeedInputs): Promise<SeedOutput> {
     reporter = new Reporter();
     // Emission problems are logged on the first render only; later rounds re-render the same maps.
     const seeds = renderSeeds(drafts, rounds === 1 ? conflicts : null);
-    // Relations (data/seeds/relations.jsonl) only ever set prequels or warn, so repair can ignore them.
-    checked = checkFiles({ files: inputs.manual.files, seeds, relations: [] }, reporter);
+    // Bot files (relations.jsonl, airing.jsonl) only override seed values or warn, so repair ignores them.
+    checked = checkFiles({ files: inputs.manual.files, seeds, relations: [], airing: [] }, reporter);
     if (reporter.errorCount === 0) await roundTrips(checked, reporter);
     const errors = reporter.diagnostics.filter((d) => d.severity === 'error');
     if (errors.length === 0 || rounds >= MAX_ROUNDS) break;

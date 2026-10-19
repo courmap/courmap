@@ -174,6 +174,7 @@ export function checkFiles(loaded: LoadedData, reporter: Reporter): CheckedFiles
   const merged = ids.map((id) => mergeWork(manualWorks.get(id) ?? null, seedWorks.get(id) ?? null));
   const works = new Map(merged.map((w) => [w.id, w]));
   applyRelations(loaded.relations, works, reporter);
+  applyAiring(loaded.airing, works, reporter);
   for (const w of merged) checkWork(w, knownIds.work, reporter);
   checkProviderIds(merged, reporter);
   checkSharedTargets(merged, reporter);
@@ -235,6 +236,61 @@ function applyRelations(lines: readonly SeedSource[], works: Map<string, MergedW
       w.data.prequel = r.prequel;
       w.origins.prequel = 'bot';
     }
+  }
+}
+
+/** A line of data/seeds/airing.jsonl: an airing work's count and status from AniList, as written by the bots. */
+export interface AiringLine {
+  work: string;
+  /** AniList's total episode count (null while it is unknown, as for long-runners). */
+  episodes: number | null;
+  status: 'airing' | 'finished';
+  origin: 'bot';
+  anilist?: number;
+}
+
+function airingProblem(raw: unknown): string | null {
+  if (typeof raw !== 'object' || raw === null) return 'an airing line must be an object';
+  const r = raw as Record<string, unknown>;
+  if (typeof r.work !== 'string' || r.work === '') return 'work must be a work id';
+  if (r.episodes !== null && !(Number.isInteger(r.episodes) && (r.episodes as number) >= 1)) return 'episodes must be a positive integer or null';
+  if (r.status !== 'airing' && r.status !== 'finished') return 'status must be airing or finished';
+  if (r.status === 'finished' && r.episodes === null) return 'a finished work needs its episode count';
+  if (r.origin !== 'bot') return 'origin must be bot';
+  const extra = Object.keys(r).filter((k) => !['work', 'episodes', 'status', 'origin', 'anilist'].includes(k));
+  if (extra.length > 0) return `unknown field "${extra[0]}"`;
+  return null;
+}
+
+/**
+ * Applies the airing tracker's counts and status (tier A count bumps and finished flips). Same
+ * precedence as relations: a manual file that sets `episodes` or `status` wins; otherwise the
+ * bot's value replaces the seed's. A line for a work not in the data is a warning and is ignored.
+ */
+function applyAiring(lines: readonly SeedSource[], works: Map<string, MergedWork>, reporter: Reporter): void {
+  const seen = new Map<string, number>();
+  for (const src of lines) {
+    const problem = airingProblem(src.data);
+    if (problem) {
+      reporter.report(src.loc, 'airing', [], problem);
+      continue;
+    }
+    const a = src.data as AiringLine;
+    const warn = (msg: string) => reporter.report(src.loc, 'airing', [], msg, { work: a.work, severity: 'warning' });
+    if (seen.has(a.work)) {
+      warn(`work "${a.work}" already has an airing line on line ${seen.get(a.work)}; this one is ignored`);
+      continue;
+    }
+    seen.set(a.work, src.line);
+    const w = works.get(a.work);
+    if (!w) {
+      warn(`work "${a.work}" is not a known work; the line is ignored`);
+      continue;
+    }
+    const manual = w.manual?.data as Record<string, unknown> | undefined;
+    const own = (k: string) => manual !== undefined && Object.prototype.hasOwnProperty.call(manual, k);
+    if (!own('episodes')) w.data.episodes = a.episodes;
+    if (!own('status')) w.data.status = a.status;
   }
 }
 

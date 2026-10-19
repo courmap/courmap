@@ -34,7 +34,8 @@ export type DiagnosticCode =
   | 'missing-field'
   | 'missing-anchor-id'
   | 'slug-conflict'
-  | 'relation';
+  | 'relation'
+  | 'airing';
 
 export type PathSegment = string | number;
 

@@ -139,8 +139,8 @@ export function classify(input: ClassifyInput): Classification {
     const manual = merged.manual?.data as object | undefined;
     const at = { ...base, work: w.id, data: { ...base.data, ours: { status: w.status, episodes: w.episodes, prequel: w.prequel } } };
 
-    // Counts and status. Tier A needs the counts to agree (or only grow while airing); anything
-    // else is a conflict for a person.
+    // Counts and status. Tier A needs the counts to agree or to grow (cedya77's counts for airing
+    // works lag behind); a smaller count, or a finished work airing again, is for a person.
     const want = m.status ? STATUS[m.status] : undefined;
     if (want === 'airing' || want === 'finished') {
       const episodes = m.episodes ?? (want === 'airing' ? w.episodes : null);
@@ -156,7 +156,7 @@ export function classify(input: ClassifyInput): Classification {
         const conflict = (msg: string) => findings.push({ ...at, tier: 'C', kind: 'count-conflict', summary: msg });
         if (manualStatus || manualEpisodes) {
           findings.push({ ...at, tier: 'C', kind: 'manual-change', summary: `AniList says ${want}, ${episodes ?? '?'} episodes; the manual file says ${w.status}, ${w.episodes ?? '?'}` });
-        } else if (want === 'finished' && known && episodes !== w.episodes) {
+        } else if (want === 'finished' && known && (w.status === 'finished' ? episodes !== w.episodes : episodes! < w.episodes!)) {
           conflict(`finished with ${episodes} episodes on AniList, ${was}`);
         } else if (want === 'airing' && w.status === 'finished') {
           conflict(`airing again on AniList (${episodes ?? '?'} episodes), ${was}`);

@@ -77,9 +77,15 @@ describe('classifier', async () => {
 
 describe('a finished flip with another count', async () => {
   const state = await loadState(dir);
-  it('is a count conflict, never an update', () => {
-    const c = classify({ state, seasons: [{ ref: { season: 'FALL', year: 2026 }, media: [media(101, { status: 'FINISHED', episodes: 13 })] }], airing: [], now });
-    expect(c.findings.map((f) => [f.work, f.tier, f.kind])).toEqual([['alpha-2', 'C', 'count-conflict']]);
+  const run = (episodes: number) => classify({ state, seasons: [{ ref: { season: 'FALL', year: 2026 }, media: [media(200, { status: 'FINISHED', episodes })] }], airing: [], now });
+
+  it('is a count conflict when the count shrinks', () => {
+    const c = run(11);
+    expect(c.findings.map((f) => [f.work, f.tier, f.kind])).toEqual([['beta', 'C', 'count-conflict']]);
     expect(c.proposed.airing).toEqual([]);
+  });
+
+  it('is an update when it grows (cedya77 lags behind airing works)', () => {
+    expect(run(13).findings.map((f) => [f.work, f.tier, f.kind])).toEqual([['beta', 'A', 'finished']]);
   });
 });

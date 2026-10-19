@@ -38,9 +38,11 @@ const sha256 = (b: Buffer) => createHash('sha256').update(b).digest('hex');
  * Builds the GitHub release assets for one data version (docs/SPEC.md, "Release"):
  *   courmap-<v>.sqlite.gz   the SQLite dump
  *   courmap-<v>.json.gz     the same data as JSON: meta, works, sequences, groups
- *   LICENSE                 the data license (ODbL 1.0 + DbCL 1.0)
+ *   LICENSE                 the code license (Apache-2.0)
+ *   DATA_LICENSE            the data license (ODbL 1.0 + DbCL 1.0), which covers both dumps
  *   ATTRIBUTION.md
  *   SHA256SUMS              sha256sum -c compatible, covering every file above
+ * `release meta` then adds meta.json (and its line in SHA256SUMS).
  * Output is deterministic for a given dump.
  */
 export async function buildAssets(dumpPath: string, outDir: string, repoRoot: string): Promise<ReleaseAssets> {
@@ -69,8 +71,10 @@ export async function buildAssets(dumpPath: string, outDir: string, repoRoot: st
   };
   await add(`${base}.sqlite.gz`, gzip(await readFile(dumpPath)));
   await add(`${base}.json.gz`, gzip(json));
-  await copyFile(path.join(repoRoot, 'DATA_LICENSE'), path.join(outDir, 'LICENSE'));
-  files.push('LICENSE');
+  for (const name of ['LICENSE', 'DATA_LICENSE']) {
+    await copyFile(path.join(repoRoot, name), path.join(outDir, name));
+    files.push(name);
+  }
   await copyFile(path.join(repoRoot, 'ATTRIBUTION.md'), path.join(outDir, 'ATTRIBUTION.md'));
   files.push('ATTRIBUTION.md');
 

@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { buildAssets } from './assets.js';
 import { fillMetaDumps } from './meta.js';
+import { verifyRelease } from './verify.js';
 import { targetFromEnv, uploadShards } from './upload.js';
 
 const USAGE = `Usage: courmap-release <command> [options]
@@ -11,6 +12,9 @@ Commands:
   assets --dump <file> --out <dir>    Build the GitHub release assets and SHA256SUMS
   meta --dir <shards> --assets <dir> --repo <owner/name>
                                       Point meta.json's dumps at the GitHub release data-<version>
+                                      and add meta.json to the release assets
+  verify --dir <assets> --repo <owner/name>
+                                      Check a release directory before publishing it
   upload --dir <shards> [--prefix v1/] [--dry-run] [--prune]
                                       Publish a shard tree to S3-compatible storage, meta.json last
 
@@ -52,6 +56,14 @@ async function main(argv: string[]): Promise<number> {
     const dumps = await fillMetaDumps(values.dir, values.assets, values.repo);
     console.log(`meta.json now points at ${dumps.tag}: ${dumps.sqlite.url}`);
     return 0;
+  }
+  if (command === 'verify') {
+    if (!values.dir || !values.repo) return (console.error('verify needs --dir and --repo'), 1);
+    const root = fileURLToPath(new URL('../../../', import.meta.url));
+    const r = await verifyRelease(values.dir, root, values.repo);
+    for (const p of r.problems) console.error(`problem: ${p}`);
+    console.log(r.problems.length === 0 ? `Release data-${r.dataVersion} verified: ${r.files.join(', ')}` : `\n${r.problems.length} problem(s); do not publish`);
+    return r.problems.length === 0 ? 0 : 1;
   }
   if (command === 'upload') {
     if (!values.dir) return (console.error('upload needs --dir'), 1);

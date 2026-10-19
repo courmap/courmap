@@ -5,7 +5,7 @@ sidebar:
   order: 3
 ---
 
-Every mapping lives in [`data/`](https://github.com/courmap/courmap/tree/main/data) on GitHub. Most works come from seed datasets; when one is wrong, you add a short file in `data/works/` that overrides just the part that is wrong. CI checks it, and it ships in the next weekly data release.
+Every mapping lives in [`data/`](https://github.com/courmap/courmap/tree/main/data) on GitHub. Most [works](/concepts/works/) come from seed datasets; when one is wrong, you add a short file in `data/works/` that overrides just the part that is wrong. CI checks it, and it ships in the next weekly data release.
 
 ## 1. Find the work
 

@@ -7,11 +7,11 @@ Courmap publishes everything as files. There is no server to run.
 
 ## Weekly data releases
 
-Each weekly release is tagged `data-<version>` on [GitHub Releases](https://github.com/courmap/courmap/releases), where `<version>` is the ISO year and week (`2026.43`). The newest one is marked latest, so `https://github.com/courmap/courmap/releases/latest/download/<file>` always works.
+Each weekly release is tagged `data-<version>` on [GitHub Releases](https://github.com/courmap/courmap/releases), where `<version>` is the ISO year and week (`2026.43`). The newest one is marked latest, so `https://github.com/courmap/courmap/releases/latest/download/<file>` always [works](/concepts/works/).
 
 | File | Contents |
 | --- | --- |
-| `courmap-<version>.sqlite.gz` | The SQLite dump: every work, provider ID, projection, sequence, alias and group. What offline mode and the Sonarr proxy read. |
+| `courmap-<version>.sqlite.gz` | The SQLite dump: every work, provider ID, [projection](/concepts/projections/), sequence, alias and group. What offline mode and the Sonarr proxy read. |
 | `courmap-<version>.json.gz` | The same data as JSON: `meta`, `works`, `sequences`, `groups`. |
 | `meta.json` | The data version, build information, counts, and `dumps`: this release's tag and each dump's URL and SHA-256. |
 | `SHA256SUMS` | Checksums of every other file, in `sha256sum -c` format. |
@@ -34,7 +34,7 @@ The same data, split into small JSON files for remote mode, under `https://data.
 | `/v1/meta.json` | The data version, build information, counts and dump links. |
 | `/v1/works/<id>.json` | One work: exactly the record `lookup` returns, without `data_version`. |
 | `/v1/refs/<provider>/<shard>.json` | Provider ID to the sorted list of work ids. `shard` is the ID divided by 1000, rounded down; IMDb IDs use the digits after `tt`. |
-| `/v1/sequences/<id>.json` | One absolute sequence. |
+| `/v1/sequences/<id>.json` | One [absolute sequence](/concepts/absolute-sequences/). |
 | `/v1/groups/<id>.json` | One release group. |
 | `/v1/groups.json` | Every release group, for resolvers. |
 | `/v1/aliases/<prefix>.json` | The alias index, split by the first two characters of each normalized alias: `[[alias, [work ids]], ...]`. Letters a-z and digits stay as they are; any other character becomes `_` and six hex digits. |

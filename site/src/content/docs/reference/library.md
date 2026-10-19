@@ -17,9 +17,9 @@ description: Which mode of @courmap/client to use, and how each one behaves.
 
 | Call | Answers |
 | --- | --- |
-| `lookup(ref)` | The work a provider ID points at, with every ID, projection, sequence membership, title and alias. |
+| `lookup(ref)` | The [work](/concepts/works/) a provider ID points at, with every ID, [projection](/concepts/projections/), sequence membership, title and alias. |
 | `translate(ref, episode, targets)` | One episode in every requested numbering. Targets are provider names or `absolute`. |
-| `resolve(releaseName)` | A release name to a work and episode, with confidence, reason and runners-up. |
+| `resolve(releaseName)` | A [release name](/concepts/release-names/) to a work and episode, with confidence, reason and runners-up. |
 | `search(query)` | Works whose titles or aliases match, best first. |
 | `meta()` | The data version and build information. |
 

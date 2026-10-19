@@ -7,10 +7,11 @@ import { LABELS } from './report.js';
 
 const execFileAsync = promisify(execFile);
 
-/** Runs a command and returns its trimmed stdout. Injected in tests. */
-export type Runner = (cmd: 'gh' | 'git', args: string[], cwd: string) => Promise<string>;
+/** Runs a command and returns its trimmed stdout; `env` is added to the process environment. Injected in tests. */
+export type Runner = (cmd: 'gh' | 'git', args: string[], cwd: string, env?: Record<string, string>) => Promise<string>;
 
-const defaultRunner: Runner = async (cmd, args, cwd) => (await execFileAsync(cmd, args, { cwd, maxBuffer: 64 * 1024 * 1024 })).stdout.trim();
+const defaultRunner: Runner = async (cmd, args, cwd, env) =>
+  (await execFileAsync(cmd, args, { cwd, maxBuffer: 64 * 1024 * 1024, env: env ? { ...process.env, ...env } : process.env })).stdout.trim();
 
 /**
  * Opens and updates the bots' PRs and issues through the gh and git CLIs. It never merges and
@@ -21,7 +22,18 @@ export class GitHubWriter {
   readonly actions: string[] = [];
 
   constructor(
-    private readonly opts: { apply: boolean; repoDir: string; log?: (line: string) => void; run?: Runner },
+    private readonly opts: {
+      apply: boolean;
+      repoDir: string;
+      log?: (line: string) => void;
+      run?: Runner;
+      /**
+       * Token for issue and label commands (GH_ISSUES_TOKEN; the workflow's built-in token in CI).
+       * PRs need SEED_PR_TOKEN so that CI runs on them; issues do not, and the scheduled run of
+       * 2026-10-19 showed that token may lack Issues: write.
+       */
+      issuesToken?: string;
+    },
   ) {}
 
   private log(line: string): void {
@@ -30,7 +42,8 @@ export class GitHubWriter {
   }
 
   private gh(args: string[]): Promise<string> {
-    return (this.opts.run ?? defaultRunner)('gh', args, this.opts.repoDir);
+    const issues = (args[0] === 'issue' || args[0] === 'label') && this.opts.issuesToken;
+    return (this.opts.run ?? defaultRunner)('gh', args, this.opts.repoDir, issues ? { GH_TOKEN: this.opts.issuesToken! } : undefined);
   }
 
   private git(args: string[], cwd = this.opts.repoDir): Promise<string> {

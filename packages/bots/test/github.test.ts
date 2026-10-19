@@ -92,6 +92,23 @@ describe('GitHubWriter', () => {
     expect(calls[0]).not.toContain('--label');
   });
 
+  it('runs issue and label commands with the issues token and everything else with the default', async () => {
+    const seen: string[] = [];
+    const run: Runner = async (cmd, args, _cwd, env) => {
+      seen.push(`${cmd} ${args[0]} ${env?.GH_TOKEN ?? 'default'}`);
+      if (args[1] === 'list') return '[]';
+      if (args.includes('isPinned')) return JSON.stringify({ isPinned: true });
+      if (args.includes('labels')) return JSON.stringify({ labels: [{ name: 'bot' }] });
+      if (cmd === 'git' && args[0] === 'diff') return 'data/seeds/airing.jsonl';
+      return cmd === 'gh' && args[1] === 'create' ? 'https://github.com/x/y/issues/7' : '';
+    };
+    const w = new GitHubWriter({ apply: true, repoDir: work, run, log: () => {}, issuesToken: 'issues-token' });
+    await w.ensureLabels();
+    await w.upsertIssue('T', 'b', ['bot'], { pin: true });
+    await w.upsertPullRequest('bots/y', 'T', 'b', ['bot'], files);
+    expect([...new Set(seen)].sort()).toEqual(['gh label issues-token', 'gh issue issues-token', 'git fetch default', 'git worktree default', 'git add default', 'git diff default', 'git ls-remote default', 'git push default', 'git -c default', 'gh pr default'].sort());
+  });
+
   it('only logs in dry run', async () => {
     const lines: string[] = [];
     const dry = new GitHubWriter({ apply: false, repoDir: work, run: async () => { throw new Error('no commands in dry run'); }, log: (l) => lines.push(l) });

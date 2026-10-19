@@ -42,6 +42,8 @@ rejected:
 
 The bots read this file before proposing anything and never propose a matching change again; the Season tracker shows the reason instead. A `relation` entry blocks that one prequel link. An `airing` entry blocks every status or count update for the work, or, with `episodes` or `status`, only updates to exactly those values, so a later, different count still comes through. `pnpm validate` checks the file against its schema and that every work it names exists. To undo a rejection, delete the entry.
 
+The airing tracker also never writes a count of 1 for an airing TV season: AniList shows 1 when it does not know the count yet, so the bots treat it as unknown. A real count already in the data stays; otherwise the work starts airing with its count unknown.
+
 ## Where to look
 
 - A pinned **Season tracker** issue per anime season lists every show and its state: mapped, auto-update, awaiting review, conflict, waiting for seed, or upcoming. The bots rewrite it on every run.

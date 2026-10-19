@@ -142,8 +142,13 @@ export function classify(input: ClassifyInput): Classification {
     // Counts and status. Tier A needs the counts to agree or to grow (cedya77's counts for airing
     // works lag behind); a smaller count, or a finished work airing again, is for a person.
     const want = m.status ? STATUS[m.status] : undefined;
+    // AniList lists 1 episode for an airing TV season it has no count for yet (Koori no Jouheki
+    // 2nd Season, PR #2): a placeholder, never a count to write. A real count in the data stays;
+    // a placeholder there (an upcoming work, or 1) becomes unknown.
+    const placeholder = want === 'airing' && m.format === 'TV' && m.episodes === 1;
+    const dataPlaceholder = w.status === 'upcoming' || w.episodes === 1;
     if (want === 'airing' || want === 'finished') {
-      const episodes = m.episodes ?? (want === 'airing' ? w.episodes : null);
+      const episodes = placeholder ? (dataPlaceholder ? null : w.episodes) : (m.episodes ?? (want === 'airing' ? w.episodes : null));
       const differs = want !== w.status || (episodes !== null && episodes !== w.episodes);
       const rejected = rejectsAiring(state.rejected, w.id, { episodes, status: want });
       if (differs && rejected) notes.set(m.id, `airing update rejected in data/rejected.yaml: ${rejected.reason}`);
@@ -169,7 +174,7 @@ export function classify(input: ClassifyInput): Classification {
         } else if (want === 'finished') {
           findings.push({ ...at, tier: 'A', kind: 'finished', airing: line, summary: `finished with ${episodes} episodes (was ${was})` });
         } else {
-          findings.push({ ...at, tier: 'A', kind: 'count-bump', airing: line, summary: `airing, ${episodes ?? 'unknown'} episodes (was ${was})` });
+          findings.push({ ...at, tier: 'A', kind: 'count-bump', airing: line, summary: `airing, ${episodes ?? 'unknown'} episodes (was ${was})${placeholder ? "; AniList's 1 episode is a placeholder" : ''}` });
         }
       }
     }

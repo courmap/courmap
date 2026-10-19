@@ -53,10 +53,9 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Verify: `gh run list --workflow bots.yml --event schedule` lists runs on consecutive days that update issues #13 to #29 instead of duplicating them, and seed and release show a `schedule` run on Tuesday 2026-10-20.
 14. [ ] **A week of real proxy traffic with no wrong imports.** Who: Xwolv, on the Unraid server, since 2026-10-19.
     Verify: Sonarr's history for the week shows no anime episode imported as the wrong episode; the status page's export is imported with `pnpm corpus:from-proxy` (item 16).
-15. [ ] **Bot PRs and issues reviewed.** Who: Xwolv.
-    - Open now: 11 bot PRs and 15 bot issues (#13 to #27), plus the two season trackers.
-    - Claude Code's recommendations (2026-10-19): merge #3 to #9, #11 and #12; edit #2 (drop the 1-episode Koori no Jouheki 2nd Season line, keep the other four); hold #10 (both Wushen Zhuzai entries are still airing side by side, so the link is doubtful). Sequel links are safe for the proxy since it no longer offsets a sequel into a series that does not hold its prequels, or by a prequel still airing.
-    - The PRs all append to the same seeds file, so after one merges the others show conflicts until the next scan rebuilds them on `main`.
+15. [~] **Bot PRs and issues reviewed.** Who: Xwolv decides; Claude Code applies.
+    - First batch done 2026-10-19 (decided by Xwolv): #2 (without the Koori no Jouheki 2nd Season line), #3 to #9, #11 and #12 merged; #10 closed and recorded in `data/rejected.yaml`, which the bots read so it is never proposed again. No bot PR is open.
+    - Still open: 15 bot issues (#13 to #27) and the two season trackers. The next scan (2026-10-20) will open the next 10 of about 50 waiting sequel PRs and a status update for Koori no Jouheki 2nd Season, now with its count left unknown (a 1 on an airing TV season is a placeholder).
     - chitose-kun-wa-ramune-bin-no-naka-part-2 and dark-machine-the-animation (11 vs 12 episodes) stay as tier C issues for now (Xwolv, session 8).
     - Verify: no bot PR or `mapping-conflict` issue older than a week without a decision.
 16. [ ] **Corpus large enough to trust.** Who: Xwolv supplies names (proxy exports); Claude Code imports and verifies them with Xwolv.

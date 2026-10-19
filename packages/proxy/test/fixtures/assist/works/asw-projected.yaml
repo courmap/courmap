@@ -1,0 +1,13 @@
+id: asw-projected
+type: tv
+year: 2024
+episodes: 12
+titles:
+  romaji: Assist Projected
+ids:
+  anilist: 8006
+  tvdb_show: 9100
+projections:
+  tvdb_show:
+    - { season: 2, episodes: 1-12 }
+notes: Proxy test fixture, fake IDs. A real projection, which Sonarr's numbering must never override.

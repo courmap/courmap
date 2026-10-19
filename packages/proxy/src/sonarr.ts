@@ -5,6 +5,8 @@ export interface SonarrSeries {
   tvdbId: number;
   seriesType: 'standard' | 'daily' | 'anime';
   useSceneNumbering: boolean;
+  /** First-aired year, when Sonarr knows it. */
+  year?: number;
   alternateTitles?: { title: string; seasonNumber?: number; sceneSeasonNumber?: number }[];
 }
 
@@ -91,6 +93,23 @@ export class SonarrClient {
 
   seriesByTitle(title: string): SonarrSeries | undefined {
     return this.byTitle.get(cleanTitle(title));
+  }
+
+  /**
+   * Series whose title or any alternate title equals one of `titles` (cleaned), and whose year is
+   * within one of `year` when both are known (decision S7.1). Used only when the data has no
+   * TVDB projection; the caller requires exactly one.
+   */
+  matchSeries(titles: readonly string[], year: number | null): SonarrSeries[] {
+    const wanted = new Set(titles.map(cleanTitle).filter((t) => t.length >= 3));
+    const out = new Map<number, SonarrSeries>();
+    for (const s of this.byTvdb.values()) {
+      const names = [s.title, ...(s.alternateTitles ?? []).map((a) => a.title)].map(cleanTitle);
+      if (!names.some((n) => wanted.has(n))) continue;
+      if (year !== null && s.year !== undefined && s.year > 0 && Math.abs(s.year - year) > 1) continue;
+      out.set(s.tvdbId, s);
+    }
+    return [...out.values()].sort((a, b) => a.tvdbId - b.tvdbId);
   }
 
   /** A series' episodes, cached per refresh interval. */

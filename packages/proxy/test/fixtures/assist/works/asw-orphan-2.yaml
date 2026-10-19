@@ -1,0 +1,11 @@
+id: asw-orphan-2
+type: tv
+year: 2025
+episodes: 12
+titles:
+  romaji: Assist Orphan 2nd Season
+aliases:
+  - Assist Orphan
+ids:
+  anilist: 8007
+notes: Proxy test fixture, fake IDs. A second season whose prequel relation is missing from the data.

@@ -1,8 +1,9 @@
 import type { CourmapClient, ParsedRelease, ResolveResult } from '@courmap/client';
+import { assistNumbering, type AssistedMapping } from './assist.js';
 import { cleanTitle, type SonarrClient, type SonarrEpisode, type SonarrSeries } from './sonarr.js';
 
 export type RewriteOutcome =
-  | { kind: 'rewritten'; title: string; tvdbId: number; work: string; resolved: ResolveResult }
+  | { kind: 'rewritten'; title: string; tvdbId: number; work: string; resolved: ResolveResult; assisted?: AssistedMapping }
   | { kind: 'pass'; reason: PassReason; detail: string; resolved: ResolveResult | null };
 
 /** Why a release went through unchanged. `ambiguous` and `unmatched` are logged as unresolved. */
@@ -14,7 +15,10 @@ export type PassReason =
   | 'no-tvdb' // the work has no TVDB mapping for this episode
   | 'not-in-sonarr' // the TVDB show is not a series in this Sonarr
   | 'spans-seasons' // a batch across TVDB seasons
-  | 'scene-conflict'; // Sonarr would read the number as another episode's scene number
+  | 'scene-conflict' // Sonarr would read the number as another episode's scene number
+  | 'assist-no-match' // no TVDB projection, and no Sonarr series matches the work's titles
+  | 'assist-ambiguous' // no TVDB projection, and several Sonarr series match
+  | 'assist-no-numbering'; // a series matched, but Sonarr's episodes cannot number this work safely
 
 interface Ep {
   season: number;
@@ -74,19 +78,28 @@ export class Rewriter {
     if (r.status !== 'ok' || !r.match) return pass(r.status === 'ambiguous' ? 'ambiguous' : 'unmatched', r.candidates[0] ? `best candidate ${r.candidates[0].work} at ${r.candidates[0].confidence}` : 'no candidate');
     const m = r.match;
     if (m.episode === null) return pass('no-episode', `${m.work} matched without an episode number`);
-    const tvdb = m.ids.tvdb_show;
-    if (tvdb === undefined) return pass('no-tvdb', `${m.work} has no TVDB ID`);
-    const series = this.sonarr.seriesByTvdb(Number(tvdb));
-    if (!series) return pass('not-in-sonarr', `TVDB ${tvdb} (${m.work}) is not a series in Sonarr`);
-    if (seasonSpecificTitle(series)) return pass('scene-conflict', `Sonarr maps "${series.title}" to one season only`);
-
-    // TVDB episodes this release covers.
+    // TVDB episodes this release covers: from the data's projection, or else assisted by Sonarr.
+    const items = m.batch ?? [{ episode: m.episode, projections: m.projections }];
     const eps: Ep[] = [];
-    for (const p of m.batch ?? [{ episode: m.episode, projections: m.projections }]) {
-      const t = p.projections.tvdb_show;
-      if (!t || t.season === undefined) return pass('no-tvdb', `${m.work} episode ${p.episode} has no TVDB season mapping`);
-      for (let e = t.episode; e <= (t.episode_to ?? t.episode); e++) eps.push({ season: t.season, episode: e });
+    let series: SonarrSeries | undefined;
+    let assisted: AssistedMapping | undefined;
+    if (m.ids.tvdb_show !== undefined && items.every((p) => p.projections.tvdb_show?.season !== undefined)) {
+      series = this.sonarr.seriesByTvdb(Number(m.ids.tvdb_show));
+      if (!series) return pass('not-in-sonarr', `TVDB ${m.ids.tvdb_show} (${m.work}) is not a series in Sonarr`);
+      for (const p of items) {
+        const t = p.projections.tvdb_show!;
+        for (let e = t.episode; e <= (t.episode_to ?? t.episode); e++) eps.push({ season: t.season!, episode: e });
+      }
+    } else {
+      // Decision S7.1: only for a work with no TVDB projection at all; a real one is never overridden.
+      if ((await client.lookup(`work:${m.work}`)).projections.tvdb_show?.length) return pass('no-tvdb', `${m.work} episode ${m.episode} is outside its TVDB projection`);
+      const a = await assistNumbering(client, this.sonarr, m.work, items.map((p) => p.episode));
+      if (!a.ok) return pass(a.reason, a.detail);
+      series = a.series;
+      assisted = a.mapping;
+      eps.push(...a.episodes);
     }
+    if (seasonSpecificTitle(series)) return pass('scene-conflict', `Sonarr maps "${series.title}" to one season only`);
     const seasons = new Set(eps.map((e) => e.season));
     if (seasons.size > 1) return pass('spans-seasons', `${m.work} covers TVDB seasons ${[...seasons].join(', ')}`);
     const season = eps[0]!.season;
@@ -101,20 +114,20 @@ export class Rewriter {
       if (season > 0 && inSeason.length === nums.length && inSeason.every((n, i) => n === nums[i])) {
         const sceneSeason = series.useSceneNumbering ? uniform(episodes.filter((e) => e.seasonNumber === season).map((e) => e.sceneSeasonNumber ?? season)) : season;
         if (sceneSeason === null) return pass('scene-conflict', `TVDB season ${season} spans several scene seasons`);
-        return this.ok(r, series, `S${pad(sceneSeason)}`);
+        return this.ok(r, series, `S${pad(sceneSeason)}`, assisted);
       }
     }
     const first = toSonarr(series, episodes, { season, episode: nums[0]! });
     const last = toSonarr(series, episodes, { season, episode: nums[nums.length - 1]! });
     if (typeof first === 'string') return pass('scene-conflict', first);
     if (typeof last === 'string') return pass('scene-conflict', last);
-    if (nums.length === 1) return this.ok(r, series, `S${pad(first.season)}E${pad(first.episode)}`);
+    if (nums.length === 1) return this.ok(r, series, `S${pad(first.season)}E${pad(first.episode)}`, assisted);
     if (first.season !== last.season || last.episode - first.episode !== nums.length - 1) return pass('scene-conflict', 'the range is not consecutive in scene numbering');
-    return this.ok(r, series, `S${pad(first.season)}E${pad(first.episode)}-E${pad(last.episode)}`);
+    return this.ok(r, series, `S${pad(first.season)}E${pad(first.episode)}-E${pad(last.episode)}`, assisted);
   }
 
-  private ok(r: ResolveResult, series: SonarrSeries, numbers: string): RewriteOutcome {
-    return { kind: 'rewritten', title: formatTitle(series.title, numbers, r.parsed), tvdbId: series.tvdbId, work: r.match!.work, resolved: r };
+  private ok(r: ResolveResult, series: SonarrSeries, numbers: string, assisted?: AssistedMapping): RewriteOutcome {
+    return { kind: 'rewritten', title: formatTitle(series.title, numbers, r.parsed), tvdbId: series.tvdbId, work: r.match!.work, resolved: r, ...(assisted && { assisted }) };
   }
 }
 

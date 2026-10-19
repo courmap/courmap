@@ -1,0 +1,10 @@
+id: asw-after
+type: tv
+year: 2026
+episodes: 12
+titles:
+  romaji: Assist After
+ids:
+  anilist: 8004
+prequel: asw-long
+notes: Proxy test fixture, fake IDs. Its prequel's count is unknown.

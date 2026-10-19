@@ -92,7 +92,7 @@ describe('Sonarr Torznab proxy', async () => {
   it('counts hit rates and logs unresolved names locally', async () => {
     const s = stats.of('nyaa');
     expect(s.rewritten).toBeGreaterThan(0);
-    expect(s.passed).toMatchObject({ 'spans-seasons': expect.any(Number), unmatched: expect.any(Number), ambiguous: expect.any(Number), 'no-tvdb': expect.any(Number) });
+    expect(s.passed).toMatchObject({ 'spans-seasons': expect.any(Number), unmatched: expect.any(Number), ambiguous: expect.any(Number), 'assist-no-match': expect.any(Number) });
     expect(stats.unresolvedList().map((e) => [e.name, e.status])).toEqual(
       expect.arrayContaining([
         ['[Other] Unknown Thing - 03 [1080p]', 'unmatched'],

@@ -100,6 +100,9 @@ export function createProxyServer(deps: ProxyDeps): Server {
       if (parts.length === 0) return send(res, 200, 'text/html; charset=utf-8', statusHtml(statusInput(deps)));
       if (parts[0] === 'status.json') return send(res, 200, 'application/json', JSON.stringify(statusJson(statusInput(deps)), null, 2));
       if (parts[0] === 'health') return send(res, 200, 'text/plain', 'ok');
+      // For pnpm corpus:from-proxy: what this install could not resolve, and what Sonarr helped number.
+      if (parts[0] === 'export.json') return send(res, 200, 'application/json', JSON.stringify(exportJson(deps), null, 2));
+      if (parts[0] === 'export.txt') return send(res, 200, 'text/plain; charset=utf-8', exportText(deps));
       const ix = byName.get(parts[0]!);
       if (!ix) return send(res, 404, 'text/plain', `no indexer "${parts[0]}"; configured: ${[...byName.keys()].join(', ') || 'none'}`);
       // Sonarr calls <base>/api; accept the bare base too.
@@ -112,6 +115,18 @@ export function createProxyServer(deps: ProxyDeps): Server {
     });
   });
 }
+
+/** Unresolved and assisted release names with details; the input of pnpm corpus:from-proxy. */
+export const exportJson = (deps: Pick<ProxyDeps, 'stats' | 'data'>) => ({
+  courmap_proxy_export: 1,
+  data_version: deps.data.status.dataVersion,
+  unresolved: deps.stats.unresolvedList().map((e) => ({ name: e.name, status: e.status, count: e.count, detail: e.detail })),
+  assisted: deps.stats.assistedList().map((a) => ({ work: a.mapping.work, count: a.count, examples: a.examples, mapping: a.mapping })),
+});
+
+/** One release name per line: unresolved names, then assisted examples. */
+export const exportText = (deps: Pick<ProxyDeps, 'stats'>) =>
+  [...deps.stats.unresolvedList().map((e) => e.name), ...deps.stats.assistedList().flatMap((a) => a.examples)].join('\n') + '\n';
 
 const statusInput = (deps: ProxyDeps) => ({ version: deps.version, data: deps.data.status, sonarr: deps.sonarr.status, stats: deps.stats, indexers: deps.indexers.map((i) => i.name) });
 

@@ -1,0 +1,9 @@
+id: asw-twin
+type: tv
+year: 2024
+episodes: 12
+titles:
+  romaji: Assist Twin
+ids:
+  anilist: 8005
+notes: Proxy test fixture, fake IDs. Two Sonarr series share its title.

@@ -22,7 +22,8 @@
     "seed": "tsx --conditions=@courmap/source packages/seed/src/cli.ts",
     "corpus": "tsx --conditions=@courmap/source packages/client/scripts/corpus.ts",
     "corpus:import": "tsx --conditions=@courmap/source packages/client/scripts/corpus-import.ts",
-    "release": "tsx --conditions=@courmap/source packages/release/src/cli.ts"
+    "release": "tsx --conditions=@courmap/source packages/release/src/cli.ts",
+    "bots": "tsx --conditions=@courmap/source packages/bots/src/cli.ts"
   },
   "devDependencies": {
     "@types/node": "^22.20.5",

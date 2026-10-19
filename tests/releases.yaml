@@ -164,6 +164,15 @@ cases:
       Regression case for decision S4.4: a 2016 Suntory commercial shares the alias and the year;
       title rank (a synonym there) and type (a special) separate them.
 
+  - name: "[Group] Doraemon (2005) - 01 [1080p]"
+    expect: { status: ok, work: doraemon-2005, episode: 1 }
+    verified: true
+    source: hand-written
+    notes: >-
+      Regression case for decisions S5.1 and S5.2: the year is part of the remake's alias, and once
+      the bots chain Doraemon (1979) before it, that prequel neither penalizes the unshared alias
+      nor renumbers episode 1 (packages/bots/test/regressions.test.ts checks the chained case).
+
   # Group overrides (no real group data yet, so this runs on the conformance fixture)
   - name: "[FixtureSubs] Split Show Part 2 - 105 [1080p]"
     dataset: conformance

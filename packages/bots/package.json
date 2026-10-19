@@ -26,5 +26,8 @@
   "dependencies": {
     "@courmap/builder": "workspace:*",
     "@courmap/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@courmap/parser": "workspace:*"
   }
 }

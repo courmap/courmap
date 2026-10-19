@@ -41,6 +41,11 @@ export interface WorkRecord {
   ids: Partial<Record<Provider, string>>;
   projections: Partial<Record<ProjectionProvider, ProjectionRow[]>>;
   prequel: string | null;
+  /**
+   * Where the prequel came from: manual, a seed origin, bot (an AniList relation) or derived (TVDB
+   * order); null when there is none. A bot prequel orders the chain but never implies numbering.
+   */
+  prequel_origin: string | null;
   sequences: SequenceMembership[];
   aliases: string[];
 }

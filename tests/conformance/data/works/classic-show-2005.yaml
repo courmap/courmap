@@ -1,0 +1,12 @@
+id: classic-show-2005
+type: tv
+year: 2005
+episodes: 30
+titles:
+  romaji: Classic Show (2005)
+ids:
+  anidb: 1022
+  anilist: 2022
+aliases:
+  - Classic
+notes: Conformance fixture. All IDs are fake. Its prequel comes only from seeds/relations.jsonl (origin bot).

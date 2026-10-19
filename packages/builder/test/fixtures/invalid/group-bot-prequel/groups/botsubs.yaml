@@ -1,0 +1,5 @@
+id: botsubs
+aliases: [BotSubs]
+overrides:
+  - { work: rel-ova, numbering: continue_prequel }
+notes: Test fixture. rel-ova's only prequel comes from an AniList relation.

@@ -61,6 +61,16 @@ cases:
     release: "[Other] Tie Show OVA - 01"
     expect_resolve: { status: ambiguous, top: [tie-show, tie-show-recap] }
 
+  - name: a remake's year is part of its alias, and a prequel only penalizes a shared alias
+    op: resolve
+    release: "[Other] Classic Show (2005) - 01 [1080p]"
+    expect_resolve: { status: ok, work: classic-show-2005, episode: 1, confidence: 1 }
+
+  - name: an alias shared with the prequel reads as the first work
+    op: resolve
+    release: "[Other] Classic - 01 [1080p]"
+    expect_resolve: { status: ok, work: classic-show, episode: 1, confidence: 0.952 }
+
   - name: an alias two works share, with nothing to break the tie
     op: resolve
     release: "[Other] Twin Title - 01"

@@ -9,3 +9,4 @@
 {"id":"delta-movie","type":"movie","status":"finished","year":2025,"episodes":1,"titles":{"romaji":"Delta Movie"},"ids":{"anilist":302},"origin":{"default":"offline-db"}}
 {"id":"epsilon","type":"tv","status":"finished","year":2026,"episodes":12,"titles":{"romaji":"Epsilon"},"ids":{"anilist":400},"origin":{"default":"offline-db"}}
 {"id":"zeta","type":"tv","status":"upcoming","year":2026,"episodes":2,"titles":{"romaji":"Zeta"},"ids":{"anilist":600,"tvdb_show":7100},"projections":{"tvdb_show":[{"season":1,"episodes":"1-2"}]},"origin":{"default":"offline-db"}}
+{"id":"eta","type":"tv","status":"upcoming","year":2026,"episodes":12,"titles":{"romaji":"Eta"},"ids":{"anilist":650,"tvdb_show":7200},"projections":{"tvdb_show":[{"season":1,"episodes":"1-12"}]},"origin":{"default":"offline-db"}}

@@ -227,6 +227,22 @@ export function classify(input: ClassifyInput): Classification {
     after = evaluate(state.loaded, proposed.relations, proposed.airing);
   }
   if (after.errors.length > 0) throw new Error(`proposed bot files do not validate: ${after.errors[0]!.message}`);
+
+  // An update that puts a projection out of bounds means a source disagrees (AniList's count
+  // against Anime-Lists' episodes): a conflict, not an update. Bounds problems are only warnings
+  // for seed-only works, so validation alone would let them through.
+  const newBounds = [...after.bounds].filter(([k]) => !state.boundsWarnings.has(k)).map(([, d]) => d);
+  if (newBounds.length > 0) {
+    for (const f of findings) {
+      const d = f.tier !== 'C' && f.airing ? newBounds.find((x) => x.work === f.work) : undefined;
+      if (!d) continue;
+      f.tier = 'C';
+      f.kind = 'count-conflict';
+      f.summary = `AniList says ${f.airing!.status}, ${f.airing!.episodes ?? '?'} episodes, but ${d.path.slice(0, 2).join('.')} disagrees: ${d.message}`;
+    }
+    proposed = propose(findings.filter((f) => f.tier !== 'C'));
+    after = evaluate(state.loaded, proposed.relations, proposed.airing);
+  }
   const diff = diffSequences(state.records, after.records!);
   const touched = new Set<string>();
   for (const id of diff.changed) for (const m of state.records.sequences.get(id)!.members) touched.add(m.work);

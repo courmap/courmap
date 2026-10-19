@@ -59,7 +59,7 @@ Searches are translated too. Sonarr searches by TVDB ID, season and episode, whi
 
    > **Screenshot to add:** Prowlarr, Indexers list, with the anime indexer's ID visible.
 
-2. Stop Prowlarr syncing those indexers to Sonarr directly. In Prowlarr, open **Settings**, then **Apps**, then your Sonarr app, and either exclude the anime indexers with a tag or set **Sync Level** to **Add and Remove Only** and remove them from Sonarr. Otherwise every result reaches Sonarr twice, once without the proxy.
+2. Stop Prowlarr syncing those indexers to Sonarr directly, or every result reaches Sonarr twice, once without the proxy. Prowlarr's app tags only include indexers, and it re-adds any indexer you delete from Sonarr by hand, so tag the indexers Sonarr should still get directly: give each of them a tag such as `sonarr` (Prowlarr, **Indexers**, the indexer, **Tags**), add the same tag to your Sonarr app (**Settings**, **Apps**, Sonarr, **Tags**) with **Sync Level** set to **Full Sync**, then click **Sync App Indexers** on the **Indexers** page. Prowlarr then removes the untagged anime indexers from Sonarr. The [quick start](/getting-started/sonarr/#4-stop-prowlarr-sending-the-same-indexers-to-sonarr-directly) has the clicks step by step.
 
    > **Screenshot to add:** Prowlarr, Settings, Apps, Sonarr app dialog, with Sync Level and Tags.
 

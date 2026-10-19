@@ -41,7 +41,7 @@ describe('compile data/', async () => {
 
   it('writes meta', () => {
     const meta = Object.fromEntries((db.prepare('SELECT key, value FROM meta').all() as { key: string; value: string }[]).map((r) => [r.key, r.value]));
-    expect(meta).toEqual({ data_version: '2026.42', git_sha: 'test', built_at: '2026-10-17T00:00:00.000Z', schema_version: '3' });
+    expect(meta).toEqual({ data_version: '2026.42', git_sha: 'test', built_at: '2026-10-17T00:00:00.000Z', schema_version: '4' });
   });
 
   it('gives every derived table an origin column, and specials no default', () => {
@@ -74,10 +74,9 @@ describe('compile data/', async () => {
     expect(row).toEqual({ ep_from: 1156, ep_to: null, season: 23, target_from: 1, target_to: null, origin: 'manual' });
   });
 
-  it('indexes normalized aliases for exact and trigram search', () => {
+  it('indexes normalized aliases, with no FTS5 trigram table (decision S4.5)', () => {
     const exact = db.prepare('SELECT DISTINCT work_id FROM aliases WHERE normalized = ?').all('frieren beyond journeys end');
     expect(exact).toContainEqual({ work_id: 'sousou-no-frieren' });
-    const fuzzy = db.prepare('SELECT work_id FROM alias_trigrams WHERE alias_trigrams MATCH ? GROUP BY work_id').all('"shingeki no kyojin"');
-    expect(fuzzy).toContainEqual({ work_id: 'shingeki-no-kyojin' });
+    expect(db.prepare("SELECT name FROM sqlite_master WHERE name LIKE 'alias_trigrams%'").all()).toEqual([]);
   });
 });

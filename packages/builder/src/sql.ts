@@ -1,5 +1,5 @@
 /** Bumped whenever SCHEMA_SQL changes shape. Stored in meta.schema_version. */
-export const SCHEMA_VERSION = '3';
+export const SCHEMA_VERSION = '4';
 
 /** The compiled data model from docs/SPEC.md ("Compiled data model"), verbatim except that column comments are dropped. */
 export const SCHEMA_SQL = `
@@ -68,7 +68,6 @@ CREATE TABLE aliases (
 );
 CREATE INDEX idx_alias_norm ON aliases(normalized);
 CREATE INDEX idx_alias_work ON aliases(work_id);
-CREATE VIRTUAL TABLE alias_trigrams USING fts5(normalized, work_id UNINDEXED, tokenize = 'trigram');
 
 CREATE TABLE groups (
   id      TEXT PRIMARY KEY,
@@ -97,7 +96,6 @@ export const TABLES = [
   'sequences',
   'sequence_members',
   'aliases',
-  'alias_trigrams',
   'groups',
   'group_aliases',
   'group_overrides',

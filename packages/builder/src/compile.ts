@@ -62,7 +62,6 @@ export function expectedCounts(files: CheckedFiles): Record<Table, number> {
     sequences: files.sequences.length + files.derived.sequences.length,
     sequence_members: files.sequences.reduce((n, s) => n + s.data.members.length, 0) + files.derived.sequences.reduce((n, s) => n + s.members.length, 0),
     aliases,
-    alias_trigrams: aliases,
     groups: files.groups.length,
     group_aliases: files.groups.reduce((n, g) => n + (g.data.aliases?.length ?? 0), 0),
     group_overrides: files.groups.reduce((n, g) => n + (g.data.overrides?.length ?? 0), 0),
@@ -124,7 +123,6 @@ function insertAll(db: Database.Database, records: Records, meta: Meta): void {
   const insProj = db.prepare(`INSERT INTO projections (work_id, provider, kind, ep_from, ep_to, season, target_from, target_to, origin)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`);
   const insAlias = db.prepare('INSERT INTO aliases (work_id, alias, normalized, origin) VALUES (?, ?, ?, ?)');
-  const insTrigram = db.prepare('INSERT INTO alias_trigrams (normalized, work_id) VALUES (?, ?)');
 
   for (const w of records.works.values()) {
     const origins = records.origins.works.get(w.id)!;
@@ -148,9 +146,7 @@ function insertAll(db: Database.Database, records: Records, meta: Meta): void {
       }
     }
     for (const alias of w.aliases) {
-      const normalized = normalizeTitle(alias);
-      insAlias.run(w.id, alias, normalized, origins.aliases.get(alias));
-      insTrigram.run(normalized, w.id);
+      insAlias.run(w.id, alias, normalizeTitle(alias), origins.aliases.get(alias));
     }
   }
 

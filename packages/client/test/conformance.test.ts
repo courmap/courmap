@@ -60,7 +60,7 @@ async function buildModes(): Promise<Record<string, CourmapClient>> {
     remote: createRemoteClient(server.url),
     // Not a published mode: the builder's in-memory dataset, kept here as a reference implementation.
     memory: createClient(
-      new MemoryDataset(v.records, { data_version: 'conformance', git_sha: 'conformance', built_at: meta.builtAt, schema_version: '3' }),
+      new MemoryDataset(v.records, { data_version: 'conformance', git_sha: 'conformance', built_at: meta.builtAt, schema_version: '4' }),
     ),
   };
 }

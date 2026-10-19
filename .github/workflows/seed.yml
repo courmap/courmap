@@ -20,6 +20,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Pushes with the built-in token do not trigger the validate workflow on the seed PR.
+          token: ${{ secrets.SEED_PR_TOKEN || github.token }}
+
+      - name: Check the PR token
+        env:
+          GH_TOKEN: ${{ secrets.SEED_PR_TOKEN }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::warning::SEED_PR_TOKEN is not set; the PR step falls back to the built-in token."
+            exit 0
+          fi
+          push=$(gh api "repos/$GITHUB_REPOSITORY" --jq '.permissions.push // "unknown"') || { echo "::error::SEED_PR_TOKEN does not authenticate for $GITHUB_REPOSITORY"; exit 1; }
+          gh api "repos/$GITHUB_REPOSITORY/pulls?per_page=1" --jq length >/dev/null || { echo "::error::SEED_PR_TOKEN cannot read pull requests"; exit 1; }
+          echo "::notice::SEED_PR_TOKEN authenticates for $GITHUB_REPOSITORY (push: $push) and can read pull requests."
 
       - uses: pnpm/action-setup@v4
 

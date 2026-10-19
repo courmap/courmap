@@ -1,0 +1,101 @@
+name: bots
+
+# Build step 9, dry-run mode: the bots open and update PRs and issues but never merge.
+#   daily:  season scanner and airing tracker (AniList), classifier, tier A/B PRs, tier C issues,
+#           the Season tracker issues
+#   weekly: projection checker (TMDB, CI only, nothing stored) and the digest (ntfy, Discord)
+on:
+  schedule:
+    - cron: '30 7 * * *' # daily
+    - cron: '0 10 * * 2' # weekly, Tuesdays after the seed (06:00) and release (09:00) jobs
+  workflow_dispatch:
+    inputs:
+      job:
+        description: Which bots to run
+        type: choice
+        options: [scan, weekly]
+        default: scan
+
+permissions:
+  contents: write # push bots/* branches
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: bots
+  cancel-in-progress: false
+
+env:
+  # PRs and pushes made with the built-in token do not trigger other workflows, so the validate
+  # checks would not run on bot PRs. SEED_PR_TOKEN (fine-grained: contents, pull requests and
+  # issues, read and write) avoids that.
+  GH_TOKEN: ${{ secrets.SEED_PR_TOKEN || github.token }}
+
+jobs:
+  scan:
+    if: github.event.schedule == '30 7 * * *' || (github.event_name == 'workflow_dispatch' && inputs.job == 'scan')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.SEED_PR_TOKEN || github.token }}
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Season scanner, airing tracker and classifier (opens PRs and issues, never merges)
+        run: pnpm bots scan --apply --json "$RUNNER_TEMP/findings.json" | tee "$RUNNER_TEMP/scan.log"
+
+      - name: Job summary
+        if: always()
+        run: |
+          [ -f "$RUNNER_TEMP/scan.log" ] || exit 0
+          { echo '```'; grep -E '^(Classified|Fall|Winter|Spring|Summer|Absolute|AniList)' "$RUNNER_TEMP/scan.log"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bots-findings
+          path: ${{ runner.temp }}/findings.json
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Open an issue when the bots fail twice in a row
+        if: failure()
+        run: .github/scripts/bot-failure.sh scan
+
+  weekly:
+    if: github.event.schedule == '0 10 * * 2' || (github.event_name == 'workflow_dispatch' && inputs.job == 'weekly')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Projection checker (TMDB season counts; skipped without TMDB_API_KEY)
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+        run: pnpm bots tmdb --apply
+
+      - name: Weekly digest (ntfy and Discord when their secrets are set)
+        env:
+          NTFY_URL: ${{ secrets.NTFY_URL }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: pnpm bots digest --apply
+
+      - name: Open an issue when the bots fail twice in a row
+        if: failure()
+        run: .github/scripts/bot-failure.sh weekly

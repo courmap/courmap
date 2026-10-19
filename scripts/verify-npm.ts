@@ -5,6 +5,7 @@
 //   - browser: @courmap/client/remote bundles for the browser platform with no Node-only module,
 //     and the bundle answers the same in a context with only browser globals.
 // Usage: node scripts/pack-npm.mjs && tsx --conditions=@courmap/source scripts/verify-npm.ts
+//        tsx --conditions=@courmap/source scripts/verify-npm.ts --registry 0.1.0   (the published packages)
 import { execFile, execFileSync } from 'node:child_process';
 import { promisify } from 'node:util';
 import { mkdtempSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
@@ -18,28 +19,45 @@ import { serveStatic } from '../packages/client/test/static-server.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const npmDir = path.join(root, 'out/npm');
-const tarballs = Object.fromEntries(readdirSync(npmDir).filter((f) => f.endsWith('.tgz')).map((f) => [/courmap-(\w+)-/.exec(f)![1]!, path.join(npmDir, f)]));
-for (const p of ['core', 'parser', 'client']) if (!tarballs[p]) throw new Error(`out/npm has no ${p} tarball; run node scripts/pack-npm.mjs first`);
+const registryArg = process.argv.indexOf('--registry');
+const registryVersion = registryArg >= 0 ? process.argv[registryArg + 1] : undefined;
+if (registryArg >= 0 && !registryVersion) throw new Error('--registry needs a version, for example --registry 0.1.0');
+const tarballs: Record<string, string> = registryVersion
+  ? {}
+  : Object.fromEntries(readdirSync(npmDir).filter((f) => f.endsWith('.tgz')).map((f) => [/courmap-(\w+)-/.exec(f)![1]!, path.join(npmDir, f)]));
+if (!registryVersion) for (const p of ['core', 'parser', 'client']) if (!tarballs[p]) throw new Error(`out/npm has no ${p} tarball; run node scripts/pack-npm.mjs first`);
 
 const work = mkdtempSync(path.join(tmpdir(), 'courmap-npm-'));
 const run = (cmd: string, args: string[]) => execFileSync(cmd, args, { cwd: work, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], shell: process.platform === 'win32' });
 const fileSpec = (f: string) => `file:${f.split(path.sep).join('/')}`;
 let server: Awaited<ReturnType<typeof serveStatic>> | null = null;
 try {
-  // A consumer project that knows nothing about the workspace. overrides make npm take the
-  // dependencies from the tarballs instead of the registry, where they are not published yet.
+  // A consumer project that knows nothing about the workspace. With tarballs, overrides make npm
+  // take the dependencies from them instead of the registry; with --registry, npm fetches all three.
   writeFileSync(
     path.join(work, 'package.json'),
     JSON.stringify({
       name: 'courmap-npm-check',
       private: true,
       type: 'module',
-      dependencies: { '@courmap/client': fileSpec(tarballs.client!), '@courmap/parser': fileSpec(tarballs.parser!) },
-      overrides: { '@courmap/core': fileSpec(tarballs.core!), '@courmap/parser': fileSpec(tarballs.parser!) },
+      ...(registryVersion
+        ? { dependencies: { '@courmap/client': registryVersion, '@courmap/parser': registryVersion } }
+        : {
+            dependencies: { '@courmap/client': fileSpec(tarballs.client!), '@courmap/parser': fileSpec(tarballs.parser!) },
+            overrides: { '@courmap/core': fileSpec(tarballs.core!), '@courmap/parser': fileSpec(tarballs.parser!) },
+          }),
     }),
   );
-  run('npm', ['install', '--no-audit', '--no-fund', '--loglevel=error']);
-  console.log('installed the tarballs into a clean project');
+  run('npm', ['install', '--no-audit', '--no-fund', '--loglevel=error', '--prefer-online']);
+  if (registryVersion) {
+    const tree = JSON.parse(run('npm', ['ls', '--all', '--json'])) as { dependencies: Record<string, { version: string; resolved?: string; dependencies?: Record<string, { version: string }> }> };
+    const core = tree.dependencies['@courmap/client']!.dependencies?.['@courmap/core']?.version;
+    const got = { client: tree.dependencies['@courmap/client']!.version, parser: tree.dependencies['@courmap/parser']!.version, core };
+    if (Object.values(got).some((x) => x !== registryVersion)) throw new Error(`expected ${registryVersion} from the registry, got ${JSON.stringify(got)}`);
+    console.log(`installed @courmap/client, parser and core ${registryVersion} from the npm registry into a clean project`);
+  } else {
+    console.log('installed the tarballs into a clean project');
+  }
 
   // Data: the conformance fixture as a dump and as shards.
   const v = await validate(path.join(root, 'tests/conformance/data'));

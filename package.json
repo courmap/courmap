@@ -17,13 +17,14 @@
     "typecheck": "tsc -p tsconfig.json",
     "test": "vitest run",
     "build": "pnpm -r --filter ./packages/** run build",
-    "check": "pnpm check:dashes && pnpm check:types-fresh && pnpm typecheck && pnpm validate && pnpm compile --out out/courmap.sqlite && pnpm builder shards --from out/courmap.sqlite --out out/shards/v1 && pnpm test && pnpm corpus",
+    "check": "pnpm check:dashes && pnpm check:types-fresh && pnpm typecheck && pnpm validate && pnpm compile --out out/courmap.sqlite && pnpm builder shards --from out/courmap.sqlite --out out/shards/v1 && pnpm test && pnpm corpus && pnpm snippets",
     "fixtures:expect": "tsx --conditions=@courmap/source packages/builder/scripts/fixture-expect.ts",
     "seed": "tsx --conditions=@courmap/source packages/seed/src/cli.ts",
     "corpus": "tsx --conditions=@courmap/source packages/client/scripts/corpus.ts",
     "corpus:import": "tsx --conditions=@courmap/source packages/client/scripts/corpus-import.ts",
     "release": "tsx --conditions=@courmap/source packages/release/src/cli.ts",
-    "bots": "tsx --conditions=@courmap/source packages/bots/src/cli.ts"
+    "bots": "tsx --conditions=@courmap/source packages/bots/src/cli.ts",
+    "snippets": "tsx --conditions=@courmap/source scripts/check-snippets.ts"
   },
   "devDependencies": {
     "@types/node": "^22.20.5",
@@ -31,6 +32,7 @@
     "json-schema-to-typescript": "^15.0.4",
     "tsx": "^4.23.15",
     "typescript": "~5.9.3",
-    "vitest": "^3.2.7"
+    "vitest": "^3.2.7",
+    "yaml": "2.9.1"
   }
 }

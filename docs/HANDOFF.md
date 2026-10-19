@@ -32,6 +32,13 @@ Last updated 2026-10-19, after the maintenance session that followed session 8.
   - Applying all 10 links to a copy of the data changed none of 32 sample resolutions.
   - Fall 2026 TVDB coverage is 61 of 85 series (71.8%; TV 57 of 76). That is unchanged from session 7, because no data merged since. The tracker issue #28 is stale (12:48 UTC), because the 14:52 scan crashed before rewriting it.
 
+- **Bot PR review applied (same day, decided by Xwolv):**
+  - #2 (minus the Koori line), #3 to #9, #11 and #12 merged as merge commits.
+  - Merging them changed none of the 32 sample resolutions.
+  - #10 closed and recorded in the new `data/rejected.yaml` (schema, `pnpm validate`, read by the classifier).
+  - The airing tracker treats a 1 on an airing TV season as a placeholder.
+  - A dry-run scan afterwards proposed neither #10's link nor a 1-episode Koori count.
+
 ## Next
 
 1. **Check the 2026-10-20 schedules.**

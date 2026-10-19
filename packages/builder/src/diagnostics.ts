@@ -33,7 +33,8 @@ export type DiagnosticCode =
   | 'seed-origin'
   | 'missing-field'
   | 'missing-anchor-id'
-  | 'slug-conflict';
+  | 'slug-conflict'
+  | 'relation';
 
 export type PathSegment = string | number;
 

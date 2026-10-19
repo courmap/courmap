@@ -1,0 +1,11 @@
+id: rel-b
+type: tv
+episodes: 12
+ids:
+  anidb: 900202
+  tvdb_show: 900200
+projections:
+  tvdb_show:
+    - { season: 2, episodes: 1-12 }
+prequel: rel-a
+notes: A manual prequel; the bot relation naming rel-ova must not replace it.

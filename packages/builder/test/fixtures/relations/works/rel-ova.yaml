@@ -1,0 +1,10 @@
+id: rel-ova
+type: ova
+episodes: 1
+ids:
+  anidb: 900205
+  tvdb_show: 900200
+projections:
+  tvdb_show:
+    - { season: 0, episodes: 1 }
+notes: Season 0 takes no part in TVDB order; only the AniList relation gives it a prequel.

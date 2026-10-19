@@ -4,6 +4,9 @@ import { formatDiagnostic, type Diagnostic } from './diagnostics.js';
 import { validate, type ValidateResult } from './validate.js';
 import { compile } from './compile.js';
 import { generateShards } from './shards.js';
+import { aliasReport } from './alias-report.js';
+import { aliasPairs } from './records.js';
+import { writeFile } from 'node:fs/promises';
 
 const USAGE = `Usage: courmap-builder <command> [options]
 
@@ -12,6 +15,8 @@ Commands:
   compile --out <file>   Validate, then compile to SQLite and verify the result
   shards --from <file> --out <dir>
                          Write the static JSON shards (the /v1/ tree) from a compiled dump
+  aliases [--report <file>]
+                         Count aliases by how many works share them; list the ones flagged for review
 
 Options:
   --data <dir>           Data directory with works/, sequences/, groups/, seeds/ (default: data)
@@ -54,6 +59,7 @@ async function main(argv: string[]): Promise<number> {
     options: {
       data: { type: 'string', default: 'data' },
       out: { type: 'string' },
+      report: { type: 'string' },
       from: { type: 'string' },
       'data-version': { type: 'string' },
       'built-at': { type: 'string' },
@@ -107,6 +113,19 @@ async function main(argv: string[]): Promise<number> {
     }
     const report = await generateShards(values.from, values.out);
     console.log(`Wrote ${report.files} files to ${values.out} (${report.works} works, ${report.sequences} sequences, ${report.groups} groups); meta.json last`);
+    return 0;
+  }
+
+  if (command === 'aliases') {
+    const result = await validate(dataDir);
+    if (!result.ok || !result.records) {
+      printDiagnostics(result, false);
+      console.error(`\nNot counting aliases: ${errors(result).length} error(s) in ${dataDir}/`);
+      return 1;
+    }
+    const report = aliasReport(aliasPairs(result.records));
+    console.log(report.summary);
+    if (values.report) await writeFile(values.report, report.markdown);
     return 0;
   }
 

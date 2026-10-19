@@ -336,7 +336,7 @@ Resolution is parse, match, interpret, score. Each step records a reason string,
 1. **Parse.** An anitopy-style tokenizer extracts group, title, season token, episode (single, range, or version like `05v2`), resolution, source, codec, audio/sub flags and batch markers. The parser is a separate package with its own fixture corpus.
 2. **Normalize the title.** NFKC, then one folding table: `×` becomes `x`; stars, music notes, hearts, colons and CJK or full-width punctuation become spaces. Then lowercase, fold macrons, strip other punctuation and filler words (`the`, `season`, `part`, `cour`), collapse spaces. The same function builds `aliases.normalized`.
 3. **Match candidates.**
-    1. Exact hit in the alias index. An alias several works share splits its title weight across them; season token, episode fit and year then break the tie.
+    1. Exact hit in the alias index. An alias several works share splits its title weight across them; season token, episode fit, year, title rank and type then break the tie. An alias shared by more than 50 works (a broadcast slot such as "Minna no Uta", a label such as "Music") is not in the index at all.
     2. No exact hit: trigram FTS search, keep the top 10 above a similarity floor.
     3. Season token present (`S2`, `2nd Season`, `Part 2`): prefer works whose aliases or prequel chain position agree.
 4. **Interpret the number** against each candidate, in order:
@@ -375,6 +375,7 @@ The git repo is the database of record; everything else is a build output. Seeds
 - No overlapping ranges within one provider projection; no gaps unless marked `gap: true`; coverage that stops early only with `coverage: partial` and `notes`.
 - Ranges stay inside the work's episode count (open-ended only when `status: airing`). Errors for works with a manual file, warnings for seed-only works, and informational only for movies, whose AniDB parts may exceed a count of 1 and merge into one provider episode.
 - Round-trip test: for every projection, A to hub to B to hub to A returns the input.
+- Alias quality: aliases are counted by how many works share them. One shared by more than 5 works is flagged for review (listed by `pnpm builder aliases --report`, and in the weekly digest); one shared by more than 50 stays in the data and the dumps but is excluded from resolver matching. Neither fails CI.
 - Resolver regression: `tests/releases.yaml`, a corpus of release names with expected work and episode (or expected `ambiguous` or `unmatched`). Only cases marked `verified: true` count. CI posts the pass rate on every PR and fails if it drops below `tests/releases.baseline.json`, or if any case expected to be ambiguous or unmatched comes back `ok`. `pnpm corpus:import <file>` adds names from a plain text file (one per line) as unverified cases with today's answer recorded, for a person to check.
 - A bot comments on each PR with a translation diff: which episodes now map differently, before and after.
 
@@ -424,7 +425,8 @@ There is no server to run. Data changes only when a PR merges, so everything is 
 /v1/sequences/{sequence_id}.json
 /v1/groups/{group_id}.json
 /v1/aliases.json.zst                   # alias index for resolvers: every normalized alias once, with all
-                                       #   works using it; forms under 3 characters dropped; zstd JSON
+                                       #   works using it; forms under 3 characters and forms shared by
+                                       #   more than 50 works dropped; zstd JSON
 /v1/groups.json                        # every release group with aliases and overrides
 ```
 

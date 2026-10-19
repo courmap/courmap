@@ -30,6 +30,11 @@ export interface Records {
   origins: { works: Map<string, WorkOrigins>; sequences: Map<string, Origin>; groups: Map<string, Origin> };
 }
 
+/** (normalized alias, work id) for every alias of every work, titles included. */
+export function aliasPairs(records: Records): [string, string][] {
+  return [...records.works.values()].flatMap((w) => w.aliases.map((a) => [normalizeTitle(a), w.id] as [string, string]));
+}
+
 const byKindThenFrom = (a: ProjectionRow, b: ProjectionRow) => (a.kind < b.kind ? -1 : a.kind > b.kind ? 1 : a.ep_from - b.ep_from);
 
 /**
@@ -180,10 +185,7 @@ export class MemoryDataset implements Dataset {
   private aliasCache: AliasIndex | null = null;
 
   async aliasIndex(): Promise<AliasIndex> {
-    this.aliasCache ??= buildAliasIndex(
-      this.metaValue.data_version,
-      [...this.records.works.values()].flatMap((w) => w.aliases.map((a) => [normalizeTitle(a), w.id] as const)),
-    );
+    this.aliasCache ??= buildAliasIndex(this.metaValue.data_version, aliasPairs(this.records));
     return this.aliasCache;
   }
 

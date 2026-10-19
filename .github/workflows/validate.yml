@@ -52,6 +52,9 @@ jobs:
         id: corpus
         run: pnpm corpus --summary "$RUNNER_TEMP/corpus.md"
 
+      - name: Alias quality (aliases shared by more than 5 works are flagged, more than 50 excluded)
+        run: pnpm builder aliases --report "$RUNNER_TEMP/aliases.md" && cat "$RUNNER_TEMP/aliases.md" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Report the corpus on the pull request
         if: always() && github.event_name == 'pull_request' && steps.corpus.outcome != 'skipped'
         env:

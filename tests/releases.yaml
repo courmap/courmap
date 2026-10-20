@@ -476,3 +476,83 @@ cases:
     verified: true
     source: proxy-unresolved
     notes: Dated variant of the Mao case. A recent release goes to the 2026 work, which both holds the title and is the current one.
+  - name: "[Moozzi2] Spy x Family S2-07 [ 32 ] [BD 1920x1080 x265-10Bit Flac]"
+    expect:
+      status: ok
+      work: spy-x-family-season-2
+      episode: 7
+    verified: true
+    source: proxy-unresolved
+    notes: From a real proxy export (second batch, data 2026.43, mostly Spy x Family). Season and episode joined by a hyphen; the bracketed 32 is the absolute number (Xwolv grabbed S02E07 as absolute 32).
+  - name: "[Erai-raws] Spy x Family Season 3-13 [1080p CR WEB-DL AVC AAC][MultiSub][C2A05068]"
+    expect:
+      status: ok
+      work: spy-x-family-season-3
+      episode: 13
+    verified: true
+    source: proxy-unresolved
+    notes: From a real proxy export (second batch, data 2026.43, mostly Spy x Family). "Season 3-13" is season 3 episode 13.
+  - name: "[Ohys-Raws].Spy.x.Family.2nd-02.TX.1280x720.x264.AAC"
+    expect:
+      status: ok
+      work: spy-x-family-season-2
+      episode: 2
+    verified: true
+    source: proxy-unresolved
+    notes: From a real proxy export (second batch, data 2026.43, mostly Spy x Family). "2nd-02" is season 2 episode 2.
+  - name: "[SubsPlease] Spy x Family-47 [1080p] [A109D34A]"
+    expect:
+      status: ok
+      work: spy-x-family-season-3
+      episode: 10
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (second batch, data 2026.43, mostly Spy x Family). SubsPlease numbers the series absolutely: 47 is 25 + 12 + 10, the tenth episode of season 3."
+  - name: "[SubsPlease] Spy x Family - 26 (1080p) [2A971129]"
+    expect:
+      status: ok
+      work: spy-x-family-season-2
+      episode: 1
+    verified: true
+    source: proxy-unresolved
+    notes: From a real proxy export (second batch, data 2026.43, mostly Spy x Family). Absolute 26 is the first episode of season 2.
+  - name: SPY.x.FAMILY.S02E37.Part.of.the.Family.1080p.DSNP.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ok
+      work: spy-x-family-season-2
+      episode: 12
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (second batch, data 2026.43, mostly Spy x Family). Disney+ numbers season 2 as S02E26 to S02E37, which is the absolute order: 37 is the twelfth episode of season 2."
+  - name: SPY.x.FAMILY.S03E44.The.Red.Circus.1080p.CR.WEB-DL.DUAL.AAC2.0.H.264.MSubs-ToonsHub
+    expect:
+      status: ok
+      work: spy-x-family-season-3
+      episode: 7
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (second batch, data 2026.43, mostly Spy x Family). Season 3 numbered S03E38 to S03E50 (absolute order): 44 is the seventh episode of season 3."
+  - name: SPYxFAMILY.S02E12.SPANISH.1080p.HMAX.WEB-DL.DDP2.0.x264-AndreMor
+    expect:
+      status: ok
+      work: spy-x-family-season-2
+      episode: 12
+    verified: true
+    source: proxy-unresolved
+    notes: From a real proxy export (second batch, data 2026.43, mostly Spy x Family). The title written without spaces is an alias.
+  - name: "[Trix] SPYFAMILY-S03E12 [WEB 1080p AV1 Opus] [Multi Subs][C72E933E]"
+    expect:
+      status: ok
+      work: spy-x-family-season-3
+      episode: 12
+    verified: true
+    source: proxy-unresolved
+    notes: From a real proxy export (second batch, data 2026.43, mostly Spy x Family). "SPYFAMILY" without spaces, season 3 episode 12.
+  - name: "[NC-Raws] SPYFAMILY - 23 (CR 1920x1080 AVC AAC MKV) [89B41011]"
+    expect:
+      status: ok
+      work: spy-x-family-part-2
+      episode: 11
+    verified: true
+    source: proxy-unresolved
+    notes: From a real proxy export (second batch, data 2026.43, mostly Spy x Family). Absolute 23 is the eleventh episode of the second cour of season 1.

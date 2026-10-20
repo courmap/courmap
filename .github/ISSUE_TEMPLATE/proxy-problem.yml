@@ -1,0 +1,25 @@
+name: Proxy problem
+description: The Sonarr proxy rewrote something wrongly, or does not work.
+labels: ["proxy"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Proxy image and data version
+      description: Shown on the proxy's status page (for example ghcr.io/courmap/proxy:edge, data 2026.43).
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Indexer type
+      options: [Torznab, Newznab]
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you expected, what the status page or log shows. Remove API keys first (the proxy masks its own, but check what you paste).
+    validations:
+      required: true

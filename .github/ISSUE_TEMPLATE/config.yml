@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation
+    url: https://courmap.com
+    about: Guides for Sonarr, the libraries and contributing.
+  - name: Report a security problem
+    url: https://github.com/courmap/courmap/security/advisories/new
+    about: Please report vulnerabilities privately.

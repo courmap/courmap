@@ -58,7 +58,7 @@ Last updated 2026-10-20, after the first-real-traffic session.
   - **Upstream budget:** failure reasons (api-limit, auth, indexer-error, http, bad-response, timeout, network) and per-day request counts on the status page; a cache, an early stop and a cap (`UPSTREAM_CACHE_SECONDS`, `SEARCH_STOP_ON_MATCH`, `MAX_QUERIES_PER_SEARCH`). Measured with a real Sonarr: episode search 10 to 1 and 8 to 1 requests, anime season search 190 to 37. Retry-After on a 429 reaches Sonarr.
   - **Data:** the seed read the placeholder count 1 of an ongoing TV show as real and closed its TVDB mapping; 159 seed lines changed (count unknown, open-ended mapping), the engine and resolver accept an episode past an airing work's recorded count (`hasOpenRun`), and `resolve()` no longer throws on it. About 100 of the export's 201 unresolved items now resolve with a TVDB mapping.
   - **Parser:** glued hyphen episodes (Erai-raws), 第N话, season packs, `H.264`, LPCM, languages and streaming services.
-  - **Corpus:** 35 to 58 verified; 7 unverified cases wait for Xwolv.
+  - **Corpus:** 35 to 62 verified; 7 unverified cases wait for Xwolv. His decisions on the open ones are in DECISIONS.md (title holder tie-break, TYBW continuous numbering through `bleach-tybw-absolute`, a recorded count is a floor for airing works); the same export now resolves 153 of its 201 unresolved items, 138 with a TVDB mapping.
   - **Docs:** Sonarr and Prowlarr behind a VPN container (gluetun), the API limit behavior.
   - Xwolv ticked #30's indexer-test box (both indexers test green on his Sonarr); the real-grab box stays open.
 
@@ -86,7 +86,7 @@ See `docs/LAUNCH.md`. In short:
 
 - **npm trusted publishing:** configure all three packages, then set the `NPM_TRUSTED_PUBLISHING` variable.
 - **Newznab check:** the last #30 box only his Sonarr can tick (a real grab imports correctly).
-- **Four decisions from the first export** (DECISIONS.md, "First real traffic, left open"): whether a title holder should beat synonym-only holders (Aikatsu!, Mao), which TVDB numbering Sonarr uses for Bleach: Thousand-Year Blood War, and the donghua whose count lags.
+- **Confirm the 7 unverified corpus cases** (tests/releases.yaml, `verified: false`; the proposed answers are in each note): Cheng Ye Xiao He 13, Aikatsu! 1, Mao 24, three Bleach: Thousand-Year Blood War releases (S01E49 twice, absolute 35), and That's Enough, Dad (missing from the dataset, stays ambiguous until a later pin).
 - **Proxy week:** exports from the status page.
 - **Screenshots:** the six for the Sonarr guide.
 - **Bot PRs and issues:** decide the 11 open PRs and 15 issues.

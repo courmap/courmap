@@ -243,18 +243,20 @@ cases:
     notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: An airing show whose recorded count (22) lags its real one (51 on AniList): episode 33 is placed by the open TVDB mapping."
   - name: "[Doomdos] - 成也萧河 - 第13话 - [1080p BILIBILI COM WEB-DL]"
     expect:
-      status: ambiguous
-      top: cheng-ye-xiao-he
+      status: ok
+      work: cheng-ye-xiao-he
+      episode: 13
     verified: false
     source: proxy-unresolved
-    notes: "From a real proxy export (first week, data 2026.43). Not verified: The right answer is cheng-ye-xiao-he episode 13, but the data records 12 episodes and the status upcoming for this ONA (it is airing); it resolves once a data refresh or the bots update it. Needs Xwolv: leave expecting ambiguous until then."
+    notes: "Proposed answer, for Xwolv to confirm: cheng-ye-xiao-he episode 13. The pinned dataset says upcoming with 12 episodes; data/works/cheng-ye-xiao-he.yaml sets it airing, so its count is a floor."
   - name: "[NanakoRaws] Aikatsu! - 01 (TVA TV 1080p HEVC AAC)"
     expect:
-      status: ambiguous
-      top: aikatsu
+      status: ok
+      work: aikatsu
+      episode: 1
     verified: false
     source: proxy-unresolved
-    notes: "From a real proxy export (first week, data 2026.43). Not verified: Aikatsu! shares its title with four more works as a synonym; the original series (178 episodes) holds it as a title, but no other evidence separates them. Needs Xwolv: should a title holder beat synonym-only holders on its own?"
+    notes: "Proposed answer, for Xwolv to confirm: aikatsu episode 1. It holds the title; four other works only list it as a synonym, and the title holder wins when the other evidence is equal."
   - name: "[NanakoRaws] Kusuriya no Hitorigoto S3 - 02 (CTV TV 1080p HEVC AAC)"
     expect:
       status: ok
@@ -273,11 +275,12 @@ cases:
     notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: An airing show whose recorded count (2) lags its real one (12 on AniList)."
   - name: Mao - 24 [480p DSNP WEB-DL AVC AAC][MultiSub][30D9CEAC]
     expect:
-      status: ambiguous
-      top: mao
+      status: ok
+      work: mao
+      episode: 24
     verified: false
     source: proxy-unresolved
-    notes: "From a real proxy export (first week, data 2026.43). Not verified: Mao (2026, 26 episodes) holds the title; two other works only have it as a synonym. Same question as Aikatsu!: it scores 0.556 against a floor of 0.85. Needs Xwolv."
+    notes: "Proposed answer, for Xwolv to confirm: mao episode 24. Same title-holder rule as Aikatsu!."
   - name: "[Erai-raws] Tensei Goblin dakedo Shitsumon Aru - 03 [480p CR WEB-DL AVC AAC][MultiSub][E9476CC8]"
     expect:
       status: ok
@@ -304,25 +307,28 @@ cases:
     notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: Scene-style S01E02 of the same airing show."
   - name: BLEACH.Thousand-Year.Blood.War.S01E49.THE.BLADE.1080p.DSNP.WEB-DL.JPN.AAC2.0.H.264.MSubs-ToonsHub
     expect:
-      status: ambiguous
-      top: bleach-sennen-kessen-hen
+      status: ok
+      work: bleach-sennen-kessen-hen-kashin-tan
+      episode: 9
     verified: false
     source: proxy-unresolved
-    notes: "From a real proxy export (first week, data 2026.43). Not verified: TVDB numbers Bleach: Thousand-Year Blood War S01E49 here, while the data maps its cours to TVDB 74796 season 17 (Anime-Lists). Which TVDB series Sonarr tracks for it decides the right answer. Needs Xwolv."
+    notes: "Proposed answer, for Xwolv to confirm: bleach-sennen-kessen-hen-kashin-tan episode 9 (continuous number 49 of bleach-tybw-absolute, TVDB season 17 episode 49)."
   - name: BLEACH.Thousand.Year.Blood.War.S01E49.THE.BLADE.1080p.AMZN.WEB-DL.DDP2.0.H.264-VARYG
     expect:
-      status: ambiguous
-      top: bleach-sennen-kessen-hen
+      status: ok
+      work: bleach-sennen-kessen-hen-kashin-tan
+      episode: 9
     verified: false
     source: proxy-unresolved
-    notes: "From a real proxy export (first week, data 2026.43). Not verified: Same release as the case above from another group."
+    notes: "Proposed answer, for Xwolv to confirm: bleach-sennen-kessen-hen-kashin-tan episode 9 (continuous number 49 of bleach-tybw-absolute, TVDB season 17 episode 49)."
   - name: Bleach-Thousand-Year.Blood.War.35.BD.Remux.1080p.AVC.DTS-HD.MA.2.0.DUAL.DTS-HD.MA.2.0-Wwecrazzy
     expect:
-      status: ambiguous
-      top: bleach-sennen-kessen-hen
+      status: ok
+      work: bleach-sennen-kessen-hen-soukoku-tan
+      episode: 9
     verified: false
     source: proxy-unresolved
-    notes: "From a real proxy export (first week, data 2026.43). Not verified: A Blu-ray remux pack named Bleach-Thousand-Year.Blood.War.NN with an absolute episode number across all cours; the same TVDB question as the S01E49 releases. Needs Xwolv."
+    notes: "Proposed answer, for Xwolv to confirm: bleach-sennen-kessen-hen-soukoku-tan episode 9 (continuous number 35 of bleach-tybw-absolute)."
   - name: Tensei.Goblin.dakedo.Shitsumon.Aru.S01E03.So.Whats.Wrong.with.Negotiating.with.Humans.1080p.CR.WEB-DL.AAC2.0.H.264-playWEB
     expect:
       status: ok
@@ -419,3 +425,34 @@ cases:
     verified: true
     source: proxy-unresolved
     notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: A season pack (S01 with no episode) is a batch of all 13 episodes of the work; the English title was a missing alias."
+  - name: BLEACH.Thousand.Year.Blood.War.S01E05.1080p.AMZN.WEB-DL.DDP2.0.H.264-VARYG
+    expect:
+      status: ok
+      work: bleach-sennen-kessen-hen
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: Decided by Xwolv 2026-10-20 (DECISIONS.md, "Decisions from the first export"). S01 of a TYBW-titled release is the continuous numbering, so episode 5 is the first cour, not Bleach (2004) S01E05.
+  - name: BLEACH.Thousand.Year.Blood.War.S01E14.1080p.AMZN.WEB-DL.DDP2.0.H.264-VARYG
+    expect:
+      status: ok
+      work: bleach-sennen-kessen-hen-ketsubetsu-tan
+      episode: 1
+    verified: true
+    source: proxy-unresolved
+    notes: Decided by Xwolv 2026-10-20 (DECISIONS.md, "Decisions from the first export"). Continuous number 14 is the second cour's first episode.
+  - name: BLEACH.Thousand.Year.Blood.War.S01E30.1080p.AMZN.WEB-DL.DDP2.0.H.264-VARYG
+    expect:
+      status: ok
+      work: bleach-sennen-kessen-hen-soukoku-tan
+      episode: 4
+    verified: true
+    source: proxy-unresolved
+    notes: Decided by Xwolv 2026-10-20 (DECISIONS.md, "Decisions from the first export"). Continuous number 30 is the third cour's episode 4.
+  - name: "[Group] Sousou no Frieren - 99 [1080p]"
+    expect:
+      status: ambiguous
+      top: sousou-no-frieren
+    verified: true
+    source: proxy-unresolved
+    notes: "Decided by Xwolv 2026-10-20 (DECISIONS.md, \"Decisions from the first export\"). A finished work's count is never a floor: a release past it passes through and is worth a tier C issue."

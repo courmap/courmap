@@ -1,0 +1,23 @@
+name: Wrong or missing mapping
+description: An episode translates to the wrong number, or a show is missing.
+labels: ["good first mapping"]
+body:
+  - type: input
+    id: show
+    attributes:
+      label: Show
+      description: Title and a link to one provider page (AniList, MAL, TVDB).
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What is wrong
+      description: The input, the answer Courmap gave, and the answer you expected. A release name or the "copy as GitHub issue" block from the proxy works well.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources
+      description: Links that show the right numbering.

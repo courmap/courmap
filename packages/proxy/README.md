@@ -103,7 +103,7 @@ Environment variables win over the optional YAML file at `/config/courmap-proxy.
 
 ## Status page
 
-`http://<host>:9797/` shows the data version, the last refresh and its error if any, the Sonarr connection, and per indexer: its protocol (torznab or newznab, as configured or detected), requests, searches (and how many were translated), items, how many were rewritten, and why the rest passed through. Below that is the list of unresolved release names, with a text block to paste into a GitHub issue if you want to help improve Courmap. `/status.json` has the same data; `/health` is for health checks.
+`http://<host>:9797/` shows the data version, the last refresh and its error if any, the Sonarr connection, and per indexer: its protocol (torznab or newznab, as configured or detected), requests, searches (and how many were translated), items, how many were rewritten, and why the rest passed through. Below that is the list of unresolved release names, with a text block to paste into a GitHub issue if you want to help improve Courmap. `/status.json` has the same data; `/health` is for health checks. API keys never appear in the logs, the page or the exports: the Sonarr key, the indexer keys, the key Sonarr sends and any `apikey=` or `token=` in a URL are masked as `***`, including inside error messages.
 
 ## Development
 

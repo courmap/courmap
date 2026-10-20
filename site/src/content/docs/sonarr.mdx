@@ -123,7 +123,7 @@ An optional YAML file at `/config/courmap-proxy.yaml` can hold the same settings
 
 ## The status page
 
-`http://<your-host>:9797/` shows the data version and its last refresh, the Sonarr connection, and per indexer its protocol (torznab or newznab, as set or detected), how many requests, searches and results it saw, how many results it rewrote, and why the rest passed through. Below that are the works numbered with your Sonarr's help ("assisted") and the release names Courmap could not resolve, with a block of text you can paste into a GitHub issue to help improve the data: assisted works appear in it as ready-made mapping files. Nothing on the page is sent anywhere.
+`http://<your-host>:9797/` shows the data version and its last refresh, the Sonarr connection, and per indexer its protocol (torznab or newznab, as set or detected), how many requests, searches and results it saw, how many results it rewrote, and why the rest passed through. Below that are the works numbered with your Sonarr's help ("assisted") and the release names Courmap could not resolve, with a block of text you can paste into a GitHub issue to help improve the data: assisted works appear in it as ready-made mapping files. Nothing on the page is sent anywhere, and API keys are masked in it, in the logs and in the exports (a key shows as `***`, even inside an error message).
 
 > **Screenshot to add:** the unresolved names section with the "Copy as GitHub issue" block.
 

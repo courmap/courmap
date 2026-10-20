@@ -1,5 +1,8 @@
 name: bots
 
+# The run name says which job ran (scan or weekly): the Worker watchdog reads it to tell them apart.
+run-name: "bots ${{ (github.event_name == 'schedule' && github.event.schedule == '47 10 * * 2' && 'weekly') || (github.event_name == 'schedule' && 'scan') || inputs.job }}"
+
 # Build step 9, dry-run mode: the bots open and update PRs and issues but never merge.
 #   daily:  season scanner and airing tracker (AniList), classifier, tier A/B PRs, tier C issues,
 #           the Season tracker issues

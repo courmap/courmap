@@ -128,33 +128,60 @@ describe('Worker', async () => {
 });
 
 describe('schedule watchdog (decision S7.3)', async () => {
-  const { watchdog, WATCHED } = await import('../src/watchdog.js');
+  const { watchdog, report, WATCHED } = await import('../src/watchdog.js');
   const now = new Date('2026-10-20T07:53:00Z');
-  const fake = (runsToday: number) => {
+  // runs: the titles of the workflow's runs created today.
+  const fake = (runs: string[]) => {
     const calls: { url: string; init?: RequestInit }[] = [];
     const f = (async (url: string, init?: RequestInit) => {
       calls.push({ url, ...(init && { init }) });
-      return url.endsWith('/dispatches') ? new Response(null, { status: 204 }) : new Response(JSON.stringify({ total_count: runsToday }));
+      const workflow_runs = runs.map((t, i) => ({ id: 100 + i, display_title: t, event: 'schedule', status: 'completed', conclusion: 'success', created_at: '2026-10-20T07:30:00Z' }));
+      return url.endsWith('/dispatches') ? new Response(null, { status: 204 }) : new Response(JSON.stringify({ total_count: runs.length, workflow_runs }));
     }) as unknown as typeof fetch;
     return { f, calls };
   };
 
   it('does nothing without the dispatch token', async () => {
-    const { f, calls } = fake(0);
-    expect(await watchdog('53 7 * * *', {}, now, f)).toEqual({ workflow: 'bots.yml', action: 'disabled' });
+    const { f, calls } = fake([]);
+    expect(await watchdog('53 7 * * *', {}, now, f)).toMatchObject({ job: 'scan', workflow: 'bots.yml', action: 'disabled' });
     expect(calls).toEqual([]);
   });
 
   it('leaves a workflow that already ran today alone', async () => {
-    const { f, calls } = fake(1);
-    expect(await watchdog('53 7 * * *', { GITHUB_DISPATCH_TOKEN: 't' }, now, f)).toEqual({ workflow: 'bots.yml', action: 'already-ran' });
+    const { f, calls } = fake(['bots scan']);
+    const r = await watchdog('53 7 * * *', { GITHUB_DISPATCH_TOKEN: 't' }, now, f);
+    expect(r).toMatchObject({ job: 'scan', workflow: 'bots.yml', action: 'already-ran' });
+    expect(r.detail).toContain('run 100 (schedule, success)');
     expect(calls[0]!.url).toContain('/actions/workflows/bots.yml/runs?created=%3E%3D2026-10-20');
     expect(calls).toHaveLength(1);
   });
 
+  it('tells the two bots jobs apart by the run name: a daily scan does not stand in for the weekly run', async () => {
+    const { f, calls } = fake(['bots scan']);
+    const r = await watchdog('17 11 * * 2', { GITHUB_DISPATCH_TOKEN: 't' }, now, f);
+    expect(r).toMatchObject({ job: 'weekly', workflow: 'bots.yml', action: 'dispatched' });
+    expect(JSON.parse(String(calls[1]!.init!.body))).toEqual({ ref: 'main', inputs: { job: 'weekly' } });
+    expect((await watchdog('17 11 * * 2', { GITHUB_DISPATCH_TOKEN: 't' }, now, fake(['bots scan', 'bots weekly']).f)).action).toBe('already-ran');
+  });
+
+  it('covers seed and release too', async () => {
+    expect(await watchdog('47 6 * * 2', { GITHUB_DISPATCH_TOKEN: 't' }, now, fake([]).f)).toMatchObject({ job: 'seed', workflow: 'seed.yml', action: 'dispatched' });
+    expect(await watchdog('43 9 * * 2', { GITHUB_DISPATCH_TOKEN: 't' }, now, fake(['release']).f)).toMatchObject({ job: 'release', workflow: 'release.yml', action: 'already-ran' });
+  });
+
+  it('reports every decision as a watchdog-report run, with the job and action as inputs', async () => {
+    const { f, calls } = fake([]);
+    const result = await watchdog('53 7 * * *', { GITHUB_DISPATCH_TOKEN: 't' }, now, f);
+    expect(await report(result, { GITHUB_DISPATCH_TOKEN: 't' }, now, f)).toBe(true);
+    const last = calls[calls.length - 1]!;
+    expect(last.url).toContain('/actions/workflows/watchdog-report.yml/dispatches');
+    expect(JSON.parse(String(last.init!.body)).inputs).toMatchObject({ job: 'scan', workflow: 'bots.yml', action: 'dispatched', checked_at: '2026-10-20T07:53:00.000Z' });
+    expect(await report({ ...result, action: 'disabled' }, {}, now, f)).toBe(false);
+  });
+
   it('dispatches a workflow whose schedule did not fire', async () => {
-    const { f, calls } = fake(0);
-    expect(await watchdog('53 7 * * *', { GITHUB_DISPATCH_TOKEN: 't' }, now, f)).toEqual({ workflow: 'bots.yml', action: 'dispatched' });
+    const { f, calls } = fake([]);
+    expect(await watchdog('53 7 * * *', { GITHUB_DISPATCH_TOKEN: 't' }, now, f)).toMatchObject({ job: 'scan', workflow: 'bots.yml', action: 'dispatched' });
     expect(JSON.parse(String(calls[1]!.init!.body))).toEqual({ ref: 'main', inputs: { job: 'scan' } });
   });
 
@@ -162,8 +189,8 @@ describe('schedule watchdog (decision S7.3)', async () => {
     const wrangler = readFileSync(path.join(root, 'worker/wrangler.toml'), 'utf8');
     expect(JSON.parse(/crons = (\[.*\])/.exec(wrangler)![1]!)).toEqual(Object.keys(WATCHED));
     const github = (file: string) => [...readFileSync(path.join(root, '.github/workflows', file), 'utf8').matchAll(/cron: '([^']+)'/g)].map((m) => m[1]!);
-    const later = (cron: string) => cron.replace(/^(\d+) /, (_, m: string) => `${Number(m) + 30} `);
-    expect(Object.keys(WATCHED)).toEqual([later(github('bots.yml')[0]!), later(github('seed.yml')[0]!), later(github('release.yml')[0]!)]);
+    const later = (cron: string) => cron.replace(/^(\d+) (\d+) /, (_, m: string, h: string) => (Number(m) + 30 >= 60 ? `${Number(m) - 30} ${Number(h) + 1} ` : `${Number(m) + 30} ${h} `));
+    expect(Object.keys(WATCHED)).toEqual([later(github('bots.yml')[0]!), later(github('seed.yml')[0]!), later(github('release.yml')[0]!), later(github('bots.yml')[1]!)]);
   });
 
   it('deploys only to api.courmap.com, reads data.courmap.com and keeps the dispatch token out of the config', () => {

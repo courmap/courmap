@@ -1,0 +1,54 @@
+name: watchdog-report
+
+# Dispatched by the Cloudflare Worker's schedule watchdog (worker/src/watchdog.ts) after every check,
+# so its decisions are visible here: the run name says which job it looked at and what it did.
+#   gh run list --workflow watchdog-report.yml
+# It does nothing but record its inputs.
+run-name: 'watchdog ${{ inputs.job }}: ${{ inputs.action }}'
+
+on:
+  workflow_dispatch:
+    inputs:
+      job:
+        description: The scheduled job that was checked (scan, seed, release, weekly)
+        required: true
+      workflow:
+        description: The workflow file it belongs to
+        required: false
+      action:
+        description: already-ran, dispatched, error or disabled
+        required: true
+      detail:
+        description: What was found
+        required: false
+      checked_at:
+        description: When the Worker checked (UTC)
+        required: false
+
+permissions: {}
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Record the decision
+        env:
+          JOB: ${{ inputs.job }}
+          WORKFLOW: ${{ inputs.workflow }}
+          ACTION: ${{ inputs.action }}
+          DETAIL: ${{ inputs.detail }}
+          CHECKED_AT: ${{ inputs.checked_at }}
+        run: |
+          {
+            echo "### Watchdog: $JOB"
+            echo ""
+            echo "- Workflow: \`$WORKFLOW\`"
+            echo "- Decision: **$ACTION**"
+            echo "- Found: $DETAIL"
+            echo "- Checked at: $CHECKED_AT"
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "watchdog $JOB: $ACTION ($DETAIL)"
+          if [ "$ACTION" = "error" ]; then
+            echo "::error::watchdog $JOB failed: $DETAIL"
+            exit 1
+          fi

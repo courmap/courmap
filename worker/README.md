@@ -16,7 +16,7 @@ Errors are `{ code, message, field?, candidates? }` with HTTP 400 (`invalid_inpu
 
 ## Schedule watchdog
 
-GitHub runs scheduled workflows on a best effort basis and may drop them. The Worker's Cron Triggers (`wrangler.toml`) fire 30 minutes after the bots, seed and release schedules; if that workflow has not run that day, the Worker dispatches it. It does nothing until a fine-grained GitHub token with Actions: write on `courmap/courmap` is stored as a Worker secret:
+GitHub runs scheduled workflows on a best effort basis and may drop them. The Worker's Cron Triggers (`wrangler.toml`) fire 30 minutes after each scheduled job (the daily scan, seed, release and the weekly bots run); if that job has not run that day, the Worker dispatches it. Every check is then reported in GitHub: the Worker dispatches `watchdog-report.yml`, whose run name reads `watchdog scan: dispatched` or `watchdog seed: already-ran` (`gh run list --workflow watchdog-report.yml`), with the run it found in the summary; an `error` run fails, so it shows red. It does nothing until a fine-grained GitHub token with Actions: write on `courmap/courmap` is stored as a Worker secret:
 
 ```sh
 cd worker && npx wrangler@4.151.2 secret put GITHUB_DISPATCH_TOKEN

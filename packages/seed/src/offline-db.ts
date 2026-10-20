@@ -125,6 +125,10 @@ export function parseOfflineDb(jsonl: string, conflicts: Conflict[]): OfflineDb 
       }
       episodes = null;
     }
+    // cedya77 writes 1 for an ongoing TV show whose episode count AniList does not know yet. A count
+    // that is really 1 on an airing TV show is rare, and keeping the placeholder closes the show's
+    // TVDB mapping at episode 1 and makes every later episode "out of range": unknown it is.
+    if (type === 'tv' && (status === 'airing' || status === 'upcoming') && episodes === 1) episodes = null;
     const entry: OfflineEntry = { key, title: raw.title, type, episodes, synonyms: [] };
     for (const p of ['anidb', 'anilist', 'mal', 'kitsu'] as const) {
       const unique = ids[p]!;

@@ -23,8 +23,15 @@ export interface EpisodeMap {
 
 const toSeason = (s: ALSeason): number | null => (s === 'absolute' ? null : s);
 
-/** Builds the episode map for one provider, or null when Anime-Lists has no ID or nothing to map for it. */
-export function buildEpisodeMap(al: ALEntry, provider: ProjectionProvider, episodes: number, conflicts: Conflict[]): EpisodeMap | null {
+/**
+ * Builds the episode map for one provider, or null when Anime-Lists has no ID or nothing to map for it.
+ *
+ * `openDefault` is for a show that is still airing with no real episode count (cedya77 records 1,
+ * or nothing, until the count is known): Anime-Lists' default mapping applies to every episode of
+ * the entry, so it is left open-ended instead of being closed at the placeholder. It applies only
+ * when that default is the whole mapping (no explicit sub-mappings to disagree with it).
+ */
+export function buildEpisodeMap(al: ALEntry, provider: ProjectionProvider, episodes: number, conflicts: Conflict[], openDefault = false): EpisodeMap | null {
   const isTvdb = provider === 'tvdb_show';
   if ((isTvdb ? al.tvdb : al.tmdbTv) === null) return null;
   const defaultSeason = isTvdb ? al.tvdbSeason : al.tmdbSeason;
@@ -40,6 +47,9 @@ export function buildEpisodeMap(al: ALEntry, provider: ProjectionProvider, episo
   }
 
   const relevant = al.mappings.filter((m) => (isTvdb ? m.tvdbSeason : m.tmdbSeason) !== null);
+  if (openDefault && defaultSeason !== null && !unknownSpecial && !relevant.some((m) => m.anidbSeason !== 0)) {
+    map.open = { from: 1, season: toSeason(defaultSeason), offset: defaultOffset ?? 0 };
+  }
   for (const m of relevant.filter((x) => x.list === null)) {
     const s = toSeason((isTvdb ? m.tvdbSeason : m.tmdbSeason)!);
     const kind: Kind = m.anidbSeason === 0 ? 'special' : 'regular';

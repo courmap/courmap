@@ -109,6 +109,10 @@ Legend: [x] done, [ ] open, [~] partly done.
 
 - [x] Repository set up as an open-source project (2026-10-20): description, homepage and topics; ruleset "Protect main" (no deletion or force pushes, pull request and the `validate` check required, repository admins may bypass); secret scanning with push protection, private vulnerability reporting, Dependabot alerts, security fixes and monthly version updates; SECURITY.md, CODE_OF_CONDUCT.md, CODEOWNERS, issue and PR templates.
 
+## Before the launch post, repository settings
+
+- [ ] **Remove the ruleset bypass.** The rulesets "Protect main" and "No force pushes or deletion on main" let the repository admin role (only xwolvos today) bypass them, which the history rewrite and the merges needed. At launch, delete the bypass actor from both so main is protected for everyone. Who: Xwolv. Verify: `gh api repos/courmap/courmap/rulesets/<id> --jq .bypass_actors` is empty for both.
+
 ## Launch post
 
 When every item above is done: Xwolv posts. Claude Code can draft the post (what Courmap is, the try-it link, the proxy compose block, the docs) on request.

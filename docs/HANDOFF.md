@@ -64,7 +64,8 @@ Last updated 2026-10-20, after the first-real-traffic session.
 
 ## Next
 
--1. **Data fixes wait for the next release.** The :edge image has the parser and resolver changes, but the Spy x Family, Bleach and other data fixes are in main only; the proxy gets data from the release (data-2026.43, cut 2026-10-19). Decide whether to allow revision releases between cedya77 pins (see DECISIONS.md, "A data version ships once"). Until then Xwolv's proxy still shows the old Spy x Family numbering misses.
+-2. **Revision releases are on (2026-10-20).** data-2026.43.1 carries the Spy x Family, Bleach and other data fixes, so Xwolv's proxy has them after its next meta check. The watchdog reports each check as a `watchdog-report` run; the weekly bots run (10:47) did not fire this morning and the watchdog for it starts next Tuesday, so run `gh workflow run bots.yml -f job=weekly` if the weekly digest is wanted now.
+-1. **(Done, see -2.) Data fixes waited for the next release.** The :edge image has the parser and resolver changes, but the Spy x Family, Bleach and other data fixes are in main only; the proxy gets data from the release (data-2026.43, cut 2026-10-19). Decide whether to allow revision releases between cedya77 pins (see DECISIONS.md, "A data version ships once"). Until then Xwolv's proxy still shows the old Spy x Family numbering misses.
 
 0. **Update the proxy.** Xwolv pulls the new `:edge` image (redaction, upstream limits, the data fixes) and looks at the status page: the Protocol column, the failure reasons, and the per-day request counts against his indexers' limits. An export a day later shows what else is unresolved.
 1. **Watch the real grabs.** #30 is closed; keep an eye on the proxy week (item 14): wrong imports, failures by reason on the status page, and the per-day request counts against the indexers' limits. The next export now carries `firstSeen` and `lastSeen` for each unresolved name.

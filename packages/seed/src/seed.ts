@@ -20,7 +20,7 @@ import {
   type SeedSource,
   type SeedWork,
 } from '@courmap/builder';
-import { parseAnimeLists, type ALEntry } from './anime-lists.js';
+import { parseAnimeLists, type ALEntry, type ALSeason } from './anime-lists.js';
 import { sortConflicts, type Conflict } from './conflicts.js';
 import { ANCHORS, parseOfflineDb, type OfflineEntry } from './offline-db.js';
 import { buildEpisodeMap, emitBlock, type EmittedRow, type EpisodeMap } from './projections.js';
@@ -140,6 +140,15 @@ export async function runSeed(inputs: SeedInputs): Promise<SeedOutput> {
     reserved,
   );
 
+  // How many Anime-Lists entries map into each provider show and season, by default or explicitly.
+  const seasonUsers = new Map<string, number>();
+  for (const al of lists.values()) {
+    for (const p of PROJECTION_PROVIDERS) {
+      const seasons = new Set<ALSeason | null>([p === 'tvdb_show' ? al.tvdbSeason : al.tmdbSeason, ...al.mappings.map((m) => (p === 'tvdb_show' ? m.tvdbSeason : m.tmdbSeason))]);
+      for (const s of seasons) if (s !== null) seasonUsers.set(seasonKey(al, p, s), (seasonUsers.get(seasonKey(al, p, s)) ?? 0) + 1);
+    }
+  }
+
   const drafts = new Map<string, Draft>();
   for (const entry of offline.entries.values()) {
     // Anime-Lists is keyed by AniDB, so works anchored elsewhere get IDs but no projections.
@@ -171,7 +180,10 @@ export async function runSeed(inputs: SeedInputs): Promise<SeedOutput> {
       setId('tmdb_movie', al.tmdbMovie, 'anime-lists');
       setId('imdb', al.imdb, 'anime-lists');
       for (const p of PROJECTION_PROVIDERS) {
-        const map = buildEpisodeMap(al, p, entry.episodes ?? 0, conflicts);
+        // An open range would run into a later cour of the same show and season, so it needs the season to itself.
+        const open = hasPlaceholderCount(entry) && seasonUsers.get(seasonKey(al, p, p === 'tvdb_show' ? al.tvdbSeason : al.tmdbSeason)) === 1;
+        // Where the range cannot stay open (a sibling cour shares the season), the placeholder row of one episode is kept.
+        const map = buildEpisodeMap(al, p, entry.episodes ?? (hasPlaceholderCount(entry) ? 1 : 0), conflicts, open);
         if (map) draft.maps[p] = map;
       }
     }
@@ -242,6 +254,18 @@ function renderSeeds(drafts: Map<string, Draft>, conflicts: Conflict[] | null): 
   }
   return seeds;
 }
+
+/** One provider show and season, the unit a closed or open range can collide in. */
+const seasonKey = (al: ALEntry, p: ProjectionProvider, season: ALSeason | null): string => `${p}:${p === 'tvdb_show' ? al.tvdb : al.tmdbTv}:${season}`;
+
+/**
+ * A TV show whose count is not final: airing (the count lags the broadcast and AniList revises it),
+ * or about to air with no count yet (cedya77's placeholder 1 is read as unknown, see offline-db.ts).
+ * Whatever is derived from a count must stay open: Anime-Lists' default mapping covers every episode
+ * of the entry, and the bots close the range when the show finishes.
+ */
+const hasPlaceholderCount = (e: { status?: string; type: string; episodes: number | null }): boolean =>
+  e.type === 'tv' && (e.status === 'airing' || (e.status === 'upcoming' && e.episodes === null));
 
 /** One seed line. Key order is fixed so output is byte-stable. Pass conflicts to log emission problems (first render only matters). */
 function render(d: Draft, conflicts: Conflict[] | null): SeedWork {

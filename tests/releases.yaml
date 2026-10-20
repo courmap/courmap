@@ -256,9 +256,9 @@ cases:
       status: ok
       work: aikatsu
       episode: 1
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Not verified. Result of the recency check (2026-10-20): the export carries no posting dates, and no currently airing or 2026 work holds the title (every work that carries the title is finished, and the only upcoming Aikatsu work is a 2027 movie), so a recent posting does not change the answer: aikatsu episode 1, by title holding."
+    notes: "Confirmed by Xwolv 2026-10-20: aikatsu episode 1. No currently airing or 2026 work holds the title (every work that carries it is finished, and the only upcoming Aikatsu work is a 2027 movie), so the title holder wins."
   - name: "[NanakoRaws] Kusuriya no Hitorigoto S3 - 02 (CTV TV 1080p HEVC AAC)"
     expect:
       status: ok
@@ -280,9 +280,9 @@ cases:
       status: ok
       work: mao
       episode: 24
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Not verified. Result of the recency check (2026-10-20): the export carries no posting dates. Mao (2026, 26 episodes, the only work from this year) is the title holder and the newest of the three works sharing the title (the others are from 2002 and 2020), so recency and title holding agree: mao episode 24."
+    notes: "Confirmed by Xwolv 2026-10-20: mao episode 24. Mao (2026, 26 episodes) is the title holder and the only current work; the other two sharers are from 2002 and 2020."
   - name: "[Erai-raws] Tensei Goblin dakedo Shitsumon Aru - 03 [480p CR WEB-DL AVC AAC][MultiSub][E9476CC8]"
     expect:
       status: ok

@@ -58,7 +58,7 @@ Last updated 2026-10-20, after the first-real-traffic session.
   - **Upstream budget:** failure reasons (api-limit, auth, indexer-error, http, bad-response, timeout, network) and per-day request counts on the status page; a cache, an early stop and a cap (`UPSTREAM_CACHE_SECONDS`, `SEARCH_STOP_ON_MATCH`, `MAX_QUERIES_PER_SEARCH`). Measured with a real Sonarr: episode search 10 to 1 and 8 to 1 requests, anime season search 190 to 37. Retry-After on a 429 reaches Sonarr.
   - **Data:** the seed read the placeholder count 1 of an ongoing TV show as real and closed its TVDB mapping; 159 seed lines changed (count unknown, open-ended mapping), the engine and resolver accept an episode past an airing work's recorded count (`hasOpenRun`), and `resolve()` no longer throws on it. About 100 of the export's 201 unresolved items now resolve with a TVDB mapping.
   - **Parser:** glued hyphen episodes (Erai-raws), 第N话, season packs, `H.264`, LPCM, languages and streaming services.
-  - **Corpus:** 35 to 69 verified, 2 unverified (Aikatsu! and Mao). A recent release now favors the work on air (`resolve(name, { postedAt })`, the proxy passes the feed item's date); exports carry `firstSeen` and `lastSeen`. His decisions on the open ones are in DECISIONS.md (title holder tie-break, TYBW continuous numbering through `bleach-tybw-absolute`, a recorded count is a floor for airing works); the same export now resolves 153 of its 201 unresolved items, 138 with a TVDB mapping.
+  - **Corpus:** 35 to 71 verified, none unverified. A recent release now favors the work on air (`resolve(name, { postedAt })`, the proxy passes the feed item's date); exports carry `firstSeen` and `lastSeen`. His decisions on the open ones are in DECISIONS.md (title holder tie-break, TYBW continuous numbering through `bleach-tybw-absolute`, a recorded count is a floor for airing works); the same export now resolves 153 of its 201 unresolved items, 138 with a TVDB mapping.
   - **Docs:** Sonarr and Prowlarr behind a VPN container (gluetun), the API limit behavior.
   - Xwolv ticked #30's indexer-test box (both indexers test green on his Sonarr); the real-grab box stays open.
 
@@ -86,7 +86,7 @@ See `docs/LAUNCH.md`. In short:
 
 - **npm trusted publishing:** configure all three packages, then set the `NPM_TRUSTED_PUBLISHING` variable.
 - **Newznab check:** done (2026-10-20), #30 is closed.
-- **Aikatsu! and Mao** are the two unverified corpus cases left (no posting dates in the first export). A later export carries `firstSeen` and `lastSeen`; confirm them, or the proxy's item dates settle it, once a recent copy appears.
+- **Corpus:** every case is verified (Xwolv confirmed Aikatsu! 01 as aikatsu episode 1 and Mao 24 as mao episode 24 on 2026-10-20). Next growth comes from new proxy exports.
 - **Proxy week:** exports from the status page.
 - **Screenshots:** the six for the Sonarr guide.
 - **Bot PRs and issues:** decide the 11 open PRs and 15 issues.

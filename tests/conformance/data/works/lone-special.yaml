@@ -1,0 +1,11 @@
+id: lone-special
+type: special
+status: finished
+year: 2019
+episodes: 1
+titles:
+  romaji: Lone Special
+ids:
+  anidb: 1040
+  anilist: 2040
+notes: Conformance fixture. All IDs are fake. A one-episode special.

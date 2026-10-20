@@ -50,6 +50,15 @@ export interface WorkRecord {
   aliases: string[];
 }
 
+/**
+ * An airing work whose regular episodes map open-endedly (a projection row with no end). Its recorded
+ * episode count is then a lower bound that lags the broadcast, not the end of the run, so an
+ * episode past it is not out of range. The data says so itself: the open row is there because the
+ * count was not final.
+ */
+export const hasOpenRun = (w: Pick<WorkRecord, 'status' | 'projections'>): boolean =>
+  w.status === 'airing' && Object.values(w.projections).some((rows) => rows?.some((r) => r.kind === 'regular' && r.ep_to === null));
+
 export interface SequenceMemberRow {
   work: string;
   ep_from: number;

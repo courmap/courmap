@@ -362,3 +362,17 @@ cases:
       work: { id: simple-show, episode: 3, kind: regular }
       results: {}
       unmapped: []
+
+  - name: airing work, an episode past the recorded count follows its open-ended mapping
+    op: translate
+    ref: anilist:2020
+    episode: 15
+    targets: [tvdb_show]
+    expect:
+      data_version: conformance
+      status: ok
+      input: { ref: anilist:2020, episode: 15 }
+      work: { id: airing-show, episode: 15, kind: regular }
+      results:
+        tvdb_show: { id: "5020", season: 1, episode: 15 }
+      unmapped: []

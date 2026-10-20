@@ -2,7 +2,7 @@
 
 Where the build stands, for the next session. Read CLAUDE.md, docs/SPEC.md and docs/DECISIONS.md first, as always; this file only says what is done and what is next. `docs/LAUNCH.md` lists everything open before the public launch. Update both at the end of every session.
 
-Last updated 2026-10-19, after the category guidance session.
+Last updated 2026-10-20, after the first-real-traffic session.
 
 ## Done
 
@@ -53,9 +53,18 @@ Last updated 2026-10-19, after the category guidance session.
   - New recommendation in the quick start (step 4), guide and proxy README: clear Anime Sync Categories in Prowlarr (Full Sync, no tags); Courmap copy with Categories empty, Anime Categories 5070, Indexer Priority 10; the tag method only for anime-only indexers like Nyaa, and both together when you have both kinds.
   - Why priority 10: Prowlarr expands the TV category to include anime, so its copy still returns anime releases in RSS, and at equal priority Sonarr grabbed the unrewritten one.
   - The screenshot for Prowlarr's Sonarr app (LAUNCH.md item 17) should show Show Advanced on and Anime Sync Categories cleared.
+- **First real proxy traffic (2026-10-20, Refs #30).** Xwolv's export (two usenet indexers, about 550 items, 17 rewritten) led to:
+  - **Secrets:** a Redactor masks every secret in logs, errors, the status page and the exports (`packages/proxy/src/redact.ts`); tests fail on any leak and were shown to fail without it. I could not reproduce a plain-text key in the startup log from the proxy's own code; a YAML config error that quotes the key's line was one real route.
+  - **Upstream budget:** failure reasons (api-limit, auth, indexer-error, http, bad-response, timeout, network) and per-day request counts on the status page; a cache, an early stop and a cap (`UPSTREAM_CACHE_SECONDS`, `SEARCH_STOP_ON_MATCH`, `MAX_QUERIES_PER_SEARCH`). Measured with a real Sonarr: episode search 10 to 1 and 8 to 1 requests, anime season search 190 to 37. Retry-After on a 429 reaches Sonarr.
+  - **Data:** the seed read the placeholder count 1 of an ongoing TV show as real and closed its TVDB mapping; 159 seed lines changed (count unknown, open-ended mapping), the engine and resolver accept an episode past an airing work's recorded count (`hasOpenRun`), and `resolve()` no longer throws on it. About 100 of the export's 201 unresolved items now resolve with a TVDB mapping.
+  - **Parser:** glued hyphen episodes (Erai-raws), 第N话, season packs, `H.264`, LPCM, languages and streaming services.
+  - **Corpus:** 35 to 58 verified; 7 unverified cases wait for Xwolv.
+  - **Docs:** Sonarr and Prowlarr behind a VPN container (gluetun), the API limit behavior.
+  - Xwolv ticked #30's indexer-test box (both indexers test green on his Sonarr); the real-grab box stays open.
 
 ## Next
 
+0. **Update the proxy.** Xwolv pulls the new `:edge` image (redaction, upstream limits, the data fixes) and looks at the status page: the Protocol column, the failure reasons, and the per-day request counts against his indexers' limits. An export a day later shows what else is unresolved.
 1. **Newznab sign-off (issue #30).** Xwolv adds a Newznab indexer through the proxy in his own Sonarr (Settings, Indexers, Newznab, URL `http://<proxy>:9797/<name>`, categories 5070) and checks that it passes the test and that RSS and automatic searches return rewritten, correctly numbered results. When he confirms: tick the last two boxes in #30, mark LAUNCH.md item 20 done, and make that commit's message say `Closes #30` (until then every commit says `Refs #30`).
 2. **Check the 2026-10-20 schedules.**
    - The bots scan at 07:23 UTC: it should update issues #13 to #29 with the built-in token. Check the job summary and for "could not label" or "could not pin" lines.
@@ -76,7 +85,8 @@ Last updated 2026-10-19, after the category guidance session.
 See `docs/LAUNCH.md`. In short:
 
 - **npm trusted publishing:** configure all three packages, then set the `NPM_TRUSTED_PUBLISHING` variable.
-- **Newznab check:** the two #30 boxes only his Sonarr can tick (indexer test, RSS and automatic searches).
+- **Newznab check:** the last #30 box only his Sonarr can tick (a real grab imports correctly).
+- **Four decisions from the first export** (DECISIONS.md, "First real traffic, left open"): whether a title holder should beat synonym-only holders (Aikatsu!, Mao), which TVDB numbering Sonarr uses for Bleach: Thousand-Year Blood War, and the donghua whose count lags.
 - **Proxy week:** exports from the status page.
 - **Screenshots:** the six for the Sonarr guide.
 - **Bot PRs and issues:** decide the 11 open PRs and 15 issues.

@@ -2,7 +2,7 @@
 
 Everything still open before the public launch post (r/sonarr, r/selfhosted, anime self-hosting Discords). Each item says who does it and how to check it is done. Claude Code updates this file at the end of every session; Xwolv ticks items off by saying so in the session prompt.
 
-Last updated 2026-10-19, category guidance session. Status: **not ready.** 10 of 20 items are done and 4 are partly done; what is left is mostly real-world use (proxy week, corpus, screenshots, testers).
+Last updated 2026-10-20, first-real-traffic session. Status: **not ready.** 10 of 20 items are done and 5 are partly done; what is left is mostly real-world use (proxy week, corpus, screenshots, testers).
 
 Legend: [x] done, [ ] open, [~] partly done.
 
@@ -45,7 +45,8 @@ Legend: [x] done, [ ] open, [~] partly done.
 20. [~] **Usenet (Newznab) support in the proxy:** [#30](https://github.com/courmap/courmap/issues/30). Who: Claude Code built it; Xwolv verifies on his own Sonarr.
     - Built: `INDEXER_<NAME>_TYPE=newznab|torznab` (detected from the feed's first results when unset), Newznab attributes written in the right namespace, caps and errors passed through, a new `:edge` image, and docs (quick start tabs for Torznab and Newznab, guide, proxy README).
     - Tested against a fake Newznab feed (19 tests) and by hand with a real Sonarr 4.0.20 and a fake usenet indexer: the indexer test passes, interactive search and RSS sync work, Sonarr reads the TVDB ID and size. Not tested against a live usenet indexer.
-    - Open (Xwolv): in his Sonarr, add a Newznab indexer through the proxy and check that it passes Sonarr's test, and that RSS and automatic searches return rewritten, correctly numbered results. Then Claude Code ticks the last two boxes in #30 and closes it.
+    - Verified on Xwolv's own Sonarr (2026-10-20): both Courmap indexers (NZBgeek and AniFix) pass Sonarr's indexer test. #30's "passes Sonarr's indexer test" box is ticked.
+    - Open (Xwolv): a real grab through the proxy imports correctly, which also covers RSS and automatic searches returning rewritten, correctly numbered results. Then Claude Code ticks the last box in #30 and closes it.
     - Verify: every box under "Done when" in #30 is ticked, and #30 is closed by the commit that records Xwolv's confirmation.
 
 ## Data and quality
@@ -57,6 +58,7 @@ Legend: [x] done, [ ] open, [~] partly done.
     - No scheduled run has happened since session 8 (checked 2026-10-19 18:45 UTC); the first slots under the new crons are on 2026-10-20.
     - Verify: `gh run list --workflow bots.yml --event schedule` lists runs on consecutive days that update issues #13 to #29 instead of duplicating them, and seed and release show a `schedule` run on Tuesday 2026-10-20.
 14. [ ] **A week of real proxy traffic with no wrong imports.** Who: Xwolv, on the Unraid server, since 2026-10-19.
+    - First export received 2026-10-20 (two usenet indexers, about 550 items, 17 rewritten, 201 unresolved). It found a secret-logging risk, the stale-count problem for airing shows, and parser gaps; all fixed or recorded (DECISIONS.md, "First real traffic"). Xwolv updates his proxy to the new `:edge` image to get them.
     Verify: Sonarr's history for the week shows no anime episode imported as the wrong episode; the status page's export is imported with `pnpm corpus:from-proxy` (item 16).
 15. [~] **Bot PRs and issues reviewed.** Who: Xwolv decides; Claude Code applies.
     - First batch done 2026-10-19 (decided by Xwolv): #2 (without the Koori no Jouheki 2nd Season line), #3 to #9, #11 and #12 merged; #10 closed and recorded in `data/rejected.yaml`, which the bots read so it is never proposed again. No bot PR is open.
@@ -65,7 +67,7 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Verify: no bot PR or `mapping-conflict` issue older than a week without a decision.
 16. [ ] **Corpus large enough to trust.** Who: Xwolv supplies names (proxy exports); Claude Code imports and verifies them with Xwolv.
     - Proposed launch bar: at least 200 verified cases, most of them real names from the proxy, with a 95% pass rate. The M2 milestone remains 1,000.
-    - Today: 35 cases, all verified and passing; no proxy export has arrived yet.
+    - Today: 58 verified cases, all passing, plus 7 unverified that need a decision (35 before the first proxy export, 2026-10-20).
     - Verify: `pnpm corpus` reports at least 200 verified at 95% or more.
 17. [ ] **Screenshots in the Sonarr guide.** Who: Xwolv takes them; Claude Code places them. Six placeholders are in `site/src/content/docs/sonarr.mdx`:
     - Prowlarr indexers with the ID visible.
@@ -97,6 +99,13 @@ Legend: [x] done, [ ] open, [~] partly done.
 - [x] `pnpm check:tokens` in CI: no GitHub token can be committed (session 8).
 - [x] Assisted numbering cannot import a wrong episode through a bot prequel link (maintenance session after session 8).
 - [x] Duplicate-indexer guidance that keeps regular TV working (2026-10-19): for indexers with regular TV and anime, Prowlarr's copy keeps regular TV (Anime Sync Categories cleared, Full Sync, no tags) and the Courmap copy takes anime (Categories empty, Anime Categories 5070, Indexer Priority 10); the tag method is for anime-only indexers like Nyaa. Checked with real Prowlarr, Sonarr 4.0.20 and the proxy in Docker; not with a live torrent or usenet indexer (quick start step 4, decision in DECISIONS.md).
+
+## Also done, 2026-10-20
+
+- [x] No secret in any log line, page, export or error message; tests fail if one appears.
+- [x] Fewer requests to usenet indexers (cache, early stop, a cap), with the reason for every upstream failure and per-day request counts on the status page; the API limit behavior is documented.
+- [x] Airing shows with a placeholder or lagging episode count resolve and rewrite (seed, engine and resolver), and the parser reads Erai-raws, Chinese and season-pack names.
+- [x] Docs for Sonarr and Prowlarr behind a VPN container.
 
 ## Launch post
 

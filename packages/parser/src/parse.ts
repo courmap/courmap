@@ -10,8 +10,12 @@ const RESOLUTION = /^(?:\d{3,4}[pi]|\d{3,4}x\d{3,4}|4k|2160p|uhd)$/i;
 const CHECKSUM = /^[0-9a-f]{8}$/i;
 const SOURCE = /^(?:bd|bdrip|bd-?rip|blu-?ray|bdmv|web|web-?dl|web-?rip|hdtv|hdtvrip|tv|tvrip|dvd|dvdrip|dvd-?rip|ld|vhs)$/i;
 const VIDEO = /^(?:x264|x265|h\.?264|h\.?265|hevc|avc|av1|vp9|xvid|divx|10-?bit|hi10p?|8-?bit|hdr|dolby-?vision)$/i;
-const AUDIO = /^(?:aac(?:2\.0|5\.1)?|flac|opus|ac3|e-?ac-?3|eac3|dts(?:-hd)?|ddp?(?:2\.0|5\.1)?|truehd|mp3|vorbis|lpcm|2\.0|5\.1|7\.1)$/i;
+const AUDIO = /^(?:aac(?:2\.0|5\.1)?|flac|opus|ac3|e-?ac-?3|eac3|dts(?:-hd)?|ddp?(?:2\.0|5\.1)?|truehd|mp3|vorbis|lpcm|2\.0|5\.1|7\.1|(?:aac|flac|opus|ac3|e-?ac-?3|eac3|dts(?:-hd)?|ddp?|truehd|lpcm|ma)\.(?:2\.0|5\.1|7\.1))$/i;
 const YEAR = /^(19[5-9]\d|20[0-4]\d)$/;
+// Language codes scene names put after the title (JPN audio, KOR, ...); metadata, not part of the title.
+// Streaming services that scene and web groups put after the title (CR WEB-DL, AMZN WEB-DL).
+const SERVICE = /^(?:cr|crunchyroll|amzn|dsnp|nf|hidi|hidive|funi|bili|bilibili|hulu|atvp)$/i;
+const LANGUAGE = /^(?:jpn|jap|kor|ger|fre|ita|esp|spa|rus|por|chs|cht|multi)$/i;
 
 const FLAG_WORDS: Record<string, string> = {
   'dual audio': 'dual-audio',
@@ -76,6 +80,8 @@ function classify(word: string, out: ParsedRelease): boolean {
   }
   if (AUDIO.test(w)) return out.audio.push(lower), true;
   if (YEAR.test(w)) return (out.year ??= Number(w)), true;
+  if (LANGUAGE.test(w)) return true;
+  if (SERVICE.test(w)) return true;
   if (FLAG_WORDS[lower]) return out.flags.push(FLAG_WORDS[lower]!), true;
   return false;
 }
@@ -133,7 +139,8 @@ export function parseRelease(input: string): ParsedRelease {
     name = name.slice(0, ext.index);
   }
   // Dots or underscores as word separators (Scene-style names) become spaces, keeping decimals like 5.1.
-  if (!/\s/.test(name) && /[._]/.test(name)) name = name.replace(/_/g, ' ').replace(/\.(?!\d(?:\b|ch))/g, ' ');
+  const dotted = !/\s/.test(name) && /[._]/.test(name);
+  if (dotted) name = name.replace(/_/g, ' ').replace(/\.(?!\d(?:\b|ch)|26[45]\b)/g, ' ');
   else name = name.replace(/_/g, ' ');
 
   const { main: rawMain, tags } = extractTags(name);
@@ -179,6 +186,8 @@ export function parseRelease(input: string): ParsedRelease {
     for (const m of main.matchAll(dash)) found = m;
     // Otherwise a marked number anywhere: EP05, E05, Episode 5, #5, or a bare trailing number.
     const marked = /(?:\b(?:EP?\.?|Episode)|#)\s?(\d{1,4})(?:v(\d))?\b/i.exec(main);
+    // Chinese fansubs: "第13话" (also 話 and 集) is episode 13.
+    const cjk = /第\s?(\d{1,4})\s?[话話集]/.exec(main);
     if (found) {
       const prefix = found[1]?.toLowerCase();
       if (prefix && SPECIAL_WORDS[prefix]) out.special = SPECIAL_WORDS[prefix]!;
@@ -187,6 +196,10 @@ export function parseRelease(input: string): ParsedRelease {
       if (found[4]) out.episode_to = Number(found[4]);
       titleEnd = found.index;
       markerEnd = found.index + found[0].length;
+    } else if (cjk) {
+      out.episode = Number(cjk[1]);
+      titleEnd = cjk.index;
+      markerEnd = cjk.index + cjk[0].length;
     } else if (marked) {
       out.episode = Number(marked[1]);
       if (marked[2]) out.version = Number(marked[2]);
@@ -200,6 +213,16 @@ export function parseRelease(input: string): ParsedRelease {
         if (trailing[3]) out.episode_to = Number(trailing[3]);
         titleEnd = trailing.index;
         markerEnd = trailing.index + trailing[0].length;
+      } else if (dotted) {
+        // Erai-raws style, "Title.Words-03.[1080p...]": the number is glued to the last word by a hyphen.
+        // Only in dot-separated names, where there is no " - " to find, and never a year.
+        const glued = /(?<=[^\s-])-(\d{1,4})(?:v(\d))?$/.exec(main);
+        if (glued && !YEAR.test(glued[1]!)) {
+          out.episode = Number(glued[1]);
+          if (glued[2]) out.version = Number(glued[2]);
+          titleEnd = glued.index;
+          markerEnd = glued.index + glued[0].length;
+        }
       }
     }
   }
@@ -251,11 +274,13 @@ export function parseRelease(input: string): ParsedRelease {
       cut(words, i--);
     }
   }
-  const title = words.join(' ').replace(/[\s\-:~|]+$/, '').trim();
+  const title = words.join(' ').replace(/[\s\-:~|]+$/, '').replace(/^[\s\-:~|]+/, '').trim();
   out.title = title || null;
 
   out.flags = [...new Set(out.flags)];
   out.audio = [...new Set(out.audio)];
+  // "Show.S01.1080p..." and "Show Season 2 [BD]": a season with no episode is a season pack.
+  if (out.season !== null && out.episode === null && out.special === null && !out.flags.includes('batch')) out.flags.push('batch');
   out.batch = out.flags.includes('batch') || (out.episode !== null && out.episode_to !== null && out.episode_to > out.episode);
   if (out.batch && !out.flags.includes('batch')) out.flags.push('batch');
   if (out.episode_to !== null && out.episode !== null && out.episode_to <= out.episode) out.episode_to = null;

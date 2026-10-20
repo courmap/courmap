@@ -36,11 +36,11 @@ jobs:
       NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       TRUSTED: ${{ vars.NPM_TRUSTED_PUBLISHING }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -65,7 +65,7 @@ jobs:
       - name: Verify the tarballs in a clean project (Node, types, browser bundle)
         run: pnpm exec tsx --conditions=@courmap/source scripts/verify-npm.ts
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: npm-tarballs
           path: out/npm

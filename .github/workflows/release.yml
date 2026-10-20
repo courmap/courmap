@@ -34,11 +34,11 @@ jobs:
       version: ${{ steps.assets.outputs.version }}
       published: ${{ steps.release.outputs.published }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -69,13 +69,13 @@ jobs:
       - name: Keep the assets and shards as workflow artifacts
         run: tar -czf out/shards.tar.gz -C out shards
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: courmap-${{ steps.assets.outputs.version }}
           path: out/release
           retention-days: 30
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: shards-${{ steps.assets.outputs.version }}
           path: out/shards.tar.gz
@@ -133,18 +133,18 @@ jobs:
       S3_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
       S3_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: shards-${{ needs.publish.outputs.version }}
           path: out
@@ -173,11 +173,11 @@ jobs:
       S3_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
       S3_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm

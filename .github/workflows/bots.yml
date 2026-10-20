@@ -40,13 +40,13 @@ jobs:
     if: github.event.schedule == '23 7 * * *' || (github.event_name == 'workflow_dispatch' && inputs.job == 'scan')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           token: ${{ secrets.SEED_PR_TOKEN || github.token }}
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -65,7 +65,7 @@ jobs:
           [ -f "$RUNNER_TEMP/scan.log" ] || exit 0
           { echo '```'; grep -E '^(Classified|Fall|Winter|Spring|Summer|Absolute|AniList)' "$RUNNER_TEMP/scan.log"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: bots-findings
@@ -83,11 +83,11 @@ jobs:
     if: github.event.schedule == '47 10 * * 2' || (github.event_name == 'workflow_dispatch' && inputs.job == 'weekly')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm

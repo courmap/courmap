@@ -43,6 +43,8 @@ services:
 
 Then add `http://courmap-proxy:9797/nyaa` to Sonarr as a Torznab indexer (a Newznab indexer for usenet). [Sonarr guide](https://courmap.com/sonarr/), including Unraid.
 
+It works with usenet indexers too: it caches identical searches, stops querying once a result resolves, caps the queries per search, and shows each indexer's failure reasons and daily request counts on its status page (`http://<host>:9797/`), so your API limits stay safe. API keys never appear in its logs, pages or exports. Sonarr and Prowlarr behind a VPN container such as gluetun? See [the VPN steps](https://courmap.com/getting-started/sonarr/#sonarr-and-prowlarr-behind-a-vpn-container).
+
 ### Developers
 
 ```ts

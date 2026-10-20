@@ -172,6 +172,11 @@ export function parseRelease(input: string): ParsedRelease {
   const sxe = /\bS(\d{1,2})\s?E(\d{1,4})(?:v(\d))?(?:\s?-\s?E?(\d{1,4}))?\b/i.exec(main);
   let titleEnd = main.length;
   let markerEnd = main.length;
+  // Season and episode joined by a hyphen: "S2-07", "Season 3-13", "2nd-02" (Moozzi2, Erai-raws, Ohys-Raws).
+  const sHyphen =
+    /(?:\bS|\bSeason[\s.]?)(\d{1,2})-(\d{1,4})(?:v(\d))?(?=\s|$|-[A-Za-z])/i.exec(main) ?? /\b(\d{1,2})(?:st|nd|rd|th)-(\d{1,4})(?:v(\d))?(?=\s|$|-[A-Za-z])/i.exec(main);
+  // A season pack with the season glued to the title: "Title-S03".
+  const sGlued = /(?<=[^\s-])-S(\d{1,2})(?=\s|$)/i.exec(main);
   if (sxe) {
     out.season = Number(sxe[1]);
     out.episode = Number(sxe[2]);
@@ -179,6 +184,16 @@ export function parseRelease(input: string): ParsedRelease {
     if (sxe[4]) out.episode_to = Number(sxe[4]);
     titleEnd = sxe.index;
     markerEnd = sxe.index + sxe[0].length;
+  } else if (sHyphen) {
+    out.season = Number(sHyphen[1]);
+    out.episode = Number(sHyphen[2]);
+    if (sHyphen[3]) out.version = Number(sHyphen[3]);
+    titleEnd = sHyphen.index;
+    markerEnd = sHyphen.index + sHyphen[0].length;
+  } else if (sGlued) {
+    out.season = Number(sGlued[1]);
+    titleEnd = sGlued.index;
+    markerEnd = sGlued.index + sGlued[0].length;
   } else {
     // " - 05", " - 05v2", " - 01-12", " - 01 ~ 12", " - SP2", " - OVA 3": the number after the last " - ".
     const dash = /\s-\s(?:(SP|OVA|OAD|Special|Ep\.?|Episode|E|#)\s?)?(\d{1,4}(?:\.5)?)(?:v(\d))?(?:\s?(?:-|~|to)\s?(\d{1,4})(?:v\d)?)?(?=\s|$)/gi;
@@ -213,11 +228,11 @@ export function parseRelease(input: string): ParsedRelease {
         if (trailing[3]) out.episode_to = Number(trailing[3]);
         titleEnd = trailing.index;
         markerEnd = trailing.index + trailing[0].length;
-      } else if (dotted) {
-        // Erai-raws style, "Title.Words-03.[1080p...]": the number is glued to the last word by a hyphen.
-        // Only in dot-separated names, where there is no " - " to find, and never a year.
-        const glued = /(?<=[^\s-])-(\d{1,4})(?:v(\d))?$/.exec(main);
-        if (glued && !YEAR.test(glued[1]!)) {
+      } else {
+        // Erai-raws and SubsPlease style, "Title.Words-03.[1080p...]" or "Spy x Family-47 [1080p]": the number is
+        // glued to the last word by a hyphen, with only tags after it. Never a year, and never a zero ("Gundam-00").
+        const glued = /(?<=[^\s-])-(\d{1,4})(?:v(\d))?(?=\s|$|-[A-Za-z])/.exec(main);
+        if (glued && !YEAR.test(glued[1]!) && Number(glued[1]) > 0) {
           out.episode = Number(glued[1]);
           if (glued[2]) out.version = Number(glued[2]);
           titleEnd = glued.index;

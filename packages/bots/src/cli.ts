@@ -19,7 +19,7 @@ Commands:
            issues and the Season tracker issues
   tmdb     Projection checker: our TMDB projections against TMDB season counts (needs
            TMDB_API_KEY; CI only, nothing is stored)
-  tmdb-show <work>...  What TMDB says about the TMDB show of each work (name, seasons, air dates) and which
+  tmdb-show <work|q:title>...  What TMDB says about the TMDB show of each work (name, seasons, air dates) and which
            shows a search for its title finds, next to our mapping; for reading in a CI log (needs TMDB_API_KEY)
   digest   The weekly digest, to ntfy (NTFY_URL) and Discord (DISCORD_WEBHOOK_URL) when set
 
@@ -192,6 +192,11 @@ async function main(argv: string[]): Promise<number> {
     const state = await loadState(values.data!);
     const tmdb = new TmdbClient(key);
     for (const id of positionals.slice(1)) {
+      // q:Title searches TMDB for a title instead of reading one of our works.
+      if (id.startsWith('q:')) {
+        for (const r of await searchShows(tmdb, id.slice(2).replace(/_/g, ' '))) console.log(`search "${id.slice(2)}": ${r.id} "${r.name}" ${r.firstAirDate ?? ''}`);
+        continue;
+      }
       const w = state.records.works.get(id);
       if (!w) {
         console.log(`${id}: not in the data`);

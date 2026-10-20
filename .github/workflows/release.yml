@@ -2,7 +2,10 @@ name: release
 
 # Weekly data release (docs/SPEC.md, "Release"; decision S6.2):
 #   publish: compile the dump, build and verify the release assets, and publish the GitHub
-#            release data-<data_version> with them. Needs no R2 secrets.
+#            release data-<data_version> with them. Needs no R2 secrets. The version is the ISO
+#            week (2026.43); when the data compiled from main differs from the latest release of
+#            the same week, it is the next revision (2026.43.1, 2026.43.2). Publishes only from a
+#            commit that is on main, so meta.json's git_sha is always reachable from main.
 #   r2:      sync the static shards to R2, meta.json last. A dry run (upload plan only) until all
 #            four R2 secrets exist.
 #   r2-tag:  run by hand with a tag (gh workflow run release.yml -f tag=data-2026.43): rebuild the
@@ -36,6 +39,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # meta.json records the commit it was built from; refuse one that main does not contain.
+      - name: The commit must be on main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          status=$(gh api "repos/$GITHUB_REPOSITORY/compare/main...$GITHUB_SHA" --jq .status)
+          case "$status" in
+            identical|behind) echo "$GITHUB_SHA is on main ($status)." ;;
+            *) echo "::error::$GITHUB_SHA is not reachable from main (compare says $status); a release records its commit in meta.json."; exit 1 ;;
+          esac
+
       - uses: pnpm/action-setup@v4
 
       - uses: actions/setup-node@v4
@@ -50,6 +64,30 @@ jobs:
 
       - name: Compile the dump
         run: pnpm compile --out out/courmap.sqlite
+
+      # The week's number for a first release; a revision (2026.43.1) when the data differs from the
+      # latest release of the week; the latest one again (nothing to publish) when it does not.
+      - name: Decide the data version
+        id: version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tags=$(gh release list --limit 200 --json tagName -q '.[].tagName' | tr '\n' ' ')
+          pnpm -s release revision --dump out/courmap.sqlite --tags "$tags" > out/revision.txt
+          cat out/revision.txt
+          base=$(sed -n 's/^base=//p' out/revision.txt)
+          previous=$(sed -n 's/^previous_tag=//p' out/revision.txt)
+          version="$base"
+          if [ -n "$previous" ]; then
+            gh release download "$previous" -p 'courmap-*.json.gz' -D out/previous
+            pnpm -s release revision --dump out/courmap.sqlite --tags "$tags" --previous out/previous/courmap-${previous#data-}.json.gz > out/revision.txt
+            cat out/revision.txt
+            version=$(sed -n 's/^version=//p' out/revision.txt)
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if [ "$version" != "$base" ]; then
+            pnpm compile --out out/courmap.sqlite --data-version "$version"
+          fi
 
       - name: Generate the static shards
         run: pnpm builder shards --from out/courmap.sqlite --out out/shards/v1

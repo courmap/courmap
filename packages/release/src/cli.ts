@@ -4,6 +4,7 @@ import { parseArgs } from 'node:util';
 import { buildAssets } from './assets.js';
 import { fillMetaDumps } from './meta.js';
 import { verifyRelease } from './verify.js';
+import { dumpData, latestOfWeek, nextVersion, releasedData } from './revision.js';
 import { makeBadges, readJsonOrNull, writeBadges } from './badges.js';
 import { targetFromEnv, uploadShards } from './upload.js';
 
@@ -14,6 +15,11 @@ Commands:
   meta --dir <shards> --assets <dir> --repo <owner/name>
                                       Point meta.json's dumps at the GitHub release data-<version>
                                       and add meta.json to the release assets
+  revision --dump <file> --tags "<tags>" [--previous <courmap-V.json.gz>]
+                                      Print the data version to publish (version=, changed=): the week's
+                                      number, or the next revision (2026.43.1) when the data differs from
+                                      the latest release of the week. Without --previous it prints only
+                                      previous_tag= (the release to download and compare with)
   verify --dir <assets> --repo <owner/name>
                                       Check a release directory before publishing it
   badges --out <dir> [--meta <meta.json>] [--corpus <file>] [--trackers <file>] [--season <name>]
@@ -35,6 +41,8 @@ async function main(argv: string[]): Promise<number> {
       dir: { type: 'string' },
       assets: { type: 'string' },
       repo: { type: 'string' },
+      tags: { type: 'string' },
+      previous: { type: 'string' },
       meta: { type: 'string' },
       corpus: { type: 'string' },
       trackers: { type: 'string' },
@@ -62,6 +70,23 @@ async function main(argv: string[]): Promise<number> {
     if (!values.dir || !values.assets || !values.repo) return (console.error('meta needs --dir, --assets and --repo'), 1);
     const dumps = await fillMetaDumps(values.dir, values.assets, values.repo);
     console.log(`meta.json now points at ${dumps.tag}: ${dumps.sqlite.url}`);
+    return 0;
+  }
+  if (command === 'revision') {
+    if (!values.dump) return (console.error('revision needs --dump'), 1);
+    const tags = (values.tags ?? '').split(/\s+/).filter(Boolean);
+    const { dataVersion: base, data } = await dumpData(values.dump);
+    const latest = latestOfWeek(tags, base);
+    if (!values.previous) {
+      console.log('base=' + base);
+      console.log('previous_tag=' + (latest?.tag ?? ''));
+      return 0;
+    }
+    const unchanged = (await releasedData(values.previous)) === data;
+    const { version, changed } = nextVersion(base, tags, unchanged);
+    console.log('base=' + base);
+    console.log('version=' + version);
+    console.log('changed=' + changed);
     return 0;
   }
   if (command === 'verify') {

@@ -1,0 +1,10 @@
+id: floor-show
+type: ona
+status: airing
+year: 2026
+episodes: 12
+titles:
+  romaji: Floor Show
+ids:
+  anidb: 1052
+notes: Conformance fixture. Airing with no mapping at all, so its recorded count is only a floor.

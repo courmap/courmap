@@ -1,0 +1,13 @@
+id: bleach-tybw-absolute
+members:
+  - { work: bleach-sennen-kessen-hen, episodes: 1-13, absolute_start: 1 }
+  - { work: bleach-sennen-kessen-hen-ketsubetsu-tan, episodes: 1-13, absolute_start: 14 }
+  - { work: bleach-sennen-kessen-hen-soukoku-tan, episodes: 1-14, absolute_start: 27 }
+  - { work: bleach-sennen-kessen-hen-kashin-tan, episodes: 1-, absolute_start: 41 }
+notes: >-
+  Continuous numbering from 1 across the four cours of Bleach: Thousand-Year Blood
+  War, as release groups number them (S01E01 to S01E50, or a bare 1 to 50). The
+  TVDB target stays Bleach season 17 (each work's own tvdb_show projection);
+  this sequence only places a continuous number on the right cour.
+sources:
+  - https://github.com/Anime-Lists/anime-lists

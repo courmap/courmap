@@ -13,7 +13,7 @@ Sonarr numbers anime the way TVDB does, while fansub releases use the anime's ow
 Sonarr  ->  Courmap proxy (/nyaa, /animetosho, /geek)  ->  Prowlarr indexers
 ```
 
-You need Sonarr v4, Prowlarr, and either Unraid or Docker with Compose. It works for torrent indexers (Torznab) and usenet indexers (Newznab) alike; where they differ, the steps say so. Allow about fifteen minutes. Jackett, or going straight to an indexer, works too; see [Not using Prowlarr?](#not-using-prowlarr) before you start.
+You need Sonarr v4, Prowlarr, and either Unraid or Docker with Compose. It works for torrent indexers (Torznab) and usenet indexers (Newznab) alike; where they differ, the steps say so. Allow about fifteen minutes. Jackett, or going straight to an indexer, works too; see [Not using Prowlarr?](#not-using-prowlarr) before you start. If Sonarr and Prowlarr run behind a VPN container such as gluetun, read [Sonarr and Prowlarr behind a VPN container](#sonarr-and-prowlarr-behind-a-vpn-container) too.
 
 ## 1. Collect three things
 
@@ -293,6 +293,32 @@ The proxy is not tied to Prowlarr: it sits in front of any Torznab or Newznab fe
 - **Usenet (Newznab) indexers** work the same way, straight from the indexer if you like: set `INDEXER_<NAME>_URL` to its API address (for NZBgeek that is `https://api.nzbgeek.info/api`, the base address plus `/api`), `INDEXER_<NAME>_TYPE` to `newznab`, and use the indexer's own API key in Sonarr (step 5, Usenet tab).
 - **Sonarr's built-in Fanzub indexer** is its own type, neither Torznab nor Newznab, so it cannot go through the proxy.
 
+## Sonarr and Prowlarr behind a VPN container
+
+Some setups run Sonarr and Prowlarr inside a VPN container's network, for example [gluetun](https://github.com/qdm12/gluetun) (Compose: `network_mode: "service:gluetun"`; Unraid: Network Type **None** and `--net=container:gluetun` in **Extra Parameters**). They then have no container names of their own: they live inside the VPN container, so `http://sonarr:8989` and `http://prowlarr:9696` do not resolve from the proxy, and `http://courmap-proxy:9797` does not resolve from Sonarr. The fix is to use your host's LAN address everywhere.
+
+**The proxy itself needs no VPN.** It talks only to your Sonarr and Prowlarr on your own network, and to GitHub for the weekly data release. Your indexer traffic still goes from Prowlarr through the VPN, as before.
+
+<Steps>
+
+1. **Run the proxy on a normal (bridge) network**, not in the VPN container's. The Unraid and Compose steps in step 3 stay as they are, except for the addresses below.
+
+2. **Publish Sonarr's and Prowlarr's ports on the VPN container.** Containers that share its network cannot publish ports of their own, so for gluetun add `8989:8989` and `9696:9696` under its `ports` (or as Port entries on its Unraid container). Check that `http://<host LAN IP>:8989` and `http://<host LAN IP>:9696` open in a browser.
+
+3. **Let the VPN container reach your LAN.** gluetun blocks everything outside the VPN by default; its `FIREWALL_OUTBOUND_SUBNETS` setting lists the subnets that gluetun and the containers sharing its network may reach. Set it to your LAN, for example `192.168.1.0/24`, so Sonarr and Prowlarr can reach the proxy.
+
+4. **Use the host's LAN IP in all three places** (here `192.168.1.10`):
+
+   | Where | Setting | Value |
+   | --- | --- | --- |
+   | Proxy | `SONARR_URL` | `http://192.168.1.10:8989` |
+   | Proxy | `INDEXER_NYAA_URL` | `http://192.168.1.10:9696/1/api` |
+   | Sonarr, the indexer's **URL** (step 5) | URL | `http://192.168.1.10:9797/nyaa` |
+
+</Steps>
+
+Prowlarr's own Sonarr app (step 4) needs no change: Sonarr and Prowlarr share one network inside the VPN container, so their addresses for each other (`http://localhost:8989` and `http://localhost:9696`) stay as they are.
+
 ## If something is off
 
 - **The Test button fails with HTTP 401:** the **API Key** in Sonarr must be Prowlarr's, not Sonarr's.
@@ -300,6 +326,7 @@ The proxy is not tied to Prowlarr: it sits in front of any Torznab or Newznab fe
 - **The status page says "feed looks like newznab" (or torznab):** `INDEXER_<NAME>_TYPE` disagrees with what the indexer's results look like. Correct it, or remove it and let the proxy detect the type.
 - **A release shows up twice, or an anime release was grabbed under its original name:** Prowlarr's copy of the indexer still returns anime releases from the TV category. Check that the Courmap copy's **Indexer Priority** is lower than Prowlarr's (10 against 25), that **Anime Sync Categories** is cleared in Prowlarr (step 4A) and, for an anime-only indexer, that its Prowlarr copy is gone (step 4B).
 - **The status page shows no data version:** the proxy downloads its data from GitHub when it starts; check the container can reach `github.com`.
+- **Sonarr's test fails with "Unable to connect" and Sonarr runs behind a VPN container:** the VPN container is blocking the LAN. Set its `FIREWALL_OUTBOUND_SUBNETS` to your LAN (see [Sonarr and Prowlarr behind a VPN container](#sonarr-and-prowlarr-behind-a-vpn-container)).
 - **Sonarr cannot reach `courmap-proxy`:** the containers are not on one network; use IP addresses as described in step 2.
 
 The [Sonarr guide](/sonarr/) has every setting, exactly what the proxy rewrites and never touches, and more troubleshooting.

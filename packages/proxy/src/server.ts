@@ -1,6 +1,7 @@
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
 import type { IndexerConfig } from './config.js';
 import type { DataManager } from './data.js';
+import { Redactor } from './redact.js';
 import { Rewriter } from './rewrite.js';
 import { translateSearch } from './search.js';
 import type { SonarrClient } from './sonarr.js';
@@ -17,6 +18,8 @@ export interface ProxyDeps {
   timeoutMs: number;
   fetch?: typeof fetch;
   log?: (line: string) => void;
+  /** Masks secrets in logs, error responses, the status page and exports; one is made from the indexer config when not given. */
+  redactor?: Redactor;
 }
 
 interface Upstream {
@@ -36,7 +39,13 @@ export function createProxyServer(deps: ProxyDeps): Server {
   const rewriter = new Rewriter(deps.data, deps.sonarr);
   const byName = new Map(deps.indexers.map((i) => [i.name, i]));
   const fetchFn = deps.fetch ?? ((i, init) => fetch(i, init));
-  const log = deps.log ?? (() => {});
+  const redactor = deps.redactor ?? new Redactor();
+  for (const i of deps.indexers) {
+    redactor.add(i.apikey);
+    redactor.addFromUrl(i.url);
+  }
+  const rawLog = deps.log ?? (() => {});
+  const log = (line: string) => rawLog(redactor.redact(line));
 
   const upstream = async (ix: IndexerConfig, params: URLSearchParams): Promise<Upstream> => {
     const p = new URLSearchParams(params);
@@ -46,7 +55,7 @@ export function createProxyServer(deps: ProxyDeps): Server {
       const res = await fetchFn(url, { signal: AbortSignal.timeout(deps.timeoutMs), headers: { Accept: 'application/rss+xml, application/xml, text/xml' } });
       return { status: res.status, contentType: res.headers.get('content-type') ?? 'application/xml', body: await res.text() };
     } catch (err) {
-      return { status: 502, contentType: 'application/xml', body: errorXml(900, `upstream ${ix.name}: ${(err as Error).message}`) };
+      return { status: 502, contentType: 'application/xml', body: errorXml(900, redactor.redact(`upstream ${ix.name}: ${(err as Error).message}`)) };
     }
   };
 
@@ -65,6 +74,8 @@ export function createProxyServer(deps: ProxyDeps): Server {
   const feed = async (ix: IndexerConfig, params: URLSearchParams, res: ServerResponse) => {
     const stats = deps.stats.of(ix.name);
     stats.requests++;
+    // The key Sonarr sends is forwarded upstream; it is a secret wherever it turns up in an error.
+    redactor.add(params.get('apikey'));
     const t = params.get('t') ?? '';
     if (t === 'caps') {
       const up = await upstream(ix, params);
@@ -87,7 +98,7 @@ export function createProxyServer(deps: ProxyDeps): Server {
       // Newznab reports errors (a bad API key, a request limit) as HTTP 200 with an <error> document, which
       // Sonarr reads by its code: pass it on as it is, not as a gateway failure.
       const apiError = responses.find((r) => r.status === 200 && /<error[\s/>]/.test(r.body));
-      if (apiError) return send(res, 200, apiError.contentType, apiError.body);
+      if (apiError) return send(res, 200, apiError.contentType, redactor.redact(apiError.body));
       const first = responses[0]!;
       return send(res, first.status === 200 ? 502 : first.status, first.contentType, first.body || errorXml(900, `upstream ${ix.name} failed`));
     }
@@ -117,12 +128,12 @@ export function createProxyServer(deps: ProxyDeps): Server {
     const parts = url.pathname.split('/').filter(Boolean);
     void (async () => {
       if (req.method !== 'GET' && req.method !== 'HEAD') return send(res, 405, 'text/plain', 'method not allowed');
-      if (parts.length === 0) return send(res, 200, 'text/html; charset=utf-8', statusHtml(statusInput(deps)));
-      if (parts[0] === 'status.json') return send(res, 200, 'application/json', JSON.stringify(statusJson(statusInput(deps)), null, 2));
+      if (parts.length === 0) return send(res, 200, 'text/html; charset=utf-8', redactor.redact(statusHtml(statusInput(deps))));
+      if (parts[0] === 'status.json') return send(res, 200, 'application/json', redactor.redact(JSON.stringify(statusJson(statusInput(deps)), null, 2)));
       if (parts[0] === 'health') return send(res, 200, 'text/plain', 'ok');
       // For pnpm corpus:from-proxy: what this install could not resolve, and what Sonarr helped number.
-      if (parts[0] === 'export.json') return send(res, 200, 'application/json', JSON.stringify(exportJson(deps), null, 2));
-      if (parts[0] === 'export.txt') return send(res, 200, 'text/plain; charset=utf-8', exportText(deps));
+      if (parts[0] === 'export.json') return send(res, 200, 'application/json', redactor.redact(JSON.stringify(exportJson(deps), null, 2)));
+      if (parts[0] === 'export.txt') return send(res, 200, 'text/plain; charset=utf-8', redactor.redact(exportText(deps)));
       const ix = byName.get(parts[0]!);
       if (!ix) return send(res, 404, 'text/plain', `no indexer "${parts[0]}"; configured: ${[...byName.keys()].join(', ') || 'none'}`);
       // Sonarr calls <base>/api; accept the bare base too.
@@ -131,7 +142,7 @@ export function createProxyServer(deps: ProxyDeps): Server {
       await feed(ix, url.searchParams, res);
     })().catch((err: Error) => {
       log(`request failed: ${err.stack ?? err.message}`);
-      if (!res.headersSent) send(res, 500, 'application/xml', errorXml(900, err.message));
+      if (!res.headersSent) send(res, 500, 'application/xml', errorXml(900, redactor.redact(err.message)));
     });
   });
 }

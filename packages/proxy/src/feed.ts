@@ -38,6 +38,8 @@ export interface FeedItem {
   title: string;
   /** guid, else link: identifies an item when results of several queries are merged. */
   key: string;
+  /** When the indexer posted it (ISO), from pubDate or usenetdate; null when the item says nothing. */
+  posted: string | null;
   xml: string;
 }
 
@@ -50,7 +52,9 @@ export function items(xml: string): FeedItem[] {
   return [...xml.matchAll(ITEM)].map((m) => {
     const x = m[0];
     const key = /<guid\b[^>]*>([\s\S]*?)<\/guid>/.exec(x)?.[1] ?? /<link\b[^>]*>([\s\S]*?)<\/link>/.exec(x)?.[1] ?? x;
-    return { title: decodeXml(TITLE.exec(x)?.[1] ?? '').trim(), key: decodeXml(key).trim(), xml: x };
+    const date = /<pubDate\b[^>]*>([\s\S]*?)<\/pubDate>/.exec(x)?.[1] ?? /<newznab:attr\s+name="usenetdate"\s+value="([^"]*)"/.exec(x)?.[1];
+    const ms = date ? Date.parse(decodeXml(date).trim()) : NaN;
+    return { title: decodeXml(TITLE.exec(x)?.[1] ?? '').trim(), key: decodeXml(key).trim(), posted: Number.isNaN(ms) ? null : new Date(ms).toISOString(), xml: x };
   });
 }
 

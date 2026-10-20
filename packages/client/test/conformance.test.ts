@@ -19,6 +19,10 @@ interface Case {
   op: 'lookup' | 'translate' | 'resolve';
   ref: string;
   release?: string;
+  /** resolve: when the release was posted; the case resolves as seen that day. */
+  posted_at?: string;
+  /** resolve: the current time, when it differs from posted_at. */
+  now?: string;
   expect_resolve?: {
     status: string;
     work?: string;
@@ -67,7 +71,7 @@ async function buildModes(): Promise<Record<string, CourmapClient>> {
 }
 
 const run = (client: CourmapClient, c: Case) =>
-  c.op === 'lookup' ? client.lookup(c.ref) : c.op === 'resolve' ? client.resolve(c.release!) : client.translate(c.ref, c.episode!, c.targets ?? []);
+  c.op === 'lookup' ? client.lookup(c.ref) : c.op === 'resolve' ? client.resolve(c.release!, c.posted_at ? { postedAt: c.posted_at, now: c.now ?? c.posted_at } : undefined) : client.translate(c.ref, c.episode!, c.targets ?? []);
 
 describe('conformance', async () => {
   const modes = await buildModes();

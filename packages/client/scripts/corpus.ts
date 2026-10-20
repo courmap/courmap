@@ -18,6 +18,8 @@ export interface CorpusCase {
   name: string;
   expect: { status: 'ok' | 'ambiguous' | 'unmatched'; work?: string; episode?: number | null; episode_to?: number; top?: string };
   dataset?: 'data' | 'conformance';
+  /** When the release was posted (a date); the case then resolves as if it were seen that day, so it counts as recent. */
+  posted?: string;
   verified: boolean;
   source: string;
   notes?: string;
@@ -59,7 +61,7 @@ async function main(): Promise<number> {
   const { cases } = parse(readFileSync(corpusFile, 'utf8')) as { cases: CorpusCase[] };
   const clients = { data: await client(`${root}data`), conformance: await client(`${root}tests/conformance/data`) };
   const outcomes: Outcome[] = [];
-  for (const c of cases) outcomes.push(judge(c, await clients[c.dataset ?? 'data'].resolve(c.name)));
+  for (const c of cases) outcomes.push(judge(c, await clients[c.dataset ?? 'data'].resolve(c.name, c.posted ? { postedAt: c.posted, now: c.posted } : undefined)));
 
   const verified = outcomes.filter((o) => o.c.verified);
   const passed = verified.filter((o) => o.pass).length;

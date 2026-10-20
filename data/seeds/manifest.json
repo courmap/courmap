@@ -19,12 +19,12 @@
     {
       "name": "works-000.jsonl",
       "works": 2066,
-      "sha256": "c85c06e334093e3a607f60c0d4aadc55ec269a3c66ebc3899b863bee499e7d6b"
+      "sha256": "29614793ae23cf9f144c9ac250cbcb6025a526f28bf8882509655fea43d8ff80"
     },
     {
       "name": "works-001.jsonl",
       "works": 2055,
-      "sha256": "66ab21af9ee26d8d11c0b7dd3ae7c7747bf3aa0b5469cfcac34c9bb33f70347e"
+      "sha256": "c36be2eeba5cc7e0846990f76d560db61eccc8ba9e96d437c5afaeaf97c65c24"
     },
     {
       "name": "works-002.jsonl",
@@ -44,17 +44,17 @@
     {
       "name": "works-005.jsonl",
       "works": 2016,
-      "sha256": "4d85901bb16c7d75eccd2c42c06642ed856415d3f4b86483cc56256b062ba633"
+      "sha256": "552b2e74ae1db2a49c3338b481d2d266b5c963956ba1589417c82ae15dc2eceb"
     },
     {
       "name": "works-006.jsonl",
       "works": 2098,
-      "sha256": "42bec2525fe133a8216608881f91657bb00cc7a126337565f71b594cc7635c85"
+      "sha256": "246068829fee094e20e54c9ac8bad289448e8882cf01c3c9657953dd7cbf59d5"
     },
     {
       "name": "works-007.jsonl",
       "works": 2056,
-      "sha256": "65c69a1d99c758cf97f1b100b89c1594683e376d8797a34045e29a8352b6a3c6"
+      "sha256": "e3af119cf22c89f53c6f41de54a1a91de58ce0b0118beca3a8eb689d0725c8a7"
     },
     {
       "name": "works-008.jsonl",
@@ -64,7 +64,7 @@
     {
       "name": "works-009.jsonl",
       "works": 2039,
-      "sha256": "dbab7507670c05feaff64a91e1cd5b64ace66ce57a5a5fa257fac099861c16e1"
+      "sha256": "7f219a5803ddab5a4c8d44e6d593f0831f23e4ed0a05b65914123e4fd7066a2d"
     },
     {
       "name": "works-010.jsonl",
@@ -79,7 +79,7 @@
     {
       "name": "works-012.jsonl",
       "works": 2037,
-      "sha256": "9321e40b8996b7c4b676fb8ac51dc38c834c909bd9dcab1745c69f3feee7e954"
+      "sha256": "98f4034b61ea48727ece3b29ba16035f95f1e4f53eedbeab60ea465bb479ac4b"
     },
     {
       "name": "works-013.jsonl",
@@ -89,7 +89,7 @@
     {
       "name": "works-014.jsonl",
       "works": 2025,
-      "sha256": "a4702e446e0560b6bc15ce30a330c4925ba60b5d40b828dd79887e74a720453e"
+      "sha256": "039d60ba34899def5250331df1378f78e52889672854fef0abb08916eb38a9cc"
     },
     {
       "name": "works-015.jsonl",
@@ -122,7 +122,7 @@
       "tmdb_show": 1
     },
     "warnings": {
-      "open-ended-not-airing": 46,
+      "open-ended-not-airing": 51,
       "out-of-bounds": 57
     },
     "info": {

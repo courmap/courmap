@@ -102,6 +102,10 @@ Legend: [x] done, [ ] open, [~] partly done.
 
 ## Also done, 2026-10-20
 
+- [x] TMDB projection checker live (2026-10-20): TMDB_API_KEY is a repo secret. The first weekly run checked 2688 works (513 TMDB shows) and found 60 mismatches; it opened 15 issues (#61 to #75, the per-run cap), the other 45 follow on later runs. Many are TMDB lag, not data errors: "season 2 is not on TMDB" for new seasons and "mapped to episode 12, TMDB lists 1" for shows TMDB has just started; a person triages them. Nothing from TMDB was written to data/ or any commit (the run made none).
+- [x] Weekly digest posts to Discord (DISCORD_WEBHOOK_URL is set; NTFY_URL is not). A long digest is now split into several messages and posted without link previews.
+- [x] TMDB's attribution line ("This product uses the TMDB API but is not endorsed or certified by TMDB.") is in ATTRIBUTION.md, the licensing page and the docs site footer on every page.
+
 - [x] No secret in any log line, page, export or error message; tests fail if one appears.
 - [x] Fewer requests to usenet indexers (cache, early stop, a cap), with the reason for every upstream failure and per-day request counts on the status page; the API limit behavior is documented.
 - [x] Airing shows with a placeholder or lagging episode count resolve and rewrite (seed, engine and resolver), and the parser reads Erai-raws, Chinese and season-pack names.

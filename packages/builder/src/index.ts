@@ -1,5 +1,5 @@
 export { validate, type ValidateOptions, type ValidateResult } from './validate.js';
-export { TMDB_SPLITS_FILE } from './load.js';
+export { TMDB_SPLITS_DIR, botFilePath } from './load.js';
 export { loadData, SEED_ORIGINS, SEED_SHARD_RE, type LoadedData, type Origin, type SeedSource, type SourceFile } from './load.js';
 export { mergeWork, type MergedWork, type SeedOrigin, type SeedWork, type WorkOrigins } from './merge.js';
 export { checkFiles, type CheckedFiles } from './checks.js';
@@ -8,7 +8,7 @@ export { checkRoundTrips } from './roundtrip.js';
 export { Reporter, formatDiagnostic, formatPath, makeLineLocator, makeLocator, type Diagnostic, type DiagnosticCode, type Severity } from './diagnostics.js';
 export { toRecords, aliasPairs, MemoryDataset, type Records, type GroupRecord } from './records.js';
 export { aliasReport, type AliasReport } from './alias-report.js';
-export { AIRING_FILE, RELATIONS_FILE } from './load.js';
+export { AIRING_DIR, RELATIONS_DIR } from './load.js';
 export { REJECTED_FILE, loadRejected, rejectsAiring, rejectsRelation, rejectsTmdbSplit, type Rejection } from './rejected.js';
 export type { AiringLine, RelationLine, TmdbSplitLine } from './checks.js';
 export { compile, expectedCounts, isoWeekVersion, type CompileOptions, type CompileReport } from './compile.js';

@@ -1,9 +1,10 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import {
-  AIRING_FILE,
-  RELATIONS_FILE,
-  TMDB_SPLITS_FILE,
+  AIRING_DIR,
+  RELATIONS_DIR,
+  TMDB_SPLITS_DIR,
+  botFilePath,
   Reporter,
   checkFiles,
   loadData,
@@ -43,8 +44,12 @@ export interface State {
 const BOUNDS_CODES = new Set(['out-of-bounds', 'open-ended-not-airing']);
 const boundsKey = (d: Diagnostic) => `${d.work ?? ''}|${d.code}|${d.path.join('.')}`;
 
-const sourceLines = (file: string, rows: readonly object[]): SeedSource[] =>
-  rows.map((data, i) => ({ file, line: i + 1, data, loc: makeLineLocator(file, i + 1) }));
+/** The bot files for these rows, each in its own file named after its work. */
+const sourceFiles = (dir: string, rows: readonly { work: string }[]): SeedSource[] =>
+  rows.map((data) => {
+    const file = botFilePath(dir, data.work);
+    return { file, line: 1, data, loc: makeLineLocator(file, 1) };
+  });
 
 /** Compiles loaded data with the given bot files in place of the ones on disk. Errors are returned, not thrown. */
 export function evaluate(
@@ -55,7 +60,7 @@ export function evaluate(
 ): { records: Records | null; merged: Map<string, MergedWork>; errors: Diagnostic[]; bounds: Map<string, Diagnostic> } {
   const reporter = new Reporter();
   const checked = checkFiles(
-    { ...loaded, relations: sourceLines(`data/seeds/${RELATIONS_FILE}`, relations), airing: sourceLines(`data/seeds/${AIRING_FILE}`, airing), tmdbSplits: sourceLines(`data/seeds/${TMDB_SPLITS_FILE}`, tmdbSplits) },
+    { ...loaded, relations: sourceFiles(RELATIONS_DIR, relations), airing: sourceFiles(AIRING_DIR, airing), tmdbSplits: sourceFiles(TMDB_SPLITS_DIR, tmdbSplits) },
     reporter,
   );
   const errors = reporter.diagnostics.filter((d) => d.severity === 'error');
@@ -81,27 +86,13 @@ export async function loadState(dataDir: string): Promise<State> {
   return { dataDir, loaded, merged, records, byAnilist, relations, airing, tmdbSplits, boundsWarnings: new Set(bounds.keys()), rejected };
 }
 
-/** Bot files are one JSON object per line, sorted by work, keys in a fixed order. */
-export function relationsJsonl(rows: readonly RelationLine[]): string {
-  return [...rows]
-    .sort((a, b) => (a.work < b.work ? -1 : a.work > b.work ? 1 : 0))
-    .map((r) => JSON.stringify({ work: r.work, prequel: r.prequel, relation: r.relation, origin: 'bot', ...(r.anilist && { anilist: r.anilist }) }) + '\n')
-    .join('');
-}
+/** Bot files hold one JSON object each (one per work), keys in a fixed order, so the output is byte-stable. */
+export const relationJson = (r: RelationLine): string => JSON.stringify({ work: r.work, prequel: r.prequel, relation: r.relation, origin: 'bot', ...(r.anilist && { anilist: r.anilist }) }) + '\n';
 
-export function airingJsonl(rows: readonly AiringLine[]): string {
-  return [...rows]
-    .sort((a, b) => (a.work < b.work ? -1 : a.work > b.work ? 1 : 0))
-    .map((r) => JSON.stringify({ work: r.work, episodes: r.episodes, status: r.status, origin: 'bot', ...(r.anilist !== undefined && { anilist: r.anilist }) }) + '\n')
-    .join('');
-}
+export const airingJson = (r: AiringLine): string =>
+  JSON.stringify({ work: r.work, episodes: r.episodes, status: r.status, origin: 'bot', ...(r.anilist !== undefined && { anilist: r.anilist }) }) + '\n';
 
-export function tmdbSplitsJsonl(rows: readonly TmdbSplitLine[]): string {
-  return [...rows]
-    .sort((a, b) => (a.work < b.work ? -1 : a.work > b.work ? 1 : 0))
-    .map((r) => JSON.stringify({ work: r.work, tmdb_show: r.tmdb_show, origin: 'bot', ...(r.tmdb !== undefined && { tmdb: r.tmdb }) }) + '\n')
-    .join('');
-}
+export const tmdbSplitJson = (r: TmdbSplitLine): string => JSON.stringify({ work: r.work, tmdb_show: r.tmdb_show, origin: 'bot', ...(r.tmdb !== undefined && { tmdb: r.tmdb }) }) + '\n';
 
 /** The bot file currently on disk, or an empty string. */
 export const readBotFile = (dataDir: string, name: string) => readFile(path.join(dataDir, 'seeds', name), 'utf8').catch(() => '');

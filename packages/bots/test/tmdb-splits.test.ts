@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { evaluate, loadState, tmdbSplitsJsonl } from '../src/state.js';
+import { evaluate, loadState, tmdbSplitJson } from '../src/state.js';
 import { TmdbClient, checkProjectionsDetailed } from '../src/tmdb.js';
 
 // The split-cour pattern (decided by Xwolv, 2026-10-20), on the eight shows found that day: TMDB has no season 2,
@@ -63,11 +63,8 @@ describe('proposing a split cour', async () => {
     expect([row.season, row.ep_from, row.ep_to, row.target_from]).toEqual([1, 1, 12, 14]);
   });
 
-  it('writes the bot file sorted by work, one line each', () => {
-    const text = tmdbSplitsJsonl([
-      { work: 'b', tmdb_show: [{ season: 1, episodes: '1-12', start: 13 }], origin: 'bot', tmdb: '2' },
-      { work: 'a', tmdb_show: [{ season: 1, episodes: '1-12', start: 13 }], origin: 'bot' },
-    ]);
-    expect(text.split('\n').filter(Boolean).map((l) => JSON.parse(l).work)).toEqual(['a', 'b']);
+  it('writes one file per work, keys in a fixed order', () => {
+    const text = tmdbSplitJson({ work: 'b', tmdb_show: [{ season: 1, episodes: '1-12', start: 13 }], origin: 'bot', tmdb: '2' });
+    expect(text).toBe('{"work":"b","tmdb_show":[{"season":1,"episodes":"1-12","start":13}],"origin":"bot","tmdb":"2"}\n');
   });
 });

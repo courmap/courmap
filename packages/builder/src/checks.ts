@@ -185,7 +185,7 @@ export function checkFiles(loaded: LoadedData, reporter: Reporter): CheckedFiles
   return { works: merged, sequences, groups, derived };
 }
 
-/** A line of data/seeds/relations.jsonl: an AniList PREQUEL or SEQUEL edge, as written by the bots. */
+/** A file of data/seeds/relations/: an AniList PREQUEL or SEQUEL edge, as written by the bots. */
 export interface RelationLine {
   work: string;
   prequel: string;
@@ -194,6 +194,12 @@ export interface RelationLine {
   origin: 'bot';
   /** AniList IDs of work and prequel, for tracing. */
   anilist?: [number, number];
+}
+
+/** A bot file is data/seeds/<dir>/<work>.json: the name says which work, so two PRs about different works never share a file. */
+function fileNameProblem(src: SeedSource, work: string): string | null {
+  const name = src.file.split('/').pop();
+  return name === `${work}.json` ? null : `the file must be named ${work}.json (it is ${name})`;
 }
 
 function relationProblem(raw: unknown): string | null {
@@ -217,7 +223,7 @@ function relationProblem(raw: unknown): string | null {
 function applyRelations(lines: readonly SeedSource[], works: Map<string, MergedWork>, reporter: Reporter): void {
   const seen = new Map<string, number>();
   for (const src of lines) {
-    const problem = relationProblem(src.data);
+    const problem = relationProblem(src.data) ?? fileNameProblem(src, (src.data as RelationLine).work);
     if (problem) {
       reporter.report(src.loc, 'relation', [], problem);
       continue;
@@ -240,7 +246,7 @@ function applyRelations(lines: readonly SeedSource[], works: Map<string, MergedW
   }
 }
 
-/** A line of data/seeds/tmdb-splits.jsonl: where TMDB keeps a cour, as proposed by the bots' TMDB checker. */
+/** A file of data/seeds/tmdb-splits/: where TMDB keeps a cour, as proposed by the bots' TMDB checker. */
 export interface TmdbSplitLine {
   work: string;
   /** The work's tmdb_show projection rows, replacing the seed's (a manual file wins). */
@@ -276,7 +282,7 @@ function tmdbSplitProblem(raw: unknown): string | null {
 function applyTmdbSplits(lines: readonly SeedSource[], works: Map<string, MergedWork>, reporter: Reporter): void {
   const seen = new Map<string, number>();
   for (const src of lines) {
-    const problem = tmdbSplitProblem(src.data);
+    const problem = tmdbSplitProblem(src.data) ?? fileNameProblem(src, (src.data as TmdbSplitLine).work);
     if (problem) {
       reporter.report(src.loc, 'tmdb-split', [], problem);
       continue;
@@ -300,7 +306,7 @@ function applyTmdbSplits(lines: readonly SeedSource[], works: Map<string, Merged
   }
 }
 
-/** A line of data/seeds/airing.jsonl: an airing work's count and status from AniList, as written by the bots. */
+/** A file of data/seeds/airing/: an airing work's count and status from AniList, as written by the bots. */
 export interface AiringLine {
   work: string;
   /** AniList's total episode count (null while it is unknown, as for long-runners). */
@@ -331,7 +337,7 @@ function airingProblem(raw: unknown): string | null {
 function applyAiring(lines: readonly SeedSource[], works: Map<string, MergedWork>, reporter: Reporter): void {
   const seen = new Map<string, number>();
   for (const src of lines) {
-    const problem = airingProblem(src.data);
+    const problem = airingProblem(src.data) ?? fileNameProblem(src, (src.data as AiringLine).work);
     if (problem) {
       reporter.report(src.loc, 'airing', [], problem);
       continue;

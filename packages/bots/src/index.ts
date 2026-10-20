@@ -5,5 +5,5 @@ export { sendDigest, type NotifyTargets } from './notify.js';
 export { LABELS, airingPrBody, digestText, issueBody, issueTitle, labelsFor, sequelPrBody, trackerBody, type DigestInput } from './report.js';
 export { nextSeason, seasonName, seasonOf, seasonStart, type SeasonRef } from './season.js';
 export { diffSequences, shiftLines, type AbsoluteRange, type SequenceDiff, type Shift } from './shifts.js';
-export { airingJsonl, evaluate, loadState, relationsJsonl, type State } from './state.js';
+export { airingJson, evaluate, loadState, relationJson, type State } from './state.js';
 export { TmdbClient, checkProjections, landings } from './tmdb.js';

@@ -57,12 +57,12 @@ export function tmdbSplitPrBody(f: Finding): string {
     `| Before | ${(f.data.problems as string[]).join('; ')} |`,
     `| After | ${rows} (origin: bot) |`,
     '',
-    'TVDB is untouched. Writes one line to `data/seeds/tmdb-splits.jsonl`. Approve or edit; a manual `projections.tmdb_show` in `data/works/` would override it, and rejecting it in `data/rejected.yaml` (kind: tmdb-split) stops the proposal.',
+    'TVDB is untouched. Writes one file, `data/seeds/tmdb-splits/<work>.json`. Approve or edit; a manual `projections.tmdb_show` in `data/works/` would override it, and rejecting it in `data/rejected.yaml` (kind: tmdb-split) stops the proposal.',
   ].join('\n');
 }
 
 export const tmdbProposedComment = () =>
-  'Closed by the projection checker: TMDB keeps this cour inside the previous season, and a pull request proposes (or within a run or two will propose) the mapping that continues it there (data/seeds/tmdb-splits.jsonl). It reopens the question as an issue if that proposal is rejected and the mismatch remains.';
+  'Closed by the projection checker: TMDB keeps this cour inside the previous season, and a pull request proposes (or within a run or two will propose) the mapping that continues it there (data/seeds/tmdb-splits/). It reopens the question as an issue if that proposal is rejected and the mismatch remains.';
 
 export const tmdbResolvedComment = () => 'Closed by the projection checker: a later run found our TMDB projection and TMDB agree for this work. It opens a new issue if that changes.';
 
@@ -99,7 +99,7 @@ export function airingPrBody(fs: Finding[], diff: SequenceDiff, tier: Tier): str
     ...fs.map((f) => `| ${subject(f)} | ${anilistLink(f.anilist)} | ${f.summary} |`),
     '',
     ...(diff.changed.length + diff.added.length > 0 ? ['### Absolute sequences', '', ...shiftLines(diff), ...(diff.added.length > 0 ? ['', `New sequences: ${diff.added.join(', ')}.`] : []), ''] : []),
-    'Writes `data/seeds/airing.jsonl` only (origin: bot). Manual files win over it per key.',
+    'Writes one file per work under `data/seeds/airing/` only (origin: bot). Manual files win over it per key.',
   ].join('\n');
 }
 
@@ -116,7 +116,7 @@ export function sequelPrBody(f: Finding, diff: SequenceDiff): string {
     'Translation diff: a prequel changes how release names without a season token are scored and where `continue_prequel` group overrides start; projections are unchanged.',
     ...(diff.shifts.length > 0 || diff.changed.length > 0 ? ['', '### Absolute sequences', '', ...shiftLines(diff)] : ['', 'No absolute numbers shift.']),
     '',
-    'Writes one line to `data/seeds/relations.jsonl`. Approve or edit; a manual `prequel:` in `data/works/` would override it.',
+    'Writes one file, `data/seeds/relations/<work>.json`. Approve or edit; a manual `prequel:` in `data/works/` would override it.',
   ].join('\n');
 }
 

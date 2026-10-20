@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { readFile, writeFile } from 'node:fs/promises';
 import { parseArgs } from 'node:util';
-import { AIRING_FILE, RELATIONS_FILE, TMDB_SPLITS_FILE, aliasPairs, aliasReport } from '@courmap/builder';
+import { AIRING_DIR, RELATIONS_DIR, TMDB_SPLITS_DIR, aliasPairs, aliasReport, botFilePath } from '@courmap/builder';
 import { AniListClient, type AniListMedia } from './anilist.js';
 import { classify, type Classification, type Finding } from './classify.js';
 import { GitHubWriter } from './github.js';
@@ -9,7 +9,7 @@ import { sendDigest } from './notify.js';
 import { LABELS, TMDB_ISSUE_PREFIX, airingPrBody, tmdbLagComment, tmdbProposedComment, tmdbResolvedComment, tmdbSplitPrBody, digestText, issueBody, issueTitle, labelsFor, sequelPrBody, summaryLine, trackerBody } from './report.js';
 import { nextSeason, seasonName, seasonOf, type SeasonRef } from './season.js';
 import { diffSequences } from './shifts.js';
-import { airingJsonl, evaluate, loadState, relationsJsonl, tmdbSplitsJsonl, type State } from './state.js';
+import { airingJson, evaluate, loadState, relationJson, tmdbSplitJson, type State } from './state.js';
 import { TmdbClient, checkProjectionsDetailed, issuesToClose, searchShows, showInfo } from './tmdb.js';
 
 const USAGE = `Usage: courmap-bots <command> [options]
@@ -73,7 +73,7 @@ async function publish(c: Classification, state: State, writer: GitHubWriter, no
     for (const f of fs) lines.set(f.airing!.work, f.airing!);
     const after = evaluate(state.loaded, state.relations, [...lines.values()]);
     const diff = after.records ? diffSequences(state.records, after.records) : c.diff;
-    await writer.upsertPullRequest(branch, `Airing updates for ${fs.length} work${fs.length === 1 ? '' : 's'}${tier === 'B' ? ' (review)' : ''}`, airingPrBody(fs, diff, tier), labelsFor(fs[0]!), new Map([[`data/seeds/${AIRING_FILE}`, airingJsonl([...lines.values()])]]));
+    await writer.upsertPullRequest(branch, `Airing updates for ${fs.length} work${fs.length === 1 ? '' : 's'}${tier === 'B' ? ' (review)' : ''}`, airingPrBody(fs, diff, tier), labelsFor(fs[0]!), new Map(fs.map((f) => [botFilePath(AIRING_DIR, f.airing!.work), airingJson(f.airing!)])));
   };
   await airingPr(tierA, 'bots/airing-updates', 'A');
   await airingPr(reviewAiring, 'bots/airing-review', 'B');
@@ -83,7 +83,7 @@ async function publish(c: Classification, state: State, writer: GitHubWriter, no
     rel.set(f.relation!.work, f.relation!);
     const after = evaluate(state.loaded, [...rel.values()], state.airing);
     const diff = after.records ? diffSequences(state.records, after.records) : c.diff;
-    await writer.upsertPullRequest(`bots/sequel-${f.work}`, `Sequel: ${f.work} follows ${f.relation!.prequel}`, sequelPrBody(f, diff), labelsFor(f), new Map([[`data/seeds/${RELATIONS_FILE}`, relationsJsonl([...rel.values()])]]));
+    await writer.upsertPullRequest(`bots/sequel-${f.work}`, `Sequel: ${f.work} follows ${f.relation!.prequel}`, sequelPrBody(f, diff), labelsFor(f), new Map([[botFilePath(RELATIONS_DIR, f.relation!.work), relationJson(f.relation!)]]));
   }
   if (sequels.length > limits.prs) console.log(`${sequels.length - limits.prs} more sequel PR(s) wait for the next run (--max-prs ${limits.prs}).`);
 
@@ -191,7 +191,7 @@ async function main(argv: string[]): Promise<number> {
       result.splits.push(f);
       if (prs >= limits.prs) continue;
       prs++;
-      await writer.upsertPullRequest(`bots/tmdb-split-${f.work}`, `TMDB split cour: ${f.work}`, tmdbSplitPrBody(f), labelsFor(f), new Map([[`data/seeds/${TMDB_SPLITS_FILE}`, tmdbSplitsJsonl([...next.values()])]]));
+      await writer.upsertPullRequest(`bots/tmdb-split-${f.work}`, `TMDB split cour: ${f.work}`, tmdbSplitPrBody(f), labelsFor(f), new Map([[botFilePath(TMDB_SPLITS_DIR, f.work!), tmdbSplitJson(f.split!)]]));
     }
     if (result.splits.length > prs) console.log(`${result.splits.length - prs} more TMDB split PR(s) wait for the next run (--max-prs ${limits.prs}).`);
     const { findings, lagging } = result;

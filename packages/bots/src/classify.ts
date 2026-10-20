@@ -33,7 +33,7 @@ export interface Finding {
   summary: string;
   airing?: AiringLine;
   relation?: RelationLine;
-  /** tmdb-split: the line the PR adds to data/seeds/tmdb-splits.jsonl. */
+  /** tmdb-split: the file the PR adds under data/seeds/tmdb-splits/. */
   split?: TmdbSplitLine;
   /** Source values attached to issues and PR bodies. */
   data: Record<string, unknown>;

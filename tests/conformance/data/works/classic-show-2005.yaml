@@ -9,4 +9,4 @@ ids:
   anilist: 2022
 aliases:
   - Classic
-notes: Conformance fixture. All IDs are fake. Its prequel comes only from seeds/relations.jsonl (origin bot).
+notes: Conformance fixture. All IDs are fake. Its prequel comes only from seeds/relations/ (origin bot).

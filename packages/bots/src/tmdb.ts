@@ -100,7 +100,7 @@ export function onlyTmdbLag(status: string, problems: readonly Problem[], premie
 }
 
 export interface CheckOptions {
-  /** Works whose split-cour proposal must not be made (data/rejected.yaml, or a line already in tmdb-splits.jsonl). */
+  /** Works whose split-cour proposal must not be made (data/rejected.yaml, or a file already in data/seeds/tmdb-splits/). */
   noSplit?: ReadonlySet<string>;
   now?: Date;
   /** When each work's season premiered (from AniList's start date), by work id; absent or null when unknown. */

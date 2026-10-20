@@ -12,12 +12,18 @@ export const SEED_ORIGINS: readonly Origin[] = ['bot', 'offline-db', 'anime-list
 
 /** Seed shards are `data/seeds/works-NNN.jsonl`; other files in data/seeds/ are registry and reports. */
 export const SEED_SHARD_RE = /^works-\d{3}\.jsonl$/;
-/** Prequel relations written by the bots from AniList (decision S4.1), next to the seed shards. */
-export const RELATIONS_FILE = 'relations.jsonl';
+/**
+ * What the bots write, one small file per work so that two bot PRs never touch the same file
+ * (decided by Xwolv, 2026-10-20): data/seeds/<dir>/<work-id>.json, each holding one JSON object.
+ */
+/** Prequel relations written by the bots from AniList (decision S4.1). */
+export const RELATIONS_DIR = 'relations';
 /** Episode counts and status of airing works, written by the bots' airing tracker. */
-export const AIRING_FILE = 'airing.jsonl';
+export const AIRING_DIR = 'airing';
 /** TMDB projections for cours that TMDB keeps inside the previous season, proposed by the bots' TMDB checker. */
-export const TMDB_SPLITS_FILE = 'tmdb-splits.jsonl';
+export const TMDB_SPLITS_DIR = 'tmdb-splits';
+/** The path of a work's bot file under data/seeds/, forward slashes. */
+export const botFilePath = (dir: string, work: string) => `data/seeds/${dir}/${work}.json`;
 
 /** A hand-written YAML file under works/, sequences/ or groups/. */
 export interface SourceFile {
@@ -42,11 +48,11 @@ export interface SeedSource {
 export interface LoadedData {
   files: SourceFile[];
   seeds: SeedSource[];
-  /** Lines of data/seeds/relations.jsonl. */
+  /** Files of data/seeds/relations/, one object each. */
   relations: SeedSource[];
-  /** Lines of data/seeds/airing.jsonl. */
+  /** Files of data/seeds/airing/, one object each. */
   airing: SeedSource[];
-  /** Lines of data/seeds/tmdb-splits.jsonl. */
+  /** Files of data/seeds/tmdb-splits/, one object each. */
   tmdbSplits: SeedSource[];
 }
 
@@ -91,9 +97,20 @@ export async function loadData(dataDir: string, reporter: Reporter, cwd = proces
 
   const seeds: SeedSource[] = [];
   for (const abs of await listDir(path.join(dataDir, 'seeds'), (n) => SEED_SHARD_RE.test(n))) seeds.push(...(await readJsonl(abs, reporter, cwd)));
-  const optional = async (name: string) =>
-    (await listDir(path.join(dataDir, 'seeds'), (n) => n === name)).length > 0 ? readJsonl(path.join(dataDir, 'seeds', name), reporter, cwd) : [];
-  return { files, seeds, relations: await optional(RELATIONS_FILE), airing: await optional(AIRING_FILE), tmdbSplits: await optional(TMDB_SPLITS_FILE) };
+  const botFiles = async (dir: string) => {
+    const out: SeedSource[] = [];
+    for (const abs of await listDir(path.join(dataDir, 'seeds', dir), (n) => n.endsWith('.json'))) {
+      const file = toPosix(path.relative(cwd, abs));
+      const loc = makeLineLocator(file, 1);
+      try {
+        out.push({ file, line: 1, data: JSON.parse(await readFile(abs, 'utf8')) as unknown, loc });
+      } catch (err) {
+        reporter.report(loc, 'seed-parse', [], `not valid JSON: ${(err as Error).message}`);
+      }
+    }
+    return out;
+  };
+  return { files, seeds, relations: await botFiles(RELATIONS_DIR), airing: await botFiles(AIRING_DIR), tmdbSplits: await botFiles(TMDB_SPLITS_DIR) };
 }
 
 /** One JSON value per line; blank lines are skipped and bad lines reported as seed-parse. */

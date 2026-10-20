@@ -137,6 +137,7 @@ describe('Sonarr Newznab proxy', async () => {
     version: 'test',
     timeoutMs: 5000,
     log: (l) => logs.push(l),
+    limits: { cacheSeconds: 0, stopOnMatch: false },
   });
   await new Promise<void>((r) => server.listen(0, '127.0.0.1', r));
   const base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;

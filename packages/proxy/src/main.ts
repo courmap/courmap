@@ -35,7 +35,7 @@ if (config.indexers.length === 0) log('no indexers configured: set INDEXER_<NAME
 const data = new DataManager({ dataDir: config.dataDir, metaUrl: config.metaUrl, dump: config.dump, refreshHours: config.refreshHours, log });
 const sonarr = new SonarrClient(config.sonarr ? { ...config.sonarr, timeoutMs: config.timeoutMs } : null);
 const stats = Stats.in(config.dataDir);
-const server = createProxyServer({ indexers: config.indexers, data, sonarr, stats, version, timeoutMs: config.timeoutMs, log, redactor });
+const server = createProxyServer({ indexers: config.indexers, data, sonarr, stats, version, timeoutMs: config.timeoutMs, log, redactor, limits: { maxQueries: config.maxQueries, stopOnMatch: config.stopOnMatch, cacheSeconds: config.cacheSeconds } });
 
 server.listen(config.port, () => {
   log(`Courmap proxy ${version} on port ${config.port}; indexers: ${config.indexers.map((i) => `/${i.name}`).join(', ') || 'none'}`);

@@ -23,7 +23,7 @@ export function statusJson(s: StatusInput) {
     started: s.stats.started,
     data: s.data,
     sonarr: s.sonarr,
-    indexers: Object.fromEntries(s.indexers.map(({ name, type }) => [name, { ...s.stats.of(name), type: type ?? null }])),
+    indexers: Object.fromEntries(s.indexers.map(({ name, type }) => [name, { ...s.stats.of(name), type: type ?? null, days: s.stats.recentDays(name) }])),
     unresolved: s.stats.unresolvedList(),
     assisted: s.stats.assistedList(),
   };
@@ -63,12 +63,21 @@ export function statusHtml(s: StatusInput): string {
     if (type) return x.detected && x.detected !== type ? `${type} <span class="bad">(feed looks like ${x.detected})</span>` : type;
     return x.detected ? `${x.detected} (detected)` : '<span class="muted">not known yet</span>';
   };
+  /** How many upstream requests failed, and why: "3 (api-limit 2, timeout 1)". */
+  const failures = (x: IndexerStats) => {
+    if (x.upstreamErrors === 0) return '0';
+    const why = Object.entries(x.upstreamFailures)
+      .sort((a, b) => b[1]! - a[1]!)
+      .map(([k, v]) => `${esc(k)} ${v}`)
+      .join(', ');
+    return `<span class="bad">${x.upstreamErrors}</span> (${why})`;
+  };
   const row = (name: string, type: Protocol | undefined, x: IndexerStats) => {
     const passed = Object.entries(x.passed)
       .sort((a, b) => b[1]! - a[1]!)
       .map(([k, v]) => `${esc(k)} ${v}`)
       .join(', ');
-    return `<tr><td>${esc(name)}</td><td>${protocolCell(type, x)}</td><td>${x.requests}</td><td>${x.searches} (${x.translated} translated)</td><td>${x.items}</td><td>${x.rewritten} (${pct(x.rewritten, x.items)})${x.assisted ? `, ${x.assisted} assisted` : ''}</td><td>${passed || '0'}</td><td>${x.upstreamErrors}</td></tr>`;
+    return `<tr><td>${esc(name)}</td><td>${protocolCell(type, x)}</td><td>${x.requests}</td><td>${x.searches} (${x.translated} translated)</td><td>${x.items}</td><td>${x.rewritten} (${pct(x.rewritten, x.items)})${x.assisted ? `, ${x.assisted} assisted` : ''}</td><td>${passed || '0'}</td><td>${failures(x)}</td></tr>`;
   };
   const list = s.stats.unresolvedList();
   const assisted = s.stats.assistedList();
@@ -117,6 +126,23 @@ export function statusHtml(s: StatusInput): string {
 <div class="scroll"><table>
 <tr><th>Path</th><th>Protocol</th><th>Requests</th><th>Searches</th><th>Items</th><th>Rewritten</th><th>Passed through</th><th>Upstream errors</th></tr>
 ${s.indexers.map((i) => row(i.name, i.type, s.stats.of(i.name))).join('\n')}
+</table></div>
+${s.indexers
+  .map((i) => ({ name: i.name, last: s.stats.of(i.name).lastUpstreamError }))
+  .filter((i) => i.last)
+  .map((i) => `<p class="bad">${esc(i.name)}: last upstream problem ${esc(i.last!.at)}, ${esc(i.last!.kind)}: ${esc(i.last!.detail)}</p>`)
+  .join('\n')}
+
+<h2>Requests to your indexers, per day</h2>
+<p class="muted">What the proxy sent to each indexer, by UTC day. Usenet indexers limit API requests per day, so this is the number to watch. An answer from the proxy's short cache costs no request and is shown separately; a failed request still counts as one.</p>
+<div class="scroll"><table>
+<tr><th>Indexer</th>${s.stats.recentDays(s.indexers[0]?.name ?? '', 7).map((d) => `<th>${esc(d.date)}</th>`).join('')}</tr>
+${s.indexers
+  .map((i) => {
+    const cells = s.stats.recentDays(i.name, 7).map((d) => `<td>${d.requests}${d.cacheHits ? ` <span class="muted">+${d.cacheHits} cached</span>` : ''}${d.errors ? ` <span class="bad">${d.errors} failed</span>` : ''}</td>`);
+    return `<tr><td>${esc(i.name)}</td>${cells.join('')}</tr>`;
+  })
+  .join('\n')}
 </table></div>
 
 <h2>Assisted numbering (${assisted.length})</h2>

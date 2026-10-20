@@ -29,6 +29,12 @@ export interface ProxyConfig {
   indexers: IndexerConfig[];
   /** Upstream requests time out after this long. */
   timeoutMs: number;
+  /** The most upstream queries one Sonarr search may cause (usenet indexers enforce daily API limits). */
+  maxQueries: number;
+  /** Stop issuing the remaining queries of an episode search once one returns that episode. */
+  stopOnMatch: boolean;
+  /** Identical upstream queries within this many seconds share one request; 0 turns the cache off. */
+  cacheSeconds: number;
 }
 
 const NAME = /^[a-z0-9][a-z0-9-]*$/;
@@ -42,6 +48,9 @@ interface FileConfig {
   sonarr?: { url?: string; api_key?: string; refresh_minutes?: number };
   indexers?: { name: string; url: string; apikey?: string; type?: string }[];
   timeout_seconds?: number;
+  max_queries_per_search?: number;
+  search_stop_on_match?: boolean;
+  upstream_cache_seconds?: number;
 }
 
 /**
@@ -55,6 +64,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env, readFile: (p: s
   const text = readFile(file);
   const f: FileConfig = text ? ((parse(text) as FileConfig | null) ?? {}) : {};
   const num = (v: string | undefined, fallback: number) => (v !== undefined && v !== '' ? Number(v) : fallback);
+  const bool = (v: string | undefined, fallback: boolean) => (v !== undefined && v !== '' ? !/^(0|false|no|off)$/i.test(v.trim()) : fallback);
 
   const indexers = new Map<string, IndexerConfig>();
   for (const i of f.indexers ?? []) indexers.set(i.name, { name: i.name, url: i.url, ...(i.apikey && { apikey: i.apikey }), ...(i.type && { type: i.type as Protocol }) });
@@ -87,6 +97,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env, readFile: (p: s
     sonarr: sonarrUrl && sonarrKey ? { url: sonarrUrl.replace(/\/+$/, ''), apiKey: sonarrKey, refreshMinutes: num(env.SONARR_REFRESH_MINUTES, f.sonarr?.refresh_minutes ?? 60) } : null,
     indexers: [...indexers.values()].sort((a, b) => (a.name < b.name ? -1 : 1)),
     timeoutMs: num(env.TIMEOUT_SECONDS, f.timeout_seconds ?? 60) * 1000,
+    maxQueries: Math.max(1, Math.min(10, Math.round(num(env.MAX_QUERIES_PER_SEARCH, f.max_queries_per_search ?? 3)))),
+    stopOnMatch: bool(env.SEARCH_STOP_ON_MATCH, f.search_stop_on_match ?? true),
+    cacheSeconds: Math.max(0, num(env.UPSTREAM_CACHE_SECONDS, f.upstream_cache_seconds ?? 60)),
   };
 }
 

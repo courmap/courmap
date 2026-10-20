@@ -1,6 +1,29 @@
 # Parser fixtures: release name -> the fields it must produce. Fields not listed are not checked.
 # Hand-written; names follow common fansub and scene conventions. No release site was consulted.
 cases:
+  # Season and episode joined by a hyphen (Moozzi2, Erai-raws, Ohys-Raws, NanakoRaws).
+  - name: "[Moozzi2] Spy x Family S2-07 [ 32 ] [BD 1920x1080 x265-10Bit Flac]"
+    expect: { group: Moozzi2, title: Spy x Family, season: 2, episode: 7 }
+  - name: "[Erai-raws] Spy x Family Season 3-13 [1080p CR WEB-DL AVC AAC][MultiSub][C2A05068]"
+    expect: { title: Spy x Family, season: 3, episode: 13 }
+  - name: "[Ohys-Raws].Spy.x.Family.2nd-02.TX.1280x720.x264.AAC"
+    expect: { title: Spy x Family, season: 2, episode: 2 }
+  - name: "[NanakoRaws].Spy.x.Family.S2-12v2.END.WEB-DL.1920x1080.x264.AAC"
+    expect: { title: Spy x Family, season: 2, episode: 12, version: 2 }
+  - name: "[Kosaka].Spy.x.Family.Season.2-12-Part.of.the.Family.1080p.AV1.10Bit.OPUS.[Dual-Audio]"
+    expect: { title: Spy x Family, season: 2, episode: 12 }
+  # A number glued to the title by a hyphen, in a name with spaces, or with an episode title or tags after it.
+  - name: "[ASW] Spy x Family-47v2 [1080p HEVC][130312BD]"
+    expect: { title: Spy x Family, season: null, episode: 47, version: 2 }
+  - name: "[SubsPlease].Spy.x.Family-12.480p"
+    expect: { title: Spy x Family, episode: 12 }
+  - name: "[Kosaka].Spy.x.Family-12-Penguin.Park.1080p.AV1.10Bit.OPUS.[A35BF4C4]"
+    expect: { title: Spy x Family, episode: 12 }
+  - name: "[Rowlis] Spy x Family-S03 [1080p WEB OPUS AV1 10-bit]"
+    expect: { title: Spy x Family, season: 3, episode: null, batch: true }
+  # A zero is not an episode, and a codec's "-10Bit" is not one either.
+  - name: "[Group] Mobile Suit Gundam-00 [1080p]"
+    expect: { title: Mobile Suit Gundam-00, episode: null }
   # Scene-style dotted names put the episode between the title and the tags.
   - name: "Bleach-Thousand-Year.Blood.War.35.BD.Remux.1080p.AVC.DTS-HD.MA.2.0.DUAL.DTS-HD.MA.2.0-Wwecrazzy"
     expect: { title: Bleach-Thousand-Year Blood War, episode: 35, source: bd, group: Wwecrazzy }

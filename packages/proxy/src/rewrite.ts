@@ -80,10 +80,11 @@ export class Rewriter {
     private readonly sonarr: SonarrClient,
   ) {}
 
-  async rewrite(releaseName: string): Promise<RewriteOutcome> {
+  /** `postedAt` is when the indexer posted the release: a recent one favors works on air now. */
+  async rewrite(releaseName: string, postedAt?: string | null): Promise<RewriteOutcome> {
     const client = this.data.client;
     if (!client) return { kind: 'pass', reason: 'no-data', detail: 'no Courmap dump is loaded yet', resolved: null };
-    const r = await client.resolve(releaseName);
+    const r = await client.resolve(releaseName, postedAt ? { postedAt } : undefined);
     const pass = (reason: PassReason, detail: string): RewriteOutcome => ({ kind: 'pass', reason, detail, resolved: r });
     if (r.status !== 'ok' || !r.match) return pass(r.status === 'ambiguous' ? 'ambiguous' : 'unmatched', r.candidates[0] ? `best candidate ${r.candidates[0].work} at ${r.candidates[0].confidence}` : 'no candidate');
     const m = r.match;

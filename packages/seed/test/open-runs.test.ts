@@ -80,7 +80,8 @@ describe('a show whose episode count is not final', async () => {
   it('never opens a range that a later cour of the same show and season would collide with', () => {
     // Both cours sit in TVDB season 2; an open first cour would run into the second (episodes 13 on).
     expect(works.get('cour-one')!.projections!.tvdb_show).toEqual([{ season: 2, episodes: 1 }]);
-    expect(works.get('cour-two')!.projections!.tvdb_show).toEqual([{ season: 2, episodes: 1, start: 13 }]);
+    // The last cour of the season (the largest offset) has nothing after it, so its range may stay open.
+    expect(works.get('cour-two')!.projections!.tvdb_show).toEqual([{ season: 2, episodes: '1-', start: 13 }]);
   });
 
   it('keeps the old row where the count is unknown but the range cannot stay open', () => {

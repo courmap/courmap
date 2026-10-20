@@ -122,3 +122,21 @@ cases:
     op: resolve
     release: "[Other] Floor Show - 13"
     expect_resolve: { status: ok, work: floor-show, episode: 13, confidence: 1 }
+
+  - name: without a posting date the title holder wins (the older finished work)
+    op: resolve
+    release: "[Other] Recent Show - 12"
+    expect_resolve: { status: ok, work: recent-show-old, episode: 12 }
+
+  - name: a recent release goes to the work on air now, before title holding
+    op: resolve
+    release: "[Other] Recent Show - 12"
+    posted_at: "2026-10-18"
+    expect_resolve: { status: ok, work: recent-show-new, episode: 12 }
+
+  - name: a release posted long ago does not favor the airing work
+    op: resolve
+    release: "[Other] Recent Show - 12"
+    posted_at: "2026-01-02"
+    now: "2026-10-20"
+    expect_resolve: { status: ok, work: recent-show-old, episode: 12 }

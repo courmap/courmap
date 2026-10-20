@@ -5,7 +5,7 @@ import path from 'node:path';
 import { afterAll, describe, expect, it } from 'vitest';
 import { loadConfig } from '../src/config.js';
 import { DataManager } from '../src/data.js';
-import { classifyUpstream } from '../src/feed.js';
+import { classifyUpstream, items } from '../src/feed.js';
 import { createProxyServer, type ProxyDeps } from '../src/server.js';
 import { SonarrClient } from '../src/sonarr.js';
 import { Stats } from '../src/stats.js';
@@ -280,5 +280,21 @@ describe('what a Sonarr search costs an indexer', async () => {
       for (let d = 1; d <= 20; d++) reloaded.countUpstream('geek', null, new Date(Date.UTC(2026, 10, d, 12)));
       expect(reloaded.recentDays('geek', 30, new Date(Date.UTC(2026, 10, 20, 12))).filter((x) => x.requests > 0)).toHaveLength(14);
     });
+  });
+});
+
+describe('items: when the indexer posted a release', () => {
+  const wrap = (item: string) => `<rss><channel>${item}</channel></rss>`;
+
+  it('reads pubDate, or the usenetdate attribute of a Newznab item, as an ISO time', () => {
+    const torrent = items(wrap('<item><title>A</title><guid>1</guid><pubDate>Mon, 19 Oct 2026 12:00:00 +0000</pubDate></item>'));
+    expect(torrent[0]!.posted).toBe('2026-10-19T12:00:00.000Z');
+    const usenet = items(wrap('<item><title>B</title><guid>2</guid><newznab:attr name="usenetdate" value="Tue, 20 Oct 2026 01:00:00 +0000"/></item>'));
+    expect(usenet[0]!.posted).toBe('2026-10-20T01:00:00.000Z');
+  });
+
+  it('is null when the item says nothing or the date is not a date', () => {
+    expect(items(wrap('<item><title>C</title><guid>3</guid></item>'))[0]!.posted).toBeNull();
+    expect(items(wrap('<item><title>D</title><guid>4</guid><pubDate>soon</pubDate></item>'))[0]!.posted).toBeNull();
   });
 });

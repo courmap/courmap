@@ -296,6 +296,28 @@ function yearFit(w: WorkRecord, year: number | null): { fit: number; reason: str
   return { fit: MISMATCH, reason: `year ${year} does not match (${w.year})` };
 }
 
+/** What the caller knows about the release besides its name. */
+export interface ResolveOptions {
+  /** When the release was posted (ISO date or time). A recent one favors works on air now. */
+  postedAt?: string;
+  /** The current time, for tests; defaults to now. */
+  now?: string;
+}
+
+/** A release counts as recent for this many days after it was posted. */
+export const RECENT_DAYS = 45;
+/** Extra demotion of an older sharer when a current one has no worse evidence and the release is recent. */
+export const RECENT_FACTOR = 0.1;
+
+/** The year the release was posted in, when it is recent; otherwise null. */
+function recentPostingYear(o: ResolveOptions): number | null {
+  if (!o.postedAt) return null;
+  const posted = Date.parse(o.postedAt);
+  const now = o.now ? Date.parse(o.now) : Date.now();
+  if (Number.isNaN(posted) || Number.isNaN(now) || now - posted > RECENT_DAYS * 86_400_000 || posted > now + 86_400_000) return null;
+  return new Date(posted).getUTCFullYear();
+}
+
 /** Tie-breaker weight when the alias is only a synonym of the work, not one of its titles (decision S4.4). */
 export const SYNONYM_WEIGHT = 0.4;
 /** Extra demotion of a synonym-only sharer when a title holder with no worse evidence shares the alias (decision S4.4, 2026-10-20). */
@@ -348,7 +370,8 @@ function findGroup(groups: GroupRecord[], name: string | null): GroupRecord | nu
  * resolution"): match aliases, place the number, score every candidate, and answer ok only
  * for a clear winner above the floor. Works the same over every Dataset.
  */
-export async function resolve(ds: Dataset, parsed: ParsedRelease): Promise<ResolveResult> {
+export async function resolve(ds: Dataset, parsed: ParsedRelease, options: ResolveOptions = {}): Promise<ResolveResult> {
+  const recentYear = recentPostingYear(options);
   const { data_version } = await ds.meta();
   const base: Omit<ResolveResult, 'status' | 'match' | 'candidates'> = { data_version, parsed };
   if (!parsed.title) return { ...base, status: 'unmatched', match: null, candidates: [] };
@@ -360,7 +383,7 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease): Promise<Resol
   // Score each (alias hit, work); a shared alias splits its weight by each sharer's evidence.
   const best = new Map<string, ResolveCandidate>();
   for (const hit of hits) {
-    const scored: { evidence: number; pref: { weight: number; isTitle: boolean; reason: string | null }; cand: Omit<ResolveCandidate, 'confidence'> }[] = [];
+    const scored: { evidence: number; current: boolean; workYear: number | null; pref: { weight: number; isTitle: boolean; reason: string | null }; cand: Omit<ResolveCandidate, 'confidence'> }[] = [];
     for (const id of hit.works) {
       const w = await ds.getWork(id);
       if (!w) continue;
@@ -372,6 +395,8 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease): Promise<Resol
       const shared = hit.works.length > 1 ? `, shared by ${hit.works.length} works` : '';
       scored.push({
         evidence: placement.fit * season.fit * year.fit,
+        current: w.status === 'airing' || (w.year !== null && recentYear !== null && w.year >= recentYear),
+        workYear: w.year,
         pref,
         cand: {
           work: placement.work.id,
@@ -380,6 +405,18 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease): Promise<Resol
           reason: [titleReason + shared, placement.reason, season.reason, year.reason].filter(Boolean).join('; '),
         },
       });
+    }
+    // A recent release (Xwolv, 2026-10-20) is first of all a release of a work on air now: an older
+    // sharer (a finished work from an earlier year) loses to a current one with no worse evidence,
+    // and only then does title holding break the remaining ties.
+    if (recentYear !== null && scored.some((x) => x.current)) {
+      for (const x of scored) {
+        if (x.current || x.workYear === null || x.workYear >= recentYear) continue;
+        if (scored.some((c) => c.current && c.evidence >= x.evidence)) {
+          x.evidence *= RECENT_FACTOR;
+          x.cand.reason += '; an older work, and the release is recent';
+        }
+      }
     }
     // Title rank and type only break ties or widen a lead: weights are relative to the sharer the
     // other evidence favors (the best preference among equals), so they never overturn it.

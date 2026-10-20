@@ -572,3 +572,75 @@ cases:
     verified: true
     source: proxy-unresolved
     notes: "Found by the TMDB projection checker (issue 75), 2026-10-20: Anime-Lists puts the 3rd season at TMDB offset 48 and part 2 at 72, so the 3rd season is 24 episodes long although only 12 are counted so far. Episodes 13 to 24 must keep a TMDB place (season 1, 61 to 72) instead of falling into a gap."
+  - name: "[SubsPlease] Jigokuraku 2nd Season - 05 (1080p) [ABCD1234]"
+    expect:
+      status: ok
+      work: jigokuraku-2nd-season
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: "TMDB projection checker batch, 2026-10-20: TMDB keeps this cour inside season 1 (the cours run on), so its TMDB episode is the first cour's length plus 5; the release still resolves to this work and episode, with TVDB season 2."
+  - name: "[SubsPlease] Sono Bisque Doll wa Koi wo Suru Season 2 - 05 (1080p) [ABCD1234]"
+    expect:
+      status: ok
+      work: sono-bisque-doll-wa-koi-wo-suru-season-2
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: "TMDB projection checker batch, 2026-10-20: TMDB keeps this cour inside season 1 (the cours run on), so its TMDB episode is the first cour's length plus 5; the release still resolves to this work and episode, with TVDB season 2."
+  - name: "[SubsPlease] Ore dake Level Up na Ken Season 2 - Arise from the Shadow - 05 (1080p) [ABCD1234]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken-season-2-arise-from-the-shadow
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: "TMDB projection checker batch, 2026-10-20: TMDB keeps this cour inside season 1 (the cours run on), so its TMDB episode is the first cour's length plus 5; the release still resolves to this work and episode, with TVDB season 2."
+  - name: "[SubsPlease] Watashi no Shiawase na Kekkon 2nd Season - 05 (1080p) [ABCD1234]"
+    expect:
+      status: ok
+      work: watashi-no-shiawase-na-kekkon-2nd-season
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: "TMDB projection checker batch, 2026-10-20: TMDB keeps this cour inside season 1 (the cours run on), so its TMDB episode is the first cour's length plus 5; the release still resolves to this work and episode, with TVDB season 2."
+  - name: "[SubsPlease] Bye Bye, Earth 2nd Season - 05 (1080p) [ABCD1234]"
+    expect:
+      status: ok
+      work: bye-bye-earth-2nd-season
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: "TMDB projection checker batch, 2026-10-20: TMDB keeps this cour inside season 1 (the cours run on), so its TMDB episode is the first cour's length plus 5; the release still resolves to this work and episode, with TVDB season 2."
+  - name: "[SubsPlease] Sentai Daishikkaku 2nd Season - 05 (1080p) [ABCD1234]"
+    expect:
+      status: ok
+      work: sentai-daishikkaku-2nd-season
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: "TMDB projection checker batch, 2026-10-20: TMDB keeps this cour inside season 1 (the cours run on), so its TMDB episode is the first cour's length plus 5; the release still resolves to this work and episode, with TVDB season 2."
+  - name: "[SubsPlease] Unnamed Memory Act.2 - 05 (1080p) [ABCD1234]"
+    expect:
+      status: ok
+      work: unnamed-memory-act-2
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: "TMDB projection checker batch, 2026-10-20: TMDB keeps this cour inside season 1 (the cours run on), so its TMDB episode is the first cour's length plus 5; the release still resolves to this work and episode, with TVDB season 2."
+  - name: "[SubsPlease] Kekkon Yubiwa Monogatari II - 05 (1080p) [ABCD1234]"
+    expect:
+      status: ok
+      work: kekkon-yubiwa-monogatari-ii
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: "TMDB projection checker batch, 2026-10-20: TMDB keeps this cour inside season 1 (the cours run on), so its TMDB episode is the first cour's length plus 5; the release still resolves to this work and episode, with TVDB season 2."
+  - name: "[SubsPlease] Bonobono (TV 2016) - 600 (1080p) [ABCD1234]"
+    expect:
+      status: ok
+      work: bonobono-tv-2016
+      episode: 600
+    verified: true
+    source: proxy-unresolved
+    notes: "TMDB projection checker batch, 2026-10-20: the TMDB mapping to the 1995 show was removed; the release still resolves, with TVDB season 2 episode 600."

@@ -1,0 +1,13 @@
+id: sentai-daishikkaku-2nd-season
+projections:
+  # TMDB keeps this cour inside season 1 of "Go! Go! Loser Ranger!", after the 12 episodes of the first cour, and has no
+  # season 2; Anime-Lists maps it to a TMDB season 2 (tmdbseason 2, no offset). Found by the TMDB projection checker.
+  tmdb_show:
+    - { season: 1, episodes: 1-12, start: 13 }
+notes: >-
+  Overrides the TMDB mapping only. The checker (2026-10-20) found season 2 missing on TMDB although this show
+  aired long ago; TMDB lists one season 1 that holds both cours, so the second cour continues at episode
+  13. The TVDB mapping is unchanged.
+sources:
+  - https://www.themoviedb.org/tv/215799
+  - https://github.com/Anime-Lists/anime-lists/blob/9ed90bf804bb24d58c99ea653e095194df494b52/anime-list-master.xml

@@ -1,0 +1,12 @@
+id: bonobono-tv-2016
+projections:
+  # No TMDB mapping: Anime-Lists maps this series to season 2 of TMDB show 66569, which is the 1995 series and has
+  # only a season 1. TMDB lists the 2016 series as a show of its own (a different TMDB ID), which is not in
+  # the seed datasets, so it is not guessed here. Remove the wrong mapping until Anime-Lists has the right ID.
+  tmdb_show: null
+notes: >-
+  Removes the TMDB projection only (the TVDB mapping is unchanged). Found by the TMDB projection checker
+  (2026-10-20). The ID of the 2016 show is for Xwolv to decide: it comes from TMDB itself, not from a seed dataset.
+sources:
+  - https://www.themoviedb.org/tv/66569
+  - https://github.com/Anime-Lists/anime-lists/blob/9ed90bf804bb24d58c99ea653e095194df494b52/anime-list-master.xml

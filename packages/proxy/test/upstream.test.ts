@@ -227,6 +227,14 @@ describe('what a Sonarr search costs an indexer', async () => {
       expect(json.indexers.nyaa!.days[0]).toMatchObject({ requests: 6, errors: 6 });
     });
 
+    it('passes HTTP 429 and its Retry-After on, so Sonarr backs off as long as the indexer asks', async () => {
+      const upstream = await serve((_u, res) => void res.writeHead(429, { 'Content-Type': 'text/html', 'Retry-After': '7200' }).end('<html>Too many requests</html>'));
+      const t = await setup({}, { cacheSeconds: 0 }, {}, upstream);
+      const res = await fetch(`${t.base}/nyaa/api?apikey=prowlarr-key&t=search&q=x`);
+      expect([res.status, res.headers.get('retry-after')]).toEqual([429, '7200']);
+      expect(t.stats.of('nyaa').upstreamFailures).toEqual({ 'api-limit': 1 });
+    });
+
     it('tells a timeout from a refused connection', async () => {
       const calls: string[] = [];
       const fetchFn = ((input: string | URL | Request) => {

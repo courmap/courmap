@@ -83,6 +83,9 @@ Environment variables win over the optional YAML file at `/config/courmap-proxy.
 | `PORT` | `9797` | Listening port. |
 | `DATA_DIR` | `/data` | Dumps, `current.json` and `unresolved.jsonl`. |
 | `TIMEOUT_SECONDS` | `60` | Upstream request timeout. |
+| `UPSTREAM_CACHE_SECONDS` | `60` | Identical queries to an indexer within this time share one request (also while the first is running). `0` turns the cache off. |
+| `SEARCH_STOP_ON_MATCH` | `true` | An episode search sends its alternative query (franchise title and absolute number) only when the first query did not return that episode. `false` always sends both. |
+| `MAX_QUERIES_PER_SEARCH` | `3` | The most upstream queries one Sonarr search may cause (1 to 10). |
 
 ## Unraid
 
@@ -104,6 +107,10 @@ Environment variables win over the optional YAML file at `/config/courmap-proxy.
 ## Status page
 
 `http://<host>:9797/` shows the data version, the last refresh and its error if any, the Sonarr connection, and per indexer: its protocol (torznab or newznab, as configured or detected), requests, searches (and how many were translated), items, how many were rewritten, and why the rest passed through. Below that is the list of unresolved release names, with a text block to paste into a GitHub issue if you want to help improve Courmap. `/status.json` has the same data; `/health` is for health checks. API keys never appear in the logs, the page or the exports: the Sonarr key, the indexer keys, the key Sonarr sends and any `apikey=` or `token=` in a URL are masked as `***`, including inside error messages.
+
+## API limits
+
+Usenet indexers limit API requests per day, so the proxy spends them carefully. Measured against a real Sonarr, one episode search that used to reach the indexer 8 to 10 times now reaches it once, and an anime season search went from 190 requests to 37. The cache, the early stop and the cap are settings (above). The status page counts the requests sent to each indexer per UTC day, says why failed requests failed (`api-limit`, `auth`, `indexer-error`, `http`, `bad-response`, `timeout`, `network`), and an indexer's "limit reached" answer, or HTTP 429 with its `Retry-After`, goes to Sonarr as it is so that Sonarr backs off. The [Sonarr guide](https://courmap.com/sonarr/#indexer-api-limits) has the numbers and the details.
 
 ## Development
 

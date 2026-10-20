@@ -6,6 +6,8 @@
 #   name       the release name, as it would appear in an RSS feed or on disk
 #   expect     status ok, with work and episode (and episode_to for batches); or status
 #              ambiguous, optionally with the top candidate's work; or status unmatched
+#   posted     the date the release was posted; the case resolves as seen that day (a recent release
+#              favors works on air now over older works with the same title)
 #   dataset    data (default: data/ with seeds) or conformance (tests/conformance/data, for
 #              branches the real data has no example of, such as group overrides)
 #   verified   true once a person has checked the expectation; only verified cases count
@@ -246,9 +248,9 @@ cases:
       status: ok
       work: cheng-ye-xiao-he
       episode: 13
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Proposed answer, for Xwolv to confirm: cheng-ye-xiao-he episode 13. The pinned dataset says upcoming with 12 episodes; data/works/cheng-ye-xiao-he.yaml sets it airing, so its count is a floor."
+    notes: "Confirmed by Xwolv 2026-10-20. The pinned dataset says upcoming with 12 episodes; data/works/cheng-ye-xiao-he.yaml sets it airing, so its count is a floor."
   - name: "[NanakoRaws] Aikatsu! - 01 (TVA TV 1080p HEVC AAC)"
     expect:
       status: ok
@@ -256,7 +258,7 @@ cases:
       episode: 1
     verified: false
     source: proxy-unresolved
-    notes: "Proposed answer, for Xwolv to confirm: aikatsu episode 1. It holds the title; four other works only list it as a synonym, and the title holder wins when the other evidence is equal."
+    notes: "Not verified. Result of the recency check (2026-10-20): the export carries no posting dates, and no currently airing or 2026 work holds the title (every work that carries the title is finished, and the only upcoming Aikatsu work is a 2027 movie), so a recent posting does not change the answer: aikatsu episode 1, by title holding."
   - name: "[NanakoRaws] Kusuriya no Hitorigoto S3 - 02 (CTV TV 1080p HEVC AAC)"
     expect:
       status: ok
@@ -280,7 +282,7 @@ cases:
       episode: 24
     verified: false
     source: proxy-unresolved
-    notes: "Proposed answer, for Xwolv to confirm: mao episode 24. Same title-holder rule as Aikatsu!."
+    notes: "Not verified. Result of the recency check (2026-10-20): the export carries no posting dates. Mao (2026, 26 episodes, the only work from this year) is the title holder and the newest of the three works sharing the title (the others are from 2002 and 2020), so recency and title holding agree: mao episode 24."
   - name: "[Erai-raws] Tensei Goblin dakedo Shitsumon Aru - 03 [480p CR WEB-DL AVC AAC][MultiSub][E9476CC8]"
     expect:
       status: ok
@@ -310,25 +312,25 @@ cases:
       status: ok
       work: bleach-sennen-kessen-hen-kashin-tan
       episode: 9
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Proposed answer, for Xwolv to confirm: bleach-sennen-kessen-hen-kashin-tan episode 9 (continuous number 49 of bleach-tybw-absolute, TVDB season 17 episode 49)."
+    notes: "Confirmed by Xwolv 2026-10-20. Continuous number 49 of bleach-tybw-absolute is the fourth cour episode 9 (TVDB season 17 episode 49)."
   - name: BLEACH.Thousand.Year.Blood.War.S01E49.THE.BLADE.1080p.AMZN.WEB-DL.DDP2.0.H.264-VARYG
     expect:
       status: ok
       work: bleach-sennen-kessen-hen-kashin-tan
       episode: 9
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Proposed answer, for Xwolv to confirm: bleach-sennen-kessen-hen-kashin-tan episode 9 (continuous number 49 of bleach-tybw-absolute, TVDB season 17 episode 49)."
+    notes: "Confirmed by Xwolv 2026-10-20. Same release as the case above from another group."
   - name: Bleach-Thousand-Year.Blood.War.35.BD.Remux.1080p.AVC.DTS-HD.MA.2.0.DUAL.DTS-HD.MA.2.0-Wwecrazzy
     expect:
       status: ok
       work: bleach-sennen-kessen-hen-soukoku-tan
       episode: 9
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Proposed answer, for Xwolv to confirm: bleach-sennen-kessen-hen-soukoku-tan episode 9 (continuous number 35 of bleach-tybw-absolute)."
+    notes: "Confirmed by Xwolv 2026-10-20. Continuous number 35 is the third cour episode 9."
   - name: Tensei.Goblin.dakedo.Shitsumon.Aru.S01E03.So.Whats.Wrong.with.Negotiating.with.Humans.1080p.CR.WEB-DL.AAC2.0.H.264-playWEB
     expect:
       status: ok
@@ -371,9 +373,9 @@ cases:
     expect:
       status: ambiguous
       top: sore-ga-boku-no-otousan
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "From a real proxy export (first week, data 2026.43). Not verified: No work in the data has this title (the closest, a 1997 special, is a different show); the show is missing from the pinned dataset and should appear in a later pin."
+    notes: "Confirmed by Xwolv 2026-10-20. Stays ambiguous: no work in the data has this title (the closest, a 1997 special, is a different show). The show is missing from the pinned dataset and should appear in a later pin."
   - name: Starmyu.in.Halloween.2018.1080p.JPN.BluRay.AVC.LPCM.2.0-NAN0
     expect:
       status: ok
@@ -456,3 +458,21 @@ cases:
     verified: true
     source: proxy-unresolved
     notes: "Decided by Xwolv 2026-10-20 (DECISIONS.md, \"Decisions from the first export\"). A finished work's count is never a floor: a release past it passes through and is worth a tier C issue."
+  - name: "[NanakoRaws] Aikatsu! - 02 (TVA TV 1080p HEVC AAC)"
+    expect:
+      status: ok
+      work: aikatsu
+      episode: 2
+    posted: 2026-10-19
+    verified: true
+    source: proxy-unresolved
+    notes: "Dated variant of the Aikatsu! case, posted as if seen the day the proxy first saw it. A recent release still resolves to the original series: no airing or current-year work competes for the title."
+  - name: Mao - 25 [480p DSNP WEB-DL AVC AAC][MultiSub][31D9CEAC]
+    expect:
+      status: ok
+      work: mao
+      episode: 25
+    posted: 2026-10-19
+    verified: true
+    source: proxy-unresolved
+    notes: Dated variant of the Mao case. A recent release goes to the 2026 work, which both holds the title and is the current one.

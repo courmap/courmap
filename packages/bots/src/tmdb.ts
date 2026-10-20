@@ -18,21 +18,49 @@ export class TmdbClient {
     this.fetchFn = opts.fetch ?? ((input, init) => fetch(input, init));
   }
 
-  /** Episode count per season number, or null when TMDB has no such show. */
-  async seasonCounts(showId: string): Promise<Map<number, number> | null> {
+  /** One TMDB API call (paced), or null for a 404. */
+  async get(path: string, params: Record<string, string> = {}): Promise<unknown | null> {
     const wait = this.last + (this.opts.minIntervalMs ?? 100) - Date.now();
     if (wait > 0) await (this.opts.sleep ?? ((ms) => new Promise((r) => setTimeout(r, ms))))(wait);
     this.last = Date.now();
     this.requests++;
     // A v4 read access token is a JWT; a v3 key goes in the query string.
     const bearer = this.apiKey.startsWith('eyJ');
-    const url = `https://api.themoviedb.org/3/tv/${encodeURIComponent(showId)}${bearer ? '' : `?api_key=${encodeURIComponent(this.apiKey)}`}`;
+    const query = new URLSearchParams({ ...params, ...(bearer ? {} : { api_key: this.apiKey }) });
+    const url = `https://api.themoviedb.org/3/${path}${query.size > 0 ? `?${query}` : ''}`;
     const res = await this.fetchFn(url, { headers: { Accept: 'application/json', ...(bearer && { Authorization: `Bearer ${this.apiKey}` }) } });
     if (res.status === 404) return null;
-    if (!res.ok) throw new Error(`TMDB: HTTP ${res.status} for tv/${showId}`);
-    const body = (await res.json()) as { seasons?: { season_number: number; episode_count: number }[] };
+    if (!res.ok) throw new Error(`TMDB: HTTP ${res.status} for ${path}`);
+    return res.json();
+  }
+
+  /** Episode count per season number, or null when TMDB has no such show. */
+  async seasonCounts(showId: string): Promise<Map<number, number> | null> {
+    const body = (await this.get(`tv/${encodeURIComponent(showId)}`)) as { seasons?: { season_number: number; episode_count: number }[] } | null;
+    if (body === null) return null;
     return new Map((body.seasons ?? []).map((s) => [s.season_number, s.episode_count]));
   }
+}
+
+/** What TMDB says about a show, for a person to read in a CI log (never stored). */
+export interface ShowInfo {
+  name: string;
+  status: string;
+  seasons: { number: number; name: string; episodes: number; airDate: string | null }[];
+}
+
+/** Reads one show's name, status and seasons, or null when TMDB has no such show. */
+export async function showInfo(tmdb: TmdbClient, showId: string): Promise<ShowInfo | null> {
+  const body = await tmdb.get(`tv/${encodeURIComponent(showId)}`);
+  if (body === null) return null;
+  const b = body as { name?: string; status?: string; seasons?: { season_number: number; name?: string; episode_count: number; air_date?: string | null }[] };
+  return { name: b.name ?? '', status: b.status ?? '', seasons: (b.seasons ?? []).map((s) => ({ number: s.season_number, name: s.name ?? '', episodes: s.episode_count, airDate: s.air_date ?? null })) };
+}
+
+/** TV shows TMDB finds for a title, to see whether a sequel is a show of its own. */
+export async function searchShows(tmdb: TmdbClient, query: string): Promise<{ id: number; name: string; firstAirDate: string | null }[]> {
+  const body = (await tmdb.get('search/tv', { query })) as { results?: { id: number; name: string; first_air_date?: string | null }[] } | null;
+  return (body?.results ?? []).slice(0, 5).map((r) => ({ id: r.id, name: r.name, firstAirDate: r.first_air_date ?? null }));
 }
 
 /** The last TMDB episode each season of a work's tmdb_show projection lands on (Infinity when open-ended). */

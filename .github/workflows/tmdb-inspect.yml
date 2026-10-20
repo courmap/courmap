@@ -1,0 +1,35 @@
+name: tmdb-inspect
+
+# Reads what TMDB says about the TMDB show of some of our works and prints it in the run log, next to
+# our mapping: for deciding a projection-checker issue. Nothing is stored or committed.
+#   gh workflow run tmdb-inspect.yml -f works="jigokuraku-2nd-season bonobono-tv-2016"
+on:
+  workflow_dispatch:
+    inputs:
+      works:
+        description: Work ids, separated by spaces
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: What TMDB says
+        env:
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+          WORKS: ${{ inputs.works }}
+        run: pnpm bots tmdb-show $WORKS

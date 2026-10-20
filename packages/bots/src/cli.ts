@@ -10,7 +10,7 @@ import { LABELS, TMDB_ISSUE_PREFIX, airingPrBody, tmdbLagComment, tmdbResolvedCo
 import { nextSeason, seasonName, seasonOf, type SeasonRef } from './season.js';
 import { diffSequences } from './shifts.js';
 import { airingJsonl, evaluate, loadState, relationsJsonl, type State } from './state.js';
-import { TmdbClient, checkProjectionsDetailed, issuesToClose } from './tmdb.js';
+import { TmdbClient, checkProjectionsDetailed, issuesToClose, searchShows, showInfo } from './tmdb.js';
 
 const USAGE = `Usage: courmap-bots <command> [options]
 
@@ -19,6 +19,8 @@ Commands:
            issues and the Season tracker issues
   tmdb     Projection checker: our TMDB projections against TMDB season counts (needs
            TMDB_API_KEY; CI only, nothing is stored)
+  tmdb-show <work>...  What TMDB says about the TMDB show of each work (name, seasons, air dates) and which
+           shows a search for its title finds, next to our mapping; for reading in a CI log (needs TMDB_API_KEY)
   digest   The weekly digest, to ntfy (NTFY_URL) and Discord (DISCORD_WEBHOOK_URL) when set
 
 Options:
@@ -181,6 +183,31 @@ async function main(argv: string[]): Promise<number> {
     // An issue the checker opened closes itself once a later run finds no mismatch worth one for that work.
     const prefix = `${TMDB_ISSUE_PREFIX}: `;
     for (const c of issuesToClose(await writer.openIssues(prefix), prefix, result)) await writer.closeIssue(c.number, c.reason === 'lag' ? tmdbLagComment() : tmdbResolvedComment());
+    return 0;
+  }
+
+  if (command === 'tmdb-show') {
+    const key = process.env.TMDB_API_KEY;
+    if (!key) return (console.log('TMDB_API_KEY is not set.'), 1);
+    const state = await loadState(values.data!);
+    const tmdb = new TmdbClient(key);
+    for (const id of positionals.slice(1)) {
+      const w = state.records.works.get(id);
+      if (!w) {
+        console.log(`${id}: not in the data`);
+        continue;
+      }
+      console.log(`\n== ${id} (${w.status}, ${w.year}) tmdb_show ${w.ids.tmdb_show ?? '-'}; ours: ${JSON.stringify(w.projections.tmdb_show ?? [])}`);
+      if (w.ids.tmdb_show !== undefined) {
+        const info = await showInfo(tmdb, w.ids.tmdb_show);
+        if (!info) console.log('   TMDB has no such show');
+        else {
+          console.log(`   TMDB: "${info.name}" (${info.status})`);
+          for (const s of info.seasons) console.log(`     season ${s.number}: ${s.episodes} episodes, ${s.airDate ?? 'no air date'}, "${s.name}"`);
+        }
+      }
+      for (const r of await searchShows(tmdb, w.titles.romaji ?? id)) console.log(`   search "${w.titles.romaji ?? id}": ${r.id} "${r.name}" ${r.firstAirDate ?? ''}`);
+    }
     return 0;
   }
 

@@ -1,0 +1,16 @@
+id: recent-show-new
+type: tv
+status: airing
+year: 2026
+episodes: 26
+titles:
+  romaji: Recent Show 2026
+ids:
+  anidb: 1061
+  tvdb_show: 5061
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-26 }
+aliases:
+  - Recent Show
+notes: Conformance fixture. All IDs are fake. An airing work that only lists the shared title as a synonym.

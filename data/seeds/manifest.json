@@ -3,126 +3,126 @@
   "pins": {
     "offline_db": {
       "repo": "cedya77/anime-offline-database",
-      "tag": "2026-42",
+      "tag": "2026-43",
       "asset": "anime-offline-database.jsonl.zst",
-      "sha256": "5d6fc7ed463c616f4efe6d35344d019f30fe0614fe183c4668a9dd4fe14d6728",
-      "last_update": "2026-10-12"
+      "sha256": "6666ac2adaa3bf60653fdb78eaf4656f2717cdc7e2b79e7c768322e899d44a9d",
+      "last_update": "2026-10-19"
     },
     "anime_lists": {
       "repo": "Anime-Lists/anime-lists",
-      "commit": "996d6a8b98c0c8ba94378875746a83b66dc590d4",
+      "commit": "9ed90bf804bb24d58c99ea653e095194df494b52",
       "path": "anime-list-master.xml",
-      "sha256": "93eb14b4b5dc09a838a0b3bd0acfc36aeef7536937816d5453fe801d07828498"
+      "sha256": "9c6a42dfad119ee1174c9c3424552523703bbe7dcdce9790abce59b2e5c82e44"
     }
   },
   "shards": [
     {
       "name": "works-000.jsonl",
-      "works": 2066,
-      "sha256": "c85c06e334093e3a607f60c0d4aadc55ec269a3c66ebc3899b863bee499e7d6b"
+      "works": 2070,
+      "sha256": "da8aa93e7f2dee42b736929e776a136309e7f8ac6270c1e42d831aa1ce8d2b4d"
     },
     {
       "name": "works-001.jsonl",
-      "works": 2055,
-      "sha256": "66ab21af9ee26d8d11c0b7dd3ae7c7747bf3aa0b5469cfcac34c9bb33f70347e"
+      "works": 2054,
+      "sha256": "e875640ab1ee6eea47693a764c6935899dac2826705fbf00530abba502c0b4aa"
     },
     {
       "name": "works-002.jsonl",
-      "works": 2083,
-      "sha256": "8dbf208eb3039eae3044a9b8d738d88e02b2af8bdaf1881f4bc7adba5d4fad5b"
+      "works": 2080,
+      "sha256": "6b3ad405c9dac3fdbefc989b295e2554f60f611e41b428816f27178c3c36ee8d"
     },
     {
       "name": "works-003.jsonl",
       "works": 2039,
-      "sha256": "3b5e950b86d6628da025a79f0126982531d1c2ce5a4623a1ad703ee9eb271176"
+      "sha256": "1b51a9b8f16f1b335ae5d5d1faec7bdd21150e34ddd81f2d3922bc000fe6e34d"
     },
     {
       "name": "works-004.jsonl",
-      "works": 2007,
-      "sha256": "cef623f465b3ba5cc5a60b2612237994692da37e1538d5c427eb9ce97bb39013"
+      "works": 2005,
+      "sha256": "995ee320b3338c6f17dfc737ef38c7e7b967db9e6903dd816b8f4a0a3a505637"
     },
     {
       "name": "works-005.jsonl",
-      "works": 2016,
-      "sha256": "4d85901bb16c7d75eccd2c42c06642ed856415d3f4b86483cc56256b062ba633"
+      "works": 2015,
+      "sha256": "5455b6943a77921313a9c6a9c81eb41c0d9b98a68af5fbd06e17b5cb636e36e2"
     },
     {
       "name": "works-006.jsonl",
-      "works": 2098,
-      "sha256": "42bec2525fe133a8216608881f91657bb00cc7a126337565f71b594cc7635c85"
+      "works": 2100,
+      "sha256": "2d2220bba8688cc4f353019cfc99c25134d3d769e699bd13f1cf57bf7ab192f9"
     },
     {
       "name": "works-007.jsonl",
-      "works": 2056,
-      "sha256": "65c69a1d99c758cf97f1b100b89c1594683e376d8797a34045e29a8352b6a3c6"
+      "works": 2057,
+      "sha256": "d7bb03731a727883dd1fc4b592ebfae2ce8d1d4058e6264ab6e6cb89b54fa8b5"
     },
     {
       "name": "works-008.jsonl",
-      "works": 2057,
-      "sha256": "dd6e6130d64aa498760c886cc8094b06ffc0708730a1c0197123990d6c593d86"
+      "works": 2056,
+      "sha256": "792b4735f444de8d5639afba3b5d7181b88a6dfa85065d6112b8c12ed278f902"
     },
     {
       "name": "works-009.jsonl",
-      "works": 2039,
-      "sha256": "dbab7507670c05feaff64a91e1cd5b64ace66ce57a5a5fa257fac099861c16e1"
+      "works": 2034,
+      "sha256": "a3199b9655ce5e9abe329fc16f90e545209039cf25084505af177e64ba3165cf"
     },
     {
       "name": "works-010.jsonl",
-      "works": 2088,
-      "sha256": "607fe1560c5e2adbc8ab4e0718135a9a460da827607ebe7985cb37596831c146"
+      "works": 2086,
+      "sha256": "17790cf4eb9cc603ad6ea24d21da92073789abe3de9e3de7aca8028a1fdecb57"
     },
     {
       "name": "works-011.jsonl",
       "works": 2034,
-      "sha256": "676887d248ef01daec8121210dcbb4437e67bff1d36a9cce1cb2ac6844c8001e"
+      "sha256": "05771b61105d3381c4a0acf0081ed02f93e54d682cdaa15b0cd818343349d74b"
     },
     {
       "name": "works-012.jsonl",
-      "works": 2037,
-      "sha256": "9321e40b8996b7c4b676fb8ac51dc38c834c909bd9dcab1745c69f3feee7e954"
+      "works": 2033,
+      "sha256": "67b6408dd734b33415cf9939483137cea6eb29e8c5e3ac20503b3134acc202f5"
     },
     {
       "name": "works-013.jsonl",
-      "works": 2070,
-      "sha256": "f71aa2bd3738e97511dbbc6ac191abc1d6c02667ffee750a19233b09a3f076dc"
+      "works": 2068,
+      "sha256": "d50eb4f1d6d71c6c9ec8b652bb0cb4c6541dcb4f5d34133898bd7d5c1bbe698e"
     },
     {
       "name": "works-014.jsonl",
-      "works": 2025,
-      "sha256": "a4702e446e0560b6bc15ce30a330c4925ba60b5d40b828dd79887e74a720453e"
+      "works": 2026,
+      "sha256": "2a25edae25d1887b8af5f261d40f7490d545ffeac95ee7b0eed7c2f21ad65509"
     },
     {
       "name": "works-015.jsonl",
-      "works": 2063,
-      "sha256": "95cbecdea9d0b0290f8d8ca80d0e8f209b1a1836dbd8fb814e09c335e9cb6396"
+      "works": 2065,
+      "sha256": "6478e4632d1213ede4934f765cceb6f3a051b7ef16ea48b28580750226c53663"
     }
   ],
   "summary": {
-    "works": 32833,
+    "works": 32822,
     "provider_refs": {
-      "anidb": 14677,
-      "anilist": 20828,
-      "mal": 30841,
-      "kitsu": 20778,
+      "anidb": 14693,
+      "anilist": 20844,
+      "mal": 30850,
+      "kitsu": 20804,
       "tmdb_movie": 1325,
-      "tvdb_show": 7467,
-      "tmdb_show": 7048,
+      "tvdb_show": 7468,
+      "tmdb_show": 7049,
       "imdb": 1608
     },
     "projection_rows": {
-      "tvdb_show": 7975,
-      "tmdb_show": 5864
+      "tvdb_show": 7976,
+      "tmdb_show": 5865
     },
     "projection_blocks": {
-      "tvdb_show": 6699,
-      "tmdb_show": 5793
+      "tvdb_show": 6700,
+      "tmdb_show": 5794
     },
     "partial_blocks": {
       "tvdb_show": 29,
       "tmdb_show": 1
     },
     "warnings": {
-      "open-ended-not-airing": 46,
+      "open-ended-not-airing": 15,
       "out-of-bounds": 57
     },
     "info": {
@@ -133,17 +133,17 @@
       "anime-lists-split-not-consecutive": 39,
       "anime-lists-unsupported-mapping": 1,
       "offline-db-merged-anidb": 4,
-      "offline-db-multiple-ids": 86,
+      "offline-db-multiple-ids": 85,
       "offline-db-no-episode-count": 6,
       "offline-db-unknown-status": 6,
-      "offline-db-unknown-type": 38,
+      "offline-db-unknown-type": 35,
       "validate-duplicate-provider-id": 4,
       "validate-target-overlap": 276
     },
-    "offline_db_entries_without_anchor": 5428,
-    "seeded_without_anidb": 18156,
+    "offline_db_entries_without_anchor": 5385,
+    "seeded_without_anidb": 18129,
     "seeded_without_anidb_with_projections": 0,
-    "anime_lists_entries_without_offline_db": 2376,
+    "anime_lists_entries_without_offline_db": 2362,
     "repair_rounds": 2
   }
 }

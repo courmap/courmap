@@ -155,7 +155,10 @@ describe('export for corpus:from-proxy', async () => {
     const stats = new S(null);
     stats.record('nyaa', '[Other] Unknown Thing - 03 [1080p]', { kind: 'pass', reason: 'unmatched', detail: 'no candidate', resolved: null });
     const out = exportJson({ stats, data: { status: { dataVersion: '2026.43', file: null, lastCheck: null, lastChange: null, lastError: null } } as never });
-    expect(out).toEqual({ courmap_proxy_export: 1, data_version: '2026.43', unresolved: [{ name: '[Other] Unknown Thing - 03 [1080p]', status: 'unmatched', count: 1, detail: 'no candidate' }], assisted: [] });
+    expect(out).toMatchObject({ courmap_proxy_export: 1, data_version: '2026.43', unresolved: [{ name: '[Other] Unknown Thing - 03 [1080p]', status: 'unmatched', count: 1, detail: 'no candidate' }], assisted: [] });
+    // The export carries when each name was first and last seen, so a later reader can tell recent releases from old ones.
+    expect(out.unresolved[0]!.firstSeen).toMatch(/^\d{4}-\d\d-\d\dT/);
+    expect(out.unresolved[0]!.lastSeen).toMatch(/^\d{4}-\d\d-\d\dT/);
     expect(exportText({ stats })).toBe('[Other] Unknown Thing - 03 [1080p]\n');
   });
 });

@@ -1,6 +1,33 @@
 # Parser fixtures: release name -> the fields it must produce. Fields not listed are not checked.
 # Hand-written; names follow common fansub and scene conventions. No release site was consulted.
 cases:
+  # H.264 keeps its dot in a dot-separated name, so the codec and group after it are tags, not title.
+  - name: "Dara.san.of.the.Reiwa.Era.S01.1080p.CR.WEB-DL.AAC2.0.H.264-VARYG"
+    expect: { title: Dara san of the Reiwa Era, season: 1, episode: null, resolution: 1080p, video_codec: h264, group: VARYG, batch: true }
+  - name: "[Group] Show Name 2nd Season [BD 1080p]"
+    expect: { title: Show Name, season: 2, episode: null, batch: true }
+  - name: "[Group] Show Name 2nd Season Movie [BD 1080p]"
+    expect: { season: 2, special: movie, batch: false }
+  # Erai-raws writes dot-separated names with the episode glued to the title by a hyphen.
+  - name: "[Erai-raws].Tempal-Item.no.Chikara-03.[720p.CR.WEB-DL.AVC.AAC][MultiSub][4F82E2DE]"
+    expect: { group: Erai-raws, title: Tempal-Item no Chikara, episode: 3, season: null, resolution: 720p, checksum: 4F82E2DE }
+  - name: "[Erai-raws].Psyren-03.[1080p.CR.WEBRip.HEVC.AAC][MultiSub][A4F9929A]"
+    expect: { title: Psyren, episode: 3 }
+  - name: "[Erai-raws].Bleach-Sennen.Kessen.Hen-Kashin.Tan-09.[480p.DSNP.WEB-DL.AVC.AAC][MultiSub][3850FF2D]"
+    expect: { title: Bleach-Sennen Kessen Hen-Kashin Tan, episode: 9 }
+  - name: "[Erai-raws].Show.Name-05v2.[1080p.CR.WEB-DL.AVC.AAC][MultiSub]"
+    expect: { title: Show Name, episode: 5, version: 2 }
+  # A hyphen and digits are not an episode in other names: a year, or a name with spaces.
+  - name: "[Group].Show.Name-2024.[1080p]"
+    expect: { title: Show Name-2024, episode: null }
+  - name: "[Group] Mobile Suit Gundam-00 - 03 [1080p]"
+    expect: { title: Mobile Suit Gundam-00, episode: 3 }
+  # Chinese fansubs: 第13话 is episode 13.
+  - name: "[Doomdos] - 成也萧河 - 第13话 - [1080p BILIBILI COM WEB-DL]"
+    expect: { group: Doomdos, title: 成也萧河, episode: 13 }
+  # An audio tag with a dot between codec and channels is a tag, not part of the title.
+  - name: "Starmyu.in.Halloween.2018.1080p.JPN.BluRay.AVC.LPCM.2.0-NAN0"
+    expect: { title: Starmyu in Halloween, year: 2018, group: NAN0, resolution: 1080p }
   - name: "[SubsPlease] Spy x Family - 13 (1080p) [ABCD1234].mkv"
     expect: { group: SubsPlease, title: Spy x Family, episode: 13, resolution: 1080p, checksum: ABCD1234, extension: mkv, batch: false }
   - name: "[Erai-raws] Sousou no Frieren - 05v2 [1080p][Multiple Subtitle][CAFE1234].mkv"

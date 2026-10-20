@@ -274,7 +274,16 @@ export function parseRelease(input: string): ParsedRelease {
       cut(words, i--);
     }
   }
-  const title = words.join(' ').replace(/[\s\-:~|]+$/, '').replace(/^[\s\-:~|]+/, '').trim();
+  let title = words.join(' ').replace(/[\s\-:~|]+$/, '').replace(/^[\s\-:~|]+/, '').trim();
+  // Scene-style "Title.Words.35.BD.Remux.1080p...": the episode sits between the title and the tags, so it
+  // was not the trailing number when the marker was searched. Never a year, a zero ("Gundam 00") or a season.
+  if (dotted && out.episode === null && out.season === null && out.part === null) {
+    const bare = /^(.+\s)(\d{1,3})$/.exec(title);
+    if (bare && Number(bare[2]) > 0) {
+      out.episode = Number(bare[2]);
+      title = bare[1]!.trim();
+    }
+  }
   out.title = title || null;
 
   out.flags = [...new Set(out.flags)];

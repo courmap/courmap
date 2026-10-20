@@ -168,6 +168,18 @@ export async function runSeed(inputs: SeedInputs): Promise<SeedOutput> {
     return !u.explicit && u.offsets.length === u.n && u.offsets.filter((o) => o >= mine).length === 1;
   };
 
+  // The room an airing cour has before the next cour of the same show and season begins: Anime-Lists'
+  // offsets say how long it will be, even while its count still lags (Kusuriya 3rd Season: offset 48,
+  // part 2 at 72, so 24 episodes against the 12 aired so far). 0 when nothing follows or it cannot be told.
+  const roomBeforeNextCour = (al: ALEntry, p: ProjectionProvider): number => {
+    const season = p === 'tvdb_show' ? al.tvdbSeason : al.tmdbSeason;
+    const u = seasonUsers.get(seasonKey(al, p, season));
+    if (!u || u.n === 1 || u.explicit || u.offsets.length !== u.n) return 0;
+    const mine = (p === 'tvdb_show' ? al.tvdbOffset : al.tmdbOffset) ?? 0;
+    const next = Math.min(...u.offsets.filter((o) => o > mine));
+    return Number.isFinite(next) ? next - mine : 0;
+  };
+
   const drafts = new Map<string, Draft>();
   for (const entry of offline.entries.values()) {
     // Anime-Lists is keyed by AniDB, so works anchored elsewhere get IDs but no projections.
@@ -200,8 +212,10 @@ export async function runSeed(inputs: SeedInputs): Promise<SeedOutput> {
       setId('imdb', al.imdb, 'anime-lists');
       for (const p of PROJECTION_PROVIDERS) {
         const open = hasPlaceholderCount(entry) && mayStayOpen(al, p);
-        // Where the range cannot stay open (a sibling cour shares the season), the placeholder row of one episode is kept.
-        const map = buildEpisodeMap(al, p, entry.episodes ?? (hasPlaceholderCount(entry) ? 1 : 0), conflicts, open);
+        // Where the range cannot stay open (a later cour shares the season), it runs up to that cour's first
+        // episode, or keeps the count (the placeholder of one episode when there is none).
+        const count = entry.episodes ?? (hasPlaceholderCount(entry) ? 1 : 0);
+        const map = buildEpisodeMap(al, p, hasPlaceholderCount(entry) && !open ? Math.max(count, roomBeforeNextCour(al, p)) : count, conflicts, open);
         if (map) draft.maps[p] = map;
       }
     }

@@ -556,3 +556,19 @@ cases:
     verified: true
     source: proxy-unresolved
     notes: From a real proxy export (second batch, data 2026.43, mostly Spy x Family). Absolute 23 is the eleventh episode of the second cour of season 1.
+  - name: "[NanakoRaws] Kusuriya no Hitorigoto S3 - 13 (CTV TV 1080p HEVC AAC)"
+    expect:
+      status: ok
+      work: kusuriya-no-hitorigoto-3rd-season
+      episode: 13
+    verified: true
+    source: proxy-unresolved
+    notes: "Found by the TMDB projection checker (issue 75), 2026-10-20: Anime-Lists puts the 3rd season at TMDB offset 48 and part 2 at 72, so the 3rd season is 24 episodes long although only 12 are counted so far. Episodes 13 to 24 must keep a TMDB place (season 1, 61 to 72) instead of falling into a gap."
+  - name: "[NanakoRaws] Kusuriya no Hitorigoto S3 - 24 (CTV TV 1080p HEVC AAC)"
+    expect:
+      status: ok
+      work: kusuriya-no-hitorigoto-3rd-season
+      episode: 24
+    verified: true
+    source: proxy-unresolved
+    notes: "Found by the TMDB projection checker (issue 75), 2026-10-20: Anime-Lists puts the 3rd season at TMDB offset 48 and part 2 at 72, so the 3rd season is 24 episodes long although only 12 are counted so far. Episodes 13 to 24 must keep a TMDB place (season 1, 61 to 72) instead of falling into a gap."

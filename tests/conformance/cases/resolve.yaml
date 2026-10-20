@@ -80,3 +80,30 @@ cases:
     op: resolve
     release: "[Other] Nothing Here At All - 01"
     expect_resolve: { status: unmatched }
+
+  # While a work is airing and its mapping is open-ended, the recorded count is a lower bound.
+  - name: airing work, a number past the recorded count is placed by its open mapping
+    op: resolve
+    release: "[Other] Airing Show - 15 [1080p]"
+    expect_resolve: { status: ok, work: airing-show, episode: 15, confidence: 1 }
+
+  - name: airing work, a TVDB season and episode past the recorded count
+    op: resolve
+    release: "Airing.Show.S01E14.1080p.WEB.H264-GRP"
+    expect_resolve: { status: ok, work: airing-show, episode: 14, confidence: 1 }
+
+  - name: a finished work still rejects a number past its count
+    op: resolve
+    release: "[Other] Simple Show - 15 [1080p]"
+    expect_resolve: { status: ambiguous }
+
+  # A special, OVA or ONA of one episode, named by title and year, is that episode.
+  - name: one-episode special named by title and year
+    op: resolve
+    release: "Lone.Special.2019.1080p.BluRay.x264-GRP"
+    expect_resolve: { status: ok, work: lone-special, episode: 1, confidence: 1 }
+
+  - name: one-episode special without a year is not guessed
+    op: resolve
+    release: "Lone.Special.1080p.BluRay.x264-GRP"
+    expect_resolve: { status: ambiguous, top: [lone-special] }

@@ -1,0 +1,16 @@
+id: airing-show
+type: tv
+status: airing
+year: 2026
+episodes: 12
+titles:
+  romaji: Airing Show
+ids:
+  anidb: 1020
+  anilist: 2020
+  tvdb_show: 5020
+  tmdb_show: 6020
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1- }   # open-ended while airing: the count of 12 lags the broadcast
+notes: Conformance fixture. All IDs are fake. Airing, with a recorded count that is a lower bound.

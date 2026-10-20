@@ -41,7 +41,7 @@ describe('release assets', async () => {
     await buildAssets(dump, path.join(tmp, 'c'), root);
     const json = JSON.parse(gunzipSync(readFileSync(path.join(tmp, 'c', 'courmap-2026.01.json.gz'))).toString('utf8'));
     expect(json.meta).toMatchObject({ data_version: '2026.01', schema_version: '4' });
-    expect(json.works).toHaveLength(12);
+    expect(json.works).toHaveLength(14);
     expect(json.sequences.map((s: { id: string }) => s.id)).toEqual(['part-two-only', 'split-show-absolute']);
     expect(json.groups.map((g: { id: string }) => g.id)).toEqual(['fixturesubs']);
   });

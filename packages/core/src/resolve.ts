@@ -2,7 +2,7 @@ import { MIN_ALIAS_LENGTH } from './aliases.js';
 import { aliasShardKey, gramBucket, trigrams, type AliasEntry } from './alias-shards.js';
 import { translate, type Dataset } from './engine.js';
 import { CourmapError } from './errors.js';
-import type { GroupRecord, WorkRecord } from './model.js';
+import { hasOpenRun, type GroupRecord, type WorkRecord } from './model.js';
 import { codePointLength, normalizeTitle } from './normalize.js';
 import type { ParsedRelease, ResolveCandidate, ResolvedProjections, ResolveMatch, ResolveResult, WorkSummary } from './release.js';
 
@@ -137,7 +137,7 @@ interface Ctx {
   group: GroupRecord | null;
 }
 
-const inRange = (w: WorkRecord, e: number) => e >= 1 && (w.episodes === null || e <= w.episodes);
+const inRange = (w: WorkRecord, e: number) => e >= 1 && (w.episodes === null || e <= w.episodes || hasOpenRun(w));
 
 /** Steps 4.1 to 4.4 of the spec for one episode number. */
 async function placeOne(ctx: Ctx, w: WorkRecord, e: number, season: number | null): Promise<Omit<Placement, 'episodeTo'>> {
@@ -174,7 +174,11 @@ async function placeOne(ctx: Ctx, w: WorkRecord, e: number, season: number | nul
       if (!(err instanceof CourmapError)) throw err;
     }
   }
-  if (inRange(w, e)) return { work: w, episode: e, fit: 1, viaTvdbSeason: false, reason: `${e} is within ${w.id}'s ${w.episodes ?? 'open'} episodes` };
+  if (inRange(w, e)) {
+    // Past the recorded count only for an airing work with an open-ended mapping, whose count lags the broadcast.
+    const lagging = w.episodes !== null && e > w.episodes;
+    return { work: w, episode: e, fit: 1, viaTvdbSeason: false, reason: lagging ? `${e} is past ${w.id}'s ${w.episodes} recorded episodes, but it is airing and its mapping is open-ended` : `${e} is within ${w.id}'s ${w.episodes ?? 'open'} episodes` };
+  }
   const member = w.sequences.find((s) => s.default);
   if (member && e >= member.absolute_start) {
     const hub = await viaAbsolute(ds, member.sequence, e);
@@ -209,6 +213,8 @@ async function place(ctx: Ctx, w: WorkRecord): Promise<Placement> {
   }
   if (p.episode === null) {
     if (p.batch && w.episodes !== null) return { work: w, episode: 1, episodeTo: w.episodes, fit: 1, viaTvdbSeason: false, reason: `a batch of all ${w.episodes} episodes` };
+    // A special, OVA or ONA of exactly one episode, named by title and year, is that episode.
+    if (w.episodes === 1 && w.type !== 'tv' && p.year !== null) return { work: w, episode: 1, episodeTo: null, fit: 1, viaTvdbSeason: false, reason: 'a one-episode work, matched by title and year' };
     return { work: w, episode: null, episodeTo: null, fit: 0.3, viaTvdbSeason: false, reason: 'no episode number' };
   }
   const first = await placeOne(ctx, w, p.episode, season);
@@ -307,7 +313,12 @@ function preference(w: WorkRecord, hit: AliasHit, parsed: ParsedRelease): { weig
 const round = (x: number) => Math.round(x * 1000) / 1000;
 
 async function projectionsFor(ds: Dataset, workId: string, episode: number): Promise<ResolvedProjections> {
-  const r = await translate(ds, `work:${workId}`, episode, ['tvdb_show', 'tmdb_show', 'absolute']);
+  // An episode the engine rejects (past the work's recorded count) is an answer without projections, never a crash.
+  const r = await translate(ds, `work:${workId}`, episode, ['tvdb_show', 'tmdb_show', 'absolute']).catch((err: unknown) => {
+    if (err instanceof CourmapError && err.code === 'invalid_input') return null;
+    throw err;
+  });
+  if (r === null) return {};
   const out: ResolvedProjections = {};
   for (const [k, v] of Object.entries(r.results)) {
     if (k === 'absolute') out.absolute = v as { sequence: string; episode: number };

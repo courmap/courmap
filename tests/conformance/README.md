@@ -4,7 +4,7 @@ Language-neutral cases that every Courmap client must pass, in every mode (offli
 
 ## Layout
 
-- `data/`: a small fixture dataset with fake IDs, laid out like the repo's `data/`. It covers a simple show, a split cour sharing one TVDB season, specials, one-to-many and many-to-one episode splits, an open-ended long-runner, a seasonless (absolute order) projection, a movie, a movie AniDB splits into parts, a TV work and an OVA sharing a title (resolver tie-breakers), a remake whose prequel comes only from `seeds/relations.jsonl` (an AniList relation, `prequel_origin: bot`), and two absolute sequences sharing one work (one marked default).
+- `data/`: a small fixture dataset with fake IDs, laid out like the repo's `data/`. It covers a simple show, a split cour sharing one TVDB season, specials, one-to-many and many-to-one episode splits, an open-ended long-runner, an airing show whose recorded count lags its open-ended mapping, a one-episode special, a seasonless (absolute order) projection, a movie, a movie AniDB splits into parts, a TV work and an OVA sharing a title (resolver tie-breakers), a remake whose prequel comes only from `seeds/relations.jsonl` (an AniList relation, `prequel_origin: bot`), and two absolute sequences sharing one work (one marked default).
 - `cases/*.yaml`: the cases, grouped by operation.
 - `shards.yaml`: the alias index layout a port must produce and read: prefix shard keys, trigram set buckets and one whole shard file from the fixture (docs/SPEC.md, `/v1/aliases/`). Resolve and search read aliases only through these shards in every mode, so a port that builds them differently gets different candidates.
 

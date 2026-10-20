@@ -37,9 +37,9 @@ describe('cours that TMDB keeps in season 1', () => {
     }
   });
 
-  it('gives the 2016 Bonobono no TMDB mapping while the show Anime-Lists points at is the 1995 series', async () => {
+  it('maps the 2016 Bonobono to TMDB show 66751 (a show of its own), not season 2 of the 1995 series', async () => {
     const r = await client.translate('work:bonobono-tv-2016', 600, ['tvdb_show', 'tmdb_show']);
     expect(r.results.tvdb_show).toMatchObject({ season: 2, episode: 600 });
-    expect(r.results.tmdb_show).toBeUndefined();
+    expect(r.results.tmdb_show).toMatchObject({ id: '66751', season: 1, episode: 600 });
   });
 });

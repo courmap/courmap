@@ -25,6 +25,7 @@ const KIND_TITLE: Record<FindingKind, string> = {
   'projection-short': 'Projection short of the count',
   invalid: 'Invalid bot update',
   'projection-mismatch': 'TMDB projection mismatch',
+  'tmdb-split': 'TMDB split cour',
 };
 
 /** Labels for a finding's PR or issue. */
@@ -43,6 +44,25 @@ export const TMDB_ISSUE_PREFIX = 'TMDB projection mismatch';
 
 export const tmdbLagComment = () =>
   'Closed by the projection checker: TMDB is behind our data, which is expected while a show is still starting (an airing or upcoming work, premiered less than six weeks ago or not yet). Nothing is wrong on our side. The checker looks again every week and opens a new issue if the difference is still there six weeks after the premiere, or if TMDB lists more than we map.';
+
+export function tmdbSplitPrBody(f: Finding): string {
+  const rows = f.split!.tmdb_show.map((r) => `season ${r.season}, episodes ${r.episodes}${r.start !== undefined ? ` from TMDB episode ${r.start}` : ''}`).join('; ');
+  return [
+    `Tier B: TMDB keeps **${subject(f)}** ${anilistLink(f.anilist)} inside an earlier season instead of giving it a season of its own ([TMDB show ${f.data.tmdb_show}](${f.data.url})).`,
+    '',
+    `The projection checker found that TMDB has no season for it, and that the season before it lists exactly as many episodes as everything we map there plus this cour. The mapping that fits is: ${rows}.`,
+    '',
+    '| | TMDB mapping |',
+    '| --- | --- |',
+    `| Before | ${(f.data.problems as string[]).join('; ')} |`,
+    `| After | ${rows} (origin: bot) |`,
+    '',
+    'TVDB is untouched. Writes one line to `data/seeds/tmdb-splits.jsonl`. Approve or edit; a manual `projections.tmdb_show` in `data/works/` would override it, and rejecting it in `data/rejected.yaml` (kind: tmdb-split) stops the proposal.',
+  ].join('\n');
+}
+
+export const tmdbProposedComment = () =>
+  'Closed by the projection checker: TMDB keeps this cour inside the previous season, and a pull request proposes (or within a run or two will propose) the mapping that continues it there (data/seeds/tmdb-splits.jsonl). It reopens the question as an issue if that proposal is rejected and the mismatch remains.';
 
 export const tmdbResolvedComment = () => 'Closed by the projection checker: a later run found our TMDB projection and TMDB agree for this work. It opens a new issue if that changes.';
 

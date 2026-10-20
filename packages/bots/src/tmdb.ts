@@ -1,4 +1,4 @@
-import type { Records } from '@courmap/builder';
+import type { Records, TmdbSplitLine } from '@courmap/builder';
 import type { Finding } from './classify.js';
 
 /**
@@ -100,6 +100,8 @@ export function onlyTmdbLag(status: string, problems: readonly Problem[], premie
 }
 
 export interface CheckOptions {
+  /** Works whose split-cour proposal must not be made (data/rejected.yaml, or a line already in tmdb-splits.jsonl). */
+  noSplit?: ReadonlySet<string>;
   now?: Date;
   /** When each work's season premiered (from AniList's start date), by work id; absent or null when unknown. */
   premieres?: ReadonlyMap<string, Date | null>;
@@ -112,8 +114,29 @@ export interface CheckResult {
   findings: Finding[];
   /** Works whose only mismatch is TMDB lagging behind an airing or upcoming show: no issue, rechecked every run. */
   lagging: Finding[];
+  /** Cours TMDB keeps inside the previous season (tier B): a PR continues them there instead of an issue. */
+  splits: Finding[];
   /** Every work TMDB was successfully asked about: an open issue for one of them that is in neither list is resolved. */
   checked: Set<string>;
+}
+
+/**
+ * The split-cour pattern (decided by Xwolv, 2026-10-20): TMDB has no season N, but its season N-1 has exactly
+ * as many episodes as all our works mapped there plus this one, so TMDB keeps the cour inside season N-1 and the
+ * mapping should continue there. Returns the work's rows moved to season N-1 and shifted past what is mapped
+ * there, or null when the work or TMDB does not fit the pattern.
+ */
+export function splitProposal(records: Records, workId: string, counts: ReadonlyMap<number, number>, mappedInShow: ReadonlyMap<number, number>): TmdbSplitLine['tmdb_show'] | null {
+  const rows = (records.works.get(workId)?.projections.tmdb_show ?? []).filter((r) => r.season !== null);
+  if (rows.length === 0 || rows.some((r) => r.kind !== 'regular' || r.ep_to === null || r.season !== rows[0]!.season)) return null;
+  const season = rows[0]!.season!;
+  if (season < 2 || counts.has(season)) return null;
+  const total = counts.get(season - 1);
+  const before = mappedInShow.get(season - 1);
+  const mine = landings(records, workId).get(season);
+  if (total === undefined || before === undefined || mine === undefined || before === Infinity || !Number.isFinite(mine)) return null;
+  if (before + mine !== total) return null;
+  return rows.map((r) => ({ season: season - 1, episodes: r.ep_from === r.ep_to ? r.ep_from : `${r.ep_from}-${r.ep_to}`, start: r.target_from + before }));
 }
 
 /**
@@ -139,7 +162,7 @@ export async function checkProjectionsDetailed(records: Records, workIds: Iterab
     for (const [season, last] of landings(records, w.id)) seasons.set(season, Math.max(seasons.get(season) ?? 0, last));
     mapped.set(show, seasons);
   }
-  const result: CheckResult = { findings: [], lagging: [], checked: new Set() };
+  const result: CheckResult = { findings: [], lagging: [], splits: [], checked: new Set() };
   for (const [show, works] of [...byShow].sort((a, b) => Number(a[0]) - Number(b[0]))) {
     let counts: Map<number, number> | null;
     try {
@@ -157,15 +180,36 @@ export async function checkProjectionsDetailed(records: Records, workIds: Iterab
       else {
         for (const [season, last] of [...landings(records, id)].sort((a, b) => a[0] - b[0])) {
           const n = counts.get(season);
+          // Specials (season 0): TMDB's list is usually incomplete, so TMDB being behind is not a finding (decided
+          // by Xwolv, 2026-10-20); TMDB listing more specials than we map still is.
+          if (season === 0) {
+            const ours = mapped.get(show)?.get(0) ?? 0;
+            if (n !== undefined && n > ours) problems.push({ kind: 'more', text: `season 0 (specials) has ${n} episodes on TMDB, but all our works map only up to ${ours}` });
+            continue;
+          }
           if (n === undefined) {
             // A season above every one TMDB has is a season TMDB has not added yet; one below is a different structure.
             problems.push({ kind: season > highest ? 'behind' : 'structure', text: `season ${season} is not on TMDB${season > highest ? '' : ` (TMDB has seasons up to ${highest}, so it splits the show differently)`}` });
           } else if (last !== Infinity && last > n) problems.push({ kind: 'behind', text: `season ${season} is mapped to episode ${last}, TMDB lists ${n}` });
-          else if (season > 0 && n > (mapped.get(show)?.get(season) ?? 0)) problems.push({ kind: 'more', text: `season ${season} has ${n} episodes on TMDB, but all our works map only up to ${mapped.get(show)?.get(season) ?? 0}` });
+          else if (n > (mapped.get(show)?.get(season) ?? 0)) problems.push({ kind: 'more', text: `season ${season} has ${n} episodes on TMDB, but all our works map only up to ${mapped.get(show)?.get(season) ?? 0}` });
         }
       }
       result.checked.add(id);
       if (problems.length === 0) continue;
+      const split = counts !== null && !opts.noSplit?.has(id) && problems.every((p) => p.kind === 'behind') ? splitProposal(records, id, counts, mapped.get(show) ?? new Map()) : null;
+      if (split !== null) {
+        result.splits.push({
+          tier: 'B',
+          kind: 'tmdb-split',
+          work: id,
+          anilist: w.ids.anilist !== undefined ? Number(w.ids.anilist) : null,
+          title: w.titles.romaji ?? id,
+          summary: `TMDB keeps this cour in season ${split[0]!.season}: continue it there from episode ${split[0]!.start}`,
+          split: { work: id, tmdb_show: split, origin: 'bot', tmdb: show },
+          data: { tmdb_show: show, url: `https://www.themoviedb.org/tv/${show}`, problems: problems.map((p) => p.text) },
+        });
+        continue;
+      }
       const finding: Finding = {
         tier: 'C',
         kind: 'projection-mismatch',
@@ -191,15 +235,16 @@ export async function checkProjections(records: Records, workIds: Iterable<strin
  * Which open "TMDB projection mismatch" issues a run resolved: those whose work TMDB was asked about and
  * that now has no finding. `reason` says whether the work is only lagging (still being watched) or agrees.
  */
-export function issuesToClose(open: readonly { number: number; title: string }[], prefix: string, result: CheckResult): { number: number; reason: 'lag' | 'resolved' }[] {
+export function issuesToClose(open: readonly { number: number; title: string }[], prefix: string, result: CheckResult): { number: number; reason: 'lag' | 'resolved' | 'proposed' }[] {
   const flagged = new Set(result.findings.map((f) => f.work));
   const lagging = new Set(result.lagging.map((f) => f.work));
-  const out: { number: number; reason: 'lag' | 'resolved' }[] = [];
+  const proposed = new Set(result.splits.map((f) => f.work));
+  const out: { number: number; reason: 'lag' | 'resolved' | 'proposed' }[] = [];
   for (const issue of open) {
     if (!issue.title.startsWith(prefix)) continue;
     const work = issue.title.slice(prefix.length);
     if (flagged.has(work) || !result.checked.has(work)) continue;
-    out.push({ number: issue.number, reason: lagging.has(work) ? 'lag' : 'resolved' });
+    out.push({ number: issue.number, reason: proposed.has(work) ? 'proposed' : lagging.has(work) ? 'lag' : 'resolved' });
   }
   return out;
 }

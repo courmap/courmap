@@ -16,6 +16,8 @@ export const SEED_SHARD_RE = /^works-\d{3}\.jsonl$/;
 export const RELATIONS_FILE = 'relations.jsonl';
 /** Episode counts and status of airing works, written by the bots' airing tracker. */
 export const AIRING_FILE = 'airing.jsonl';
+/** TMDB projections for cours that TMDB keeps inside the previous season, proposed by the bots' TMDB checker. */
+export const TMDB_SPLITS_FILE = 'tmdb-splits.jsonl';
 
 /** A hand-written YAML file under works/, sequences/ or groups/. */
 export interface SourceFile {
@@ -44,6 +46,8 @@ export interface LoadedData {
   relations: SeedSource[];
   /** Lines of data/seeds/airing.jsonl. */
   airing: SeedSource[];
+  /** Lines of data/seeds/tmdb-splits.jsonl. */
+  tmdbSplits: SeedSource[];
 }
 
 const toPosix = (p: string) => p.split(path.sep).join('/');
@@ -89,7 +93,7 @@ export async function loadData(dataDir: string, reporter: Reporter, cwd = proces
   for (const abs of await listDir(path.join(dataDir, 'seeds'), (n) => SEED_SHARD_RE.test(n))) seeds.push(...(await readJsonl(abs, reporter, cwd)));
   const optional = async (name: string) =>
     (await listDir(path.join(dataDir, 'seeds'), (n) => n === name)).length > 0 ? readJsonl(path.join(dataDir, 'seeds', name), reporter, cwd) : [];
-  return { files, seeds, relations: await optional(RELATIONS_FILE), airing: await optional(AIRING_FILE) };
+  return { files, seeds, relations: await optional(RELATIONS_FILE), airing: await optional(AIRING_FILE), tmdbSplits: await optional(TMDB_SPLITS_FILE) };
 }
 
 /** One JSON value per line; blank lines are skipped and bad lines reported as seed-parse. */

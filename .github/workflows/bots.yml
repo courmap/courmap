@@ -87,6 +87,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The projection checker proposes split-cour mappings as tier B PRs, so it pushes branches like the scan does.
+          token: ${{ secrets.SEED_PR_TOKEN || github.token }}
 
       - uses: pnpm/action-setup@v4
 

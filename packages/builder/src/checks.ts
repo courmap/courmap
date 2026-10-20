@@ -175,6 +175,7 @@ export function checkFiles(loaded: LoadedData, reporter: Reporter): CheckedFiles
   const works = new Map(merged.map((w) => [w.id, w]));
   applyRelations(loaded.relations, works, reporter);
   applyAiring(loaded.airing, works, reporter);
+  applyTmdbSplits(loaded.tmdbSplits, works, reporter);
   for (const w of merged) checkWork(w, knownIds.work, reporter);
   checkProviderIds(merged, reporter);
   checkSharedTargets(merged, reporter);
@@ -236,6 +237,66 @@ function applyRelations(lines: readonly SeedSource[], works: Map<string, MergedW
       w.data.prequel = r.prequel;
       w.origins.prequel = 'bot';
     }
+  }
+}
+
+/** A line of data/seeds/tmdb-splits.jsonl: where TMDB keeps a cour, as proposed by the bots' TMDB checker. */
+export interface TmdbSplitLine {
+  work: string;
+  /** The work's tmdb_show projection rows, replacing the seed's (a manual file wins). */
+  tmdb_show: { season: number; episodes: string | number; start?: number }[];
+  origin: 'bot';
+  /** The TMDB show, for tracing. */
+  tmdb?: string;
+}
+
+function tmdbSplitProblem(raw: unknown): string | null {
+  if (typeof raw !== 'object' || raw === null) return 'a tmdb split line must be an object';
+  const r = raw as Record<string, unknown>;
+  if (typeof r.work !== 'string' || r.work === '') return 'work must be a work id';
+  if (!Array.isArray(r.tmdb_show) || r.tmdb_show.length === 0) return 'tmdb_show must be a non-empty list of projection rows';
+  for (const row of r.tmdb_show as unknown[]) {
+    const x = row as Record<string, unknown> | null;
+    if (typeof x !== 'object' || x === null || !Number.isInteger(x.season) || (typeof x.episodes !== 'string' && !Number.isInteger(x.episodes))) return 'a tmdb_show row needs a season and episodes';
+    if (x.start !== undefined && !Number.isInteger(x.start)) return 'start must be an integer';
+    const extra = Object.keys(x).filter((k) => !['season', 'episodes', 'start'].includes(k));
+    if (extra.length > 0) return `unknown row field "${extra[0]}"`;
+  }
+  if (r.origin !== 'bot') return 'origin must be bot';
+  const extra = Object.keys(r).filter((k) => !['work', 'tmdb_show', 'origin', 'tmdb'].includes(k));
+  if (extra.length > 0) return `unknown field "${extra[0]}"`;
+  return null;
+}
+
+/**
+ * Applies the TMDB checker's split-cour lines: the work's tmdb_show projection becomes the proposed
+ * rows, unless a manual file sets that block itself (manual wins). A line for an unknown work is a
+ * warning and is ignored.
+ */
+function applyTmdbSplits(lines: readonly SeedSource[], works: Map<string, MergedWork>, reporter: Reporter): void {
+  const seen = new Map<string, number>();
+  for (const src of lines) {
+    const problem = tmdbSplitProblem(src.data);
+    if (problem) {
+      reporter.report(src.loc, 'tmdb-split', [], problem);
+      continue;
+    }
+    const s = src.data as TmdbSplitLine;
+    const warn = (msg: string) => reporter.report(src.loc, 'tmdb-split', [], msg, { work: s.work, severity: 'warning' });
+    if (seen.has(s.work)) {
+      warn(`work "${s.work}" already has a tmdb split on line ${seen.get(s.work)}; this one is ignored`);
+      continue;
+    }
+    seen.set(s.work, src.line);
+    const w = works.get(s.work);
+    if (!w) {
+      warn(`work "${s.work}" is not a known work; the line is ignored`);
+      continue;
+    }
+    const manual = w.manual?.data as { projections?: Record<string, unknown> } | undefined;
+    if (manual?.projections !== undefined && Object.prototype.hasOwnProperty.call(manual.projections, 'tmdb_show')) continue;
+    w.data.projections = { ...(w.data.projections ?? {}), tmdb_show: s.tmdb_show as never };
+    w.origins.projections.tmdb_show = 'bot';
   }
 }
 

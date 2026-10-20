@@ -20,7 +20,8 @@
           "kind": {
             "enum": [
               "relation",
-              "airing"
+              "airing",
+              "tmdb-split"
             ]
           }
         },
@@ -33,6 +34,9 @@
           },
           {
             "$ref": "#/$defs/airing"
+          },
+          {
+            "$ref": "#/$defs/tmdb_split"
           }
         ]
       }
@@ -153,6 +157,43 @@
       "description": "The pull request or issue where it was rejected.",
       "type": "string",
       "format": "uri"
+    },
+    "tmdb_split": {
+      "title": "TmdbSplitRejection",
+      "description": "A split-cour proposal from the TMDB checker the bots must not make again for `work`: that its TMDB episodes continue the previous TMDB season.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "work",
+        "reason",
+        "decided_by",
+        "date",
+        "origin"
+      ],
+      "properties": {
+        "kind": {
+          "const": "tmdb-split"
+        },
+        "work": {
+          "$ref": "#/$defs/slug"
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        },
+        "decided_by": {
+          "$ref": "#/$defs/decided_by"
+        },
+        "date": {
+          "$ref": "#/$defs/date"
+        },
+        "link": {
+          "$ref": "#/$defs/link"
+        },
+        "origin": {
+          "const": "manual"
+        }
+      }
     }
   }
 }

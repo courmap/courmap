@@ -1,14 +1,14 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { LineCounter, parseDocument } from 'yaml';
-import type { AiringRejection, RejectedFile, RelationRejection } from '@courmap/core';
+import type { AiringRejection, RejectedFile, RelationRejection, TmdbSplitRejection } from '@courmap/core';
 import { makeLocator, type Reporter } from './diagnostics.js';
 import { schemaIssues } from './schema.js';
 
 /** data/rejected.yaml: bot proposals a maintainer rejected, which the bots never propose again. */
 export const REJECTED_FILE = 'rejected.yaml';
 
-export type Rejection = RelationRejection | AiringRejection;
+export type Rejection = RelationRejection | AiringRejection | TmdbSplitRejection;
 
 /**
  * Reads data/rejected.yaml (optional) and checks it against schema/rejected.schema.json and,
@@ -56,6 +56,9 @@ export async function loadRejected(dataDir: string, reporter: Reporter, opts: { 
 /** Whether a proposed prequel link was rejected. */
 export const rejectsRelation = (list: readonly Rejection[], work: string, prequel: string): Rejection | undefined =>
   list.find((r) => r.kind === 'relation' && r.work === work && r.prequel === prequel);
+
+/** Whether the TMDB checker's split-cour proposal for a work was rejected. */
+export const rejectsTmdbSplit = (list: readonly Rejection[], work: string): Rejection | undefined => list.find((r) => r.kind === 'tmdb-split' && r.work === work);
 
 /** Whether a proposed airing update was rejected: same work, and every value the rejection names matches. */
 export const rejectsAiring = (list: readonly Rejection[], work: string, update: { episodes: number | null; status: string }): Rejection | undefined =>

@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 import { readFile, writeFile } from 'node:fs/promises';
 import { parseArgs } from 'node:util';
-import { AIRING_FILE, RELATIONS_FILE, aliasPairs, aliasReport } from '@courmap/builder';
+import { AIRING_FILE, RELATIONS_FILE, TMDB_SPLITS_FILE, aliasPairs, aliasReport } from '@courmap/builder';
 import { AniListClient, type AniListMedia } from './anilist.js';
 import { classify, type Classification, type Finding } from './classify.js';
 import { GitHubWriter } from './github.js';
 import { sendDigest } from './notify.js';
-import { LABELS, TMDB_ISSUE_PREFIX, airingPrBody, tmdbLagComment, tmdbResolvedComment, digestText, issueBody, issueTitle, labelsFor, sequelPrBody, summaryLine, trackerBody } from './report.js';
+import { LABELS, TMDB_ISSUE_PREFIX, airingPrBody, tmdbLagComment, tmdbProposedComment, tmdbResolvedComment, tmdbSplitPrBody, digestText, issueBody, issueTitle, labelsFor, sequelPrBody, summaryLine, trackerBody } from './report.js';
 import { nextSeason, seasonName, seasonOf, type SeasonRef } from './season.js';
 import { diffSequences } from './shifts.js';
-import { airingJsonl, evaluate, loadState, relationsJsonl, type State } from './state.js';
+import { airingJsonl, evaluate, loadState, relationsJsonl, tmdbSplitsJsonl, type State } from './state.js';
 import { TmdbClient, checkProjectionsDetailed, issuesToClose, searchShows, showInfo } from './tmdb.js';
 
 const USAGE = `Usage: courmap-bots <command> [options]
@@ -172,7 +172,28 @@ async function main(argv: string[]): Promise<number> {
         if (id !== undefined) premieres.set(id, d.year !== null && d.month !== null ? new Date(Date.UTC(d.year, d.month - 1, d.day ?? 1)) : null);
       }
     }
-    const result = await checkProjectionsDetailed(state.records, ids, tmdb, { now: new Date(), premieres, onError: (show, err) => console.log(`TMDB show ${show} skipped: ${err.message}`) });
+    // Cours TMDB keeps inside the previous season become tier B PRs, unless one exists or was rejected.
+    const noSplit = new Set([...state.tmdbSplits.map((s) => s.work), ...state.rejected.filter((r) => r.kind === 'tmdb-split').map((r) => r.work)]);
+    const result = await checkProjectionsDetailed(state.records, ids, tmdb, { now: new Date(), noSplit, premieres, onError: (show, err) => console.log(`TMDB show ${show} skipped: ${err.message}`) });
+    // Each proposal is compiled with the current data first; one that does not validate is an ordinary issue instead.
+    const splitLines = new Map(state.tmdbSplits.map((s) => [s.work, s]));
+    const proposals = result.splits.slice();
+    result.splits = [];
+    let prs = 0;
+    for (const f of proposals) {
+      const next = new Map(splitLines).set(f.work!, f.split!);
+      const ev = evaluate(state.loaded, state.relations, state.airing, [...next.values()]);
+      if (!ev.records) {
+        console.log(`TMDB split for ${f.work} does not validate (${ev.errors[0]?.message}); it becomes an issue.`);
+        result.findings.push({ ...f, tier: 'C', kind: 'projection-mismatch', summary: `TMDB projection disagrees with TMDB: ${(f.data.problems as string[]).join('; ')}`, split: undefined as never });
+        continue;
+      }
+      result.splits.push(f);
+      if (prs >= limits.prs) continue;
+      prs++;
+      await writer.upsertPullRequest(`bots/tmdb-split-${f.work}`, `TMDB split cour: ${f.work}`, tmdbSplitPrBody(f), labelsFor(f), new Map([[`data/seeds/${TMDB_SPLITS_FILE}`, tmdbSplitsJsonl([...next.values()])]]));
+    }
+    if (result.splits.length > prs) console.log(`${result.splits.length - prs} more TMDB split PR(s) wait for the next run (--max-prs ${limits.prs}).`);
     const { findings, lagging } = result;
     console.log(`Projection checker: ${ids.length} works considered, ${tmdb.requests} TMDB shows fetched, ${findings.length} mismatch(es), ${lagging.length} more only because TMDB lags a show that is still starting.`);
     printFindings(findings);
@@ -182,7 +203,7 @@ async function main(argv: string[]): Promise<number> {
     for (const f of cap(findings, limits.issues)) await writer.upsertIssue(issueTitle(f), issueBody(f), labelsFor(f));
     // An issue the checker opened closes itself once a later run finds no mismatch worth one for that work.
     const prefix = `${TMDB_ISSUE_PREFIX}: `;
-    for (const c of issuesToClose(await writer.openIssues(prefix), prefix, result)) await writer.closeIssue(c.number, c.reason === 'lag' ? tmdbLagComment() : tmdbResolvedComment());
+    for (const c of issuesToClose(await writer.openIssues(prefix), prefix, result)) await writer.closeIssue(c.number, c.reason === 'lag' ? tmdbLagComment() : c.reason === 'proposed' ? tmdbProposedComment() : tmdbResolvedComment());
     return 0;
   }
 

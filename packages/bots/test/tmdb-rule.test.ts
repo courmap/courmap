@@ -42,6 +42,8 @@ describe('the projection checker with the noise rule', async () => {
     '9005': { seasons: [season(1, 12), season(3, 12)] },
     '9006': { seasons: [season(1, 24)] },
     '9007': { seasons: [season(1, 5)] },
+    '9008': { seasons: [season(0, 4)] },
+    '9009': { seasons: [season(0, 5)] },
   };
   const fetchFn = (async (url: string) => {
     const id = /tv\/(\d+)/.exec(url)![1]!;
@@ -59,7 +61,16 @@ describe('the projection checker with the noise rule', async () => {
       ['r-short-finished', 'season 1 is mapped to episode 12, TMDB lists 8'],
       ['r-more-airing', 'season 1 has 24 episodes on TMDB, but all our works map only up to 12'],
       ['r-structure', 'season 2 is not on TMDB (TMDB has seasons up to 3, so it splits the show differently)'],
+      ['r-specials-more', 'season 0 (specials) has 5 episodes on TMDB, but all our works map only up to 2'],
     ]);
+  });
+
+  it('does not flag TMDB being behind on specials, but flags it listing more of them', async () => {
+    const r = await run(premieres);
+    const all = [...r.findings, ...r.lagging].map((f) => f.work);
+    expect(all).not.toContain('r-specials-behind');
+    expect(all).toContain('r-specials-more');
+    expect([...r.checked]).toContain('r-specials-behind');
   });
 
   it('flags a lagging work once its season premiered more than six weeks ago', async () => {
@@ -83,26 +94,28 @@ describe('the projection checker with the noise rule', async () => {
     const r = await checkProjectionsDetailed(state.records, state.records.works.keys(), new TmdbClient('key', { fetch: failing, minIntervalMs: 0 }), { now: NOW, onError: (show) => seen.push(show) });
     expect(r.checked.size).toBe(0);
     expect(r.findings).toEqual([]);
-    expect(seen).toHaveLength(8);
+    expect(seen).toHaveLength(10);
   });
 });
 
 describe('closing the checker\'s own issues', () => {
   const prefix = `${TMDB_ISSUE_PREFIX}: `;
   const finding = (work: string) => ({ tier: 'C' as const, kind: 'projection-mismatch' as const, work, anilist: null, title: work, summary: '', data: {} });
-  const result = { findings: [finding('still-wrong')], lagging: [finding('behind')], checked: new Set(['still-wrong', 'behind', 'fixed']) };
+  const result = { findings: [finding('still-wrong')], lagging: [finding('behind')], splits: [finding('split')], checked: new Set(['still-wrong', 'behind', 'fixed', 'split']) };
   const open = [
     { number: 1, title: `${prefix}still-wrong` },
     { number: 2, title: `${prefix}behind` },
     { number: 3, title: `${prefix}fixed` },
     { number: 4, title: `${prefix}not-asked-about` },
     { number: 5, title: 'Count conflict: fixed' },
+    { number: 6, title: `${prefix}split` },
   ];
 
   it('closes an issue when TMDB lags or the work now agrees, and leaves the others alone', () => {
     expect(issuesToClose(open, prefix, result)).toEqual([
       { number: 2, reason: 'lag' },
       { number: 3, reason: 'resolved' },
+      { number: 6, reason: 'proposed' },
     ]);
   });
 });

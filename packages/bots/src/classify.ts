@@ -1,4 +1,4 @@
-import { rejectsAiring, rejectsRelation, type AiringLine, type RelationLine } from '@courmap/builder';
+import { rejectsAiring, rejectsRelation, type AiringLine, type RelationLine, type TmdbSplitLine } from '@courmap/builder';
 import type { WorkRecord } from '@courmap/core';
 import type { AniListMedia } from './anilist.js';
 import { seasonName, type SeasonRef } from './season.js';
@@ -20,7 +20,8 @@ export type FindingKind =
   | 'absolute-shift' // C: a change would renumber a finished work
   | 'projection-short' // C: a new count runs past a seed projection (Anime-Lists has not caught up)
   | 'invalid' // C: a proposed line does not validate
-  | 'projection-mismatch'; // C: our TMDB projection disagrees with TMDB's season counts
+  | 'projection-mismatch' // C: our TMDB projection disagrees with TMDB's season counts
+  | 'tmdb-split'; // B: TMDB keeps this cour inside the previous season: continue it there
 
 export interface Finding {
   tier: Tier;
@@ -32,6 +33,8 @@ export interface Finding {
   summary: string;
   airing?: AiringLine;
   relation?: RelationLine;
+  /** tmdb-split: the line the PR adds to data/seeds/tmdb-splits.jsonl. */
+  split?: TmdbSplitLine;
   /** Source values attached to issues and PR bodies. */
   data: Record<string, unknown>;
 }

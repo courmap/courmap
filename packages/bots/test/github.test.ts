@@ -92,6 +92,21 @@ describe('GitHubWriter', () => {
     expect(calls[0]).not.toContain('--label');
   });
 
+  it('lists open issues by title prefix and closes one with a comment, only when applying', async () => {
+    const calls: string[][] = [];
+    const run: Runner = async (_cmd, args) => {
+      calls.push(args);
+      return args[1] === 'list' ? JSON.stringify([{ number: 4, title: 'TMDB projection mismatch: a' }, { number: 5, title: 'Count conflict: a' }]) : '';
+    };
+    const w = new GitHubWriter({ apply: true, repoDir: work, run, log: () => {} });
+    expect(await w.openIssues('TMDB projection mismatch: ')).toEqual([{ number: 4, title: 'TMDB projection mismatch: a' }]);
+    await w.closeIssue(4, 'why');
+    expect(calls[1]).toEqual(['issue', 'close', '4', '--comment', 'why']);
+    const dry = new GitHubWriter({ apply: false, repoDir: work, run, log: () => {} });
+    await dry.closeIssue(4, 'why');
+    expect(calls).toHaveLength(2);
+  });
+
   it('runs issue and label commands with the issues token and everything else with the default', async () => {
     const seen: string[] = [];
     const run: Runner = async (cmd, args, _cwd, env) => {

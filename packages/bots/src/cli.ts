@@ -6,11 +6,11 @@ import { AniListClient, type AniListMedia } from './anilist.js';
 import { classify, type Classification, type Finding } from './classify.js';
 import { GitHubWriter } from './github.js';
 import { sendDigest } from './notify.js';
-import { LABELS, airingPrBody, digestText, issueBody, issueTitle, labelsFor, sequelPrBody, summaryLine, trackerBody } from './report.js';
+import { LABELS, TMDB_ISSUE_PREFIX, airingPrBody, tmdbLagComment, tmdbResolvedComment, digestText, issueBody, issueTitle, labelsFor, sequelPrBody, summaryLine, trackerBody } from './report.js';
 import { nextSeason, seasonName, seasonOf, type SeasonRef } from './season.js';
 import { diffSequences } from './shifts.js';
 import { airingJsonl, evaluate, loadState, relationsJsonl, type State } from './state.js';
-import { TmdbClient, checkProjections } from './tmdb.js';
+import { TmdbClient, checkProjectionsDetailed, issuesToClose } from './tmdb.js';
 
 const USAGE = `Usage: courmap-bots <command> [options]
 
@@ -159,12 +159,28 @@ async function main(argv: string[]): Promise<number> {
       .filter((w) => values.all || state.merged.get(w.id)!.isManual || w.status === 'airing' || (w.year !== null && w.year >= year - 1))
       .map((w) => w.id);
     const tmdb = new TmdbClient(key);
-    const findings = await checkProjections(state.records, ids, tmdb);
-    console.log(`Projection checker: ${ids.length} works considered, ${tmdb.requests} TMDB shows fetched, ${findings.length} mismatch(es).`);
+    // When each airing or upcoming work's season premiered: TMDB gets six weeks after that before a lag is a finding.
+    const premieres = new Map<string, Date | null>();
+    const young = ids.filter((id) => ['airing', 'upcoming'].includes(state.records.works.get(id)!.status) && state.records.works.get(id)!.ids.anilist !== undefined);
+    if (young.length > 0) {
+      const byAniList = new Map(young.map((id) => [Number(state.records.works.get(id)!.ids.anilist), id]));
+      for (const m of await new AniListClient({ log }).mediaByIds([...byAniList.keys()])) {
+        const id = byAniList.get(m.id);
+        const d = m.startDate;
+        if (id !== undefined) premieres.set(id, d.year !== null && d.month !== null ? new Date(Date.UTC(d.year, d.month - 1, d.day ?? 1)) : null);
+      }
+    }
+    const result = await checkProjectionsDetailed(state.records, ids, tmdb, { now: new Date(), premieres, onError: (show, err) => console.log(`TMDB show ${show} skipped: ${err.message}`) });
+    const { findings, lagging } = result;
+    console.log(`Projection checker: ${ids.length} works considered, ${tmdb.requests} TMDB shows fetched, ${findings.length} mismatch(es), ${lagging.length} more only because TMDB lags a show that is still starting.`);
     printFindings(findings);
-    if (values.json) await writeFile(values.json, JSON.stringify({ findings }, null, 2));
+    if (lagging.length > 0) console.log(`TMDB lag, no issue: ${lagging.map((f) => f.work).join(', ')}`);
+    if (values.json) await writeFile(values.json, JSON.stringify({ findings, lagging: lagging.map((f) => f.work) }, null, 2));
     await writer.ensureLabels();
     for (const f of cap(findings, limits.issues)) await writer.upsertIssue(issueTitle(f), issueBody(f), labelsFor(f));
+    // An issue the checker opened closes itself once a later run finds no mismatch worth one for that work.
+    const prefix = `${TMDB_ISSUE_PREFIX}: `;
+    for (const c of issuesToClose(await writer.openIssues(prefix), prefix, result)) await writer.closeIssue(c.number, c.reason === 'lag' ? tmdbLagComment() : tmdbResolvedComment());
     return 0;
   }
 

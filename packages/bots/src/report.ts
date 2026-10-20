@@ -38,6 +38,14 @@ const anilistLink = (id: number | null) => (id === null ? '' : `[AniList ${id}](
 const subject = (f: Finding) => (f.work ? `${f.title} (${f.work})` : f.title);
 
 /** Stable per kind and work, so the bot finds and updates its own issue instead of opening another. */
+/** The title prefix of a projection-mismatch issue; the work's id follows. */
+export const TMDB_ISSUE_PREFIX = 'TMDB projection mismatch';
+
+export const tmdbLagComment = () =>
+  'Closed by the projection checker: TMDB is behind our data, which is expected while a show is still starting (an airing or upcoming work, premiered less than six weeks ago or not yet). Nothing is wrong on our side. The checker looks again every week and opens a new issue if the difference is still there six weeks after the premiere, or if TMDB lists more than we map.';
+
+export const tmdbResolvedComment = () => 'Closed by the projection checker: a later run found our TMDB projection and TMDB agree for this work. It opens a new issue if that changes.';
+
 export const issueTitle = (f: Finding) => `${KIND_TITLE[f.kind]}: ${f.work ?? `AniList ${f.anilist}`}`;
 
 export function issueBody(f: Finding): string {

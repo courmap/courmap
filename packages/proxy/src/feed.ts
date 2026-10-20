@@ -119,5 +119,32 @@ export function rewriteCaps(xml: string): string {
 export const emptyFeed = (title: string, protocol: Protocol = 'torznab') =>
   `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:${protocol}="${NAMESPACE[protocol]}">\n  <channel>\n    <title>${encodeXml(title)}</title>\n  </channel>\n</rss>\n`;
 
+/** How an upstream answer went. `kind` groups failures for the status page. */
+export type UpstreamVerdict = { ok: true } | { ok: false; kind: UpstreamFailure; detail: string };
+export type UpstreamFailure = 'api-limit' | 'auth' | 'indexer-error' | 'http' | 'bad-response' | 'timeout' | 'network';
+
+/**
+ * Sorts an upstream response into success or a named failure. A Newznab or Torznab error document
+ * comes with HTTP 200: codes 100 to 199 are account or key problems (Sonarr reads them as an invalid
+ * API key), and a description about a limit ("Request limit reached", "Daily hits limit reached")
+ * means the indexer's API quota is spent. HTTP 429 means the same, 401 and 403 an invalid key.
+ */
+export function classifyUpstream(status: number, body: string, wanted: 'caps' | 'feed'): UpstreamVerdict {
+  const error = /<error\b([^>]*)\/?>/i.exec(body)?.[1];
+  if (error !== undefined) {
+    const code = Number(/\bcode="(\d+)"/i.exec(error)?.[1] ?? NaN);
+    const description = decodeXml(/\bdescription="([^"]*)"/i.exec(error)?.[1] ?? '').trim();
+    const detail = `error ${Number.isNaN(code) ? '?' : code}: ${description || 'no description'}`;
+    if (/limit|quota|too many/i.test(description) || code === 429) return { ok: false, kind: 'api-limit', detail };
+    if (code >= 100 && code <= 199) return { ok: false, kind: 'auth', detail };
+    return { ok: false, kind: 'indexer-error', detail };
+  }
+  if (status === 429) return { ok: false, kind: 'api-limit', detail: 'HTTP 429 (too many requests)' };
+  if (status === 401 || status === 403) return { ok: false, kind: 'auth', detail: `HTTP ${status}` };
+  if (status !== 200) return { ok: false, kind: 'http', detail: `HTTP ${status}` };
+  if (wanted === 'caps' ? !/<caps\b/i.test(body) : !/<rss\b/i.test(body)) return { ok: false, kind: 'bad-response', detail: `HTTP 200 but not a ${wanted === 'caps' ? 'caps' : 'feed'} document` };
+  return { ok: true };
+}
+
 /** A Torznab or Newznab error document (the two share it). */
 export const errorXml = (code: number, description: string) => `<?xml version="1.0" encoding="UTF-8"?>\n<error code="${code}" description="${encodeXml(description)}" />\n`;

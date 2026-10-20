@@ -3,7 +3,8 @@ import { assistNumbering, type AssistedMapping } from './assist.js';
 import { cleanTitle, type SonarrClient, type SonarrEpisode, type SonarrSeries } from './sonarr.js';
 
 export type RewriteOutcome =
-  | { kind: 'rewritten'; title: string; tvdbId: number; work: string; resolved: ResolveResult; assisted?: AssistedMapping }
+  /** `numbers` is what was written into the title: S01E05, S01E05-E08 or S01. */
+  | { kind: 'rewritten'; title: string; numbers: string; tvdbId: number; work: string; resolved: ResolveResult; assisted?: AssistedMapping }
   | { kind: 'pass'; reason: PassReason; detail: string; resolved: ResolveResult | null };
 
 /** Why a release went through unchanged. `ambiguous` and `unmatched` are logged as unresolved. */
@@ -55,6 +56,15 @@ export function groupSuffix(group: string): string {
   if (/^[A-Za-zÀ-ÖØ-öø-ÿ0-9]+$/.test(group)) return `[${group}]`;
   if (/^[A-Za-zÀ-ÖØ-öø-ÿ0-9]+-[A-Za-zÀ-ÖØ-öø-ÿ0-9]+$/.test(group)) return `-${group}`;
   return `[${group}]`;
+}
+
+/** Whether written numbers (S01E05, S01E05-E08, S01) include this TVDB season and episode. */
+export function numbersCover(numbers: string, season: number, episode: number): boolean {
+  const m = /^S(\d+)E(\d+)(?:-E(\d+))?/.exec(numbers);
+  if (!m || Number(m[1]) !== season) return false;
+  const first = Number(m[2]);
+  const last = m[3] ? Number(m[3]) : first;
+  return episode >= first && episode <= last;
 }
 
 /** The rewritten title: Sonarr's series title, SxxEyy (or Sxx for a pack), the original tags, the group last. */
@@ -127,7 +137,7 @@ export class Rewriter {
   }
 
   private ok(r: ResolveResult, series: SonarrSeries, numbers: string, assisted?: AssistedMapping): RewriteOutcome {
-    return { kind: 'rewritten', title: formatTitle(series.title, numbers, r.parsed), tvdbId: series.tvdbId, work: r.match!.work, resolved: r, ...(assisted && { assisted }) };
+    return { kind: 'rewritten', title: formatTitle(series.title, numbers, r.parsed), numbers, tvdbId: series.tvdbId, work: r.match!.work, resolved: r, ...(assisted && { assisted }) };
   }
 }
 

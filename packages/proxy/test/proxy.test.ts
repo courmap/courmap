@@ -34,7 +34,8 @@ describe('Sonarr Torznab proxy', async () => {
   const sonarr = new SonarrClient({ url: sonarrServer.url, apiKey: 'sonarr-key', refreshMinutes: 60 });
   await sonarr.start();
   const stats = new Stats(null);
-  const server = createProxyServer({ indexers: [{ name: 'nyaa', url: `${prowlarr.url}/1/api` }], data, sonarr, stats, version: 'test', timeoutMs: 5000 });
+  // These tests are about translation and merging, so every query goes out and none is cached (upstream.test.ts covers the limits).
+  const server = createProxyServer({ indexers: [{ name: 'nyaa', url: `${prowlarr.url}/1/api` }], data, sonarr, stats, version: 'test', timeoutMs: 5000, limits: { cacheSeconds: 0, stopOnMatch: false } });
   await new Promise<void>((r) => server.listen(0, '127.0.0.1', r));
   const base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
   afterAll(async () => {

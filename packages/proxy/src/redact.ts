@@ -27,7 +27,9 @@ const URL_USERINFO = /(\b[a-z][a-z0-9+.-]*:\/\/)[^\s/@:]+:[^\s/@]+@/gi;
 // X-Api-Key: VALUE, Authorization: Bearer VALUE.
 const HEADER = /\b(x-api-key|authorization|x-auth-token)(\s*[:=]\s*)(?:bearer\s+|basic\s+)?[^\s,;"']+/gi;
 // api_key: VALUE (a config line quoted in an error).
-const CONFIG_LINE = new RegExp(String.raw`\b(${SECRET_PARAMS})(["']?\s*:\s*["']?)[^\s"',}\]]+`, 'gi');
+// Words that name a secret outright. "auth" is left out here: it is a failure kind in status.json ("auth": 1), not a value to hide.
+const CONFIG_KEYS = SECRET_PARAMS.replace('|auth|authkey', '');
+const CONFIG_LINE = new RegExp(String.raw`\b(${CONFIG_KEYS})(["']?\s*:\s*["']?)[^\s"',}\]]+`, 'gi');
 
 export class Redactor {
   private readonly secrets = new Set<string>();

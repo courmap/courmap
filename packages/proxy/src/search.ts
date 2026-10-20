@@ -6,10 +6,19 @@ export interface TranslatedSearch {
   queries: URLSearchParams[];
   /** What was asked and what is sent, for the status page. */
   note: string;
+  /** The TVDB show, season and episode (null for a season search) the queries look for. */
+  target: { tvdb: number; season: number; episode: number | null };
+  /**
+   * True when the queries are alternative names for the same episode (its own title and number, and
+   * the franchise title with the absolute number), so one that finds the episode makes the rest
+   * optional. False for a season search, where each query is a different work.
+   */
+  alternatives: boolean;
 }
 
 const pad = (n: number) => String(n).padStart(2, '0');
-const MAX_QUERIES = 3;
+/** The default for how many upstream queries one Sonarr search may cause. */
+export const DEFAULT_MAX_QUERIES = 3;
 
 /**
  * Translates Sonarr's searches into what anime indexers understand (docs/SPEC.md, "Sonarr
@@ -19,7 +28,7 @@ const MAX_QUERIES = 3;
  * nothing to translate (RSS, or a show Courmap or Sonarr does not know): the request then goes
  * upstream unchanged.
  */
-export async function translateSearch(params: URLSearchParams, client: CourmapClient | null, sonarr: SonarrClient): Promise<TranslatedSearch | null> {
+export async function translateSearch(params: URLSearchParams, client: CourmapClient | null, sonarr: SonarrClient, opts: { maxQueries?: number } = {}): Promise<TranslatedSearch | null> {
   const t = params.get('t');
   if (!client || (t !== 'tvsearch' && t !== 'search')) return null;
   const q = params.get('q')?.trim() ?? '';
@@ -106,8 +115,8 @@ export async function translateSearch(params: URLSearchParams, client: CourmapCl
     }
     for (const w of works) texts.push(await titleOf(w));
   }
-  const unique = [...new Set(texts)].slice(0, MAX_QUERIES);
+  const unique = [...new Set(texts)].slice(0, opts.maxQueries ?? DEFAULT_MAX_QUERIES);
   if (unique.length === 0) return null;
   const asked = `tvdb ${tvdb} S${pad(season)}${episode !== null ? `E${pad(episode)}` : ''}${absolute !== null ? ` (absolute ${absolute})` : ''}`;
-  return { queries: unique.map(base), note: `${asked} searched as ${unique.map((u) => `"${u}"`).join(', ')}` };
+  return { queries: unique.map(base), note: `${asked} searched as ${unique.map((u) => `"${u}"`).join(', ')}`, target: { tvdb, season, episode }, alternatives: episode !== null };
 }

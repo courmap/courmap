@@ -33,6 +33,8 @@ interface Upstream {
   body: string;
   /** Whether the indexer answered usefully, and if not, why. */
   verdict: UpstreamVerdict;
+  /** The indexer's Retry-After header, passed on to Sonarr with an error so it backs off as long as the indexer asks. */
+  retryAfter?: string;
 }
 
 const CACHE_ENTRIES = 100;
@@ -70,7 +72,8 @@ export function createProxyServer(deps: ProxyDeps): Server {
     try {
       const res = await fetchFn(url, { signal: AbortSignal.timeout(deps.timeoutMs), headers: { Accept: 'application/rss+xml, application/xml, text/xml' } });
       const body = await res.text();
-      result = { status: res.status, contentType: res.headers.get('content-type') ?? 'application/xml', body, verdict: classifyUpstream(res.status, body, wanted) };
+      const retryAfter = res.headers.get('retry-after') ?? undefined;
+      result = { status: res.status, contentType: res.headers.get('content-type') ?? 'application/xml', body, verdict: classifyUpstream(res.status, body, wanted), ...(retryAfter && { retryAfter }) };
     } catch (err) {
       const e = err as Error & { cause?: { code?: string } };
       const timedOut = e.name === 'TimeoutError' || e.name === 'AbortError';
@@ -134,7 +137,7 @@ export function createProxyServer(deps: ProxyDeps): Server {
     if (t === 'caps') {
       const up = await upstream(ix, params, 'caps');
       // Caps carry no protocol marker (nor does Sonarr read one), so they pass through with only the TV search rewritten.
-      return send(res, up.status, up.contentType, up.verdict.ok ? rewriteCaps(up.body) : redactor.redact(up.body));
+      return send(res, up.status, up.contentType, up.verdict.ok ? rewriteCaps(up.body) : redactor.redact(up.body), up.retryAfter ? { 'Retry-After': up.retryAfter } : undefined);
     }
     const isSearch = params.has('q') || params.has('tvdbid') || params.has('season');
     if (isSearch) stats.searches++;
@@ -195,7 +198,7 @@ export function createProxyServer(deps: ProxyDeps): Server {
       const apiError = responses.find((r) => r.status === 200 && /<error[\s/>]/.test(r.body));
       if (apiError) return send(res, 200, apiError.contentType, redactor.redact(apiError.body));
       const first = responses[0]!;
-      return send(res, first.status === 200 ? 502 : first.status, first.contentType, redactor.redact(first.body) || errorXml(900, `upstream ${ix.name} failed`));
+      return send(res, first.status === 200 ? 502 : first.status, first.contentType, redactor.redact(first.body) || errorXml(900, `upstream ${ix.name} failed`), first.retryAfter ? { 'Retry-After': first.retryAfter } : undefined);
     }
     send(res, 200, 'application/rss+xml; charset=utf-8', ensureNamespace(replaceItems(ok.body, out), protocolOf(ix)));
   };
@@ -238,7 +241,7 @@ export const exportText = (deps: Pick<ProxyDeps, 'stats'>) =>
 
 const statusInput = (deps: ProxyDeps) => ({ version: deps.version, data: deps.data.status, sonarr: deps.sonarr.status, stats: deps.stats, indexers: deps.indexers.map((i) => ({ name: i.name, ...(i.type && { type: i.type }) })) });
 
-function send(res: ServerResponse, status: number, contentType: string, body: string): void {
-  res.writeHead(status, { 'Content-Type': contentType, 'Cache-Control': 'no-store' });
+function send(res: ServerResponse, status: number, contentType: string, body: string, headers: Record<string, string> = {}): void {
+  res.writeHead(status, { 'Content-Type': contentType, 'Cache-Control': 'no-store', ...headers });
   res.end(body);
 }

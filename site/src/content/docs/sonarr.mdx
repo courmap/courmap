@@ -118,8 +118,35 @@ The steps below use Prowlarr and show torrent indexers; usenet indexers add one 
 | `REFRESH_HOURS` | `24` | How often the data release is checked. A new dump is downloaded only when the data version changes, and its SHA-256 is checked before it replaces the old one. |
 | `SONARR_REFRESH_MINUTES` | `60` | How often the series list is reloaded. |
 | `PORT`, `DATA_DIR`, `TIMEOUT_SECONDS` | `9797`, `/data`, `60` | Port, data folder and upstream timeout. |
+| `UPSTREAM_CACHE_SECONDS` | `60` | Identical queries to an indexer within this time share one request. `0` turns the cache off. See [Indexer API limits](#indexer-api-limits). |
+| `SEARCH_STOP_ON_MATCH` | `true` | An episode search sends its alternative query only when the first one did not return that episode. `false` always sends both. |
+| `MAX_QUERIES_PER_SEARCH` | `3` | The most queries one Sonarr search may send to an indexer (1 to 10). |
 
 An optional YAML file at `/config/courmap-proxy.yaml` can hold the same settings (`type: newznab` on an indexer entry); environment variables win over it.
+
+## Indexer API limits
+
+Usenet indexers, and some torrent ones, allow only a limited number of API requests a day, so the proxy is careful with them and shows what it spends.
+
+**What one Sonarr search costs.** Sonarr asks an indexer for one episode in several ways, and the proxy turns each into the indexer's own kind of text search. Counted at the indexer, against a real Sonarr:
+
+| Sonarr search | Requests that reached the indexer without the cache and early stop | With them (the defaults) |
+| --- | --- | --- |
+| Episode search, the episode has two names (its own number and the absolute one) | 10 | 1 |
+| Episode search, one name | 8 | 1 |
+| Season search of an anime series | 190 | 37 |
+
+Three things bring that down:
+
+- **The cache.** Identical queries within `UPSTREAM_CACHE_SECONDS` (60) share one request, also while the first is still running. An answer that failed is never kept, so the next request tries again. Answers from the cache are rewritten fresh each time, so new data applies at once.
+- **Stopping early.** An episode search asks first with the work's own title and number. The same episode under another name (the franchise title with the absolute number) is sent only when that first answer had no release for the episode. The trade: when the first query already found it, you do not see releases that are named only the other way. Set `SEARCH_STOP_ON_MATCH=false` to always send both. A season search asks about different works, so it always sends all its queries.
+- **The cap.** `MAX_QUERIES_PER_SEARCH` (3) limits the queries one search may send.
+
+A season search of an anime series stays expensive: Sonarr looks for each episode by itself, so it costs about one request per episode. On a tight limit, search the episodes you need, or let RSS find new ones.
+
+**What the status page shows.** Under "Requests to your indexers, per day": for each indexer, the requests sent on each of the last seven UTC days, with the cache's answers and the failures beside them. The counts are kept for two weeks and survive a restart. Compare them with your plan's limit (check when the indexer resets it; it is often midnight UTC).
+
+**When an indexer says its limit is reached.** The proxy does not retry and does not keep the answer. It passes the indexer's answer to Sonarr as it is (an error document with HTTP 200, or HTTP 429 with its `Retry-After`), shows the reason in that indexer's row (`api-limit`), and logs it at most once a minute. What follows is Sonarr's doing: for "Request limit reached" or HTTP 429 it disables the indexer for the time the indexer asked, or for at least an hour. Other wordings, such as "Daily hits limit reached", are ordinary failures to Sonarr, which backs off with its usual growing delay. A request that failed still counted against the indexer's limit.
 
 ## The status page
 
@@ -129,6 +156,7 @@ An optional YAML file at `/config/courmap-proxy.yaml` can hold the same settings
 
 ## Troubleshooting
 
+- **The status page shows upstream errors.** The row says how many and why: `api-limit` (the indexer's quota is spent, or HTTP 429), `auth` (the indexer rejected the API key), `indexer-error` (any other error document), `http` (another HTTP error, such as 503), `bad-response` (an answer that is not a feed, such as a maintenance page), `timeout` (no answer in `TIMEOUT_SECONDS`) and `network` (could not connect). The latest one is spelled out under the table.
 - **The status page says no data is loaded.** The proxy downloads the latest data release from GitHub on start; check that the container can reach `github.com`, or set `COURMAP_DUMP` to a local dump.
 - **"The data folder is not writable".** On Unraid, run `chown -R 99:100 /mnt/user/appdata/courmap-proxy`.
 - **Sonarr's test fails with HTTP 401.** The API key Sonarr sends is passed to Prowlarr; use the Prowlarr API key, not Sonarr's.

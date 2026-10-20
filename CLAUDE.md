@@ -15,6 +15,7 @@ Instructions for agents working in this repo. Start with `docs/HANDOFF.md` (wher
 
 ## Working agreements
 
+- No Claude Code session merges, closes or deletes anything (pull requests, issues, branches, tags, releases, repository settings or rulesets) unless the prompt explicitly says to. Report what you found and what you would do instead. Bot pull requests are merged by Xwolv only.
 - A build step is done when its CI check from the spec passes, not when the code looks right. Run `pnpm check` before pushing.
 - Small, reviewable commits: one logical change each, clear message.
 - If the spec is ambiguous or seems wrong, make the most reasonable choice, add a one-line entry with rationale to `docs/DECISIONS.md`, and keep going. Stop and ask only for decisions that are hard to reverse (published slugs, schema shapes already in a release, licensing).

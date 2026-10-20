@@ -1,4 +1,4 @@
-import { lookup, resolve, search, translate, type Dataset, type EpisodeInput, type Meta, type ResolveResult, type TranslateResult, type Work, type WorkSummary } from '@courmap/core';
+import { lookup, resolve, search, translate, type Dataset, type EpisodeInput, type Meta, type ResolveOptions, type ResolveResult, type TranslateResult, type Work, type WorkSummary } from '@courmap/core';
 import { parseRelease } from '@courmap/parser';
 
 /**
@@ -17,7 +17,7 @@ export interface CourmapClient {
    * A release name to its work and episode, with confidence and competing candidates. status is
    * ok only for a clear winner; otherwise ambiguous (candidates listed) or unmatched.
    */
-  resolve(releaseName: string): Promise<ResolveResult>;
+  resolve(releaseName: string, options?: ResolveOptions): Promise<ResolveResult>;
   /** Works whose titles or aliases match the query, best first. */
   search(query: string, limit?: number): Promise<WorkSummary[]>;
   meta(): Promise<Meta>;
@@ -30,7 +30,7 @@ export function createClient(dataset: Dataset, close: () => void = () => {}): Co
   return {
     lookup: (ref) => lookup(dataset, ref),
     translate: (ref, episode, targets) => translate(dataset, ref, episode, targets),
-    resolve: (releaseName) => resolve(dataset, parseRelease(releaseName)),
+    resolve: (releaseName, options) => resolve(dataset, parseRelease(releaseName), options),
     search: (query, limit) => search(dataset, query, limit),
     meta: () => dataset.meta(),
     close,

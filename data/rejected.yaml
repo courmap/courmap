@@ -14,3 +14,15 @@ rejected:
     date: 2026-10-19
     link: https://github.com/courmap/courmap/pull/10
     origin: manual
+  - kind: relation
+    work: mahou-shoujo-ikusei-keikaku-restart
+    prequel: mahou-shoujo-ikusei-keikaku
+    reason: >-
+      Linking restart to the 2016 series as its sequel gives it the sequel penalty in resolve, and
+      the two verified corpus cases for its S01E02 and S01E03 releases (ToonsHub) turn ambiguous.
+      The releases number it as a first season, so it needs a manual decision about its place in
+      the chain, not an AniList prequel.
+    decided_by: Xwolv
+    date: 2026-10-20
+    link: https://github.com/courmap/courmap/pull/34
+    origin: manual

@@ -164,7 +164,7 @@ export function createProxyServer(deps: ProxyDeps): Server {
       for (const item of items(r.body)) {
         if (seen.has(item.key)) continue;
         seen.add(item.key);
-        const outcome = await rewriter.rewrite(item.title).catch((err: Error) => {
+        const outcome = await rewriter.rewrite(item.title, item.posted).catch((err: Error) => {
           log(`rewrite failed for "${item.title}": ${err.message}`);
           return null;
         });
@@ -231,7 +231,7 @@ export function createProxyServer(deps: ProxyDeps): Server {
 export const exportJson = (deps: Pick<ProxyDeps, 'stats' | 'data'>) => ({
   courmap_proxy_export: 1,
   data_version: deps.data.status.dataVersion,
-  unresolved: deps.stats.unresolvedList().map((e) => ({ name: e.name, status: e.status, count: e.count, detail: e.detail })),
+  unresolved: deps.stats.unresolvedList().map((e) => ({ name: e.name, status: e.status, count: e.count, detail: e.detail, firstSeen: e.firstSeen, lastSeen: e.lastSeen })),
   assisted: deps.stats.assistedList().map((a) => ({ work: a.mapping.work, count: a.count, examples: a.examples, mapping: a.mapping })),
 });
 

@@ -161,17 +161,14 @@ cases:
     verified: true
     source: hand-written
     notes: >-
-      Regression case for decision S4.4: a 2016 Suntory commercial shares the alias and the year;
-      title rank (a synonym there) and type (a special) separate them.
+      Regression case for decision S4.4: a 2016 Suntory commercial shares the alias and the year; title rank (a synonym there) and type (a special) separate them.
 
   - name: "[Group] Doraemon (2005) - 01 [1080p]"
     expect: { status: ok, work: doraemon-2005, episode: 1 }
     verified: true
     source: hand-written
     notes: >-
-      Regression case for decisions S5.1 and S5.2: the year is part of the remake's alias, and once
-      the bots chain Doraemon (1979) before it, that prequel neither penalizes the unshared alias
-      nor renumbers episode 1 (packages/bots/test/regressions.test.ts checks the chained case).
+      Regression case for decisions S5.1 and S5.2: the year is part of the remake's alias, and once the bots chain Doraemon (1979) before it, that prequel neither penalizes the unshared alias nor renumbers episode 1 (packages/bots/test/regressions.test.ts checks the chained case).
 
   # Group overrides (no real group data yet, so this runs on the conformance fixture)
   - name: "[FixtureSubs] Split Show Part 2 - 105 [1080p]"
@@ -196,3 +193,229 @@ cases:
     expect: { status: unmatched }
     verified: true
     source: hand-written
+  - name: "[Erai-raws].Tempal-Item.no.Chikara-03.[720p.CR.WEB-DL.AVC.AAC][MultiSub][4F82E2DE]"
+    expect:
+      status: ok
+      work: tempal-item-no-chikara
+      episode: 3
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: Erai-raws writes dot-separated names with the episode glued to the title by a hyphen; \"Tempal-Item no Chikara\" is the work's own title, a single exact alias."
+  - name: "[Erai-raws].Tempal-Item.no.Chikara-04.[1080p.CR.WEBRip.HEVC.AAC][MultiSub][8ABC2408]"
+    expect:
+      status: ok
+      work: tempal-item-no-chikara
+      episode: 4
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: The same glued form, another release of episode 4 (WEBRip HEVC)."
+  - name: Tenmaku no Jaadugar - 12 [1080p CR WEB-DL AVC AAC][MultiSub][EBAA6B45]
+    expect:
+      status: ok
+      work: tenmaku-no-jaadugar
+      episode: 12
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: Airing show recorded with a placeholder count of 1: the episode count lags the broadcast, and the TVDB mapping is open-ended."
+  - name: The World Is Dancing S01E06 Connection 1080p HIDI WEB-DL DUAL AAC2.0 H.264-VARYG (Dual-Audio)
+    expect:
+      status: ok
+      work: world-is-dancing
+      episode: 6
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: S01E06 is read through TVDB season 1, which maps to this work episode 6 (open-ended mapping of an airing show)."
+  - name: "[Ironclad] TANK CHAIR - S01E02 [WEB.1080p.AV1] | TANK CHAIR (Multi-Audio, Multi-Subs) (Weekly)"
+    expect:
+      status: ok
+      work: tank-chair
+      episode: 2
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: S01E02 through TVDB season 1 of an airing show whose count was a placeholder."
+  - name: Meitantei Precure - 33 [720p CR WEB-DL AVC AAC][37566799]
+    expect:
+      status: ok
+      work: meitantei-precure
+      episode: 33
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: An airing show whose recorded count (22) lags its real one (51 on AniList): episode 33 is placed by the open TVDB mapping."
+  - name: "[Doomdos] - 成也萧河 - 第13话 - [1080p BILIBILI COM WEB-DL]"
+    expect:
+      status: ambiguous
+      top: cheng-ye-xiao-he
+    verified: false
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Not verified: The right answer is cheng-ye-xiao-he episode 13, but the data records 12 episodes and the status upcoming for this ONA (it is airing); it resolves once a data refresh or the bots update it. Needs Xwolv: leave expecting ambiguous until then."
+  - name: "[NanakoRaws] Aikatsu! - 01 (TVA TV 1080p HEVC AAC)"
+    expect:
+      status: ambiguous
+      top: aikatsu
+    verified: false
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Not verified: Aikatsu! shares its title with four more works as a synonym; the original series (178 episodes) holds it as a title, but no other evidence separates them. Needs Xwolv: should a title holder beat synonym-only holders on its own?"
+  - name: "[NanakoRaws] Kusuriya no Hitorigoto S3 - 02 (CTV TV 1080p HEVC AAC)"
+    expect:
+      status: ok
+      work: kusuriya-no-hitorigoto-3rd-season
+      episode: 2
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: Season token S3 is TVDB season 3, which is this work (the show shares one TVDB ID across seasons)."
+  - name: Neko to Ryuu - 12 [720p CR WEB-DL AVC AAC][MultiSub][B21AB5A1]
+    expect:
+      status: ok
+      work: neko-to-ryuu
+      episode: 12
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: An airing show whose recorded count (2) lags its real one (12 on AniList)."
+  - name: Mao - 24 [480p DSNP WEB-DL AVC AAC][MultiSub][30D9CEAC]
+    expect:
+      status: ambiguous
+      top: mao
+    verified: false
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Not verified: Mao (2026, 26 episodes) holds the title; two other works only have it as a synonym. Same question as Aikatsu!: it scores 0.556 against a floor of 0.85. Needs Xwolv."
+  - name: "[Erai-raws] Tensei Goblin dakedo Shitsumon Aru - 03 [480p CR WEB-DL AVC AAC][MultiSub][E9476CC8]"
+    expect:
+      status: ok
+      work: tensei-goblin-dakedo-shitsumon-aru
+      episode: 3
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: Plain bracketed fansub name of an airing show recorded with a placeholder count of 1."
+  - name: "[Doomdos] - MAGICAL GIRL RAISING PROJECT restart - 02 [1080p OV WEB-DL]"
+    expect:
+      status: ok
+      work: mahou-shoujo-ikusei-keikaku-restart
+      episode: 2
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: Leading \" - \" after the group tag is not part of the title."
+  - name: "[ToonsHub] MAGICAL GIRL RAISING PROJECT restart S01E02 1080p OV WEB-DL AAC2.0 H.264 (Mahou Shoujo Ikusei Keikaku restart, English-Sub)"
+    expect:
+      status: ok
+      work: mahou-shoujo-ikusei-keikaku-restart
+      episode: 2
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: Scene-style S01E02 of the same airing show."
+  - name: BLEACH.Thousand-Year.Blood.War.S01E49.THE.BLADE.1080p.DSNP.WEB-DL.JPN.AAC2.0.H.264.MSubs-ToonsHub
+    expect:
+      status: ambiguous
+      top: bleach-sennen-kessen-hen
+    verified: false
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Not verified: TVDB numbers Bleach: Thousand-Year Blood War S01E49 here, while the data maps its cours to TVDB 74796 season 17 (Anime-Lists). Which TVDB series Sonarr tracks for it decides the right answer. Needs Xwolv."
+  - name: BLEACH.Thousand.Year.Blood.War.S01E49.THE.BLADE.1080p.AMZN.WEB-DL.DDP2.0.H.264-VARYG
+    expect:
+      status: ambiguous
+      top: bleach-sennen-kessen-hen
+    verified: false
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Not verified: Same release as the case above from another group."
+  - name: Bleach-Thousand-Year.Blood.War.35.BD.Remux.1080p.AVC.DTS-HD.MA.2.0.DUAL.DTS-HD.MA.2.0-Wwecrazzy
+    expect:
+      status: ambiguous
+      top: bleach-sennen-kessen-hen
+    verified: false
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Not verified: A Blu-ray remux pack named Bleach-Thousand-Year.Blood.War.NN with an absolute episode number across all cours; the same TVDB question as the S01E49 releases. Needs Xwolv."
+  - name: Tensei.Goblin.dakedo.Shitsumon.Aru.S01E03.So.Whats.Wrong.with.Negotiating.with.Humans.1080p.CR.WEB-DL.AAC2.0.H.264-playWEB
+    expect:
+      status: ok
+      work: tensei-goblin-dakedo-shitsumon-aru
+      episode: 3
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: Dot-separated scene name with the episode title after S01E03."
+  - name: MAGICAL.GIRL.RAISING.PROJECT.restart.S01E03.Delicious.Food.Makes.Everyone.Happy.1080p.OV.WEB-DL.JPN.AAC2.0.H.264.ESub-ToonsHub
+    expect:
+      status: ok
+      work: mahou-shoujo-ikusei-keikaku-restart
+      episode: 3
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: Dot-separated scene name, S01E03."
+  - name: Naked.People.S01E03.1080p.friDay.WEB-DL.AAC2.0.H.264-MWeb
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: Not an anime: a Taiwanese drama, nothing to match."
+  - name: "[Erai-raws].Tensei.Goblin.dakedo.Shitsumon.Aru-04.[1080p.CR.WEBRip.HEVC.AAC][MultiSub][684985F5]"
+    expect:
+      status: ok
+      work: tensei-goblin-dakedo-shitsumon-aru
+      episode: 4
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: Erai-raws glued form for another work."
+  - name: "[Erai-raws].horemajo-03.[1080p.CR.WEBRip.HEVC.AAC][MultiSub][D3C3DB2A]"
+    expect:
+      status: ok
+      work: doumo-suki-na-hito-ni-horegusuri-wo-irai-sareta-majo-desu
+      episode: 3
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: Erai-raws uses the community abbreviation \"horemajo\", which is an alias of the work."
+  - name: Thats.Enough.Dad.S01E03.1080p.friDay.WEB-DL.AAC2.0.H.264-MWeb
+    expect:
+      status: ambiguous
+      top: sore-ga-boku-no-otousan
+    verified: false
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Not verified: No work in the data has this title (the closest, a 1997 special, is a different show); the show is missing from the pinned dataset and should appear in a later pin."
+  - name: Starmyu.in.Halloween.2018.1080p.JPN.BluRay.AVC.LPCM.2.0-NAN0
+    expect:
+      status: ok
+      work: starmyu-in-halloween
+      episode: 1
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: A one-episode special named by title and year has no episode number to find."
+  - name: "[Erai-raws].Bleach-Sennen.Kessen.Hen-Kashin.Tan-09.[480p.DSNP.WEB-DL.AVC.AAC][MultiSub][3850FF2D]"
+    expect:
+      status: ok
+      work: bleach-sennen-kessen-hen-kashin-tan
+      episode: 9
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: Erai-raws glued form; the title carries a hyphen (\"Bleach-Sennen Kessen Hen-Kashin Tan\") that normalizes to the work's alias."
+  - name: "[Erai-raws].Psyren-03.[1080p.CR.WEBRip.HEVC.AAC][MultiSub][A4F9929A]"
+    expect:
+      status: ok
+      work: psyren
+      episode: 3
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: Erai-raws glued form."
+  - name: S02E18-Ah Do Demons Have Any Dignity
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: An episode file name from a pack: it names no show, so there is nothing to match and unmatched is the right answer."
+  - name: S02E16-Ah Shimmer Without Fear of the Darkness
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: Same: an episode title with no show name."
+  - name: S02E17-Ah The Chair of Demonkind Descends
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: Same: an episode title with no show name."
+  - name: Dara.san.of.the.Reiwa.Era.S01.1080p.CR.WEB-DL.AAC2.0.H.264-VARYG
+    expect:
+      status: ok
+      work: reiwa-no-dara-san
+      episode: 1
+      episode_to: 13
+    verified: true
+    source: proxy-unresolved
+    notes: "From a real proxy export (first week, data 2026.43). Verified 2026-10-20: A season pack (S01 with no episode) is a batch of all 13 episodes of the work; the English title was a missing alias."

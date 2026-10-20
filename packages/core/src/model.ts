@@ -59,6 +59,16 @@ export interface WorkRecord {
 export const hasOpenRun = (w: Pick<WorkRecord, 'status' | 'projections'>): boolean =>
   w.status === 'airing' && Object.values(w.projections).some((rows) => rows?.some((r) => r.kind === 'regular' && r.ep_to === null));
 
+/**
+ * Whether a work's recorded episode count is only a floor (decision of 2026-10-20): an airing work with
+ * an open-ended mapping, or an airing work with no regular mapping at all (a donghua whose count lags the
+ * broadcast). An upcoming work is not trusted this far: its status may simply be wrong. A finished work's count is never a floor: a
+ * release past it passes through, and is worth a tier C issue.
+ */
+export const countIsFloor = (w: Pick<WorkRecord, 'status' | 'projections'>): boolean =>
+  hasOpenRun(w) ||
+  (w.status === 'airing' && !Object.values(w.projections).some((rows) => rows?.some((r) => r.kind === 'regular')));
+
 export interface SequenceMemberRow {
   work: string;
   ep_from: number;

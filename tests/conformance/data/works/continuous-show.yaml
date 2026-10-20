@@ -1,0 +1,14 @@
+id: continuous-show
+type: tv
+year: 2022
+episodes: 12
+titles:
+  romaji: Continuous Show
+ids:
+  anidb: 1050
+  tvdb_show: 5050
+projections:
+  # The provider files both cours under season 3, but release groups number them S01E01 to S01E24.
+  tvdb_show:
+    - { season: 3, episodes: 1-12 }
+notes: Conformance fixture. All IDs are fake.

@@ -54,7 +54,7 @@ cases:
   - name: title rank and type together break a tie (a TV title over an OVA synonym)
     op: resolve
     release: "[Other] Tie Show - 01"
-    expect_resolve: { status: ok, work: tie-show, episode: 1, confidence: 0.862 }  # evidence 1 against 0.4 x 0.4
+    expect_resolve: { status: ok, work: tie-show, episode: 1, confidence: 0.984 }  # evidence 1 against 0.4 x 0.4 x 0.1 (a title holder beats a synonym-only sharer)
 
   - name: title rank alone does not decide (an OVA marker turns the type preference off)
     op: resolve
@@ -107,3 +107,18 @@ cases:
     op: resolve
     release: "Lone.Special.1080p.BluRay.x264-GRP"
     expect_resolve: { status: ambiguous, top: [lone-special] }
+
+  - name: S01 on a work whose TVDB season is not 1 is the continuous numbering of its sequence
+    op: resolve
+    release: "[Other] Continuous Show S01E15"
+    expect_resolve: { status: ok, work: continuous-show-part-2, episode: 3, confidence: 1 }
+
+  - name: S01 inside the first cour of such a show is that episode, not TVDB season 1
+    op: resolve
+    release: "[Other] Continuous Show S01E05"
+    expect_resolve: { status: ok, work: continuous-show, episode: 5, confidence: 0.998 }
+
+  - name: an airing work with no mapping treats its recorded count as a floor
+    op: resolve
+    release: "[Other] Floor Show - 13"
+    expect_resolve: { status: ok, work: floor-show, episode: 13, confidence: 1 }

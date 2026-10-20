@@ -2,7 +2,7 @@ import { MIN_ALIAS_LENGTH } from './aliases.js';
 import { aliasShardKey, gramBucket, trigrams, type AliasEntry } from './alias-shards.js';
 import { translate, type Dataset } from './engine.js';
 import { CourmapError } from './errors.js';
-import { hasOpenRun, type GroupRecord, type WorkRecord } from './model.js';
+import { countIsFloor, type GroupRecord, type WorkRecord } from './model.js';
 import { codePointLength, normalizeTitle } from './normalize.js';
 import type { ParsedRelease, ResolveCandidate, ResolvedProjections, ResolveMatch, ResolveResult, WorkSummary } from './release.js';
 
@@ -137,7 +137,7 @@ interface Ctx {
   group: GroupRecord | null;
 }
 
-const inRange = (w: WorkRecord, e: number) => e >= 1 && (w.episodes === null || e <= w.episodes || hasOpenRun(w));
+const inRange = (w: WorkRecord, e: number) => e >= 1 && (w.episodes === null || e <= w.episodes || countIsFloor(w));
 
 /** Steps 4.1 to 4.4 of the spec for one episode number. */
 async function placeOne(ctx: Ctx, w: WorkRecord, e: number, season: number | null): Promise<Omit<Placement, 'episodeTo'>> {
@@ -164,8 +164,11 @@ async function placeOne(ctx: Ctx, w: WorkRecord, e: number, season: number | nul
   // An explicit season token (S2, Season 2, S02E05) is read as a TVDB season first: it is the
   // most specific reading, and for long-runners the canonical number would be wrong. Part and
   // cour tokens are not TVDB seasons, so they skip this.
+  // Exception: S01 on a work of a multi-cour show whose TVDB season is not 1 is the show's continuous
+  // numbering (see seasonFit), so TVDB season 1 of the same series is the wrong place to look.
   const tvdb = w.ids.tvdb_show;
-  if (season !== null && tvdb !== undefined) {
+  const continuous = season === 1 && firstTvdbSeason(w) !== 1 && w.sequences.some((q) => q.default);
+  if (season !== null && tvdb !== undefined && !continuous) {
     try {
       const r = await translate(ds, `tvdb_show:${tvdb}:s${season}`, e, []);
       const work = (await ds.getWork(r.work.id))!;
@@ -177,7 +180,7 @@ async function placeOne(ctx: Ctx, w: WorkRecord, e: number, season: number | nul
   if (inRange(w, e)) {
     // Past the recorded count only for an airing work with an open-ended mapping, whose count lags the broadcast.
     const lagging = w.episodes !== null && e > w.episodes;
-    return { work: w, episode: e, fit: 1, viaTvdbSeason: false, reason: lagging ? `${e} is past ${w.id}'s ${w.episodes} recorded episodes, but it is airing and its mapping is open-ended` : `${e} is within ${w.id}'s ${w.episodes ?? 'open'} episodes` };
+    return { work: w, episode: e, fit: 1, viaTvdbSeason: false, reason: lagging ? `${e} is past ${w.id}'s ${w.episodes} recorded episodes, but it is ${w.status} and its count is only a floor` : `${e} is within ${w.id}'s ${w.episodes ?? 'open'} episodes` };
   }
   const member = w.sequences.find((s) => s.default);
   if (member && e >= member.absolute_start) {
@@ -186,7 +189,7 @@ async function placeOne(ctx: Ctx, w: WorkRecord, e: number, season: number | nul
       return { ...hub, fit: 1, viaTvdbSeason: false, reason: `${e} exceeds ${w.id}'s ${w.episodes} episodes; ${member.sequence} places absolute ${e} at ${hub.work.id} ${hub.episode}` };
     }
   }
-  return { work: w, episode: e, fit: MISMATCH, viaTvdbSeason: false, reason: `${e} is past ${w.id}'s ${w.episodes} episodes and nothing places it` };
+  return { work: w, episode: e, fit: MISMATCH, viaTvdbSeason: false, reason: `${e} is past ${w.id}'s ${w.episodes} episodes and nothing places it${w.status === 'finished' ? ' (a finished work: the release passes through; worth a tier C issue)' : ''}` };
 }
 
 async function viaAbsolute(ds: Dataset, sequence: string, abs: number): Promise<{ work: WorkRecord; episode: number } | null> {
@@ -273,6 +276,11 @@ async function seasonFit(ds: Dataset, w: WorkRecord, hit: AliasHit, placement: P
   const what = parsed.season !== null ? 'season' : 'part';
   if (hit.viaSeason) return { fit: 1, reason: `${what} ${n} is in the alias` };
   if (placement.viaTvdbSeason) return { fit: 1, reason: null };
+  // Season 1 with a continuous number: groups number a multi-cour show S01E01 onward across its cours
+  // (Bleach: Thousand-Year Blood War, S01E49), which the work's default absolute sequence places.
+  if (parsed.season === 1 && w.sequences.some((q) => q.default && (q.absolute_start === 1 || placement.work.id !== w.id))) {
+    return { fit: 1, reason: 'season 1 is the continuous numbering of its absolute sequence' };
+  }
   const pos = await chainPosition(ds, w);
   if (pos === n) return { fit: 1, reason: `${what} ${n} is its place in the prequel chain` };
   if (parsed.season !== null && firstTvdbSeason(w) === n) return { fit: 1, reason: `season ${n} matches its TVDB season` };
@@ -290,6 +298,8 @@ function yearFit(w: WorkRecord, year: number | null): { fit: number; reason: str
 
 /** Tie-breaker weight when the alias is only a synonym of the work, not one of its titles (decision S4.4). */
 export const SYNONYM_WEIGHT = 0.4;
+/** Extra demotion of a synonym-only sharer when a title holder with no worse evidence shares the alias (decision S4.4, 2026-10-20). */
+export const TITLE_HOLDER_FACTOR = 0.1;
 /** Tie-breaker weight by type (decision S4.4): tv and movie over ova and ona, over special and anything else. */
 export const TYPE_WEIGHT: Readonly<Record<string, number>> = { tv: 1, movie: 1, ova: 0.4, ona: 0.4 };
 const OTHER_TYPE_WEIGHT = 0.2;
@@ -302,12 +312,12 @@ const OTHER_TYPE_WEIGHT = 0.2;
  * Type preference is skipped when the release names a special kind (OVA, movie, special),
  * since the marker is then the better evidence.
  */
-function preference(w: WorkRecord, hit: AliasHit, parsed: ParsedRelease): { weight: number; reason: string | null } {
+function preference(w: WorkRecord, hit: AliasHit, parsed: ParsedRelease): { weight: number; isTitle: boolean; reason: string | null } {
   const isTitle = [w.titles.romaji, w.titles.english, w.titles.native].some((t) => t !== null && normalizeTitle(t) === hit.alias);
   const title = isTitle ? 1 : SYNONYM_WEIGHT;
   const type = parsed.special !== null ? 1 : (TYPE_WEIGHT[w.type] ?? OTHER_TYPE_WEIGHT);
   const reasons = [!isTitle && 'the alias is a synonym, not a title', type < 1 && `type ${w.type}`].filter(Boolean);
-  return { weight: title * type, reason: reasons.length > 0 ? reasons.join(', ') : null };
+  return { weight: title * type, isTitle, reason: reasons.length > 0 ? reasons.join(', ') : null };
 }
 
 const round = (x: number) => Math.round(x * 1000) / 1000;
@@ -350,7 +360,7 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease): Promise<Resol
   // Score each (alias hit, work); a shared alias splits its weight by each sharer's evidence.
   const best = new Map<string, ResolveCandidate>();
   for (const hit of hits) {
-    const scored: { evidence: number; pref: { weight: number; reason: string | null }; cand: Omit<ResolveCandidate, 'confidence'> }[] = [];
+    const scored: { evidence: number; pref: { weight: number; isTitle: boolean; reason: string | null }; cand: Omit<ResolveCandidate, 'confidence'> }[] = [];
     for (const id of hit.works) {
       const w = await ds.getWork(id);
       if (!w) continue;
@@ -375,8 +385,13 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease): Promise<Resol
     // other evidence favors (the best preference among equals), so they never overturn it.
     if (scored.length > 1) {
       const lead = scored.reduce((a, b) => (b.evidence > a.evidence || (b.evidence === a.evidence && b.pref.weight > a.pref.weight) ? b : a));
+      // A work that holds the alias as one of its titles beats works that only list it as a synonym,
+      // when the other evidence (episode, season, year) is no worse: the synonym-only sharers are
+      // demoted further, so a clear title holder (Aikatsu!, Mao) can reach the floor.
+      const holders = scored.filter((x) => x.pref.isTitle);
       for (const x of scored) {
-        const weight = Math.min(1, x.pref.weight / lead.pref.weight);
+        let weight = Math.min(1, x.pref.weight / lead.pref.weight);
+        if (parsed.special === null && !x.pref.isTitle && holders.some((h) => h.evidence >= x.evidence)) weight *= TITLE_HOLDER_FACTOR;
         if (weight < 1) {
           x.evidence *= weight;
           x.cand.reason += `; ${x.pref.reason} (preferring ${lead.cand.work})`;
@@ -384,8 +399,12 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease): Promise<Resol
       }
     }
     const total = scored.reduce((s, x) => s + x.evidence, 0);
+    // Sharers that place the release at the same work and episode are one answer, not rivals.
+    const keyOf = (c: Omit<ResolveCandidate, 'confidence'>) => `${c.work}#${c.episode}#${c.episode_to ?? ''}`;
+    const agreed = new Map<string, number>();
+    for (const x of scored) agreed.set(keyOf(x.cand), (agreed.get(keyOf(x.cand)) ?? 0) + x.evidence);
     for (const { evidence, cand } of scored) {
-      const confidence = round(total === 0 ? 0 : hit.similarity * evidence * (evidence / total));
+      const confidence = round(total === 0 ? 0 : hit.similarity * evidence * (agreed.get(keyOf(cand))! / total));
       const key = `${cand.work}#${cand.episode}#${cand.episode_to ?? ''}`;
       const prev = best.get(key);
       if (!prev || confidence > prev.confidence) best.set(key, { ...cand, confidence });

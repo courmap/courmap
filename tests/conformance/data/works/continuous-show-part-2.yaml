@@ -1,0 +1,16 @@
+id: continuous-show-part-2
+type: tv
+year: 2023
+episodes: 12
+titles:
+  romaji: Continuous Show Part 2
+ids:
+  anidb: 1051
+  tvdb_show: 5050
+projections:
+  tvdb_show:
+    - { season: 3, episodes: 1-12, start: 13 }
+prequel: continuous-show
+aliases:
+  - Continuous Show
+notes: Conformance fixture. All IDs are fake.

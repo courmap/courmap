@@ -644,3 +644,11 @@ cases:
     verified: true
     source: proxy-unresolved
     notes: "TMDB projection checker batch, 2026-10-20: the TMDB mapping to the 1995 show was removed; the release still resolves, with TVDB season 2 episode 600."
+  - name: "[SubsPlease] Bonobono (TV 2016) - 468 (1080p) [ABCD1234]"
+    expect:
+      status: ok
+      work: bonobono-tv-2016
+      episode: 468
+    verified: true
+    source: proxy-unresolved
+    notes: "Decided by Xwolv 2026-10-20: the 2016 series is TMDB show 66751 (season 1, which runs on with the broadcast), not season 2 of the 1995 series (66569). The release resolves to this work and episode, with TVDB season 2 and TMDB season 1."

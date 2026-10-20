@@ -1,0 +1,14 @@
+id: recent-show-old
+type: tv
+status: finished
+year: 2010
+episodes: 26
+titles:
+  romaji: Recent Show
+ids:
+  anidb: 1060
+  tvdb_show: 5060
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-26 }
+notes: Conformance fixture. All IDs are fake. A finished work from an earlier year that holds the title.

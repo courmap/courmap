@@ -2,7 +2,7 @@
 
 Everything still open before the public launch post (r/sonarr, r/selfhosted, anime self-hosting Discords). Each item says who does it and how to check it is done. Claude Code updates this file at the end of every session; Xwolv ticks items off by saying so in the session prompt.
 
-Last updated 2026-10-20, first-real-traffic session. Status: **not ready.** 10 of 20 items are done and 5 are partly done; what is left is mostly real-world use (proxy week, corpus, screenshots, testers).
+Last updated 2026-10-20, first-real-traffic session. Status: **not ready.** 11 of 20 items are done and 4 are partly done; what is left is mostly real-world use (proxy week, corpus, screenshots, testers).
 
 Legend: [x] done, [ ] open, [~] partly done.
 
@@ -42,12 +42,12 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Verify: `npm view @courmap/client version` prints the newest version, and the npm page shows the provenance badge.
 12. [ ] **Proxy 0.1.0.** Who: Claude Code, after item 14. Tag `proxy-v0.1.0`.
     Verify: `docker pull ghcr.io/courmap/proxy:0.1.0` and `:latest`.
-20. [~] **Usenet (Newznab) support in the proxy:** [#30](https://github.com/courmap/courmap/issues/30). Who: Claude Code built it; Xwolv verifies on his own Sonarr.
+20. [x] **Usenet (Newznab) support in the proxy:** [#30](https://github.com/courmap/courmap/issues/30). Who: Claude Code built it; Xwolv verifies on his own Sonarr.
     - Built: `INDEXER_<NAME>_TYPE=newznab|torznab` (detected from the feed's first results when unset), Newznab attributes written in the right namespace, caps and errors passed through, a new `:edge` image, and docs (quick start tabs for Torznab and Newznab, guide, proxy README).
     - Tested against a fake Newznab feed (19 tests) and by hand with a real Sonarr 4.0.20 and a fake usenet indexer: the indexer test passes, interactive search and RSS sync work, Sonarr reads the TVDB ID and size. Not tested against a live usenet indexer.
     - Verified on Xwolv's own Sonarr (2026-10-20): both Courmap indexers (NZBgeek and AniFix) pass Sonarr's indexer test. #30's "passes Sonarr's indexer test" box is ticked.
-    - Open (Xwolv): a real grab through the proxy imports correctly, which also covers RSS and automatic searches returning rewritten, correctly numbered results. Then Claude Code ticks the last box in #30 and closes it.
-    - Verify: every box under "Done when" in #30 is ticked, and #30 is closed by the commit that records Xwolv's confirmation.
+    - Verified on Xwolv's own Sonarr (2026-10-20): a real grab imported correctly, SPY x FAMILY S02E07 (absolute 32) from NZBgeek through the proxy, imported as S02E07. Every box in #30 is ticked and the issue is closed by the commit that records it.
+    - Verify: #30 is closed.
 
 ## Data and quality
 
@@ -67,7 +67,7 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Verify: no bot PR or `mapping-conflict` issue older than a week without a decision.
 16. [ ] **Corpus large enough to trust.** Who: Xwolv supplies names (proxy exports); Claude Code imports and verifies them with Xwolv.
     - Proposed launch bar: at least 200 verified cases, most of them real names from the proxy, with a 95% pass rate. The M2 milestone remains 1,000.
-    - Today: 62 verified cases, all passing, plus 7 unverified whose proposed answers Xwolv confirms (35 before the first proxy export, 2026-10-20).
+    - Today: 81 verified cases, all passing, none unverified. Was 35 before the first proxy export, 2026-10-20.
     - Verify: `pnpm corpus` reports at least 200 verified at 95% or more.
 17. [ ] **Screenshots in the Sonarr guide.** Who: Xwolv takes them; Claude Code places them. Six placeholders are in `site/src/content/docs/sonarr.mdx`:
     - Prowlarr indexers with the ID visible.

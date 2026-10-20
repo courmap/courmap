@@ -29,7 +29,7 @@ describe('remote client', async () => {
 
   it('writes the spec layout, meta.json included', () => {
     const meta = JSON.parse(readFileSync(path.join(root, 'meta.json'), 'utf8')) as Record<string, unknown>;
-    expect(meta).toMatchObject({ data_version: '2026.01', schema_version: '4', counts: { works: 17, sequences: 3, groups: 1 } });
+    expect(meta).toMatchObject({ data_version: '2026.01', schema_version: '4', counts: { works: 19, sequences: 3, groups: 1 } });
     expect(JSON.parse(readFileSync(path.join(root, 'refs', 'tvdb_show', '5.json'), 'utf8'))).toMatchObject({ '5002': ['split-show', 'split-show-part-2'] });
     expect(JSON.parse(readFileSync(path.join(root, 'refs', 'imdb', '0.json'), 'utf8'))).toEqual({ tt0000001: ['simple-show'], tt0000007: ['a-movie'] });
   });

@@ -140,14 +140,33 @@ export async function runSeed(inputs: SeedInputs): Promise<SeedOutput> {
     reserved,
   );
 
-  // How many Anime-Lists entries map into each provider show and season, by default or explicitly.
-  const seasonUsers = new Map<string, number>();
+  // How many Anime-Lists entries map into each provider show and season, by default or explicitly, and where
+  // the default-mapped ones start (their episode offset): the last cour of a season may stay open-ended.
+  const seasonUsers = new Map<string, { n: number; explicit: boolean; offsets: number[] }>();
   for (const al of lists.values()) {
     for (const p of PROJECTION_PROVIDERS) {
-      const seasons = new Set<ALSeason | null>([p === 'tvdb_show' ? al.tvdbSeason : al.tmdbSeason, ...al.mappings.map((m) => (p === 'tvdb_show' ? m.tvdbSeason : m.tmdbSeason))]);
-      for (const s of seasons) if (s !== null) seasonUsers.set(seasonKey(al, p, s), (seasonUsers.get(seasonKey(al, p, s)) ?? 0) + 1);
+      const own = p === 'tvdb_show' ? al.tvdbSeason : al.tmdbSeason;
+      const explicit = al.mappings.map((m) => (p === 'tvdb_show' ? m.tvdbSeason : m.tmdbSeason));
+      for (const s of new Set<ALSeason | null>([own, ...explicit])) {
+        if (s === null) continue;
+        const u = seasonUsers.get(seasonKey(al, p, s)) ?? { n: 0, explicit: false, offsets: [] };
+        u.n++;
+        if (s === own) u.offsets.push((p === 'tvdb_show' ? al.tvdbOffset : al.tmdbOffset) ?? 0);
+        if (explicit.includes(s)) u.explicit = true;
+        seasonUsers.set(seasonKey(al, p, s), u);
+      }
     }
   }
+  // An open range would run into a later cour of the same show and season, so it needs the season to itself,
+  // or to be the last cour there (the largest offset, with no explicit sub-mapping into the season).
+  const mayStayOpen = (al: ALEntry, p: ProjectionProvider): boolean => {
+    const season = p === 'tvdb_show' ? al.tvdbSeason : al.tmdbSeason;
+    const u = seasonUsers.get(seasonKey(al, p, season));
+    if (!u) return false;
+    if (u.n === 1) return true;
+    const mine = (p === 'tvdb_show' ? al.tvdbOffset : al.tmdbOffset) ?? 0;
+    return !u.explicit && u.offsets.length === u.n && u.offsets.filter((o) => o >= mine).length === 1;
+  };
 
   const drafts = new Map<string, Draft>();
   for (const entry of offline.entries.values()) {
@@ -180,8 +199,7 @@ export async function runSeed(inputs: SeedInputs): Promise<SeedOutput> {
       setId('tmdb_movie', al.tmdbMovie, 'anime-lists');
       setId('imdb', al.imdb, 'anime-lists');
       for (const p of PROJECTION_PROVIDERS) {
-        // An open range would run into a later cour of the same show and season, so it needs the season to itself.
-        const open = hasPlaceholderCount(entry) && seasonUsers.get(seasonKey(al, p, p === 'tvdb_show' ? al.tvdbSeason : al.tmdbSeason)) === 1;
+        const open = hasPlaceholderCount(entry) && mayStayOpen(al, p);
         // Where the range cannot stay open (a sibling cour shares the season), the placeholder row of one episode is kept.
         const map = buildEpisodeMap(al, p, entry.episodes ?? (hasPlaceholderCount(entry) ? 1 : 0), conflicts, open);
         if (map) draft.maps[p] = map;

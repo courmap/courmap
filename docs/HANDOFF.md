@@ -42,7 +42,7 @@ Last updated 2026-10-20, after the first-real-traffic session.
   - The Sonarr quick start was rewritten for first-time self-hosters.
   - The Prowlarr advice was wrong in three places (the guide, the quick start and the proxy README); all now say to tag what Sonarr should still get directly. Prowlarr's app tags only include, and it re-adds indexers deleted from Sonarr.
   - The home page has a title and an explanation under its table; logo alt text and concept links are in place.
-- **Newznab (usenet) support in the proxy, issue #30** (code, tests, docs and DECISIONS.md done; Xwolv's own-Sonarr check pending):
+- **Newznab (usenet) support in the proxy, issue #30** (done and closed 2026-10-20: a real SPY x FAMILY S02E07 grab from NZBgeek imported correctly):
   - `INDEXER_<NAME>_TYPE=torznab|newznab` (YAML `type:`); unset means learned from the feed's first results. Caps carry no protocol marker, so they pass through unchanged apart from the TV search.
   - The one real difference between the protocols is the attribute namespace Sonarr reads the `tvdbid` from (`newznab:attr` against `torznab:attr`). Confirmed on a real Sonarr 4.0.20: the old image's usenet results had `tvdbId` 0, the new image's 405920.
   - `packages/proxy/src/feed.ts` (was `torznab.ts`) holds the protocol-aware feed handling; `test/newznab.test.ts` has 19 tests including a mixed setup.
@@ -58,14 +58,16 @@ Last updated 2026-10-20, after the first-real-traffic session.
   - **Upstream budget:** failure reasons (api-limit, auth, indexer-error, http, bad-response, timeout, network) and per-day request counts on the status page; a cache, an early stop and a cap (`UPSTREAM_CACHE_SECONDS`, `SEARCH_STOP_ON_MATCH`, `MAX_QUERIES_PER_SEARCH`). Measured with a real Sonarr: episode search 10 to 1 and 8 to 1 requests, anime season search 190 to 37. Retry-After on a 429 reaches Sonarr.
   - **Data:** the seed read the placeholder count 1 of an ongoing TV show as real and closed its TVDB mapping; 159 seed lines changed (count unknown, open-ended mapping), the engine and resolver accept an episode past an airing work's recorded count (`hasOpenRun`), and `resolve()` no longer throws on it. About 100 of the export's 201 unresolved items now resolve with a TVDB mapping.
   - **Parser:** glued hyphen episodes (Erai-raws), 第N话, season packs, `H.264`, LPCM, languages and streaming services.
-  - **Corpus:** 35 to 62 verified; 7 unverified cases wait for Xwolv. His decisions on the open ones are in DECISIONS.md (title holder tie-break, TYBW continuous numbering through `bleach-tybw-absolute`, a recorded count is a floor for airing works); the same export now resolves 153 of its 201 unresolved items, 138 with a TVDB mapping.
+  - **Corpus:** 35 to 71 verified, none unverified. A recent release now favors the work on air (`resolve(name, { postedAt })`, the proxy passes the feed item's date); exports carry `firstSeen` and `lastSeen`. His decisions on the open ones are in DECISIONS.md (title holder tie-break, TYBW continuous numbering through `bleach-tybw-absolute`, a recorded count is a floor for airing works); the same export now resolves 153 of its 201 unresolved items, 138 with a TVDB mapping. The second export (Spy x Family, 4165 items) went from 2114 to 3973 resolving: absolute sequence extended to seasons 2 and 3, compact aliases, and parser forms (S2-07, Season 3-13, 2nd-02, Title-47). Corpus is 81.
   - **Docs:** Sonarr and Prowlarr behind a VPN container (gluetun), the API limit behavior.
   - Xwolv ticked #30's indexer-test box (both indexers test green on his Sonarr); the real-grab box stays open.
 
 ## Next
 
+-1. **Data fixes wait for the next release.** The :edge image has the parser and resolver changes, but the Spy x Family, Bleach and other data fixes are in main only; the proxy gets data from the release (data-2026.43, cut 2026-10-19). Decide whether to allow revision releases between cedya77 pins (see DECISIONS.md, "A data version ships once"). Until then Xwolv's proxy still shows the old Spy x Family numbering misses.
+
 0. **Update the proxy.** Xwolv pulls the new `:edge` image (redaction, upstream limits, the data fixes) and looks at the status page: the Protocol column, the failure reasons, and the per-day request counts against his indexers' limits. An export a day later shows what else is unresolved.
-1. **Newznab sign-off (issue #30).** Xwolv adds a Newznab indexer through the proxy in his own Sonarr (Settings, Indexers, Newznab, URL `http://<proxy>:9797/<name>`, categories 5070) and checks that it passes the test and that RSS and automatic searches return rewritten, correctly numbered results. When he confirms: tick the last two boxes in #30, mark LAUNCH.md item 20 done, and make that commit's message say `Closes #30` (until then every commit says `Refs #30`).
+1. **Watch the real grabs.** #30 is closed; keep an eye on the proxy week (item 14): wrong imports, failures by reason on the status page, and the per-day request counts against the indexers' limits. The next export now carries `firstSeen` and `lastSeen` for each unresolved name.
 2. **Check the 2026-10-20 schedules.**
    - The bots scan at 07:23 UTC: it should update issues #13 to #29 with the built-in token. Check the job summary and for "could not label" or "could not pin" lines.
    - Seed at 06:17, release at 09:13 (it computes data version 2026.43 again, finds that tag on another commit, warns and skips; data-2026.44 and its automatic R2 sync come on 2026-10-27), weekly bots at 10:47.
@@ -85,8 +87,8 @@ Last updated 2026-10-20, after the first-real-traffic session.
 See `docs/LAUNCH.md`. In short:
 
 - **npm trusted publishing:** configure all three packages, then set the `NPM_TRUSTED_PUBLISHING` variable.
-- **Newznab check:** the last #30 box only his Sonarr can tick (a real grab imports correctly).
-- **Confirm the 7 unverified corpus cases** (tests/releases.yaml, `verified: false`; the proposed answers are in each note): Cheng Ye Xiao He 13, Aikatsu! 1, Mao 24, three Bleach: Thousand-Year Blood War releases (S01E49 twice, absolute 35), and That's Enough, Dad (missing from the dataset, stays ambiguous until a later pin).
+- **Newznab check:** done (2026-10-20), #30 is closed.
+- **Corpus:** every case is verified (Xwolv confirmed Aikatsu! 01 as aikatsu episode 1 and Mao 24 as mao episode 24 on 2026-10-20). Next growth comes from new proxy exports.
 - **Proxy week:** exports from the status page.
 - **Screenshots:** the six for the Sonarr guide.
 - **Bot PRs and issues:** decide the 11 open PRs and 15 issues.

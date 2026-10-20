@@ -430,6 +430,10 @@
 {"key":"anidb:20178","slug":"hokuto-no-ken-kenougun-zako-tachi-no-banka","part":"ids.mal","reason":"offline-db-multiple-ids","detail":"cedya77 lists mal 62987, 64378"}
 {"key":"anidb:20336","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
 {"key":"anidb:20406","slug":"yomi-no-tsugai-2","part":"status","reason":"offline-db-unknown-status","detail":"cedya77 status is UNKNOWN; left unset (defaults to finished)"}
+{"key":"anidb:20453","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
+{"key":"anidb:20454","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
+{"key":"anidb:20462","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
+{"key":"anidb:20464","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
 {"key":"anilist:5793","slug":"robo-crosser","part":"status","reason":"offline-db-unknown-status","detail":"cedya77 status is UNKNOWN; left unset (defaults to finished)"}
 {"key":"anilist:12283","slug":null,"part":"work","reason":"offline-db-no-episode-count","detail":"cedya77 episodes is 0 for a UNKNOWN work"}
 {"key":"anilist:97661","slug":"force-of-will","part":"status","reason":"offline-db-unknown-status","detail":"cedya77 status is UNKNOWN; left unset (defaults to finished)"}
@@ -450,7 +454,7 @@
 {"key":"anilist:118856","slug":"anemone-music","part":"ids.kitsu","reason":"offline-db-multiple-ids","detail":"cedya77 lists kitsu 47789, 49326"}
 {"key":"anilist:119591","slug":"gravity-2019","part":"ids.kitsu","reason":"offline-db-multiple-ids","detail":"cedya77 lists kitsu 43518, 46735"}
 {"key":"anilist:121190","slug":"xing-mao-lixian-ji-zhi-shu-fa-pian","part":"ids.mal","reason":"offline-db-multiple-ids","detail":"cedya77 lists mal 30140, 45268"}
-{"key":"anilist:121755","slug":"show-by-rock-plasmagica-na-gogo","part":"ids.kitsu","reason":"offline-db-multiple-ids","detail":"cedya77 lists kitsu 11152, 11154"}
+{"key":"anilist:121754","slug":"show-by-rock-legend-of-shingan-crimsonz","part":"ids.kitsu","reason":"offline-db-multiple-ids","detail":"cedya77 lists kitsu 11151, 11154"}
 {"key":"anilist:122535","slug":"houkiboshi","part":"ids.kitsu","reason":"offline-db-multiple-ids","detail":"cedya77 lists kitsu 43389, 50921"}
 {"key":"anilist:124116","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
 {"key":"anilist:130787","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
@@ -458,7 +462,6 @@
 {"key":"anilist:134462","slug":"real-melancholy","part":"ids.kitsu","reason":"offline-db-multiple-ids","detail":"cedya77 lists kitsu 43946, 44604"}
 {"key":"anilist:137710","slug":"jiu-wo","part":"ids.mal","reason":"offline-db-multiple-ids","detail":"cedya77 lists mal 59380, 63451"}
 {"key":"anilist:138609","slug":"love-letter-music","part":"ids.kitsu","reason":"offline-db-multiple-ids","detail":"cedya77 lists kitsu 45050, 47135"}
-{"key":"anilist:139182","slug":"pocari-sweat-sweat-for-dream","part":"ids.kitsu","reason":"offline-db-multiple-ids","detail":"cedya77 lists kitsu 43591, 46968"}
 {"key":"anilist:142261","slug":"nonbiri-to","part":"ids.kitsu","reason":"offline-db-multiple-ids","detail":"cedya77 lists kitsu 43979, 45546"}
 {"key":"anilist:142278","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
 {"key":"anilist:145650","slug":"islay","part":"ids.mal","reason":"offline-db-multiple-ids","detail":"cedya77 lists mal 37135, 55706"}
@@ -482,16 +485,10 @@
 {"key":"anilist:213878","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
 {"key":"anilist:214071","slug":"ninifuni-no-niwa","part":"ids.mal","reason":"offline-db-multiple-ids","detail":"cedya77 lists mal 64901, 65096"}
 {"key":"anilist:214725","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
-{"key":"anilist:216346","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
-{"key":"anilist:216404","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
-{"key":"anilist:216560","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
 {"key":"anilist:216861","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
 {"key":"anilist:217129","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
-{"key":"anilist:217715","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
 {"key":"anilist:217717","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
-{"key":"anilist:217785","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
 {"key":"anilist:218039","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
-{"key":"anilist:218099","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
 {"key":"anilist:218216","slug":"nue-no-onmyouji","part":"ids.mal","reason":"offline-db-multiple-ids","detail":"cedya77 lists mal 65177, 65180"}
 {"key":"mal:17295","slug":"cosmic-break","part":"ids.anilist","reason":"offline-db-multiple-ids","detail":"cedya77 lists anilist 17295, 206843"}
 {"key":"mal:18841","slug":"pes-peace-eco-smile-drive-your-heart","part":"ids.anilist","reason":"offline-db-multiple-ids","detail":"cedya77 lists anilist 18841, 18843"}
@@ -518,7 +515,6 @@
 {"key":"mal:59519","slug":"renai-senryaku","part":"ids.kitsu","reason":"offline-db-multiple-ids","detail":"cedya77 lists kitsu 49105, 51037"}
 {"key":"mal:59540","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
 {"key":"mal:59895","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
-{"key":"mal:60476","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
 {"key":"mal:62028","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
 {"key":"mal:63034","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}
 {"key":"mal:63132","slug":null,"part":"work","reason":"offline-db-unknown-type","detail":"cedya77 type is UNKNOWN"}

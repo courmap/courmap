@@ -1,6 +1,14 @@
 # Parser fixtures: release name -> the fields it must produce. Fields not listed are not checked.
 # Hand-written; names follow common fansub and scene conventions. No release site was consulted.
 cases:
+  # Scene-style dotted names put the episode between the title and the tags.
+  - name: "Bleach-Thousand-Year.Blood.War.35.BD.Remux.1080p.AVC.DTS-HD.MA.2.0.DUAL.DTS-HD.MA.2.0-Wwecrazzy"
+    expect: { title: Bleach-Thousand-Year Blood War, episode: 35, source: bd, group: Wwecrazzy }
+  - name: "Show.Name.05.1080p.WEB-DL-GRP"
+    expect: { title: Show Name, episode: 5, group: GRP }
+  # A zero is not an episode.
+  - name: "Mobile.Suit.Gundam.00.1080p.BluRay-GRP"
+    expect: { title: Mobile Suit Gundam 00, episode: null }
   # H.264 keeps its dot in a dot-separated name, so the codec and group after it are tags, not title.
   - name: "Dara.san.of.the.Reiwa.Era.S01.1080p.CR.WEB-DL.AAC2.0.H.264-VARYG"
     expect: { title: Dara san of the Reiwa Era, season: 1, episode: null, resolution: 1080p, video_codec: h264, group: VARYG, batch: true }

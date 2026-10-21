@@ -46,7 +46,13 @@ export default defineConfig({
         { label: 'Try it', link: '/try/' },
         { label: 'Getting started', items: [{ autogenerate: { directory: 'getting-started' } }] },
         { label: 'Concepts', items: [{ autogenerate: { directory: 'concepts' } }] },
-        { label: 'Sonarr guide', link: '/sonarr/' },
+        {
+          label: 'Guides',
+          items: [
+            { label: 'Sonarr guide', link: '/sonarr/' },
+            { label: 'Fixing open issues', link: '/fixing-issues/' },
+          ],
+        },
         {
           label: 'Reference',
           items: [
@@ -57,7 +63,6 @@ export default defineConfig({
           ],
         },
         { label: 'Contributing mappings', link: '/contributing/' },
-        { label: 'Fixing open issues', link: '/fixing-issues/' },
         { label: 'How automation works', link: '/automation/' },
         { label: 'Coverage', link: '/coverage/' },
         { label: 'More', items: [{ label: 'FAQ', link: '/faq/' }, { label: 'Licensing and attribution', link: '/licensing/' }, { label: 'Changelog', link: '/changelog/' }] },

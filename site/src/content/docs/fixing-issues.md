@@ -14,6 +14,36 @@ The Courmap bots open an issue whenever two sources disagree and a person should
 
 Not sure? Comment on the issue with what you found. A short note that says "AniList says X, TMDB says Y" is already a contribution.
 
+## What "Source data" is
+
+It is the facts the bot used, so you can check them. Its content depends on the kind of issue:
+
+- **Count conflict, several prequels, projection short:** two blocks, `anilist` (what AniList says) and `ours` (what our data says). The issue is the difference between them.
+- **TMDB projection mismatch:** only the TMDB show: its ID (`tmdb_show`) and its page (`url`). The comparison is in the sentence above it, for example "season 1 has 12 episodes on TMDB, but all our works map only up to 11".
+
+## A worked example: issue #90
+
+The issue says: "season 1 has 12 episodes on TMDB, but all our works map only up to 11", for the show `shibou-yuugi-de-meshi-wo-kuu`. So TMDB has one episode more than we map.
+
+1. **Look at our data.** The show is `shibou-yuugi-de-meshi-wo-kuu` (11 episodes, TMDB show 263330, season 1, episodes 1-11). Searching the data for the same TVDB show turns up a second work, `shibou-yuugi-de-meshi-wo-kuu-44-cloudy-beach`, a one-episode movie with no TMDB mapping at all. 11 + 1 = 12, so it may be TMDB's episode 12.
+2. **Check TMDB.** Open `https://www.themoviedb.org/tv/263330/season/1` and read episode 12: its title and air date. If it is "44: Cloudy Beach" (or clearly that special), the guess is right. If it is something else, stop here: comment on the issue with what you found, and do not change data.
+3. **Make the file.** In your copy of the repository, create `data/works/shibou-yuugi-de-meshi-wo-kuu-44-cloudy-beach.yaml` (the file name is the work's id):
+
+```yaml
+id: shibou-yuugi-de-meshi-wo-kuu-44-cloudy-beach
+ids:
+  tmdb_show: 263330
+projections:
+  tmdb_show:
+    - { season: 1, episodes: 1, start: 12 }
+sources:
+  - https://www.themoviedb.org/tv/263330/season/1
+```
+
+   It says: this work's one episode is TMDB season 1, episode 12. Nothing else about the work changes; the rest still comes from the seed data.
+4. **Check it.** Run `pnpm install` once, then `pnpm validate`. It must end with "OK".
+5. **Open the pull request** from your fork with a description such as "TMDB season 1 episode 12 is the Cloudy Beach special (checked on TMDB): maps it. Closes #90". CI runs the same checks. The next weekly checker run then finds no mismatch.
+
 ## The rules for evidence
 
 - **A provider ID must be real.** Use IDs from the seed data, or an ID you checked yourself on the provider's own page (for example the TMDB show page) and name in the file's `sources:`. Never guess an ID.

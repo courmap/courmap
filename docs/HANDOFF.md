@@ -64,6 +64,7 @@ Last updated 2026-10-20, after the first-real-traffic session.
 
 ## Next
 
+-11. **Contributor guide (2026-10-21).** site/src/content/docs/fixing-issues.md explains every kind of bot issue and its fix; linked from the sidebar, both contributing pages and CONTRIBUTING.md.
 -10. **The open issues, checked (2026-10-21).** Fixed or rejected where AniList and TMDB agreed (DECISIONS.md, "The open bot issues, checked against AniList and TMDB"). For Xwolv to close by hand because the data is already right: #26, #27 and #44. The checker closes its own TMDB ones on its next run (#89, #96, #97 should go). Still open and needing a person: #13, #23 and #59 (find TVDB and TMDB IDs), #14, #15, #45 and #58 (counts), #76 to #78 and #87 to #92, #98 (TMDB differences listed there).
 -9. **No open PRs (2026-10-20).** #47 to #57 and #60 are merged (see LAUNCH.md); the next scan and weekly runs open new ones. vitest is now 4.1.x.
 -8. **Bot file layout changed (2026-10-20).** The bots write data/seeds/relations/<work>.json, airing/<work>.json and tmdb-splits/<work>.json (one object each) instead of appending to shared JSONL files; the old files were split in one commit with byte-identical compiled data. Open bot PRs were regenerated in the new layout by a scan and a weekly run. #81 to #86 are merged. The merge conflicts described in item 7 no longer happen.

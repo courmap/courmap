@@ -57,6 +57,7 @@ export default defineConfig({
           ],
         },
         { label: 'Contributing mappings', link: '/contributing/' },
+        { label: 'Fixing open issues', link: '/fixing-issues/' },
         { label: 'How automation works', link: '/automation/' },
         { label: 'Coverage', link: '/coverage/' },
         { label: 'More', items: [{ label: 'FAQ', link: '/faq/' }, { label: 'Licensing and attribution', link: '/licensing/' }, { label: 'Changelog', link: '/changelog/' }] },

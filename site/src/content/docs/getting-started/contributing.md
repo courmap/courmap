@@ -39,4 +39,4 @@ pnpm validate
 
 CI runs the same checks and comments with the resolver corpus pass rate. A maintainer reviews it; once merged, it ships in the next weekly release.
 
-[Contributing mappings](/contributing/) walks through the hard cases: split cours, specials, long-runners and release groups with their own numbering.
+Looking for something to fix? [Fixing open issues](/fixing-issues/) explains each kind of issue the bots open and how to check and close it. [Contributing mappings](/contributing/) walks through the hard cases: split cours, specials, long-runners and release groups with their own numbering.

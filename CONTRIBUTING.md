@@ -30,6 +30,10 @@ The resolver corpus (`tests/releases.yaml`) is the list of release names with kn
 
 `pnpm corpus:import <names.txt>` does step 2 for any plain list of release names, one per line.
 
+## Finding something to fix
+
+Open issues are listed at https://github.com/courmap/courmap/issues; the ones labeled `good first mapping` are the easiest. [Fixing open issues](https://courmap.com/fixing-issues/) explains each kind of issue, how to check it against the provider, and the usual fix.
+
 ## Reviewing bot pull requests
 
 The bots open pull requests for new prequel links and airing updates (see [How automation works](https://courmap.com/automation/)). Merge the ones that are right; edit a pull request's branch to drop a line you disagree with. To reject one for good, close it and add an entry to `data/rejected.yaml` with the reason and a link to the pull request, so the bots never propose it again.

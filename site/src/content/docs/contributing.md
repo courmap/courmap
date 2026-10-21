@@ -5,6 +5,8 @@ description: Step-by-step mapping fixes, with worked examples for the hard cases
 
 Mappings are YAML files in [`data/`](https://github.com/courmap/courmap/tree/main/data). A pull request with one file fixes one show for everyone. Every field is listed in the [data format reference](/reference/data-format/); this page shows how to use them.
 
+Not sure what to work on? [Fixing open issues](/fixing-issues/) explains every kind of bot-opened issue and the usual fix.
+
 ## The rules that matter
 
 - **Seeds and overrides.** About 33,000 [works](/concepts/works/) come from seed data in `data/seeds/` (never edit it). To fix one, add `data/works/<id>.yaml` with the same `id` and only the parts that change: an `ids.<provider>` key or a `projections.<provider>` block replaces the seed's, any other key you set wins, `aliases` are added to the seed's, and `null` removes a seed value.

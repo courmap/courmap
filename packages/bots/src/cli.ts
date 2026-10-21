@@ -207,6 +207,23 @@ async function main(argv: string[]): Promise<number> {
     return 0;
   }
 
+  if (command === 'anilist-show') {
+    // Reads AniList's entry for each work next to ours, for deciding a count or status conflict by hand.
+    const state = await loadState(values.data!);
+    const works = positionals.slice(1).filter((id) => state.records.works.get(id)?.ids.anilist !== undefined);
+    const byId = new Map(works.map((id) => [Number(state.records.works.get(id)!.ids.anilist), id]));
+    const media = await new AniListClient({ log }).mediaByIds([...byId.keys()]);
+    for (const m of media) {
+      const w = state.records.works.get(byId.get(m.id)!)!;
+      const d = m.startDate;
+      console.log(`\n== ${w.id} (ours: ${w.type} ${w.status} ${w.year}, ${w.episodes} episodes, anilist ${m.id}, mal ${w.ids.mal ?? '-'})`);
+      console.log(`   AniList: ${m.format} ${m.status}, ${m.episodes ?? 'no'} episodes, start ${d.year}-${d.month}-${d.day}, season ${m.season} ${m.seasonYear}, next airing ${m.nextAiringEpisode ? 'episode ' + m.nextAiringEpisode.episode : 'none'}, MAL ${m.idMal ?? '-'}`);
+      const rel = (m.relations?.edges ?? []).filter((e) => ['PREQUEL', 'SEQUEL', 'PARENT', 'ALTERNATIVE'].includes(e.relationType)).map((e) => `${e.relationType} ${e.node.id}`);
+      if (rel.length > 0) console.log(`   relations: ${rel.join(', ')}`);
+    }
+    return 0;
+  }
+
   if (command === 'tmdb-show') {
     const key = process.env.TMDB_API_KEY;
     if (!key) return (console.log('TMDB_API_KEY is not set.'), 1);

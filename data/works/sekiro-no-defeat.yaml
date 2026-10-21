@@ -1,0 +1,17 @@
+id: sekiro-no-defeat
+type: tv
+status: upcoming
+episodes: 8
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-8 }
+  tmdb_show:
+    - { season: 1, episodes: 1-8 }
+notes: >-
+  The seed has a one-episode movie that is finished. AniList (197620) lists a TV series of 8 episodes, not yet
+  released (winter 2027), and TMDB lists the same show with 8 episodes in season 1, in production. Found by the
+  TMDB projection checker (2026-10-21) and checked against both providers. IDs are unchanged.
+sources:
+  - https://anilist.co/anime/197620
+  - https://www.themoviedb.org/tv/298754
+  - https://github.com/Anime-Lists/anime-lists/blob/9ed90bf804bb24d58c99ea653e095194df494b52/anime-list-master.xml

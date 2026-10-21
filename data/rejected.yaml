@@ -26,3 +26,85 @@ rejected:
     date: 2026-10-20
     link: https://github.com/courmap/courmap/pull/34
     origin: manual
+  - kind: airing
+    work: wushen-zhuzai
+    reason: >-
+      AniList 117168 is one season of the series (272 episodes, finished, with a SEQUEL entry); this work counts the whole airing series (720). The count here is the cedya77 one for the whole series, so AniList's smaller or
+      earlier count is not a correction. Checked against AniList on 2026-10-21.
+    decided_by: Xwolv
+    date: 2026-10-21
+    link: https://github.com/courmap/courmap/issues
+    origin: manual
+  - kind: airing
+    work: jingling-meng-yeluoli
+    reason: >-
+      AniList 118638 is the first 26 episodes of a series this work counts as one airing run (312). The count here is the cedya77 one for the whole series, so AniList's smaller or
+      earlier count is not a correction. Checked against AniList on 2026-10-21.
+    decided_by: Xwolv
+    date: 2026-10-21
+    link: https://github.com/courmap/courmap/issues
+    origin: manual
+  - kind: airing
+    work: wanmei-shijie
+    reason: >-
+      AniList 120218 is one season (26 episodes, finished, with a SEQUEL entry) of the series this work counts whole (338). The count here is the cedya77 one for the whole series, so AniList's smaller or
+      earlier count is not a correction. Checked against AniList on 2026-10-21.
+    decided_by: Xwolv
+    date: 2026-10-21
+    link: https://github.com/courmap/courmap/issues
+    origin: manual
+  - kind: airing
+    work: ponkotsu-quest-maou-to-haken-no-mamono-tachi
+    reason: >-
+      AniList 121961 is one season (12 episodes, finished, with a SEQUEL entry) of the run this work counts whole (84). The count here is the cedya77 one for the whole series, so AniList's smaller or
+      earlier count is not a correction. Checked against AniList on 2026-10-21.
+    decided_by: Xwolv
+    date: 2026-10-21
+    link: https://github.com/courmap/courmap/issues
+    origin: manual
+  - kind: airing
+    work: fei-zhi-baike
+    reason: >-
+      AniList 124339 is one season (12 episodes, finished, with a SEQUEL entry) of the run this work counts whole (181). The count here is the cedya77 one for the whole series, so AniList's smaller or
+      earlier count is not a correction. Checked against AniList on 2026-10-21.
+    decided_by: Xwolv
+    date: 2026-10-21
+    link: https://github.com/courmap/courmap/issues
+    origin: manual
+  - kind: airing
+    work: nitian-xie-shen-2nd-season
+    reason: >-
+      AniList 131078 lists 118 episodes and is still airing, with a PREQUEL entry: AniList splits the series by season, this work counts the whole airing run (283). The count here is the cedya77 one for the whole series, so AniList's smaller or
+      earlier count is not a correction. Checked against AniList on 2026-10-21.
+    decided_by: Xwolv
+    date: 2026-10-21
+    link: https://github.com/courmap/courmap/issues
+    origin: manual
+  - kind: airing
+    work: doupo-cangqiong-nian-fan
+    reason: >-
+      AniList 137728 is one season (52 episodes, finished, with PREQUEL and SEQUEL entries) of the run this work counts whole (219). The count here is the cedya77 one for the whole series, so AniList's smaller or
+      earlier count is not a correction. Checked against AniList on 2026-10-21.
+    decided_by: Xwolv
+    date: 2026-10-21
+    link: https://github.com/courmap/courmap/issues
+    origin: manual
+  - kind: airing
+    work: mushen-ji
+    reason: >-
+      AniList 185721 is one season (26 episodes, finished, with a SEQUEL entry) of the run this work counts whole (105). The count here is the cedya77 one for the whole series, so AniList's smaller or
+      earlier count is not a correction. Checked against AniList on 2026-10-21.
+    decided_by: Xwolv
+    date: 2026-10-21
+    link: https://github.com/courmap/courmap/issues
+    origin: manual
+  - kind: relation
+    work: kidou-senshi-gundam-seed-freedom-zero
+    prequel: kidou-senshi-gundam-seed-destiny-final-plus-erabareta-mirai
+    reason: >-
+      AniList names two prequels for the film: the series Destiny and its recap compilation Final Plus. The recap
+      only retells Destiny, so the series is the prequel; the compilation is not proposed.
+    decided_by: Xwolv
+    date: 2026-10-21
+    link: https://github.com/courmap/courmap/issues/24
+    origin: manual

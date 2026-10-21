@@ -1,0 +1,12 @@
+id: mahou-no-shimai-lulutto-lilly-part-2
+ids:
+  tmdb_show: 286361
+projections:
+  # Part 1 (12 episodes) is season 1 of TMDB show 286361, which lists 24 episodes in that season: part 2 continues it.
+  tmdb_show:
+    - { season: 1, episodes: 1-, start: 13 }
+notes: >-
+  Adds the TMDB mapping the seed lacks. The show ID is the one Anime-Lists gives part 1 (mahou-no-shimai-lulutto-lilly);
+  the projection checker (2026-10-21) found TMDB listing 24 episodes in season 1 against the 12 of part 1.
+sources:
+  - https://www.themoviedb.org/tv/286361

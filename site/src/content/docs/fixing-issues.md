@@ -5,11 +5,20 @@ description: What each bot-opened issue means, how to check it, and the fix that
 
 The Courmap bots open an issue whenever two sources disagree and a person should decide. This page explains each kind, how to check the facts yourself, and what a good fix looks like. You do not need to know the whole project: most fixes are one small file. Every open issue is on the [issues page](https://github.com/courmap/courmap/issues); the ones labeled `good first mapping` are the easiest places to start.
 
+## What is a "work id"?
+
+Every show (or cour, or film) in Courmap has one permanent name called its **work id**. It is the lowercase, hyphenated version of its romaji title, for example `shibou-yuugi-de-meshi-wo-kuu`. **The issue already tells you:** it is the text after the colon in the issue's title, and the word in brackets in its first line.
+
+> **TMDB projection mismatch: shibou-yuugi-de-meshi-wo-kuu**
+> **Shibou Yuugi de Meshi wo Kuu. (`shibou-yuugi-de-meshi-wo-kuu`)** ...
+
+The work id is also the name of the file you create: for that issue, `data/works/shibou-yuugi-de-meshi-wo-kuu.yaml`, and the first line inside it is `id: shibou-yuugi-de-meshi-wo-kuu`. `data/works/` is a folder in the repository (open the repository on GitHub, then the `data` folder, then `works`). If a file with that name is already there, edit it instead of creating a new one. If the issue is about a different work than the one it is titled with (as in the example below), use that other work's id: find it by searching the repository for the show's title.
+
 ## The short version
 
 1. **Pick an issue** and read its "Source data" block: it shows what the provider says and what we have.
 2. **Check the facts** on the provider's own page (links below) before changing anything.
-3. **Write the smallest fix**: usually one file in `data/works/<work-id>.yaml`, or one entry in `data/rejected.yaml`. See [Contributing mappings](/contributing/) for the file format.
+3. **Write the smallest fix**: usually one new file named after the work id (see above), such as `data/works/shibou-yuugi-de-meshi-wo-kuu.yaml`, or one entry in `data/rejected.yaml`. See [Contributing mappings](/contributing/) for the file format.
 4. **Run `pnpm validate`**, then open a pull request that says what you checked ("Closes #NN"). CI runs the same checks and the resolver corpus.
 
 Not sure? Comment on the issue with what you found. A short note that says "AniList says X, TMDB says Y" is already a contribution.

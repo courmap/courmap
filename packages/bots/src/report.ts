@@ -68,21 +68,93 @@ export const tmdbResolvedComment = () => 'Closed by the projection checker: a la
 
 export const issueTitle = (f: Finding) => `${KIND_TITLE[f.kind]}: ${f.work ?? `AniList ${f.anilist}`}`;
 
+const GUIDE = 'https://courmap.com/fixing-issues/';
+
+/** What a person does about this kind of issue: where the file goes, what it is called, and what to check first. */
+function howToFix(f: Finding): string[] {
+  const work = f.work ?? '<work-id>';
+  const file = '`data/works/' + work + '.yaml`';
+  const common = ['', 'Full guide with examples: ' + GUIDE, 'Run `pnpm validate` before opening the pull request, and end its description with "Closes #<this issue>".'];
+  switch (f.kind) {
+    case 'projection-mismatch':
+      return [
+        '**How to fix this**',
+        '',
+        "1. Open the TMDB page above and its seasons (`/seasons`): note each season's episode count. The sentence above says where we and TMDB differ.",
+        '2. Decide: is TMDB just behind (nothing to do), or does it arrange the show differently (merged cours, extra episodes)? A show can sit in one season on TMDB while we map a second one.',
+        '3. To fix our mapping, create ' + file + ' (the work id is in this issue title after the colon, so the file is named for that) with only what changes, for example:',
+        '',
+        '```yaml',
+        'id: ' + work,
+        'projections:',
+        '  tmdb_show:',
+        '    - { season: 1, episodes: 1-12, start: 13 }',
+        'sources:',
+        '  - ' + String(f.data.url ?? 'https://www.themoviedb.org/'),
+        '```',
+        '',
+        "If a different work of the same show is the missing part, put the file under that work's id instead.",
+        ...common,
+      ];
+    case 'count-conflict':
+    case 'manual-change':
+      return [
+        '**How to fix this**',
+        '',
+        '1. Compare the two blocks above (what AniList says, and what we have) with the AniList page.',
+        '2. If our count or status is stale, create ' + file + ' with `episodes` and `status` (and a closed projection range if it was open-ended).',
+        "3. If AniList's entry is only one season of a longer series, add a `kind: airing` entry for this work to `data/rejected.yaml` with the reason so the bots stop proposing it.",
+        ...common,
+      ];
+    case 'relation-conflict':
+      return [
+        '**How to fix this**',
+        '',
+        '1. Decide which of the candidate prequels above is the real predecessor (a recap or compilation is not).',
+        '2. Add a `kind: relation` entry for each wrong candidate to `data/rejected.yaml` (work, prequel, reason, decided_by, date, origin: manual). The next bot run then proposes the right one.',
+        ...common,
+      ];
+    case 'missing-ids':
+    case 'projection-short':
+      return [
+        '**How to fix this**',
+        '',
+        '1. Find the show on TheTVDB and TMDB and open the page (never guess an ID).',
+        '2. Create ' + file + ' with the IDs and the season mapping, for example:',
+        '',
+        '```yaml',
+        'id: ' + work,
+        'ids:',
+        '  tvdb_show: 12345',
+        '  tmdb_show: 67890',
+        'projections:',
+        '  tvdb_show:',
+        '    - { season: 1, episodes: 1-12 }',
+        '  tmdb_show:',
+        '    - { season: 1, episodes: 1-12 }',
+        'sources:',
+        '  - https://www.themoviedb.org/tv/67890',
+        '```',
+        ...common,
+      ];
+    default:
+      return ['This needs a person: the sources disagree, or the change touches a manual file or renumbers released episodes.', ...common];
+  }
+}
+
 export function issueBody(f: Finding): string {
   return [
-    `**${subject(f)}** ${anilistLink(f.anilist)}`,
+    '**' + subject(f) + '** ' + anilistLink(f.anilist),
     '',
     f.summary.charAt(0).toUpperCase() + f.summary.slice(1) + '.',
     '',
-    'Source data:',
+    'Source data (the facts the bot used; for a TMDB issue, just the TMDB show):',
     '',
     '```json',
     JSON.stringify(f.data, null, 2),
     '```',
     '',
-    f.kind === 'missing-ids' || f.kind === 'projection-short'
-      ? 'Add the missing IDs or ranges and projections in a file under `data/works/` (see CONTRIBUTING.md). The bot closes nothing itself; close this issue in the PR that fixes it.'
-      : 'This needs a person: the sources disagree, or the change touches a manual file or renumbers released episodes. Fix the data in a PR and close this issue there.',
+    ...howToFix(f),
     '',
     '<sub>Opened by the Courmap bots. Tier C: a person decides.</sub>',
   ].join('\n');

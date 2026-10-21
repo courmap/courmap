@@ -82,7 +82,7 @@ function howToFix(f: Finding): string[] {
         '',
         "1. Open the TMDB page above and its seasons (`/seasons`): note each season's episode count. The sentence above says where we and TMDB differ.",
         '2. Decide: is TMDB just behind (nothing to do), or does it arrange the show differently (merged cours, extra episodes)? A show can sit in one season on TMDB while we map a second one.',
-        '3. To fix our mapping, create ' + file + ' (the work id is in this issue title after the colon, so the file is named for that) with only what changes, for example:',
+        '3. To fix our mapping, create a file named after the work it is about, `data/works/<work id>.yaml`. The work id is the text after the colon in this issue title (' + file + ' for this work). Put only what changes in it, for example:',
         '',
         '```yaml',
         'id: ' + work,
@@ -93,7 +93,13 @@ function howToFix(f: Finding): string[] {
         '  - ' + String(f.data.url ?? 'https://www.themoviedb.org/'),
         '```',
         '',
-        "If a different work of the same show is the missing part, put the file under that work's id instead.",
+        ...(Array.isArray(f.data.related_without_tmdb_mapping)
+          ? [
+              '**The missing episodes may belong to another work of this show**, one that has no TMDB mapping yet. If TMDB episode numbers you cannot account for are that work (a special or a film), the file is for that work instead, and its name is its id:',
+              '',
+              ...(f.data.related_without_tmdb_mapping as string[]).map((w) => '- `data/works/' + w + '.yaml` (with `ids: { tmdb_show: ' + String(f.data.tmdb_show) + ' }` as well as the `projections` block)'),
+            ]
+          : ["If a different work of the same show is the missing part, put the file under that work's id instead."]),
         ...common,
       ];
     case 'count-conflict':

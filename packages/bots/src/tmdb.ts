@@ -63,6 +63,24 @@ export async function searchShows(tmdb: TmdbClient, query: string): Promise<{ id
   return (body?.results ?? []).slice(0, 5).map((r) => ({ id: r.id, name: r.name, firstAirDate: r.first_air_date ?? null }));
 }
 
+/**
+ * Other works of the same show (same TMDB or TVDB show) that have no TMDB mapping: when TMDB lists more episodes
+ * than we map, the missing ones are often one of these (a special or a film), and the fix goes in that work's file.
+ * Listed in the issue so a contributor knows the exact file name.
+ */
+export function related(records: Records, workId: string): { related_without_tmdb_mapping?: string[] } {
+  const me = records.works.get(workId);
+  if (!me) return {};
+  const out: string[] = [];
+  for (const w of records.works.values()) {
+    if (w.id === workId || (w.projections.tmdb_show?.length ?? 0) > 0) continue;
+    const sameTvdb = me.ids.tvdb_show !== undefined && w.ids.tvdb_show === me.ids.tvdb_show;
+    const sameTmdb = me.ids.tmdb_show !== undefined && w.ids.tmdb_show === me.ids.tmdb_show;
+    if (sameTvdb || sameTmdb) out.push(w.id);
+  }
+  return out.length > 0 ? { related_without_tmdb_mapping: out.sort().slice(0, 6) } : {};
+}
+
 /** The last TMDB episode each season of a work's tmdb_show projection lands on (Infinity when open-ended). */
 export function landings(records: Records, workId: string): Map<number, number> {
   const out = new Map<number, number>();
@@ -217,7 +235,7 @@ export async function checkProjectionsDetailed(records: Records, workIds: Iterab
         anilist: w.ids.anilist !== undefined ? Number(w.ids.anilist) : null,
         title: w.titles.romaji ?? id,
         summary: `TMDB projection disagrees with TMDB: ${problems.map((p) => p.text).join('; ')}`,
-        data: { tmdb_show: show, url: `https://www.themoviedb.org/tv/${show}` },
+        data: { tmdb_show: show, url: `https://www.themoviedb.org/tv/${show}`, ...related(records, id) },
       };
       if (onlyTmdbLag(w.status, problems, opts.premieres?.get(id) ?? null, now)) result.lagging.push(finding);
       else result.findings.push(finding);

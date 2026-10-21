@@ -36,7 +36,7 @@ The issue says: "season 1 has 12 episodes on TMDB, but all our works map only up
 
 1. **Look at our data.** The show is `shibou-yuugi-de-meshi-wo-kuu` (11 episodes, TMDB show 263330, season 1, episodes 1-11). Searching the data for the same TVDB show turns up a second work, `shibou-yuugi-de-meshi-wo-kuu-44-cloudy-beach`, a one-episode movie with no TMDB mapping at all. 11 + 1 = 12, so it may be TMDB's episode 12.
 2. **Check TMDB.** Open `https://www.themoviedb.org/tv/263330/season/1` and read episode 12: its title and air date. If it is "44: Cloudy Beach" (or clearly that special), the guess is right. If it is something else, stop here: comment on the issue with what you found, and do not change data.
-3. **Make the file.** In your copy of the repository, create `data/works/shibou-yuugi-de-meshi-wo-kuu-44-cloudy-beach.yaml` (the file name is the work's id):
+3. **Make the file.** The issue title names the show, but the missing episode belongs to a different work, the Cloudy Beach special, so the file is named for *that* work. (The bot now lists such works in the issue: "related works without a TMDB mapping".) In your copy of the repository, create `data/works/shibou-yuugi-de-meshi-wo-kuu-44-cloudy-beach.yaml`:
 
 ```yaml
 id: shibou-yuugi-de-meshi-wo-kuu-44-cloudy-beach

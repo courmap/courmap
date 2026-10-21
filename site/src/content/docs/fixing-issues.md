@@ -99,7 +99,11 @@ The weekly check compares our TMDB season mapping with TMDB's season list and op
 | Fewer episodes than we map on a show that is still airing | TMDB is behind; nothing is wrong | Nothing. The checker already ignores this for six weeks after the premiere |
 | A specials count that is lower on TMDB | TMDB's specials list is usually incomplete | Nothing; the checker no longer reports it |
 
-You can see what TMDB says without an account: open the TMDB page. Maintainers can also run the **tmdb-inspect** workflow (`gh workflow run tmdb-inspect.yml -f works="<work-id>"`), which prints a work's TMDB show and seasons in the run log, and `pnpm bots anilist-show <work-id>` for the AniList side.
+**How to see what TMDB says, without an account or a key.** The issue links the TMDB show. Open its seasons page, `https://www.themoviedb.org/tv/<id>/seasons` (the `<id>` is the `tmdb_show` number in the issue), and note for each season its episode count and first air date. If a season you expected is missing, TMDB has merged it into an earlier one: add up the earlier seasons' counts and compare them with our works' episode counts for the same show. That is all the checker compares, so what you read there is the evidence for your fix. Put the TMDB page in the file's `sources:`.
+
+For AniList you can run `pnpm bots anilist-show <work-id>` from a checkout of the repository (it needs no key and asks AniList politely, in batches) to see its entry next to ours: status, episode count, start date and its prequel and sequel entries. Or just open the AniList page the issue links.
+
+If you would rather not check by hand, comment on the issue and say so. A maintainer can run the **tmdb-inspect** workflow, which prints the show's name, status, every season with its episode count and air date, and the shows a title search finds, in the run log (the TMDB key is a repository secret, so only maintainers can run it).
 
 The bots close their own TMDB issues on a later run once the mismatch is gone, so you do not need to close those by hand.
 

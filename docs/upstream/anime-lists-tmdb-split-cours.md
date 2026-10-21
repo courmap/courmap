@@ -9,7 +9,7 @@ https://github.com/Anime-Lists/anime-lists/issues. Nothing has been sent. Sugges
 Hello, and thank you for Anime-Lists. Courmap (https://courmap.com, an open numbering map for anime that
 builds on your data) would not exist without it, and the file has saved us a great deal of work.
 
-While checking our TMDB mappings against TMDB we found a small group of entries where the TMDB season does not
+While checking our TMDB mappings against TMDB we found a group of entries (fourteen so far) where the TMDB season does not
 seem to exist. They all follow the same pattern: the first cour is `tmdbseason="1"`, and the second cour is
 `tmdbseason="2"` with no offset, but TMDB keeps both cours in a single season 1 (the episode numbers run on), so
 there is no season 2 to map to. The fix looks like `tmdbseason="1"` with a `tmdboffset` equal to the first
@@ -17,7 +17,7 @@ cour's episode count. We checked each show by hand on TMDB.
 
 Anime-Lists commit we looked at: `9ed90bf804bb24d58c99ea653e095194df494b52`.
 
-## The eight second cours
+## The fourteen second cours
 
 | AniDB ID | Entry | Current | What TMDB shows | Proposed |
 | --- | --- | --- | --- | --- |
@@ -30,6 +30,12 @@ Anime-Lists commit we looked at: `9ed90bf804bb24d58c99ea653e095194df494b52`.
 | 18713 | Unnamed Memory Act.2 | `tmdbtv="216272" tmdbseason="2"` | [Unnamed Memory](https://www.themoviedb.org/tv/216272): season 1 with 24 episodes, no season 2 | `tmdbseason="1" tmdboffset="12"` (episodes 13 to 24) |
 | 18559 | Kekkon Yubiwa Monogatari II | `tmdbtv="218493" tmdbseason="2"` | [Tales of Wedding Rings](https://www.themoviedb.org/tv/218493): season 1 with 25 episodes, no season 2 | `tmdbseason="1" tmdboffset="12"` (episodes 13 to 25) |
 
+| 18566 | Himesama "Goumon" no Jikan desu 2nd Season | `tmdbtv="229443" tmdbseason="2"` | [Tis Time for "Torture," Princess](https://www.themoviedb.org/tv/229443): season 1 with 24 episodes, no season 2 | `tmdbseason="1" tmdboffset="12"` (episodes 13 to 24) |
+| 18875 | Kinnikuman: Kanpeki Choujin Shiso-hen Season 2 | `tmdbtv="236000" tmdbseason="2"` | [Kinnikuman Perfect Origin Arc](https://www.themoviedb.org/tv/236000): season 1 with 22 episodes, no season 2 | `tmdbseason="1" tmdboffset="11"` (episodes 12 to 22) |
+| 19060 | Dandadan 2nd Season | `tmdbtv="240411" tmdbseason="2"` | [Dan Da Dan](https://www.themoviedb.org/tv/240411): season 1 with 24 episodes, no season 2 | `tmdbseason="1" tmdboffset="12"` (episodes 13 to 24) |
+| 19072 | Puniru wa Kawaii Slime 2nd Season | `tmdbtv="241811" tmdbseason="2"` | [Puniru Is a Kawaii Slime](https://www.themoviedb.org/tv/241811): season 1 with 24 episodes, no season 2 | `tmdbseason="1" tmdboffset="12"` (episodes 13 to 24) |
+| 18864 | Shoushimin Series 2nd Season | `tmdbtv="243501" tmdbseason="2"` | [SHOSHIMIN: How to Become Ordinary](https://www.themoviedb.org/tv/243501): season 1 with 22 episodes, no season 2 | `tmdbseason="1" tmdboffset="10"` (episodes 11 to 22) |
+| 19423 | Vigilante: Boku no Hero Academia Illegals 2nd Season | `tmdbtv="280110" tmdbseason="2"` | [My Hero Academia: Vigilantes](https://www.themoviedb.org/tv/280110): season 1 with 26 episodes, no season 2 | `tmdbseason="1" tmdboffset="13"` (episodes 14 to 26) |
 For every row the TMDB season 1 episode count equals the first cour plus this one, so the offset is simply the
 number of episodes of the first cour. We have not changed anything about the TVDB side, which has a real season 2.
 

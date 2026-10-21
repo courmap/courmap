@@ -35,7 +35,8 @@ export type DiagnosticCode =
   | 'missing-anchor-id'
   | 'slug-conflict'
   | 'relation'
-  | 'airing';
+  | 'airing'
+  | 'tmdb-split';
 
 export type PathSegment = string | number;
 

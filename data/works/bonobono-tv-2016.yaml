@@ -1,0 +1,15 @@
+id: bonobono-tv-2016
+ids:
+  tmdb_show: 66751
+projections:
+  # Anime-Lists maps this series to season 2 of TMDB show 66569, which is the 1995 series and has only a
+  # season 1. TMDB lists the 2016 series ("BONO BONO", first aired 2016-04-02) as a show of its own: 66751, one
+  # season that runs on with the broadcast.
+  tmdb_show:
+    - { season: 1, episodes: 1- }
+notes: >-
+  Overrides the TMDB mapping only (the TVDB mapping is unchanged). Found by the TMDB projection checker
+  (2026-10-20). The ID was checked by a person on TMDB's own page (decided by Xwolv); no TMDB data is stored.
+sources:
+  - https://www.themoviedb.org/tv/66751
+  - https://github.com/Anime-Lists/anime-lists/blob/9ed90bf804bb24d58c99ea653e095194df494b52/anime-list-master.xml

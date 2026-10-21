@@ -22,7 +22,7 @@ export type Link = string;
  * Bot proposals a maintainer rejected: data/rejected.yaml. The bots read it before proposing anything and never propose a matching change again. Hand-written only (origin: manual).
  */
 export interface RejectedFile {
-  rejected: (RelationRejection | AiringRejection)[];
+  rejected: (RelationRejection | AiringRejection | TmdbSplitRejection)[];
 }
 /**
  * A prequel link the bots must not propose: `prequel` as the prequel of `work`.
@@ -45,6 +45,18 @@ export interface AiringRejection {
   work: Slug;
   episodes?: number | null;
   status?: 'airing' | 'finished';
+  reason: Reason;
+  decided_by: DecidedBy;
+  date: Date;
+  link?: Link;
+  origin: 'manual';
+}
+/**
+ * A split-cour proposal from the TMDB checker the bots must not make again for `work`: that its TMDB episodes continue the previous TMDB season.
+ */
+export interface TmdbSplitRejection {
+  kind: 'tmdb-split';
+  work: Slug;
   reason: Reason;
   decided_by: DecidedBy;
   date: Date;

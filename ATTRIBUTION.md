@@ -20,6 +20,12 @@ https://github.com/Anime-Lists/anime-lists
 
 AniDB to TVDB and TMDB ID mappings, season and episode offsets, specials and per-episode mapping lists. Rows derived from it carry `origin: anime-lists` so they can be identified and removed by source.
 
+## TMDB
+
+This product uses the TMDB API but is not endorsed or certified by TMDB.
+
+The API is used only in CI, to check that our TMDB season and episode counts agree with TMDB's. Nothing from it is stored in this repository or in any dump; the TMDB IDs and offsets in the data come from Anime-Lists.
+
 ## Identifiers
 
 AniDB, AniList, MyAnimeList, Kitsu, TheTVDB, TMDB and IMDb IDs are referenced as facts to link to those services. Courmap does not redistribute their metadata. AniDB titles are not included in this repository or its dumps.

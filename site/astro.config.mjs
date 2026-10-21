@@ -41,6 +41,7 @@ export default defineConfig({
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/courmap/courmap' }],
       editLink: { baseUrl: 'https://github.com/courmap/courmap/edit/main/site/' },
       customCss: ['./src/styles/brand.css'],
+      components: { Footer: './src/components/Footer.astro' },
       sidebar: [
         { label: 'Try it', link: '/try/' },
         { label: 'Getting started', items: [{ autogenerate: { directory: 'getting-started' } }] },

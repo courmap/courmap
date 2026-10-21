@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 import { readFile, writeFile } from 'node:fs/promises';
 import { parseArgs } from 'node:util';
-import { AIRING_FILE, RELATIONS_FILE, aliasPairs, aliasReport } from '@courmap/builder';
+import { AIRING_DIR, RELATIONS_DIR, TMDB_SPLITS_DIR, aliasPairs, aliasReport, botFilePath } from '@courmap/builder';
 import { AniListClient, type AniListMedia } from './anilist.js';
 import { classify, type Classification, type Finding } from './classify.js';
 import { GitHubWriter } from './github.js';
 import { sendDigest } from './notify.js';
-import { LABELS, airingPrBody, digestText, issueBody, issueTitle, labelsFor, sequelPrBody, summaryLine, trackerBody } from './report.js';
+import { LABELS, TMDB_ISSUE_PREFIX, airingPrBody, tmdbLagComment, tmdbProposedComment, tmdbResolvedComment, tmdbSplitPrBody, digestText, issueBody, issueTitle, labelsFor, sequelPrBody, summaryLine, trackerBody } from './report.js';
 import { nextSeason, seasonName, seasonOf, type SeasonRef } from './season.js';
 import { diffSequences } from './shifts.js';
-import { airingJsonl, evaluate, loadState, relationsJsonl, type State } from './state.js';
-import { TmdbClient, checkProjections } from './tmdb.js';
+import { airingJson, evaluate, loadState, relationJson, tmdbSplitJson, type State } from './state.js';
+import { TmdbClient, checkProjectionsDetailed, issuesToClose, searchShows, showInfo } from './tmdb.js';
 
 const USAGE = `Usage: courmap-bots <command> [options]
 
@@ -19,6 +19,8 @@ Commands:
            issues and the Season tracker issues
   tmdb     Projection checker: our TMDB projections against TMDB season counts (needs
            TMDB_API_KEY; CI only, nothing is stored)
+  tmdb-show <work|q:title|tmdb:id>...  What TMDB says about the TMDB show of each work (name, seasons, air dates) and which
+           shows a search for its title finds, next to our mapping; for reading in a CI log (needs TMDB_API_KEY)
   digest   The weekly digest, to ntfy (NTFY_URL) and Discord (DISCORD_WEBHOOK_URL) when set
 
 Options:
@@ -71,7 +73,7 @@ async function publish(c: Classification, state: State, writer: GitHubWriter, no
     for (const f of fs) lines.set(f.airing!.work, f.airing!);
     const after = evaluate(state.loaded, state.relations, [...lines.values()]);
     const diff = after.records ? diffSequences(state.records, after.records) : c.diff;
-    await writer.upsertPullRequest(branch, `Airing updates for ${fs.length} work${fs.length === 1 ? '' : 's'}${tier === 'B' ? ' (review)' : ''}`, airingPrBody(fs, diff, tier), labelsFor(fs[0]!), new Map([[`data/seeds/${AIRING_FILE}`, airingJsonl([...lines.values()])]]));
+    await writer.upsertPullRequest(branch, `Airing updates for ${fs.length} work${fs.length === 1 ? '' : 's'}${tier === 'B' ? ' (review)' : ''}`, airingPrBody(fs, diff, tier), labelsFor(fs[0]!), new Map(fs.map((f) => [botFilePath(AIRING_DIR, f.airing!.work), airingJson(f.airing!)])));
   };
   await airingPr(tierA, 'bots/airing-updates', 'A');
   await airingPr(reviewAiring, 'bots/airing-review', 'B');
@@ -81,7 +83,7 @@ async function publish(c: Classification, state: State, writer: GitHubWriter, no
     rel.set(f.relation!.work, f.relation!);
     const after = evaluate(state.loaded, [...rel.values()], state.airing);
     const diff = after.records ? diffSequences(state.records, after.records) : c.diff;
-    await writer.upsertPullRequest(`bots/sequel-${f.work}`, `Sequel: ${f.work} follows ${f.relation!.prequel}`, sequelPrBody(f, diff), labelsFor(f), new Map([[`data/seeds/${RELATIONS_FILE}`, relationsJsonl([...rel.values()])]]));
+    await writer.upsertPullRequest(`bots/sequel-${f.work}`, `Sequel: ${f.work} follows ${f.relation!.prequel}`, sequelPrBody(f, diff), labelsFor(f), new Map([[botFilePath(RELATIONS_DIR, f.relation!.work), relationJson(f.relation!)]]));
   }
   if (sequels.length > limits.prs) console.log(`${sequels.length - limits.prs} more sequel PR(s) wait for the next run (--max-prs ${limits.prs}).`);
 
@@ -159,12 +161,87 @@ async function main(argv: string[]): Promise<number> {
       .filter((w) => values.all || state.merged.get(w.id)!.isManual || w.status === 'airing' || (w.year !== null && w.year >= year - 1))
       .map((w) => w.id);
     const tmdb = new TmdbClient(key);
-    const findings = await checkProjections(state.records, ids, tmdb);
-    console.log(`Projection checker: ${ids.length} works considered, ${tmdb.requests} TMDB shows fetched, ${findings.length} mismatch(es).`);
+    // When each airing or upcoming work's season premiered: TMDB gets six weeks after that before a lag is a finding.
+    const premieres = new Map<string, Date | null>();
+    const young = ids.filter((id) => ['airing', 'upcoming'].includes(state.records.works.get(id)!.status) && state.records.works.get(id)!.ids.anilist !== undefined);
+    if (young.length > 0) {
+      const byAniList = new Map(young.map((id) => [Number(state.records.works.get(id)!.ids.anilist), id]));
+      for (const m of await new AniListClient({ log }).mediaByIds([...byAniList.keys()])) {
+        const id = byAniList.get(m.id);
+        const d = m.startDate;
+        if (id !== undefined) premieres.set(id, d.year !== null && d.month !== null ? new Date(Date.UTC(d.year, d.month - 1, d.day ?? 1)) : null);
+      }
+    }
+    // Cours TMDB keeps inside the previous season become tier B PRs, unless one exists or was rejected.
+    const noSplit = new Set([...state.tmdbSplits.map((s) => s.work), ...state.rejected.filter((r) => r.kind === 'tmdb-split').map((r) => r.work)]);
+    const result = await checkProjectionsDetailed(state.records, ids, tmdb, { now: new Date(), noSplit, premieres, onError: (show, err) => console.log(`TMDB show ${show} skipped: ${err.message}`) });
+    // Each proposal is compiled with the current data first; one that does not validate is an ordinary issue instead.
+    const splitLines = new Map(state.tmdbSplits.map((s) => [s.work, s]));
+    const proposals = result.splits.slice();
+    result.splits = [];
+    let prs = 0;
+    for (const f of proposals) {
+      const next = new Map(splitLines).set(f.work!, f.split!);
+      const ev = evaluate(state.loaded, state.relations, state.airing, [...next.values()]);
+      if (!ev.records) {
+        console.log(`TMDB split for ${f.work} does not validate (${ev.errors[0]?.message}); it becomes an issue.`);
+        result.findings.push({ ...f, tier: 'C', kind: 'projection-mismatch', summary: `TMDB projection disagrees with TMDB: ${(f.data.problems as string[]).join('; ')}`, split: undefined as never });
+        continue;
+      }
+      result.splits.push(f);
+      if (prs >= limits.prs) continue;
+      prs++;
+      await writer.upsertPullRequest(`bots/tmdb-split-${f.work}`, `TMDB split cour: ${f.work}`, tmdbSplitPrBody(f), labelsFor(f), new Map([[botFilePath(TMDB_SPLITS_DIR, f.work!), tmdbSplitJson(f.split!)]]));
+    }
+    if (result.splits.length > prs) console.log(`${result.splits.length - prs} more TMDB split PR(s) wait for the next run (--max-prs ${limits.prs}).`);
+    const { findings, lagging } = result;
+    console.log(`Projection checker: ${ids.length} works considered, ${tmdb.requests} TMDB shows fetched, ${findings.length} mismatch(es), ${lagging.length} more only because TMDB lags a show that is still starting.`);
     printFindings(findings);
-    if (values.json) await writeFile(values.json, JSON.stringify({ findings }, null, 2));
+    if (lagging.length > 0) console.log(`TMDB lag, no issue: ${lagging.map((f) => f.work).join(', ')}`);
+    if (values.json) await writeFile(values.json, JSON.stringify({ findings, lagging: lagging.map((f) => f.work) }, null, 2));
     await writer.ensureLabels();
     for (const f of cap(findings, limits.issues)) await writer.upsertIssue(issueTitle(f), issueBody(f), labelsFor(f));
+    // An issue the checker opened closes itself once a later run finds no mismatch worth one for that work.
+    const prefix = `${TMDB_ISSUE_PREFIX}: `;
+    for (const c of issuesToClose(await writer.openIssues(prefix), prefix, result)) await writer.closeIssue(c.number, c.reason === 'lag' ? tmdbLagComment() : c.reason === 'proposed' ? tmdbProposedComment() : tmdbResolvedComment());
+    return 0;
+  }
+
+  if (command === 'tmdb-show') {
+    const key = process.env.TMDB_API_KEY;
+    if (!key) return (console.log('TMDB_API_KEY is not set.'), 1);
+    const state = await loadState(values.data!);
+    const tmdb = new TmdbClient(key);
+    for (const id of positionals.slice(1)) {
+      // q:Title searches TMDB for a title instead of reading one of our works.
+      if (id.startsWith('q:')) {
+        for (const r of await searchShows(tmdb, id.slice(2).replace(/_/g, ' '))) console.log(`search "${id.slice(2)}": ${r.id} "${r.name}" ${r.firstAirDate ?? ''}`);
+        continue;
+      }
+      // tmdb:ID reads a TMDB show by its ID, for a show none of our works points at.
+      if (id.startsWith('tmdb:')) {
+        const info = await showInfo(tmdb, id.slice(5));
+        console.log(`
+== TMDB ${id.slice(5)}: ${info ? `"${info.name}" (${info.status})` : 'no such show'}`);
+        for (const s of info?.seasons ?? []) console.log(`     season ${s.number}: ${s.episodes} episodes, ${s.airDate ?? 'no air date'}, "${s.name}"`);
+        continue;
+      }
+      const w = state.records.works.get(id);
+      if (!w) {
+        console.log(`${id}: not in the data`);
+        continue;
+      }
+      console.log(`\n== ${id} (${w.status}, ${w.year}) tmdb_show ${w.ids.tmdb_show ?? '-'}; ours: ${JSON.stringify(w.projections.tmdb_show ?? [])}`);
+      if (w.ids.tmdb_show !== undefined) {
+        const info = await showInfo(tmdb, w.ids.tmdb_show);
+        if (!info) console.log('   TMDB has no such show');
+        else {
+          console.log(`   TMDB: "${info.name}" (${info.status})`);
+          for (const s of info.seasons) console.log(`     season ${s.number}: ${s.episodes} episodes, ${s.airDate ?? 'no air date'}, "${s.name}"`);
+        }
+      }
+      for (const r of await searchShows(tmdb, w.titles.romaji ?? id)) console.log(`   search "${w.titles.romaji ?? id}": ${r.id} "${r.name}" ${r.firstAirDate ?? ''}`);
+    }
     return 0;
   }
 

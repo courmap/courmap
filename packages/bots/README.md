@@ -10,6 +10,6 @@ pnpm bots tmdb                 # projection checker (needs TMDB_API_KEY)
 pnpm bots digest [--apply]     # weekly digest; --apply sends it to NTFY_URL and DISCORD_WEBHOOK_URL when set
 ```
 
-What the bots write: `data/seeds/airing.jsonl` (tier A count bumps and finished flips) and `data/seeds/relations.jsonl` (tier B sequels from AniList PREQUEL and SEQUEL relations), both `origin: bot`. Manual files in `data/works/` always win and are never edited by a bot; a disagreement with one is a tier C issue.
+What the bots write: `data/seeds/airing/<work>.json` (tier A count bumps and finished flips), `data/seeds/relations/<work>.json` (tier B sequels from AniList PREQUEL and SEQUEL relations) and `data/seeds/tmdb-splits/<work>.json` (tier B TMDB split cours), one file per work so that bot PRs never conflict, all `origin: bot`. Manual files in `data/works/` always win and are never edited by a bot; a disagreement with one is a tier C issue.
 
 Tiers: A (`auto`) one PR with all agreeing airing updates; B (`needs-review`) one PR per sequel, and airing updates that change an existing absolute sequence; C (`mapping-conflict` or `good first mapping`) issues with the source data attached. Runs from `.github/workflows/bots.yml`: the scan daily, the projection checker and digest weekly.

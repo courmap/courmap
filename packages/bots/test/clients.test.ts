@@ -1,7 +1,7 @@
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { AniListClient, MIN_INTERVAL_MS } from '../src/anilist.js';
-import { sendDigest } from '../src/notify.js';
+import { discordChunks, sendDigest } from '../src/notify.js';
 import { digestText, trackerBody } from '../src/report.js';
 import { loadState } from '../src/state.js';
 import { TmdbClient, checkProjections } from '../src/tmdb.js';
@@ -88,6 +88,21 @@ describe('digest and tracker text', () => {
     const body = trackerBody('Fall 2026', rows, new Date('2026-10-19T00:00:00Z'));
     expect(body.length).toBeLessThan(65_536);
     expect(body).toMatch(/\d+ more \(mapped\) not listed/);
+  });
+
+  it('splits a long Discord digest between lines and never cuts one off, with link previews off', async () => {
+    const body = Array.from({ length: 120 }, (_, i) => `- Sequel ${i}: https://github.com/courmap/courmap/pull/${i}`).join('\n');
+    const calls: { content: string; flags: number }[] = [];
+    const fetchFn = (async (_u: string, init: RequestInit) => (calls.push(JSON.parse(String(init.body))), new Response(null, { status: 204 }))) as unknown as typeof fetch;
+    expect(await sendDigest('T', body, { discordWebhook: 'https://discord.example/w' }, fetchFn)).toEqual(['discord']);
+    expect(calls.length).toBeGreaterThan(1);
+    expect(calls.every((c) => c.content.length <= 2000 && c.flags === 4)).toBe(true);
+    expect(calls.map((c) => c.content).join('\n')).toBe(`**T**\n${body}`);
+  });
+
+  it('cuts only a single line that is longer than the limit', () => {
+    expect(discordChunks('a\nb', 10)).toEqual(['a\nb']);
+    expect(discordChunks('x'.repeat(25), 10)).toEqual(['x'.repeat(10), 'x'.repeat(10), 'x'.repeat(5)]);
   });
 
   it('posts to ntfy and Discord', async () => {

@@ -1,8 +1,10 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import {
-  AIRING_FILE,
-  RELATIONS_FILE,
+  AIRING_DIR,
+  RELATIONS_DIR,
+  TMDB_SPLITS_DIR,
+  botFilePath,
   Reporter,
   checkFiles,
   loadData,
@@ -17,6 +19,7 @@ import {
   type Rejection,
   type RelationLine,
   type SeedSource,
+  type TmdbSplitLine,
 } from '@courmap/builder';
 
 /** The data the bots compare against: merged works, compiled records and the bot files as they are. */
@@ -29,6 +32,8 @@ export interface State {
   byAnilist: Map<number, string>;
   relations: RelationLine[];
   airing: AiringLine[];
+  /** Lines of data/seeds/tmdb-splits.jsonl. */
+  tmdbSplits: TmdbSplitLine[];
   /** Bounds warnings the data already has, as boundsKey strings. */
   boundsWarnings: Set<string>;
   /** data/rejected.yaml: proposals a maintainer rejected, never proposed again. */
@@ -39,18 +44,23 @@ export interface State {
 const BOUNDS_CODES = new Set(['out-of-bounds', 'open-ended-not-airing']);
 const boundsKey = (d: Diagnostic) => `${d.work ?? ''}|${d.code}|${d.path.join('.')}`;
 
-const sourceLines = (file: string, rows: readonly object[]): SeedSource[] =>
-  rows.map((data, i) => ({ file, line: i + 1, data, loc: makeLineLocator(file, i + 1) }));
+/** The bot files for these rows, each in its own file named after its work. */
+const sourceFiles = (dir: string, rows: readonly { work: string }[]): SeedSource[] =>
+  rows.map((data) => {
+    const file = botFilePath(dir, data.work);
+    return { file, line: 1, data, loc: makeLineLocator(file, 1) };
+  });
 
 /** Compiles loaded data with the given bot files in place of the ones on disk. Errors are returned, not thrown. */
 export function evaluate(
   loaded: LoadedData,
   relations: readonly RelationLine[],
   airing: readonly AiringLine[],
+  tmdbSplits: readonly TmdbSplitLine[] = loaded.tmdbSplits.map((s) => s.data as TmdbSplitLine),
 ): { records: Records | null; merged: Map<string, MergedWork>; errors: Diagnostic[]; bounds: Map<string, Diagnostic> } {
   const reporter = new Reporter();
   const checked = checkFiles(
-    { ...loaded, relations: sourceLines(`data/seeds/${RELATIONS_FILE}`, relations), airing: sourceLines(`data/seeds/${AIRING_FILE}`, airing) },
+    { ...loaded, relations: sourceFiles(RELATIONS_DIR, relations), airing: sourceFiles(AIRING_DIR, airing), tmdbSplits: sourceFiles(TMDB_SPLITS_DIR, tmdbSplits) },
     reporter,
   );
   const errors = reporter.diagnostics.filter((d) => d.severity === 'error');
@@ -64,7 +74,8 @@ export async function loadState(dataDir: string): Promise<State> {
   if (reporter.errorCount > 0) throw new Error(`${dataDir} does not load: ${reporter.diagnostics.find((d) => d.severity === 'error')!.message}`);
   const relations = loaded.relations.map((s) => s.data as RelationLine);
   const airing = loaded.airing.map((s) => s.data as AiringLine);
-  const { records, merged, errors, bounds } = evaluate(loaded, relations, airing);
+  const tmdbSplits = loaded.tmdbSplits.map((s) => s.data as TmdbSplitLine);
+  const { records, merged, errors, bounds } = evaluate(loaded, relations, airing, tmdbSplits);
   if (!records) throw new Error(`${dataDir} does not validate: ${errors[0]!.file}:${errors[0]!.line ?? ''} ${errors[0]!.message}`);
   const byAnilist = new Map<number, string>();
   for (const w of records.works.values()) if (w.ids.anilist !== undefined) byAnilist.set(Number(w.ids.anilist), w.id);
@@ -72,23 +83,16 @@ export async function loadState(dataDir: string): Promise<State> {
   const rejected = await loadRejected(dataDir, rejectedReporter, { works: new Set(records.works.keys()) });
   const bad = rejectedReporter.diagnostics.find((d) => d.severity === 'error');
   if (bad) throw new Error(`${bad.file}:${bad.line ?? ''} ${bad.message}`);
-  return { dataDir, loaded, merged, records, byAnilist, relations, airing, boundsWarnings: new Set(bounds.keys()), rejected };
+  return { dataDir, loaded, merged, records, byAnilist, relations, airing, tmdbSplits, boundsWarnings: new Set(bounds.keys()), rejected };
 }
 
-/** Bot files are one JSON object per line, sorted by work, keys in a fixed order. */
-export function relationsJsonl(rows: readonly RelationLine[]): string {
-  return [...rows]
-    .sort((a, b) => (a.work < b.work ? -1 : a.work > b.work ? 1 : 0))
-    .map((r) => JSON.stringify({ work: r.work, prequel: r.prequel, relation: r.relation, origin: 'bot', ...(r.anilist && { anilist: r.anilist }) }) + '\n')
-    .join('');
-}
+/** Bot files hold one JSON object each (one per work), keys in a fixed order, so the output is byte-stable. */
+export const relationJson = (r: RelationLine): string => JSON.stringify({ work: r.work, prequel: r.prequel, relation: r.relation, origin: 'bot', ...(r.anilist && { anilist: r.anilist }) }) + '\n';
 
-export function airingJsonl(rows: readonly AiringLine[]): string {
-  return [...rows]
-    .sort((a, b) => (a.work < b.work ? -1 : a.work > b.work ? 1 : 0))
-    .map((r) => JSON.stringify({ work: r.work, episodes: r.episodes, status: r.status, origin: 'bot', ...(r.anilist !== undefined && { anilist: r.anilist }) }) + '\n')
-    .join('');
-}
+export const airingJson = (r: AiringLine): string =>
+  JSON.stringify({ work: r.work, episodes: r.episodes, status: r.status, origin: 'bot', ...(r.anilist !== undefined && { anilist: r.anilist }) }) + '\n';
+
+export const tmdbSplitJson = (r: TmdbSplitLine): string => JSON.stringify({ work: r.work, tmdb_show: r.tmdb_show, origin: 'bot', ...(r.tmdb !== undefined && { tmdb: r.tmdb }) }) + '\n';
 
 /** The bot file currently on disk, or an empty string. */
 export const readBotFile = (dataDir: string, name: string) => readFile(path.join(dataDir, 'seeds', name), 'utf8').catch(() => '');

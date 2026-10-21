@@ -75,7 +75,7 @@ describe('AniList relations (Xwolv decision S4.1): manual over AniList over deri
   it('validates, warning about a relation to a work that is not in the data', () => {
     expect(result.ok).toBe(true);
     expect(result.diagnostics.map((d) => [d.severity, d.code, d.line, d.message])).toEqual([
-      ['warning', 'relation', 4, 'work "rel-gone" is not a known work; the relation is ignored'],
+      ['warning', 'relation', 1, 'work "rel-gone" is not a known work; the relation is ignored'],
     ]);
   });
 

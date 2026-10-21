@@ -1,0 +1,11 @@
+{"id":"r-new-season-airing","type":"tv","status":"airing","year":2026,"episodes":12,"ids":{"anilist":11,"tmdb_show":9000},"projections":{"tmdb_show":[{"season":2,"episodes":"1-12"}]},"origin":{"default":"offline-db"}}
+{"id":"r-new-season-old","type":"tv","status":"airing","year":2026,"episodes":12,"ids":{"anilist":12,"tmdb_show":9001},"projections":{"tmdb_show":[{"season":2,"episodes":"1-12"}]},"origin":{"default":"offline-db"}}
+{"id":"r-short-upcoming","type":"tv","status":"upcoming","year":2026,"episodes":12,"ids":{"anilist":13,"tmdb_show":9002},"projections":{"tmdb_show":[{"season":2,"episodes":"1-12"}]},"origin":{"default":"offline-db"}}
+{"id":"r-short-finished","type":"tv","status":"finished","year":2026,"episodes":12,"ids":{"anilist":14,"tmdb_show":9003},"projections":{"tmdb_show":[{"season":1,"episodes":"1-12"}]},"origin":{"default":"offline-db"}}
+{"id":"r-more-airing","type":"tv","status":"airing","year":2026,"episodes":12,"ids":{"anilist":15,"tmdb_show":9004},"projections":{"tmdb_show":[{"season":1,"episodes":"1-12"}]},"origin":{"default":"offline-db"}}
+{"id":"r-structure","type":"tv","status":"airing","year":2026,"episodes":12,"ids":{"anilist":16,"tmdb_show":9005},"projections":{"tmdb_show":[{"season":2,"episodes":"1-12"}]},"origin":{"default":"offline-db"}}
+{"id":"r-cour-one","type":"tv","status":"finished","year":2026,"episodes":12,"ids":{"anilist":17,"tmdb_show":9006},"projections":{"tmdb_show":[{"season":1,"episodes":"1-12"}]},"origin":{"default":"offline-db"}}
+{"id":"r-cour-two","type":"tv","status":"finished","year":2026,"episodes":12,"ids":{"anilist":18,"tmdb_show":9006},"projections":{"tmdb_show":[{"season":1,"episodes":"1-12","start":13}]},"origin":{"default":"offline-db"}}
+{"id":"r-open","type":"tv","status":"airing","year":2026,"episodes":12,"ids":{"anilist":19,"tmdb_show":9007},"projections":{"tmdb_show":[{"season":1,"episodes":"1-"}]},"origin":{"default":"offline-db"}}
+{"id":"r-specials-behind","type":"special","status":"finished","year":2026,"episodes":7,"ids":{"anilist":21,"tmdb_show":9008},"projections":{"tmdb_show":[{"season":0,"episodes":"1-7"}]},"origin":{"default":"offline-db"}}
+{"id":"r-specials-more","type":"special","status":"finished","year":2026,"episodes":2,"ids":{"anilist":22,"tmdb_show":9009},"projections":{"tmdb_show":[{"season":0,"episodes":"1-2"}]},"origin":{"default":"offline-db"}}

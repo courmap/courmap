@@ -1,11 +1,11 @@
 # Diagnostics `builder validate` must report for this fixture, exactly.
 errors:
   - code: airing
-    file: seeds/airing.jsonl
+    file: seeds/airing/rel-a.json
     line: 1
     message: a finished work needs its episode count
   - code: airing
-    file: seeds/airing.jsonl
-    line: 2
+    file: seeds/airing/rel-b.json
+    line: 1
     message: status must be airing or finished
 warnings: []

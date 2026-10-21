@@ -25,6 +25,7 @@ const KIND_TITLE: Record<FindingKind, string> = {
   'projection-short': 'Projection short of the count',
   invalid: 'Invalid bot update',
   'projection-mismatch': 'TMDB projection mismatch',
+  'tmdb-split': 'TMDB split cour',
 };
 
 /** Labels for a finding's PR or issue. */
@@ -38,6 +39,33 @@ const anilistLink = (id: number | null) => (id === null ? '' : `[AniList ${id}](
 const subject = (f: Finding) => (f.work ? `${f.title} (${f.work})` : f.title);
 
 /** Stable per kind and work, so the bot finds and updates its own issue instead of opening another. */
+/** The title prefix of a projection-mismatch issue; the work's id follows. */
+export const TMDB_ISSUE_PREFIX = 'TMDB projection mismatch';
+
+export const tmdbLagComment = () =>
+  'Closed by the projection checker: TMDB is behind our data, which is expected while a show is still starting (an airing or upcoming work, premiered less than six weeks ago or not yet). Nothing is wrong on our side. The checker looks again every week and opens a new issue if the difference is still there six weeks after the premiere, or if TMDB lists more than we map.';
+
+export function tmdbSplitPrBody(f: Finding): string {
+  const rows = f.split!.tmdb_show.map((r) => `season ${r.season}, episodes ${r.episodes}${r.start !== undefined ? ` from TMDB episode ${r.start}` : ''}`).join('; ');
+  return [
+    `Tier B: TMDB keeps **${subject(f)}** ${anilistLink(f.anilist)} inside an earlier season instead of giving it a season of its own ([TMDB show ${f.data.tmdb_show}](${f.data.url})).`,
+    '',
+    `The projection checker found that TMDB has no season for it, and that the season before it lists exactly as many episodes as everything we map there plus this cour. The mapping that fits is: ${rows}.`,
+    '',
+    '| | TMDB mapping |',
+    '| --- | --- |',
+    `| Before | ${(f.data.problems as string[]).join('; ')} |`,
+    `| After | ${rows} (origin: bot) |`,
+    '',
+    'TVDB is untouched. Writes one file, `data/seeds/tmdb-splits/<work>.json`. Approve or edit; a manual `projections.tmdb_show` in `data/works/` would override it, and rejecting it in `data/rejected.yaml` (kind: tmdb-split) stops the proposal.',
+  ].join('\n');
+}
+
+export const tmdbProposedComment = () =>
+  'Closed by the projection checker: TMDB keeps this cour inside the previous season, and a pull request proposes (or within a run or two will propose) the mapping that continues it there (data/seeds/tmdb-splits/). It reopens the question as an issue if that proposal is rejected and the mismatch remains.';
+
+export const tmdbResolvedComment = () => 'Closed by the projection checker: a later run found our TMDB projection and TMDB agree for this work. It opens a new issue if that changes.';
+
 export const issueTitle = (f: Finding) => `${KIND_TITLE[f.kind]}: ${f.work ?? `AniList ${f.anilist}`}`;
 
 export function issueBody(f: Finding): string {
@@ -71,7 +99,7 @@ export function airingPrBody(fs: Finding[], diff: SequenceDiff, tier: Tier): str
     ...fs.map((f) => `| ${subject(f)} | ${anilistLink(f.anilist)} | ${f.summary} |`),
     '',
     ...(diff.changed.length + diff.added.length > 0 ? ['### Absolute sequences', '', ...shiftLines(diff), ...(diff.added.length > 0 ? ['', `New sequences: ${diff.added.join(', ')}.`] : []), ''] : []),
-    'Writes `data/seeds/airing.jsonl` only (origin: bot). Manual files win over it per key.',
+    'Writes one file per work under `data/seeds/airing/` only (origin: bot). Manual files win over it per key.',
   ].join('\n');
 }
 
@@ -88,7 +116,7 @@ export function sequelPrBody(f: Finding, diff: SequenceDiff): string {
     'Translation diff: a prequel changes how release names without a season token are scored and where `continue_prequel` group overrides start; projections are unchanged.',
     ...(diff.shifts.length > 0 || diff.changed.length > 0 ? ['', '### Absolute sequences', '', ...shiftLines(diff)] : ['', 'No absolute numbers shift.']),
     '',
-    'Writes one line to `data/seeds/relations.jsonl`. Approve or edit; a manual `prequel:` in `data/works/` would override it.',
+    'Writes one file, `data/seeds/relations/<work>.json`. Approve or edit; a manual `prequel:` in `data/works/` would override it.',
   ].join('\n');
 }
 

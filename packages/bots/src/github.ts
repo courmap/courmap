@@ -155,6 +155,25 @@ export class GitHubWriter {
     }
   }
 
+  /** The open issues whose title starts with `prefix`. */
+  async openIssues(prefix: string): Promise<{ number: number; title: string }[]> {
+    const list = JSON.parse(await this.gh(['issue', 'list', '--state', 'open', '--limit', '1000', '--json', 'number,title'])) as { number: number; title: string }[];
+    return list.filter((i) => i.title.startsWith(prefix));
+  }
+
+  /**
+   * Closes an issue with a comment saying why. Only for an issue the bots opened themselves, when a later
+   * run finds what it reported is no longer so (the TMDB projection checker); never a PR.
+   */
+  async closeIssue(number: number, comment: string): Promise<void> {
+    if (!this.opts.apply) {
+      this.log(`would close issue #${number}: ${comment}`);
+      return;
+    }
+    await this.gh(['issue', 'close', String(number), '--comment', comment]);
+    this.log(`closed issue #${number}`);
+  }
+
   /** Open and recently merged bot PRs and open issues, for the digest. */
   async list(kind: 'pr' | 'issue', label: string, state: 'open' | 'merged' | 'all'): Promise<{ title: string; url: string; createdAt: string; mergedAt?: string | null }[]> {
     const fields = kind === 'pr' ? 'title,url,createdAt,mergedAt' : 'title,url,createdAt';

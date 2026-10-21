@@ -102,6 +102,14 @@ Legend: [x] done, [ ] open, [~] partly done.
 
 ## Also done, 2026-10-20
 
+- [x] TMDB projection checker live (2026-10-20): TMDB_API_KEY is a repo secret. The first weekly run checked 2688 works (513 TMDB shows) and found 60 mismatches; it opened 15 issues (#61 to #75, the per-run cap), the other 45 follow on later runs. Many are TMDB lag, not data errors: "season 2 is not on TMDB" for new seasons and "mapped to episode 12, TMDB lists 1" for shows TMDB has just started; a person triages them. Nothing from TMDB was written to data/ or any commit (the run made none).
+- [x] Bot PRs no longer conflict (2026-10-20): relations, airing and TMDB split proposals are one file per work under data/seeds/; the six split-cour PRs (#81 to #86) are merged; the upstream Anime-Lists draft lists fourteen cours (Xwolv reviews and submits it).
+- [x] TMDB checker follow-ups (2026-10-20): Bonobono (TV 2016) is TMDB 66751; TMDB being behind on specials is no finding; split cours become tier B PRs (data/seeds/tmdb-splits.jsonl). Open for Xwolv: review and submit docs/upstream/anime-lists-tmdb-split-cours.md to Anime-Lists.
+- [x] The TMDB checker's first real findings fixed (2026-10-20): eight cours that TMDB keeps in season 1 got a TMDB override, Bonobono (TV 2016) lost a TMDB mapping that pointed at the wrong show, and Konosuba 3 Bonus Stage is TMDB being incomplete (DECISIONS.md). Open for Xwolv: whether to add the 2016 Bonobono TMDB show ID (it is from TMDB itself, not a seed dataset), and to tell Anime-Lists about the merged-cour pattern.
+- [x] TMDB checker noise rule and self-closing issues (2026-10-20): TMDB lag on an airing or upcoming work gets no issue until six weeks after the premiere; issues the checker opened close themselves when a later run finds no mismatch worth one. Issues #61 to #75 were triaged by that rule (see DECISIONS.md). Open: whatever the checker still flags is real work for a person.
+- [x] Weekly digest posts to Discord (DISCORD_WEBHOOK_URL is set; NTFY_URL is not). A long digest is now split into several messages and posted without link previews.
+- [x] TMDB's attribution line ("This product uses the TMDB API but is not endorsed or certified by TMDB.") is in ATTRIBUTION.md, the licensing page and the docs site footer on every page.
+
 - [x] No secret in any log line, page, export or error message; tests fail if one appears.
 - [x] Fewer requests to usenet indexers (cache, early stop, a cap), with the reason for every upstream failure and per-day request counts on the status page; the API limit behavior is documented.
 - [x] Airing shows with a placeholder or lagging episode count resolve and rewrite (seed, engine and resolver), and the parser reads Erai-raws, Chinese and season-pack names.

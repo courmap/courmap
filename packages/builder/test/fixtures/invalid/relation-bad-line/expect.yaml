@@ -1,11 +1,11 @@
 # Diagnostics `builder validate` must report for this fixture, exactly.
 errors:
   - code: relation
-    file: seeds/relations.jsonl
+    file: seeds/relations/rel-a.json
+    line: 1
+    message: origin must be bot
+  - code: relation
+    file: seeds/relations/rel-ova.json
     line: 1
     message: relation must be PREQUEL or SEQUEL (other AniList relations never build prequel chains)
-  - code: relation
-    file: seeds/relations.jsonl
-    line: 2
-    message: origin must be bot
 warnings: []

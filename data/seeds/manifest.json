@@ -10,9 +10,9 @@
     },
     "anime_lists": {
       "repo": "Anime-Lists/anime-lists",
-      "commit": "9ed90bf804bb24d58c99ea653e095194df494b52",
+      "commit": "bbbd3c0254c2be780185a2cabd69736a00679860",
       "path": "anime-list-master.xml",
-      "sha256": "9c6a42dfad119ee1174c9c3424552523703bbe7dcdce9790abce59b2e5c82e44"
+      "sha256": "6e6f28756e9ff6f34998c91012ea3287ed397bba46445c75edf994973f5cb7bf"
     }
   },
   "shards": [
@@ -79,7 +79,7 @@
     {
       "name": "works-012.jsonl",
       "works": 2033,
-      "sha256": "67b6408dd734b33415cf9939483137cea6eb29e8c5e3ac20503b3134acc202f5"
+      "sha256": "404f0d8102f2b04674087c0d830e3bac9a199a4057ba8121fec30ef927865f4a"
     },
     {
       "name": "works-013.jsonl",
@@ -104,18 +104,18 @@
       "anilist": 20844,
       "mal": 30850,
       "kitsu": 20804,
-      "tmdb_movie": 1325,
-      "tvdb_show": 7468,
-      "tmdb_show": 7049,
+      "tmdb_movie": 1324,
+      "tvdb_show": 7470,
+      "tmdb_show": 7054,
       "imdb": 1608
     },
     "projection_rows": {
-      "tvdb_show": 7976,
-      "tmdb_show": 5865
+      "tvdb_show": 7978,
+      "tmdb_show": 5882
     },
     "projection_blocks": {
-      "tvdb_show": 6700,
-      "tmdb_show": 5794
+      "tvdb_show": 6702,
+      "tmdb_show": 5799
     },
     "partial_blocks": {
       "tvdb_show": 29,
@@ -142,7 +142,7 @@
     },
     "offline_db_entries_without_anchor": 5385,
     "seeded_without_anidb": 18129,
-    "seeded_without_anidb_with_projections": 0,
+    "seeded_without_anidb_with_projections": 1,
     "anime_lists_entries_without_offline_db": 2362,
     "repair_rounds": 2
   }

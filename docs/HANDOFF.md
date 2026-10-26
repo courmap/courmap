@@ -1,6 +1,6 @@
 # Handoff
 
-Where the build stands, for the next session. Read CLAUDE.md, docs/SPEC.md and docs/DECISIONS.md first, as always; this file only says what is done and what is next. `docs/LAUNCH.md` lists everything open before the public launch. Update both at the end of every session.
+Where the build stands, for the next session. Read CLAUDE.md, docs/SPEC.md and docs/DECISIONS.md first, as always; this file only says what is done and what is next. The 2026-10-25 session log, with the bot PRs, the closed issues and the proxy export maintenance, is `docs/SESSION-2026-10-25.md`. `docs/LAUNCH.md` lists everything open before the public launch. Update both at the end of every session.
 
 Last updated 2026-10-25, after the TMDB fill proposal and the open PR and issue review.
 

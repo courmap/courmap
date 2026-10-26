@@ -68,7 +68,7 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Verify: no bot PR or `mapping-conflict` issue older than a week without a decision.
 16. [ ] **Corpus large enough to trust.** Who: Xwolv supplies names (proxy exports); Claude Code imports and verifies them with Xwolv.
     - Proposed launch bar: at least 200 verified cases, most of them real names from the proxy, with a 95% pass rate. The M2 milestone remains 1,000.
-    - Today: **150 verified, all passing; 443 unverified** imported from the 2026-10-25 export (57 of its 500 names resolve now). The unverified cases are a watch list: any case expected ambiguous or unmatched that starts resolving fails CI and names itself. Was 93 before that export, 81 before the Spy x Family and second-export imports, 35 before the first proxy export (2026-10-20).
+    - Today: **199 verified, all passing; 394 unverified** imported from the 2026-10-25 and 2026-10-26 exports (the second pass of 2026-10-26 verified 49 more: Black Lagoon, Lulutto Lilly, Umayuru, aliases). The unverified cases are a watch list: any case expected ambiguous or unmatched that starts resolving fails CI and names itself. Was 93 before that export, 81 before the Spy x Family and second-export imports, 35 before the first proxy export (2026-10-20).
     - Verify: `pnpm corpus` reports at least 200 verified at 95% or more.
 17. [ ] **Screenshots in the Sonarr guide.** Who: Xwolv takes them; Claude Code places them. Six placeholders are in `site/src/content/docs/sonarr.mdx`:
     - Prowlarr indexers with the ID visible.

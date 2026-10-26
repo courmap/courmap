@@ -99,7 +99,7 @@ Legend: [x] done, [ ] open, [~] partly done.
 - [x] Assisted numbering and the corpus loop from proxy exports (session 7).
 - [x] `pnpm check:tokens` in CI: no GitHub token can be committed (session 8).
 - [x] Assisted numbering cannot import a wrong episode through a bot prequel link (maintenance session after session 8).
-- [x] vitest 4.1.12, for GHSA-xp26-3454-mjgp (a Windows backslash traversal in the @vitest/mocker redirect allowlist), 2026-10-25. The postcss-selector-parser advisory (docs build only, fixed in a major version) stays open; see HANDOFF.md.
+- [x] Security advisories fixed 2026-10-25: vitest 4.1.12 (GHSA-xp26-3454-mjgp), postcss-selector-parser 7.1.7 through astro-expressive-code 0.44.3 (GHSA-rj75-hqrm-r3gf) and fast-uri 3.1.9 (GHSA-w74x-v6f9-j3xg). The Dependabot security job had failed because it could not resolve past vitest 4.1.11.
 - [x] Duplicate-indexer guidance that keeps regular TV working (2026-10-19): for indexers with regular TV and anime, Prowlarr's copy keeps regular TV (Anime Sync Categories cleared, Full Sync, no tags) and the Courmap copy takes anime (Categories empty, Anime Categories 5070, Indexer Priority 10); the tag method is for anime-only indexers like Nyaa. Checked with real Prowlarr, Sonarr 4.0.20 and the proxy in Docker; not with a live torrent or usenet indexer (quick start step 4, decision in DECISIONS.md).
 
 ## Also done, 2026-10-20

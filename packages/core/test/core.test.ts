@@ -57,6 +57,7 @@ describe('normalizeTitle', () => {
 
   it.each([
     ['multiplication sign reads as x', 'SPY×FAMILY', 'spy x family'],
+    ['ampersand reads as and', 'Welsh & Shedar', 'welsh and shedar'],
     ['spaced multiplication sign', 'Hunter × Hunter', 'hunter x hunter'],
     ['white star', 'Kirarin☆Revolution', 'kirarin revolution'],
     ['black star', 'Star★Twinkle', 'star twinkle'],

@@ -15,7 +15,9 @@ const YEAR = /^(19[5-9]\d|20[0-4]\d)$/;
 // Language codes scene names put after the title (JPN audio, KOR, ...); metadata, not part of the title.
 // Streaming services that scene and web groups put after the title (CR WEB-DL, AMZN WEB-DL).
 const SERVICE = /^(?:cr|crunchyroll|amzn|dsnp|nf|hidi|hidive|funi|bili|bilibili|hulu|atvp)$/i;
-const LANGUAGE = /^(?:jpn|jap|kor|ger|fre|ita|esp|spa|rus|por|chs|cht|multi)$/i;
+const LANGUAGE = /^(?:jpn|jap|kor|ger|fre|fra|ita|esp|spa|rus|por|chs|cht|multi)$/i;
+// DVD scene names: "FRA PAL DVD5" (country, video system, disc size) is metadata, not title.
+const DISC = /^(?:pal|ntsc|dvd[59]|bd25|bd50)$/i;
 
 const FLAG_WORDS: Record<string, string> = {
   'dual audio': 'dual-audio',
@@ -81,7 +83,10 @@ function classify(word: string, out: ParsedRelease): boolean {
   if (AUDIO.test(w)) return out.audio.push(lower), true;
   if (YEAR.test(w)) return (out.year ??= Number(w)), true;
   if (LANGUAGE.test(w)) return true;
+  if (DISC.test(w)) return true;
   if (SERVICE.test(w)) return true;
+  // A video-source word ("HYBRID"), metadata with no field of its own.
+  if (/^hybrid$/i.test(w)) return true;
   if (FLAG_WORDS[lower]) return out.flags.push(FLAG_WORDS[lower]!), true;
   return false;
 }
@@ -124,6 +129,18 @@ const blank = (input: string): ParsedRelease => ({
 
 const ordinal = (n: string) => Number(n);
 
+const ENTITIES: Record<string, string> = { amp: '&', quot: '"', apos: "'", lt: '<', gt: '>', nbsp: ' ' };
+
+/** RSS titles are HTML: "Ranma1.&amp;.2" is "Ranma1.&.2". */
+function decodeEntities(s: string): string {
+  return s.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (m, e: string) => {
+    const lower = e.toLowerCase();
+    if (lower.startsWith('#x')) return String.fromCodePoint(Number.parseInt(lower.slice(2), 16));
+    if (lower.startsWith('#')) return String.fromCodePoint(Number.parseInt(lower.slice(1), 10));
+    return ENTITIES[lower] ?? m;
+  });
+}
+
 /** Removes a recognized token from a word list, by index. */
 function cut<T>(arr: T[], i: number, n = 1): void {
   arr.splice(i, n);
@@ -132,7 +149,7 @@ function cut<T>(arr: T[], i: number, n = 1): void {
 /** Parses a release name (or file name) into its parts. Never throws; unknown parts stay null. */
 export function parseRelease(input: string): ParsedRelease {
   const out = blank(input);
-  let name = input.trim().replace(/^.*[\\/]/, ''); // a path: keep the file name
+  let name = decodeEntities(input.trim()).replace(/^.*[\\/]/, ''); // a path: keep the file name
   const ext = EXTENSIONS.exec(name);
   if (ext) {
     out.extension = ext[1]!.toLowerCase();
@@ -168,6 +185,8 @@ export function parseRelease(input: string): ParsedRelease {
   }
 
   let main = rawMain.replace(/\s+/g, ' ').trim();
+  // Amazon lists some shows with an "Original Language" marker before the episode: "Saint Tail Original Language S01E40".
+  main = main.replace(/\bOriginal[\s._-]+Language\b/gi, ' ').replace(/\s+/g, ' ').trim();
   // Season and episode in one token: S02E05, S2E05v2, S02E01-E12.
   const sxe = /\bS(\d{1,2})\s?E(\d{1,4})(?:v(\d))?(?:\s?-\s?E?(\d{1,4}))?\b/i.exec(main);
   let titleEnd = main.length;
@@ -221,22 +240,31 @@ export function parseRelease(input: string): ParsedRelease {
       titleEnd = marked.index;
       markerEnd = marked.index + marked[0].length;
     } else {
-      const trailing = /\s(\d{1,4})(?:v(\d))?(?:\s?-\s?(\d{1,4}))?$/.exec(main);
-      if (trailing && !(YEAR.test(trailing[1]!) && !trailing[3] && out.year === null && /\(/.test(input))) {
-        out.episode = Number(trailing[1]);
-        if (trailing[2]) out.version = Number(trailing[2]);
-        if (trailing[3]) out.episode_to = Number(trailing[3]);
-        titleEnd = trailing.index;
-        markerEnd = trailing.index + trailing[0].length;
+      // "Title -03": the hyphen glued to the episode, with a space before it (Erai-raws, after a year tag).
+      const spaced = /\s-(\d{1,4})(?:v(\d))?(?=\s|$)/.exec(main);
+      if (spaced && !YEAR.test(spaced[1]!) && Number(spaced[1]) > 0) {
+        out.episode = Number(spaced[1]);
+        if (spaced[2]) out.version = Number(spaced[2]);
+        titleEnd = spaced.index;
+        markerEnd = spaced.index + spaced[0].length;
       } else {
-        // Erai-raws and SubsPlease style, "Title.Words-03.[1080p...]" or "Spy x Family-47 [1080p]": the number is
-        // glued to the last word by a hyphen, with only tags after it. Never a year, and never a zero ("Gundam-00").
-        const glued = /(?<=[^\s-])-(\d{1,4})(?:v(\d))?(?=\s|$|-[A-Za-z])/.exec(main);
-        if (glued && !YEAR.test(glued[1]!) && Number(glued[1]) > 0) {
-          out.episode = Number(glued[1]);
-          if (glued[2]) out.version = Number(glued[2]);
-          titleEnd = glued.index;
-          markerEnd = glued.index + glued[0].length;
+        const trailing = /\s(\d{1,4})(?:v(\d))?(?:\s?-\s?(\d{1,4}))?$/.exec(main);
+        if (trailing && !(YEAR.test(trailing[1]!) && !trailing[3] && out.year === null && /\(/.test(input))) {
+          out.episode = Number(trailing[1]);
+          if (trailing[2]) out.version = Number(trailing[2]);
+          if (trailing[3]) out.episode_to = Number(trailing[3]);
+          titleEnd = trailing.index;
+          markerEnd = trailing.index + trailing[0].length;
+        } else {
+          // Erai-raws and SubsPlease style, "Title.Words-03.[1080p...]" or "Spy x Family-47 [1080p]": the number is
+          // glued to the last word by a hyphen, with only tags after it. Never a year, and never a zero ("Gundam-00").
+          const glued = /(?<=[^\s-])-(\d{1,4})(?:v(\d))?(?=\s|$|-[A-Za-z])/.exec(main);
+          if (glued && !YEAR.test(glued[1]!) && Number(glued[1]) > 0) {
+            out.episode = Number(glued[1]);
+            if (glued[2]) out.version = Number(glued[2]);
+            titleEnd = glued.index;
+            markerEnd = glued.index + glued[0].length;
+          }
         }
       }
     }

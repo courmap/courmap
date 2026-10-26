@@ -135,3 +135,15 @@ cases:
     expect: { title: Show Name, episode: 12 }
   - name: "Show Name - 03 [Uncensored][1080p]"
     expect: { title: Show Name, episode: 3, flags: [uncensored] }
+  # An RSS title can carry HTML entities: "&amp;" is "&". A year and SxxExx follow.
+  - name: "Ranma1.&amp;.2.2024.S03E04.The.Way.of.Tea.1080p.NF.WEB-DL.AAC2.0.H.264-playWEB"
+    expect: { title: "Ranma1 &.2", season: 3, episode: 4, year: 2024, group: playWEB }
+  # Amazon's "Original Language" marker sits before the episode.
+  - name: "Saint.Tail.Original.Language.S01E40.Moms.Secret.1080p.AMZN.WEB-DL"
+    expect: { title: Saint Tail, season: 1, episode: 40, source: webdl }
+  # A movie with no episode: the tags after the year are metadata, not part of the title.
+  - name: "Pompo.The.Cinephile.2021.BluRay.1080p.TrueHD.5.1.AVC.HYBRID.REMUX-FraMeSToR"
+    expect: { title: Pompo The Cinephile, year: 2021, source: bluray, resolution: 1080p, group: FraMeSToR, flags: [remux] }
+  # "[2026]-03": a year tag, then a hyphen glued to the episode.
+  - name: "[Erai-raws].Magic.Knight.Rayearth.[2026]-03.[1080p.CR.WEBRip.HEVC.AAC][MultiSub][19EF5258]"
+    expect: { title: Magic Knight Rayearth, year: 2026, episode: 3, source: webrip, checksum: "19EF5258" }

@@ -246,7 +246,7 @@ function applyRelations(lines: readonly SeedSource[], works: Map<string, MergedW
   }
 }
 
-/** A file of data/seeds/tmdb-splits/: where TMDB keeps a cour, as proposed by the bots' TMDB checker. */
+/** A file of data/seeds/tmdb-splits/: a TMDB mapping the bots' checker proposes, for a split cour or a work that fills a gap. */
 export interface TmdbSplitLine {
   work: string;
   /** The work's tmdb_show projection rows, replacing the seed's (a manual file wins). */
@@ -254,6 +254,8 @@ export interface TmdbSplitLine {
   origin: 'bot';
   /** The TMDB show, for tracing. */
   tmdb?: string;
+  /** Fill proposals only: the tmdb_show ID, taken from a work of the same TVDB show; used when the work has none. */
+  tmdb_id?: string;
 }
 
 function tmdbSplitProblem(raw: unknown): string | null {
@@ -269,15 +271,16 @@ function tmdbSplitProblem(raw: unknown): string | null {
     if (extra.length > 0) return `unknown row field "${extra[0]}"`;
   }
   if (r.origin !== 'bot') return 'origin must be bot';
-  const extra = Object.keys(r).filter((k) => !['work', 'tmdb_show', 'origin', 'tmdb'].includes(k));
+  if (r.tmdb_id !== undefined && (typeof r.tmdb_id !== 'string' || !/^\d+$/.test(r.tmdb_id))) return 'tmdb_id must be a numeric string';
+  const extra = Object.keys(r).filter((k) => !['work', 'tmdb_show', 'origin', 'tmdb', 'tmdb_id'].includes(k));
   if (extra.length > 0) return `unknown field "${extra[0]}"`;
   return null;
 }
 
 /**
- * Applies the TMDB checker's split-cour lines: the work's tmdb_show projection becomes the proposed
- * rows, unless a manual file sets that block itself (manual wins). A line for an unknown work is a
- * warning and is ignored.
+ * Applies the TMDB checker's lines (a split cour, or a work that fills episodes TMDB lists): the work's
+ * tmdb_show projection becomes the proposed rows, unless a manual file sets that block itself (manual
+ * wins). A line for an unknown work is a warning and is ignored.
  */
 function applyTmdbSplits(lines: readonly SeedSource[], works: Map<string, MergedWork>, reporter: Reporter): void {
   const seen = new Map<string, number>();
@@ -301,6 +304,10 @@ function applyTmdbSplits(lines: readonly SeedSource[], works: Map<string, Merged
     }
     const manual = w.manual?.data as { projections?: Record<string, unknown> } | undefined;
     if (manual?.projections !== undefined && Object.prototype.hasOwnProperty.call(manual.projections, 'tmdb_show')) continue;
+    if (s.tmdb_id !== undefined && w.data.ids?.tmdb_show === undefined) {
+      w.data.ids = { ...(w.data.ids ?? {}), tmdb_show: s.tmdb_id } as never;
+      w.origins.ids.tmdb_show = 'bot';
+    }
     w.data.projections = { ...(w.data.projections ?? {}), tmdb_show: s.tmdb_show as never };
     w.origins.projections.tmdb_show = 'bot';
   }

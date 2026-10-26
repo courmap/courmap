@@ -92,7 +92,7 @@ export const relationJson = (r: RelationLine): string => JSON.stringify({ work: 
 export const airingJson = (r: AiringLine): string =>
   JSON.stringify({ work: r.work, episodes: r.episodes, status: r.status, origin: 'bot', ...(r.anilist !== undefined && { anilist: r.anilist }) }) + '\n';
 
-export const tmdbSplitJson = (r: TmdbSplitLine): string => JSON.stringify({ work: r.work, tmdb_show: r.tmdb_show, origin: 'bot', ...(r.tmdb !== undefined && { tmdb: r.tmdb }) }) + '\n';
+export const tmdbSplitJson = (r: TmdbSplitLine): string => JSON.stringify({ work: r.work, tmdb_show: r.tmdb_show, origin: 'bot', ...(r.tmdb !== undefined && { tmdb: r.tmdb }), ...(r.tmdb_id !== undefined && { tmdb_id: r.tmdb_id }) }) + '\n';
 
 /** The bot file currently on disk, or an empty string. */
 export const readBotFile = (dataDir: string, name: string) => readFile(path.join(dataDir, 'seeds', name), 'utf8').catch(() => '');

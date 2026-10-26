@@ -21,6 +21,7 @@ export type FindingKind =
   | 'projection-short' // C: a new count runs past a seed projection (Anime-Lists has not caught up)
   | 'invalid' // C: a proposed line does not validate
   | 'projection-mismatch' // C: our TMDB projection disagrees with TMDB's season counts
+  | 'tmdb-fill' // B: TMDB lists episodes we do not map, and exactly one other work of the show fills the gap
   | 'tmdb-split'; // B: TMDB keeps this cour inside the previous season: continue it there
 
 export interface Finding {

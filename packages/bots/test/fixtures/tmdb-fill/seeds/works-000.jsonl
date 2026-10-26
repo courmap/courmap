@@ -1,0 +1,5 @@
+{"id":"meshi","type":"tv","status":"finished","year":2026,"episodes":11,"ids":{"anilist":300,"tvdb_show":4001,"tmdb_show":5001},"projections":{"tvdb_show":[{"season":1,"episodes":"1-11"}],"tmdb_show":[{"season":1,"episodes":"1-11"}]},"origin":{"default":"offline-db"}}
+{"id":"meshi-special","type":"movie","status":"finished","year":2026,"episodes":1,"ids":{"anilist":301,"tvdb_show":4001},"origin":{"default":"offline-db"}}
+{"id":"twin","type":"tv","status":"finished","year":2026,"episodes":12,"ids":{"anilist":302,"tvdb_show":4002,"tmdb_show":5002},"projections":{"tvdb_show":[{"season":1,"episodes":"1-12"}],"tmdb_show":[{"season":1,"episodes":"1-12"}]},"origin":{"default":"offline-db"}}
+{"id":"twin-special-a","type":"movie","status":"finished","year":2026,"episodes":1,"ids":{"anilist":303,"tvdb_show":4002},"origin":{"default":"offline-db"}}
+{"id":"twin-special-b","type":"movie","status":"finished","year":2026,"episodes":1,"ids":{"anilist":304,"tvdb_show":4002},"origin":{"default":"offline-db"}}

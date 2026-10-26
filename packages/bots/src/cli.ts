@@ -6,7 +6,7 @@ import { AniListClient, type AniListMedia } from './anilist.js';
 import { classify, type Classification, type Finding } from './classify.js';
 import { GitHubWriter } from './github.js';
 import { sendDigest } from './notify.js';
-import { LABELS, TMDB_ISSUE_PREFIX, airingPrBody, tmdbLagComment, tmdbProposedComment, tmdbResolvedComment, tmdbSplitPrBody, digestText, issueBody, issueTitle, labelsFor, sequelPrBody, summaryLine, trackerBody } from './report.js';
+import { LABELS, TMDB_ISSUE_PREFIX, airingPrBody, tmdbLagComment, tmdbProposedComment, tmdbFillComment, tmdbResolvedComment, tmdbFillPrBody, tmdbSplitPrBody, digestText, issueBody, issueTitle, labelsFor, sequelPrBody, summaryLine, trackerBody } from './report.js';
 import { nextSeason, seasonName, seasonOf, type SeasonRef } from './season.js';
 import { diffSequences } from './shifts.js';
 import { airingJson, evaluate, loadState, relationJson, tmdbSplitJson, type State } from './state.js';
@@ -185,15 +185,16 @@ async function main(argv: string[]): Promise<number> {
       const ev = evaluate(state.loaded, state.relations, state.airing, [...next.values()]);
       if (!ev.records) {
         console.log(`TMDB split for ${f.work} does not validate (${ev.errors[0]?.message}); it becomes an issue.`);
-        result.findings.push({ ...f, tier: 'C', kind: 'projection-mismatch', summary: `TMDB projection disagrees with TMDB: ${(f.data.problems as string[]).join('; ')}`, split: undefined as never });
+        const owner = (f.data.for_work as string | undefined) ?? f.work!;
+        result.findings.push({ ...f, work: owner, title: state.records.works.get(owner)?.titles.romaji ?? owner, tier: 'C', kind: 'projection-mismatch', summary: `TMDB projection disagrees with TMDB: ${(f.data.problems as string[]).join('; ')}`, split: undefined as never });
         continue;
       }
       result.splits.push(f);
       if (prs >= limits.prs) continue;
       prs++;
-      await writer.upsertPullRequest(`bots/tmdb-split-${f.work}`, `TMDB split cour: ${f.work}`, tmdbSplitPrBody(f), labelsFor(f), new Map([[botFilePath(TMDB_SPLITS_DIR, f.work!), tmdbSplitJson(f.split!)]]));
+      await writer.upsertPullRequest(`bots/tmdb-split-${f.work}`, f.kind === 'tmdb-fill' ? `TMDB missing episodes: ${f.work} (for ${f.data.for_work})` : `TMDB split cour: ${f.work}`, f.kind === 'tmdb-fill' ? tmdbFillPrBody(f) : tmdbSplitPrBody(f), labelsFor(f), new Map([[botFilePath(TMDB_SPLITS_DIR, f.work!), tmdbSplitJson(f.split!)]]));
     }
-    if (result.splits.length > prs) console.log(`${result.splits.length - prs} more TMDB split PR(s) wait for the next run (--max-prs ${limits.prs}).`);
+    if (result.splits.length > prs) console.log(`${result.splits.length - prs} more TMDB split or fill PR(s) wait for the next run (--max-prs ${limits.prs}).`);
     const { findings, lagging } = result;
     console.log(`Projection checker: ${ids.length} works considered, ${tmdb.requests} TMDB shows fetched, ${findings.length} mismatch(es), ${lagging.length} more only because TMDB lags a show that is still starting.`);
     printFindings(findings);
@@ -203,7 +204,7 @@ async function main(argv: string[]): Promise<number> {
     for (const f of cap(findings, limits.issues)) await writer.upsertIssue(issueTitle(f), issueBody(f), labelsFor(f));
     // An issue the checker opened closes itself once a later run finds no mismatch worth one for that work.
     const prefix = `${TMDB_ISSUE_PREFIX}: `;
-    for (const c of issuesToClose(await writer.openIssues(prefix), prefix, result)) await writer.closeIssue(c.number, c.reason === 'lag' ? tmdbLagComment() : c.reason === 'proposed' ? tmdbProposedComment() : tmdbResolvedComment());
+    for (const c of issuesToClose(await writer.openIssues(prefix), prefix, result)) await writer.closeIssue(c.number, c.reason === 'lag' ? tmdbLagComment() : c.reason === 'proposed' ? tmdbProposedComment() : c.reason === 'proposed-fill' ? tmdbFillComment() : tmdbResolvedComment());
     return 0;
   }
 

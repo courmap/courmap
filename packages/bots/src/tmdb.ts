@@ -81,6 +81,26 @@ export function related(records: Records, workId: string): { related_without_tmd
   return out.length > 0 ? { related_without_tmdb_mapping: out.sort().slice(0, 6) } : {};
 }
 
+/**
+ * The fill pattern: TMDB lists `gap` episodes in a season that none of our works map, and exactly one other work of the
+ * same show (same TVDB or TMDB show) has no TMDB mapping and exactly `gap` episodes: a special or a film that TMDB
+ * counts as an episode of the season. Returns that work's line (with the TMDB show ID when it has none), or null when
+ * there is not exactly one such work. A hint a person confirms on TMDB, so it is only ever proposed as a PR.
+ */
+export function fillProposal(records: Records, workId: string, show: string, season: number, mapped: number, gap: number, skip: ReadonlySet<string>): TmdbSplitLine | null {
+  if (season < 1 || gap < 1) return null;
+  const me = records.works.get(workId);
+  if (!me) return null;
+  const fits = [...records.works.values()].filter((w) => {
+    if (w.id === workId || skip.has(w.id) || (w.projections.tmdb_show?.length ?? 0) > 0 || w.episodes !== gap || w.status !== 'finished') return false;
+    if (w.ids.tmdb_show !== undefined && w.ids.tmdb_show !== show) return false;
+    return w.ids.tmdb_show === show || (me.ids.tvdb_show !== undefined && w.ids.tvdb_show === me.ids.tvdb_show);
+  });
+  if (fits.length !== 1) return null;
+  const w = fits[0]!;
+  return { work: w.id, tmdb_show: [{ season, episodes: gap === 1 ? 1 : `1-${gap}`, start: mapped + 1 }], origin: 'bot', tmdb: show, ...(w.ids.tmdb_show === undefined && { tmdb_id: show }) };
+}
+
 /** The last TMDB episode each season of a work's tmdb_show projection lands on (Infinity when open-ended). */
 export function landings(records: Records, workId: string): Map<number, number> {
   const out = new Map<number, number>();
@@ -103,6 +123,9 @@ export const LAG_GRACE_DAYS = 42;
 export interface Problem {
   kind: 'behind' | 'no-show' | 'more' | 'structure';
   text: string;
+  /** 'more' only: the season, and how many episodes TMDB lists beyond what all our works map. */
+  season?: number;
+  gap?: number;
 }
 
 /**
@@ -181,6 +204,7 @@ export async function checkProjectionsDetailed(records: Records, workIds: Iterab
     mapped.set(show, seasons);
   }
   const result: CheckResult = { findings: [], lagging: [], splits: [], checked: new Set() };
+  const filled = new Set<string>();
   for (const [show, works] of [...byShow].sort((a, b) => Number(a[0]) - Number(b[0]))) {
     let counts: Map<number, number> | null;
     try {
@@ -202,19 +226,36 @@ export async function checkProjectionsDetailed(records: Records, workIds: Iterab
           // by Xwolv, 2026-10-20); TMDB listing more specials than we map still is.
           if (season === 0) {
             const ours = mapped.get(show)?.get(0) ?? 0;
-            if (n !== undefined && n > ours) problems.push({ kind: 'more', text: `season 0 (specials) has ${n} episodes on TMDB, but all our works map only up to ${ours}` });
+            if (n !== undefined && n > ours) problems.push({ kind: 'more', season: 0, gap: n - ours, text: `season 0 (specials) has ${n} episodes on TMDB, but all our works map only up to ${ours}` });
             continue;
           }
           if (n === undefined) {
             // A season above every one TMDB has is a season TMDB has not added yet; one below is a different structure.
             problems.push({ kind: season > highest ? 'behind' : 'structure', text: `season ${season} is not on TMDB${season > highest ? '' : ` (TMDB has seasons up to ${highest}, so it splits the show differently)`}` });
           } else if (last !== Infinity && last > n) problems.push({ kind: 'behind', text: `season ${season} is mapped to episode ${last}, TMDB lists ${n}` });
-          else if (n > (mapped.get(show)?.get(season) ?? 0)) problems.push({ kind: 'more', text: `season ${season} has ${n} episodes on TMDB, but all our works map only up to ${mapped.get(show)?.get(season) ?? 0}` });
+          else if (n > (mapped.get(show)?.get(season) ?? 0)) problems.push({ kind: 'more', season, gap: n - (mapped.get(show)?.get(season) ?? 0), text: `season ${season} has ${n} episodes on TMDB, but all our works map only up to ${mapped.get(show)?.get(season) ?? 0}` });
         }
       }
       result.checked.add(id);
       if (problems.length === 0) continue;
       const split = counts !== null && !opts.noSplit?.has(id) && problems.every((p) => p.kind === 'behind') ? splitProposal(records, id, counts, mapped.get(show) ?? new Map()) : null;
+      const gapProblem = problems.length === 1 && problems[0]!.kind === 'more' ? problems[0]! : null;
+      const fill = split === null && gapProblem !== null && !opts.noSplit?.has(id) ? fillProposal(records, id, show, gapProblem.season!, mapped.get(show)?.get(gapProblem.season!) ?? 0, gapProblem.gap!, new Set([...(opts.noSplit ?? []), ...filled])) : null;
+      if (fill !== null) {
+        filled.add(fill.work);
+        const target = records.works.get(fill.work)!;
+        result.splits.push({
+          tier: 'B',
+          kind: 'tmdb-fill',
+          work: fill.work,
+          anilist: target.ids.anilist !== undefined ? Number(target.ids.anilist) : null,
+          title: target.titles.romaji ?? fill.work,
+          summary: `TMDB lists ${gapProblem!.gap} episode(s) we do not map in season ${gapProblem!.season}: this work fills the gap`,
+          split: fill,
+          data: { tmdb_show: show, url: `https://www.themoviedb.org/tv/${show}`, problems: problems.map((p) => p.text), for_work: id },
+        });
+        continue;
+      }
       if (split !== null) {
         result.splits.push({
           tier: 'B',
@@ -251,18 +292,19 @@ export async function checkProjections(records: Records, workIds: Iterable<strin
 
 /**
  * Which open "TMDB projection mismatch" issues a run resolved: those whose work TMDB was asked about and
- * that now has no finding. `reason` says whether the work is only lagging (still being watched) or agrees.
+ * that now has no finding. `reason` says whether the work is only lagging (still being watched) or agrees,
+ * and which kind of proposal takes it over when a PR proposes one.
  */
-export function issuesToClose(open: readonly { number: number; title: string }[], prefix: string, result: CheckResult): { number: number; reason: 'lag' | 'resolved' | 'proposed' }[] {
+export function issuesToClose(open: readonly { number: number; title: string }[], prefix: string, result: CheckResult): { number: number; reason: 'lag' | 'resolved' | 'proposed' | 'proposed-fill' }[] {
   const flagged = new Set(result.findings.map((f) => f.work));
   const lagging = new Set(result.lagging.map((f) => f.work));
-  const proposed = new Set(result.splits.map((f) => f.work));
-  const out: { number: number; reason: 'lag' | 'resolved' | 'proposed' }[] = [];
+  const proposed = new Map(result.splits.map((f) => [(f.data.for_work as string | undefined) ?? f.work, f.kind]));
+  const out: { number: number; reason: 'lag' | 'resolved' | 'proposed' | 'proposed-fill' }[] = [];
   for (const issue of open) {
     if (!issue.title.startsWith(prefix)) continue;
     const work = issue.title.slice(prefix.length);
     if (flagged.has(work) || !result.checked.has(work)) continue;
-    out.push({ number: issue.number, reason: proposed.has(work) ? 'proposed' : lagging.has(work) ? 'lag' : 'resolved' });
+    out.push({ number: issue.number, reason: proposed.has(work) ? (proposed.get(work) === 'tmdb-fill' ? 'proposed-fill' : 'proposed') : lagging.has(work) ? 'lag' : 'resolved' });
   }
   return out;
 }

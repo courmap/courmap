@@ -26,6 +26,7 @@ const KIND_TITLE: Record<FindingKind, string> = {
   invalid: 'Invalid bot update',
   'projection-mismatch': 'TMDB projection mismatch',
   'tmdb-split': 'TMDB split cour',
+  'tmdb-fill': 'TMDB missing episodes',
 };
 
 /** Labels for a finding's PR or issue. */
@@ -45,6 +46,22 @@ export const TMDB_ISSUE_PREFIX = 'TMDB projection mismatch';
 export const tmdbLagComment = () =>
   'Closed by the projection checker: TMDB is behind our data, which is expected while a show is still starting (an airing or upcoming work, premiered less than six weeks ago or not yet). Nothing is wrong on our side. The checker looks again every week and opens a new issue if the difference is still there six weeks after the premiere, or if TMDB lists more than we map.';
 
+export function tmdbFillPrBody(f: Finding): string {
+  const rows = f.split!.tmdb_show.map((r) => `season ${r.season}, episodes ${r.episodes}${r.start !== undefined ? ` from TMDB episode ${r.start}` : ''}`).join('; ');
+  return [
+    `Tier B: TMDB lists episodes that none of our works map ([TMDB show ${f.data.tmdb_show}](${f.data.url})), and **${subject(f)}** ${anilistLink(f.anilist)} is the only other work of the show that fills the gap exactly.`,
+    '',
+    `The projection checker found: ${(f.data.problems as string[]).join('; ')}. This work has no TMDB mapping and its episode count equals the gap, so the mapping that fits is: ${rows}.`,
+    '',
+    '| | TMDB mapping |',
+    '| --- | --- |',
+    '| Before | none |',
+    `| After | ${rows} (origin: bot) |`,
+    '',
+    '**Check before approving:** open the TMDB season page and confirm the episode after our last mapped one is this work (a matching title or air date). The counts adding up is a strong hint, not proof. TVDB is untouched. Writes one file, `data/seeds/tmdb-splits/<work>.json`, which also gives the work its siblings\' TMDB show ID if it has none. Rejecting it in `data/rejected.yaml` (kind: tmdb-split) stops the proposal.',
+  ].join('\n');
+}
+
 export function tmdbSplitPrBody(f: Finding): string {
   const rows = f.split!.tmdb_show.map((r) => `season ${r.season}, episodes ${r.episodes}${r.start !== undefined ? ` from TMDB episode ${r.start}` : ''}`).join('; ');
   return [
@@ -63,6 +80,9 @@ export function tmdbSplitPrBody(f: Finding): string {
 
 export const tmdbProposedComment = () =>
   'Closed by the projection checker: TMDB keeps this cour inside the previous season, and a pull request proposes (or within a run or two will propose) the mapping that continues it there (data/seeds/tmdb-splits/). It reopens the question as an issue if that proposal is rejected and the mismatch remains.';
+
+export const tmdbFillComment = () =>
+  'Closed by the projection checker: the episodes TMDB lists that none of our works map match one other work of the show, and a pull request proposes (or within a run or two will propose) the mapping that gives it those episodes (data/seeds/tmdb-splits/). It reopens the question as an issue if that proposal is rejected and the mismatch remains.';
 
 export const tmdbResolvedComment = () => 'Closed by the projection checker: a later run found our TMDB projection and TMDB agree for this work. It opens a new issue if that changes.';
 

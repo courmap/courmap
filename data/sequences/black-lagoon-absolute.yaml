@@ -1,0 +1,14 @@
+id: black-lagoon-absolute
+members:
+  - { work: black-lagoon, episodes: 1-12, absolute_start: 1 }
+  - { work: black-lagoon-the-second-barrage, episodes: 1-12, absolute_start: 13 }
+  - { work: black-lagoon-roberta-s-blood-trail, episodes: 1-5, absolute_start: 25 }
+notes: >-
+  Release groups number Black Lagoon 1 to 29 across the two TV seasons (1 to 24) and the five Roberta's
+  Blood Trail OVAs (25 to 29, for example "[CBM] Black Lagoon - 25 - Collateral Massacre"). The TVDB
+  targets stay each work's own projection (Second Barrage is season 1 from 13, the OVAs season 0 from 8);
+  this sequence only places a continuous number on the right work. Episode titles and dates from
+  Wikipedia's list of Black Lagoon episodes and TheTVDB.
+sources:
+  - https://en.wikipedia.org/wiki/List_of_Black_Lagoon_episodes
+  - https://thetvdb.com/series/black-lagoon/allseasons/official

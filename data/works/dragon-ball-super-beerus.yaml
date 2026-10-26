@@ -1,8 +1,11 @@
 id: dragon-ball-super-beerus
 prequel: dragon-ball-daima
+aliases:
+  - Doragon Boru Supa Birusu
 notes: >-
   AniList names three prequels (Dragon Ball Z, Kai 2014 and Daima); Daima (2024) is the one directly
-  before this series, and the other two are rejected in data/rejected.yaml (issue #109).
+  before this series, and the other two are rejected in data/rejected.yaml (issue #109). The
+  alias is the romaji some web groups use (ToonsHub releases, seen in a proxy export on 2026-10-26).
 sources:
   - https://anilist.co/anime/206814
   - https://anilist.co/anime/170083

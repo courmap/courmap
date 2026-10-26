@@ -89,7 +89,13 @@ jobs:
                 npm publish "$tgz" --provenance --access public
               fi
             else
-              npm publish "$tgz" --dry-run --provenance=false --access public
+              # npm 11 checks the registry even in a dry run and fails on a version that is already
+              # published; skip those, so a PR touching the packages can still dry-run cleanly.
+              if npm view "@courmap/$p@$version" version >/dev/null 2>&1; then
+                echo "@courmap/$p@$version is already on npm; dry run skipped."
+              else
+                npm publish "$tgz" --dry-run --provenance=false --access public
+              fi
             fi
           done
           if [ "$live" = true ]; then

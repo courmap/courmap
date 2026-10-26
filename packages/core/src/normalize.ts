@@ -11,6 +11,7 @@ export const FOLD: ReadonlyMap<string, string> = new Map([
   ['×', ' x '], // multiplication sign
   ['✕', ' x '], // multiplication x
   ['✖', ' x '], // heavy multiplication x
+  ['&', ' and '], // ampersand reads as "and" (Welsh & Shedar, Welsh and Shedar)
   ['☆', ' '], // white star
   ['★', ' '], // black star
   ['♪', ' '], // eighth note

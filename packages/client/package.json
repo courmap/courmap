@@ -1,6 +1,6 @@
 {
   "name": "@courmap/client",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Courmap client: translate anime episodes between AniDB, AniList, MAL, Kitsu, TVDB, TMDB, IMDb and absolute numbering, and resolve release names, offline or remote",
   "keywords": [
     "anime",

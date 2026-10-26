@@ -1,6 +1,6 @@
 {
   "name": "@courmap/core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Courmap core: the translation and resolution engine, data model and normalization shared by every Courmap client",
   "keywords": [
     "anime",

@@ -1,6 +1,6 @@
 {
   "name": "@courmap/parser",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Courmap parser: an anime release-name tokenizer (group, title, season, episode, quality, flags)",
   "keywords": [
     "anime",

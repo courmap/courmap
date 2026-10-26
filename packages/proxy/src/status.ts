@@ -169,7 +169,7 @@ ${
     : `<h2>Copy as GitHub issue</h2>
 <p class="muted">Paste this into a new issue at github.com/courmap/courmap if you want to help. Check it first; nothing is reported automatically.</p>
 <textarea id="issue" readonly>${esc(issue)}</textarea>
-<p><button type="button" onclick="navigator.clipboard.writeText(document.getElementById('issue').value).then(()=>{this.textContent='Copied'})">Copy</button></p>`
+<p><button type="button" onclick="var b=this,t=document.getElementById('issue'),ok=function(){b.textContent='Copied'},fb=function(){t.focus();t.select();try{document.execCommand('copy')?ok():b.textContent='Press Ctrl+C'}catch(e){b.textContent='Press Ctrl+C'}};navigator.clipboard?navigator.clipboard.writeText(t.value).then(ok,fb):fb()">Copy</button></p>`
 }
 <h2>Export</h2>
 <p class="muted"><a href="/export.json">export.json</a> (unresolved and assisted names, with details) or <a href="/export.txt">export.txt</a> (one release name per line), for <code>pnpm corpus:from-proxy</code> in the Courmap repository.</p>

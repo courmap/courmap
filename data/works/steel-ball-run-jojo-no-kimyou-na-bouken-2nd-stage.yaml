@@ -1,4 +1,6 @@
 id: steel-ball-run-jojo-no-kimyou-na-bouken-2nd-stage
+aliases:
+  - "JoJo no Kimyou na Bouken: Steel Ball Run"
 ids:
   tvdb_show: 262954
   tmdb_show: 45790
@@ -10,7 +12,9 @@ projections:
     - { season: 6, episodes: 1-11, start: 2 }
 notes: >-
   The stage has no TVDB or TMDB IDs in the seed; both are the first stage's Anime-Lists ones, checked
-  on the providers' season pages. The bot's airing file has the 11 episodes that follow stage 1.
+  on the providers' season pages. The bot's airing file has the 11 episodes that follow stage 1. The
+  alias is the form Erai-raws writes ("JoJo no Kimyou na Bouken-Steel Ball Run-06"), with the group
+  offset in data/groups/erai-raws.yaml so their season numbers become this stage's episode numbers.
 sources:
   - https://www.themoviedb.org/tv/45790/season/6
   - https://thetvdb.com/series/jojos-bizarre-adventure-2012/seasons/official/6

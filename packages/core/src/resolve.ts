@@ -128,6 +128,8 @@ interface Placement {
   fit: number;
   /** Placed through the TVDB season in reverse, which already agrees with the season token. */
   viaTvdbSeason: boolean;
+  /** Placed by a data/groups/ override, which states how the group numbers this work. */
+  viaGroupOverride?: boolean;
   reason: string;
 }
 
@@ -149,16 +151,16 @@ async function placeOne(ctx: Ctx, w: WorkRecord, e: number, season: number | nul
     if (override.numbering === 'continue_prequel' && w.prequel && w.prequel_origin !== 'bot') {
       const prequel = await ds.getWork(w.prequel);
       if (prequel?.episodes != null && inRange(w, e - prequel.episodes)) {
-        return { work: w, episode: e - prequel.episodes, fit: 1, viaTvdbSeason: false, reason: `${tag} numbers ${w.id} after ${prequel.id}'s ${prequel.episodes} episodes` };
+        return { work: w, episode: e - prequel.episodes, fit: 1, viaTvdbSeason: false, viaGroupOverride: true, reason: `${tag} numbers ${w.id} after ${prequel.id}'s ${prequel.episodes} episodes` };
       }
     }
     if (override.numbering === 'offset' && override.offset !== null && inRange(w, e - override.offset)) {
-      return { work: w, episode: e - override.offset, fit: 1, viaTvdbSeason: false, reason: `${tag} numbers ${w.id} with an offset of ${override.offset}` };
+      return { work: w, episode: e - override.offset, fit: 1, viaTvdbSeason: false, viaGroupOverride: true, reason: `${tag} numbers ${w.id} with an offset of ${override.offset}` };
     }
     if (override.numbering === 'absolute') {
       const seqId = override.sequence ?? w.sequences.find((s) => s.default)?.sequence;
       const hub = seqId ? await viaAbsolute(ds, seqId, e) : null;
-      if (hub) return { ...hub, fit: 1, viaTvdbSeason: false, reason: `${tag} numbers by ${seqId}: absolute ${e} is ${hub.work.id} ${hub.episode}` };
+      if (hub) return { ...hub, fit: 1, viaTvdbSeason: false, viaGroupOverride: true, reason: `${tag} numbers by ${seqId}: absolute ${e} is ${hub.work.id} ${hub.episode}` };
     }
   }
   // An explicit season token (S2, Season 2, S02E05) is read as a TVDB season first: it is the
@@ -265,6 +267,9 @@ const firstTvdbSeason = (w: WorkRecord) => w.projections.tvdb_show?.find((r) => 
 async function seasonFit(ds: Dataset, w: WorkRecord, hit: AliasHit, placement: Placement, parsed: ParsedRelease, fuzzyWorks: ReadonlySet<string>): Promise<{ fit: number; reason: string | null }> {
   const n = parsed.season ?? parsed.part;
   if (n === null) {
+    // A group override states that the group's numbers are this work's, so the "no token reads as
+    // the first season" reading does not apply (Erai-raws numbers Steel Ball Run by the TV season).
+    if (placement.viaGroupOverride) return { fit: 1, reason: null };
     // No token reads as the first season, but only against the works it could be confused with:
     // the penalty applies when the alias is shared with an earlier work of the chain (decision S5.1).
     // A trigram match counts as shared when an earlier work also matched the query by trigram.

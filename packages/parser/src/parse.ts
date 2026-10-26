@@ -318,6 +318,18 @@ export function parseRelease(input: string): ParsedRelease {
     }
   }
   let title = words.join(' ').replace(/[\s\-:~|]+$/, '').replace(/^[\s\-:~|]+/, '').trim();
+  // "Iczer One 1985 OVA": a year and a special marker at the end of a release with no episode.
+  if (out.episode === null && out.season === null && out.year === null && words.length > 2) {
+    const last = words[words.length - 1]!;
+    const prev = words[words.length - 2]!;
+    const special = SPECIAL_WORDS[last.toLowerCase()];
+    if (YEAR.test(prev) && special) {
+      out.year = Number(prev);
+      out.special ??= special;
+      words.splice(-2);
+      title = words.join(' ').replace(/[\s\-:~|]+$/, '').replace(/^[\s\-:~|]+/, '').trim();
+    }
+  }
   // Scene-style "Title.Words.35.BD.Remux.1080p...": the episode sits between the title and the tags, so it
   // was not the trailing number when the marker was searched. Never a year, a zero ("Gundam 00") or a season.
   if (dotted && out.episode === null && out.season === null && out.part === null) {

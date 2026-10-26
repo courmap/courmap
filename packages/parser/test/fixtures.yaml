@@ -150,3 +150,12 @@ cases:
   # A year and a special marker at the end of a release with no episode are metadata.
   - name: "Iczer.One.1985.OVA.FRA.PAL.DVD5.DD.2.0-ieoia"
     expect: { title: Iczer One, year: 1985, special: ova, group: ieoia }
+  # A season pack from a MSubs web group: the subtitle tag and the tags before it leave the title.
+  - name: "As.a.Reincarnated.Aristocrat.Ill.Use.My.Appraisal.Skill.to.Rise.in.the.World.S01.1080p.CR.WEB-DL.DUAL.AAC2.0.H.264.MSubs-ToonsHub"
+    expect: { title: As a Reincarnated Aristocrat Ill Use My Appraisal Skill to Rise in the World, season: 1, batch: true, group: ToonsHub }
+  # A roman numeral in the title does not override the explicit season.
+  - name: "The.Prince.of.Tennis.II.2012.S05E02.1080p.CR.WEB-DL.DUAL.DDP2.0.H.264-AnoZu"
+    expect: { title: The Prince of Tennis II, season: 5, episode: 2, year: 2012, group: AnoZu }
+  # A range before "Complete" is a batch of episodes, not a number glued to the title.
+  - name: "[anime4life.] Black Lagoon 1-29 Complete (BDRip 1080p AC3 10bit) [HEVC] Dual Audio"
+    expect: { title: Black Lagoon, episode: 1, episode_to: 29, batch: true, group: "anime4life." }

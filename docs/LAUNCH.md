@@ -2,7 +2,7 @@
 
 Everything still open before the public launch post (r/sonarr, r/selfhosted, anime self-hosting Discords). Each item says who does it and how to check it is done. Claude Code updates this file at the end of every session; Xwolv ticks items off by saying so in the session prompt.
 
-Last updated 2026-10-20, first-real-traffic session. Status: **not ready.** 11 of 20 items are done and 4 are partly done; what is left is mostly real-world use (proxy week, corpus, screenshots, testers).
+Last updated 2026-10-25, after the PR and issue review session. Status: **not ready.** 12 of 20 items are done and 3 are partly done; what is left is mostly real-world use (proxy week, corpus, screenshots, testers).
 
 Legend: [x] done, [ ] open, [~] partly done.
 
@@ -51,23 +51,24 @@ Legend: [x] done, [ ] open, [~] partly done.
 
 ## Data and quality
 
-13. [~] **Scheduled bots actually fire.** Who: Claude Code checks.
+13. [x] **Scheduled bots actually fire.** Who: Claude Code checks.
     - The 2026-10-19 07:30 scan fired 7h22 late (14:52 UTC, run 39272913674, actor xwolvos). It updated the 12 bot PRs, then stopped at issue #13 because `SEED_PR_TOKEN` cannot edit issues, and still reported success. Both are fixed: issues use the workflow's own token, and the scan step fails when the scan fails (decision S8.3).
     - Every push to `main`, including the last change to each workflow file, came from xwolvos, so schedules run as an account with access.
     - Crons now avoid busy minutes (scan 07:23 daily; seed 06:17, release 09:13, weekly bots 10:47 on Tuesdays), with the Worker watchdog 30 minutes behind each.
-    - No scheduled run has happened since session 8 (checked 2026-10-19 18:45 UTC); the first slots under the new crons are on 2026-10-20.
-    - Verify: `gh run list --workflow bots.yml --event schedule` lists runs on consecutive days that update issues #13 to #29 instead of duplicating them, and seed and release show a `schedule` run on Tuesday 2026-10-20.
+    - Checked 2026-10-25: the daily scan ran on 2026-10-22, 23, 24 and 25 (the 2026-10-21 run failed and nothing has failed since); the scheduled seed and release both ran on Tuesday 2026-10-20. The seed schedule failed on a stale commit (a gap diagnostic the seed fix da02a50 addressed) and a dispatch on da02a50 verified instead; the next seed schedule is 2026-10-27.
+    - Verify: `gh run list --workflow bots.yml --event schedule` lists runs on consecutive days that update issues #13 to #29 instead of duplicating them.
 14. [ ] **A week of real proxy traffic with no wrong imports.** Who: Xwolv, on the Unraid server, since 2026-10-19.
     - First export received 2026-10-20 (two usenet indexers, about 550 items, 17 rewritten, 201 unresolved). It found a secret-logging risk, the stale-count problem for airing shows, and parser gaps; all fixed or recorded (DECISIONS.md, "First real traffic"). Xwolv updates his proxy to the new `:edge` image to get them.
     Verify: Sonarr's history for the week shows no anime episode imported as the wrong episode; the status page's export is imported with `pnpm corpus:from-proxy` (item 16).
 15. [~] **Bot PRs and issues reviewed.** Who: Xwolv decides; Claude Code applies.
     - First batch done 2026-10-19 (decided by Xwolv): #2 (without the Koori no Jouheki 2nd Season line), #3 to #9, #11 and #12 merged; #10 closed and recorded in `data/rejected.yaml`, which the bots read so it is never proposed again. No bot PR is open.
-    - Still open: 15 bot issues (#13 to #27) and the two season trackers. The next scan (2026-10-20) will open the next 10 of about 50 waiting sequel PRs and a status update for Koori no Jouheki 2nd Season, now with its count left unknown (a 1 on an airing TV season is a placeholder).
+    - Reviewed 2026-10-25: 11 open PRs (#110 airing updates, #111 to #120 sequels), all green; applied together they change only their 15 works and leave the corpus at 93/93. Nothing merged, Xwolv decides. Issues that need nothing more and can be closed by hand: #16, #17, #18, #19, #20, #21, #22, #25 (rejected 2026-10-21, reasons in `data/rejected.yaml`), #26, #27 and #44 (the data now matches AniList). #90 becomes a tier B fill PR on the next weekly TMDB run. Details in HANDOFF.md, item -12.
+    - Still needs a person: #13, #23 and #59 (TVDB and TMDB IDs), #14, #15, #45, #58 and #109 (counts and one relation choice), and the TMDB issues #76, #77, #78, #87, #88, #91, #92, #93, #95 and #98.
     - chitose-kun-wa-ramune-bin-no-naka-part-2 and dark-machine-the-animation (11 vs 12 episodes) stay as tier C issues for now (Xwolv, session 8).
     - Verify: no bot PR or `mapping-conflict` issue older than a week without a decision.
 16. [ ] **Corpus large enough to trust.** Who: Xwolv supplies names (proxy exports); Claude Code imports and verifies them with Xwolv.
     - Proposed launch bar: at least 200 verified cases, most of them real names from the proxy, with a 95% pass rate. The M2 milestone remains 1,000.
-    - Today: 81 verified cases, all passing, none unverified. Was 35 before the first proxy export, 2026-10-20.
+    - Today: 93 verified cases, all passing, none unverified. Was 81 before the Spy x Family and second-export imports, 35 before the first proxy export (2026-10-20).
     - Verify: `pnpm corpus` reports at least 200 verified at 95% or more.
 17. [ ] **Screenshots in the Sonarr guide.** Who: Xwolv takes them; Claude Code places them. Six placeholders are in `site/src/content/docs/sonarr.mdx`:
     - Prowlarr indexers with the ID visible.
@@ -98,6 +99,7 @@ Legend: [x] done, [ ] open, [~] partly done.
 - [x] Assisted numbering and the corpus loop from proxy exports (session 7).
 - [x] `pnpm check:tokens` in CI: no GitHub token can be committed (session 8).
 - [x] Assisted numbering cannot import a wrong episode through a bot prequel link (maintenance session after session 8).
+- [x] vitest 4.1.12, for GHSA-xp26-3454-mjgp (a Windows backslash traversal in the @vitest/mocker redirect allowlist), 2026-10-25. The postcss-selector-parser advisory (docs build only, fixed in a major version) stays open; see HANDOFF.md.
 - [x] Duplicate-indexer guidance that keeps regular TV working (2026-10-19): for indexers with regular TV and anime, Prowlarr's copy keeps regular TV (Anime Sync Categories cleared, Full Sync, no tags) and the Courmap copy takes anime (Categories empty, Anime Categories 5070, Indexer Priority 10); the tag method is for anime-only indexers like Nyaa. Checked with real Prowlarr, Sonarr 4.0.20 and the proxy in Docker; not with a live torrent or usenet indexer (quick start step 4, decision in DECISIONS.md).
 
 ## Also done, 2026-10-20

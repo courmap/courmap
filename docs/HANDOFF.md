@@ -2,9 +2,13 @@
 
 Where the build stands, for the next session. Read CLAUDE.md, docs/SPEC.md and docs/DECISIONS.md first, as always; this file only says what is done and what is next. `docs/LAUNCH.md` lists everything open before the public launch. Update both at the end of every session.
 
-Last updated 2026-10-20, after the first-real-traffic session.
+Last updated 2026-10-25, after the TMDB fill proposal and the open PR and issue review.
 
 ## Done
+
+- **TMDB fill proposals (2026-10-25).** When TMDB lists more episodes in a season than all our works map, and exactly one other work of the same TVDB or TMDB show has no TMDB mapping, is finished and has that many episodes, the projection checker opens a tier B PR in `data/seeds/tmdb-splits/<work>.json` (optional `tmdb_id` gives the work its sibling's show). Issue #90 (the Cloudy Beach special) is the pattern; checked against the real data, the proposal validates and closes the gap. The issue for the show closes with its own comment. Decision and tests in DECISIONS.md and `packages/bots/test/tmdb-fill.test.ts`.
+- **Security update (2026-10-25).** vitest and @vitest/mocker 4.1.11 to 4.1.12 (GHSA-xp26-3454-mjgp, a Windows backslash traversal in the mocker redirect allowlist; Dependabot could not open the PR on its own). `pnpm install` also normalized the lockfile the way the pinned pnpm 10.18.3 writes it (the `libc` fields a newer pnpm had added are gone; no other version changed). Open advisory: postcss-selector-parser 6.1.4 (docs build only, through expressive-code and postcss-nested) is fixed in 7.1.6, a major bump; a forced override risks the docs build, so it waits for the upstream chain.
+- **Bot PRs and issues reviewed (2026-10-25).** Eleven PRs open: #110 (airing updates for 5 works) and #111 to #120 (10 sequel links). All CI green and mergeable. Applied together to a copy of the data they change exactly those 15 works (status or prequel), leave projections, sequences and aliases untouched, `pnpm validate` passes with the same 73 warnings, and the corpus stays 93/93. Nothing is merged: Xwolv decides. Thirteen more tier B sequel proposals wait for the next runs (`--max-prs 10`).
 
 - All 12 build steps are built. Session 8 decisions S8.1 to S8.4 are in DECISIONS.md.
 - **S8.1, the real domain.**
@@ -64,6 +68,14 @@ Last updated 2026-10-20, after the first-real-traffic session.
 
 ## Next
 
+-12. **The open PRs and issues, reviewed (2026-10-25).** For Xwolv to decide.
+  - PRs: #110 (airing updates, 5 works) and #111 to #120 (sequels). All checks pass; applying all of them changes only those 15 works and leaves the corpus at 93/93. Merge in any order; each writes its own file, so there are no conflicts. #117 (Patlabor EZY File 3) also feeds issue #15.
+  - Issues that need nothing more (data/rejected.yaml or the data itself moved on): #16, #17, #18, #19, #20, #21, #22, #25 (all rejected 2026-10-21, each has the reason in `data/rejected.yaml`), #26, #27 and #44 (the data now matches AniList). They can be closed by hand; the bots will not reopen them (a rejection stops the proposal, and the classifier only rewrites an issue it finds again).
+  - #90 becomes a tier B fill PR on the next weekly TMDB run (the new proposal), and closes itself with a comment saying so.
+  - Real work: #13, #23 and #59 (find TVDB and TMDB IDs), #14, #15, #45 and #58 (counts), #109 (three prequels for Dragon Ball Super: Beerus; pick one), #24 (the recap was rejected; the remaining prequel is Destiny, which the bots propose when its season is scanned).
+  - TMDB issues unchanged since they opened and needing a person on the TMDB page: #76, #77, #78, #87, #88, #91, #92, #93, #95, #98. #91 and #98 say TMDB has no TV show 271604 and 326788, so those IDs are the first thing to check.
+  - Also checked: the 2026-10-20 weekly processes. The daily scan has run on 2026-10-22, 23, 24 and 25 (one failure on 2026-10-21, none since); the scheduled seed on 2026-10-20 failed on a stale commit and a dispatch on da02a50 verified instead; the scheduled release ran on 2026-10-20.
+
 -11. **Contributor guide (2026-10-21).** site/src/content/docs/fixing-issues.md explains every kind of bot issue and its fix; linked from the sidebar, both contributing pages and CONTRIBUTING.md.
 -10. **The open issues, checked (2026-10-21).** Fixed or rejected where AniList and TMDB agreed (DECISIONS.md, "The open bot issues, checked against AniList and TMDB"). For Xwolv to close by hand because the data is already right: #26, #27 and #44. The checker closes its own TMDB ones on its next run (#89, #96, #97 should go). Still open and needing a person: #13, #23 and #59 (find TVDB and TMDB IDs), #14, #15, #45 and #58 (counts), #76 to #78 and #87 to #92, #98 (TMDB differences listed there).
 -9. **No open PRs (2026-10-20).** #47 to #57 and #60 are merged (see LAUNCH.md); the next scan and weekly runs open new ones. vitest is now 4.1.x.
@@ -89,7 +101,7 @@ Last updated 2026-10-20, after the first-real-traffic session.
 ## Known gaps and notes
 
 - chitose-kun-wa-ramune-bin-no-naka-part-2 and dark-machine-the-animation (11 vs 12 episodes) stay as tier C issues (Xwolv, session 8). The bounds guard files them on the next scan.
-- 61 sequel PRs wait behind `--max-prs 10`; they arrive 10 per run as earlier ones are merged or closed.
+- 13 of 23 tier B proposals wait behind `--max-prs 10`; they arrive 10 per run as earlier ones are merged or closed.
 - Not built: the seed and Anime-Lists differs as separate bots, the monthly heartbeat, an episode-level translation diff comment on PRs, and closing open ranges in tier A.
 
 ## What Xwolv needs to provide

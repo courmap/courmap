@@ -28,7 +28,7 @@ The resolver corpus (`tests/releases.yaml`) is the list of release names with kn
 4. **Fix what the cases show.** A case that should resolve but does not usually needs an alias or a mapping in `data/works/`. For assisted names, the status page's "Copy as GitHub issue" block already contains the `data/works/<id>.yaml` override the proxy derived; check it on TVDB and open a pull request with it.
 5. **Run `pnpm corpus`.** The pass rate must not drop; after an improvement, `pnpm corpus --update-baseline` records the new baseline. Commit the cases, the fixes and the baseline together.
 
-`pnpm corpus:import <names.txt>` does step 2 for any plain list of release names, one per line.
+`pnpm corpus:import <names.txt>` does step 2 for any plain list of release names, one per line. The same loop, the `export.json` fields and how users report names are on the site: [Turning proxy reports into data](https://courmap.com/proxy-reports/).
 
 ## Finding something to fix
 

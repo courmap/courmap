@@ -1,0 +1,9 @@
+id: koori-no-jouheki-2nd-season
+projections:
+  # TMDB keeps both cours in season 1 (28 episodes); the seed maps a season 2 that TMDB does not have.
+  tmdb_show:
+    - { season: 1, episodes: 1-, start: 15 }
+notes: >-
+  Second cour of one TMDB season, as with the split cours of 2026-10-20 (issue #95). TVDB is unchanged.
+sources:
+  - https://www.themoviedb.org/tv/283428/season/1

@@ -1,0 +1,9 @@
+id: yasei-no-last-boss-ga-arawareta-2nd-season
+projections:
+  # TMDB keeps both cours in season 1 (24 episodes); the seed maps a season 2 that TMDB does not have.
+  tmdb_show:
+    - { season: 1, episodes: 1-, start: 13 }
+notes: >-
+  Second cour of one TMDB season, as with the split cours of 2026-10-20 (issue #93). TVDB is unchanged.
+sources:
+  - https://www.themoviedb.org/tv/280042/season/1

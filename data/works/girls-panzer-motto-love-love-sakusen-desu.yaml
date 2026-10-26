@@ -1,0 +1,19 @@
+id: girls-panzer-motto-love-love-sakusen-desu
+type: tv
+status: airing
+year: 2026
+ids:
+  # The seed's tmdb_movie 1591447 is the theatrical part 1 ("Act 1", 2025), not the series.
+  tmdb_show: 339014
+  tmdb_movie: null
+projections:
+  tmdb_show:
+    - { season: 1, episodes: 1-12 }
+notes: >-
+  The work is the TV series (regular broadcast from October 2026, 12 episodes); AniList's note says
+  the four theatrical parts pre-screened from December 2025, and the seed mapped part 1's movie ID.
+  Fixed for issue #45.
+sources:
+  - https://anilist.co/anime/188034
+  - https://www.themoviedb.org/tv/339014
+  - https://www.themoviedb.org/movie/1591447

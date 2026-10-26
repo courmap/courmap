@@ -1,0 +1,14 @@
+id: virgin-punk-clockwork-girl
+ids:
+  # The seed's tmdb_show 271604 does not exist on TMDB.
+  tmdb_show: null
+projections:
+  tmdb_show: null
+notes: >-
+  TMDB has no TV show and no film for this title (checked 2026-10-26), so the seed's TMDB show is
+  wrong and the projection checker reported "TMDB has no TV show 271604" (issue #91). The TVDB
+  mapping is unchanged.
+sources:
+  - https://www.themoviedb.org/tv/271604
+  - https://www.themoviedb.org/search/tv?query=Virgin%20Punk
+  - https://www.themoviedb.org/search/movie?query=Virgin%20Punk

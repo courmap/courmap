@@ -1,0 +1,9 @@
+id: kaguya-sama-wa-kokurasetai-otona-e-no-kaidan
+projections:
+  # The seed maps special 5, which is the New Year recap. This special is TMDB's 6th.
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 6 }
+notes: >-
+  Fixes the off-by-one in the seed's TMDB special number (issue #88). TVDB is unchanged.
+sources:
+  - https://www.themoviedb.org/tv/83121/season/0/episode/6

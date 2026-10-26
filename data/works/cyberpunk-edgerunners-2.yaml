@@ -1,0 +1,14 @@
+id: cyberpunk-edgerunners-2
+status: finished
+year: 2026
+ids:
+  # The seed's tmdb_show 326788 does not exist.
+  tmdb_show: 105248
+projections:
+  tmdb_show:
+    - { season: 2, episodes: 1-10 }
+notes: >-
+  TMDB lists this as season 2 of the first series' show (issue #98); all 10 episodes are out since
+  2026-10-20 and AniList says finished, so the seed's upcoming status is stale. TVDB is unchanged.
+sources:
+  - https://www.themoviedb.org/tv/105248/season/2

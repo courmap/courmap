@@ -108,3 +108,50 @@ rejected:
     date: 2026-10-21
     link: https://github.com/courmap/courmap/issues/24
     origin: manual
+  - kind: relation
+    work: dragon-ball-super-beerus
+    prequel: dragon-ball-z
+    reason: >-
+      AniList names three prequels for this 2026 series. Z (1989) and Kai (2014) are earlier entries in the
+      chain; Daima (2024) is the direct predecessor and is recorded in data/works/dragon-ball-super-beerus.yaml.
+    decided_by: Xwolv
+    date: 2026-10-25
+    link: https://github.com/courmap/courmap/issues/109
+    origin: manual
+  - kind: relation
+    work: dragon-ball-super-beerus
+    prequel: dragon-ball-kai-2014
+    reason: >-
+      AniList names three prequels for this 2026 series. Kai (2014) is a re-cut of Z and not the direct
+      predecessor; Daima (2024) is, and is recorded in data/works/dragon-ball-super-beerus.yaml.
+    decided_by: Xwolv
+    date: 2026-10-25
+    link: https://github.com/courmap/courmap/issues/109
+    origin: manual
+  - kind: airing
+    work: magical-suite-prism-nana
+    reason: >-
+      AniList 15407 lists 4 episodes and FINISHED; MAL and the seed count the whole OVA run (7 episodes,
+      still airing), so AniList has only part of the run and its count is not a correction.
+    decided_by: Xwolv
+    date: 2026-10-25
+    link: https://github.com/courmap/courmap/issues/14
+    origin: manual
+  - kind: airing
+    work: kidou-keisatsu-patlabor-ezy
+    reason: >-
+      AniList 113555 is the first of the three EZY files (3 episodes); this work counts the whole run of 8,
+      which file-2 and file-3 also cover (MAL 59889), so AniList's count and status are not a correction.
+    decided_by: Xwolv
+    date: 2026-10-25
+    link: https://github.com/courmap/courmap/issues/15
+    origin: manual
+  - kind: airing
+    work: dawang-raoming-3
+    reason: >-
+      AniList 199353 lists 12 episodes for this airing season; MAL 60597 and the seed count 16, so AniList
+      has only part of the run and its lower count is not a correction.
+    decided_by: Xwolv
+    date: 2026-10-25
+    link: https://github.com/courmap/courmap/issues/58
+    origin: manual

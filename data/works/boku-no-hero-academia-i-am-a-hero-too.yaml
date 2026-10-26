@@ -1,0 +1,12 @@
+id: boku-no-hero-academia-i-am-a-hero-too
+ids:
+  tmdb_show: 65930
+projections:
+  # TMDB's 19th special, after "More" at 18.
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 19 }
+notes: >-
+  Fills the special TMDB lists at 19, which the projection checker reported on boku-no-hero-academia-more
+  (issue #87). The show ID is the series' Anime-Lists one, checked on TMDB's specials page.
+sources:
+  - https://www.themoviedb.org/tv/65930/season/0/episode/19

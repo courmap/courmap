@@ -1,0 +1,13 @@
+id: osomatsu-san-4th-season
+episodes: 13
+projections:
+  # The finale (episode 13, 2026-06-13) is missing from the seed's count of 12.
+  tvdb_show:
+    - { season: 4, episodes: 1-13 }
+  tmdb_show:
+    - { season: 4, episodes: 1-13 }
+notes: >-
+  AniList, TMDB and TVDB all list 13 episodes; the seed has 12 (issue #78).
+sources:
+  - https://www.themoviedb.org/tv/71785/season/4
+  - https://thetvdb.com/series/mr-osomatsu/seasons/official/4

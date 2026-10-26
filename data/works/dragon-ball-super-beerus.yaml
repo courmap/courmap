@@ -1,0 +1,8 @@
+id: dragon-ball-super-beerus
+prequel: dragon-ball-daima
+notes: >-
+  AniList names three prequels (Dragon Ball Z, Kai 2014 and Daima); Daima (2024) is the one directly
+  before this series, and the other two are rejected in data/rejected.yaml (issue #109).
+sources:
+  - https://anilist.co/anime/206814
+  - https://anilist.co/anime/170083

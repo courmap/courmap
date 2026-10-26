@@ -1,0 +1,15 @@
+id: shibou-yuugi-de-meshi-wo-kuu-44-cloudy-beach
+ids:
+  tmdb_show: 263330
+projections:
+  # TMDB lists the film as episode 12 of season 1 of the series: an island death game, the plot of
+  # Cloudy Beach. The series itself is 11 episodes on AniList, MAL and TVDB.
+  tmdb_show:
+    - { season: 1, episodes: 1, start: 12 }
+notes: >-
+  Proposed by the TMDB projection checker (issue #90) and confirmed on TMDB's episode page. The show
+  ID is the series' Anime-Lists one; the TVDB mapping is unchanged (the film is not on TVDB as an
+  episode).
+sources:
+  - https://www.themoviedb.org/tv/263330/season/1/episode/12
+  - https://myanimelist.net/anime/63819

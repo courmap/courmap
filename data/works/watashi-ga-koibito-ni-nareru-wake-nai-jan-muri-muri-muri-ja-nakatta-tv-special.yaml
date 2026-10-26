@@ -1,0 +1,13 @@
+id: watashi-ga-koibito-ni-nareru-wake-nai-jan-muri-muri-muri-ja-nakatta-tv-special
+ids:
+  tmdb_show: 277513
+projections:
+  # TMDB keeps the 5 special episodes in season 1 of the series, after the 12 TV episodes.
+  tmdb_show:
+    - { season: 1, episodes: 1-5, start: 13 }
+notes: >-
+  Fills TMDB season 1 from episode 13 (issue #92). AniList and MAL list the 5 episodes as a separate
+  TV special; TMDB numbers them in the season.
+sources:
+  - https://www.themoviedb.org/tv/277513/season/1
+  - https://myanimelist.net/anime/62543

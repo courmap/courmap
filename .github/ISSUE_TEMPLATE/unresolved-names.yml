@@ -1,0 +1,21 @@
+name: Unresolved release names from the proxy
+description: Share the "Copy as GitHub issue" block from the Sonarr proxy's status page.
+title: "Unresolved release names from the proxy: "
+labels: ["proxy"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping. Add a few words after the title prefix, for example the show you care about (`...: Frieren, 3 names`). A maintainer imports the names into the resolver corpus and fixes the data; see [Turning proxy reports into data](https://courmap.com/proxy-reports/).
+  - type: textarea
+    id: block
+    attributes:
+      label: Block from the status page
+      description: Paste the text from the status page's "Copy as GitHub issue" box as it is. Check it first. Release names can contain private words, and the proxy masks only its own API keys.
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
+      description: Optional. A name Sonarr grabbed wrongly, or the show and season you expected.

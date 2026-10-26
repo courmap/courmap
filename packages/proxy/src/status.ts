@@ -167,7 +167,7 @@ ${
   list.length + assisted.length === 0
     ? ''
     : `<h2>Copy as GitHub issue</h2>
-<p class="muted">Paste this into a new issue at github.com/courmap/courmap if you want to help. Check it first; nothing is reported automatically.</p>
+<p class="muted">Paste this into a new "Unresolved release names from the proxy" issue at github.com/courmap/courmap/issues/new/choose if you want to help. Check it first; nothing is reported automatically. See courmap.com/proxy-reports/.</p>
 <textarea id="issue" readonly>${esc(issue)}</textarea>
 <p><button type="button" onclick="var b=this,t=document.getElementById('issue'),ok=function(){b.textContent='Copied'},fb=function(){t.focus();t.select();try{document.execCommand('copy')?ok():b.textContent='Press Ctrl+C'}catch(e){b.textContent='Press Ctrl+C'}};navigator.clipboard?navigator.clipboard.writeText(t.value).then(ok,fb):fb()">Copy</button></p>`
 }

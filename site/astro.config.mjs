@@ -51,6 +51,7 @@ export default defineConfig({
           items: [
             { label: 'Sonarr guide', link: '/sonarr/' },
             { label: 'Fixing open issues', link: '/fixing-issues/' },
+            { label: 'Turning proxy reports into data', link: '/proxy-reports/' },
           ],
         },
         {

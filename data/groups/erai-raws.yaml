@@ -1,0 +1,13 @@
+id: erai-raws
+aliases:
+  - Erai-raws
+overrides:
+  - work: steel-ball-run-jojo-no-kimyou-na-bouken-2nd-stage
+    numbering: offset
+    offset: 1
+notes: >-
+  Erai-raws numbers Steel Ball Run by the TV season: their "JoJo no Kimyou na Bouken-Steel Ball
+  Run-06" (seen 2026-10-23) is season 6 episode 6, which is the 2nd stage's 5th episode, because
+  stage 1 is season 6 episode 1. The offset turns their season number into the stage's episode.
+sources:
+  - https://thetvdb.com/series/jojos-bizarre-adventure-2012/seasons/official/6

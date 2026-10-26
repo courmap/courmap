@@ -654,11 +654,12 @@ cases:
     notes: "Decided by Xwolv 2026-10-20: the 2016 series is TMDB show 66751 (season 1, which runs on with the broadcast), not season 2 of the 1995 series (66569). The release resolves to this work and episode, with TVDB season 2 and TMDB season 1."
   - name: "[Erai-raws].JoJo.no.Kimyou.na.Bouken-Steel.Ball.Run-06.[1080p.NF.WEB-DL.AVC.AAC][MultiSub][95DE4991]"
     expect:
-      status: ambiguous
-      top: steel-ball-run-jojo-no-kimyou-na-bouken
-    verified: false
+      status: ok
+      work: steel-ball-run-jojo-no-kimyou-na-bouken-2nd-stage
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 66 time(s) on data 2026.43.6 and got ambiguous (best candidate steel-ball-run-jojo-no-kimyou-na-bouken at 0.05). Check it, correct it if needed, then set verified: true."
+    notes: "Checked 2026-10-25: Erai-raws numbers Steel Ball Run by the TV season, so -06 is TVDB season 6 episode 6, the 2nd stage's episode 5 (stage 1 is episode 1). data/groups/erai-raws.yaml encodes the offset. The proxy saw it 66 time(s) on data 2026.43.6."
   - name: JoJo.no.Kimyo.na.Boken.S06E06.Gyro.Zeppelis.Destiny.1080p.NF.WEB-DL.AAC2.0.H.264-playWEB
     expect:
       status: ok
@@ -669,11 +670,12 @@ cases:
     notes: "Checked 2026-10-25: S06E06 is TVDB season 6 episode 6; stage 1 is episode 1, so this is the 2nd stage's episode 5. The proxy saw it 65 time(s) on data 2026.43.6."
   - name: "[Erai-raws].JoJo.no.Kimyou.na.Bouken-Steel.Ball.Run-06.[1080p.NF.WEBRip.HEVC.AAC][MultiSub][01519664]"
     expect:
-      status: ambiguous
-      top: steel-ball-run-jojo-no-kimyou-na-bouken
-    verified: false
+      status: ok
+      work: steel-ball-run-jojo-no-kimyou-na-bouken-2nd-stage
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 63 time(s) on data 2026.43.6 and got ambiguous (best candidate steel-ball-run-jojo-no-kimyou-na-bouken at 0.05). Check it, correct it if needed, then set verified: true."
+    notes: "Checked 2026-10-25: Erai-raws numbers Steel Ball Run by the TV season, so -06 is TVDB season 6 episode 6, the 2nd stage's episode 5 (stage 1 is episode 1). data/groups/erai-raws.yaml encodes the offset. The proxy saw it 63 time(s) on data 2026.43.6."
   - name: Dark.Summoner.to.Dekiteiru.S00E03.1080p.AMZN.WEB-DL.JPN.DDP2.0.H.264-ToonsHub
     expect:
       status: ambiguous
@@ -691,11 +693,12 @@ cases:
     notes: "Checked 2026-10-25: S01E04 is Welsh and Shedar episode 4; 'and' and '&' normalize the same now. The proxy saw it 58 time(s) on data 2026.43.6."
   - name: Ranma1.&amp;.2.2024.S03E04.The.Way.of.Tea.1080p.NF.WEB-DL.AAC2.0.H.264-playWEB
     expect:
-      status: ambiguous
-      top: ranma-1-2-2024-3rd-season
-    verified: false
+      status: ok
+      work: ranma-1-2-2024-3rd-season
+      episode: 4
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.43.6 and got ambiguous (best candidate ranma-1-2-2024-3rd-season at 0.727). Check it, correct it if needed, then set verified: true."
+    notes: "Checked 2026-10-25: Ranma1&2 2024 S03E04 is the 3rd season's episode 4; the new 'Ranma1&2' alias plus the season token picks the season, and S01 releases resolve to the 2024 season. The proxy saw it 56 time(s) on data 2026.43.6."
   - name: Pompo.The.Cinephile.2021.BluRay.1080p.TrueHD.5.1.AVC.HYBRID.REMUX-FraMeSToR
     expect:
       status: ok

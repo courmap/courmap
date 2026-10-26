@@ -85,6 +85,11 @@ async function main(): Promise<number> {
     for (const o of failing) lines.push(`| \`${o.c.name.replace(/\|/g, '\\|')}\` | ${want(o.c)} | ${got(o.r)} |`);
     lines.push('');
   }
+  if (falseOks.length > 0) {
+    lines.push('| Now resolves | Was expected | Got |', '| --- | --- | --- |');
+    for (const o of falseOks) lines.push(`| \`${o.c.name.replace(/\|/g, '\\|')}\` | ${want(o.c)} | ${got(o.r)} |`);
+    lines.push('');
+  }
   const report = lines.join('\n');
   console.log(report);
   for (const file of new Set([values.summary, process.env.GITHUB_STEP_SUMMARY])) if (file) appendFileSync(file, `${report}\n`);

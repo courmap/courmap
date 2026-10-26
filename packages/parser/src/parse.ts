@@ -85,8 +85,8 @@ function classify(word: string, out: ParsedRelease): boolean {
   if (LANGUAGE.test(w)) return true;
   if (DISC.test(w)) return true;
   if (SERVICE.test(w)) return true;
-  // A video-source word ("HYBRID"), metadata with no field of its own.
-  if (/^hybrid$/i.test(w)) return true;
+  // A video-source word ("HYBRID") or a subtitle tag ("MSubs"), metadata with no field of its own.
+  if (/^(?:hybrid|msubs)$/i.test(w)) return true;
   if (FLAG_WORDS[lower]) return out.flags.push(FLAG_WORDS[lower]!), true;
   return false;
 }
@@ -248,7 +248,7 @@ export function parseRelease(input: string): ParsedRelease {
         titleEnd = spaced.index;
         markerEnd = spaced.index + spaced[0].length;
       } else {
-        const trailing = /\s(\d{1,4})(?:v(\d))?(?:\s?-\s?(\d{1,4}))?$/.exec(main);
+        const trailing = /\s(\d{1,4})(?:v(\d))?(?:\s?-\s?(\d{1,4}))?$/.exec(main) ?? /\s(\d{1,4})()(?:\s?-\s?(\d{1,4}))(?=\s+(?:complete|batch)\b)/i.exec(main);
         if (trailing && !(YEAR.test(trailing[1]!) && !trailing[3] && out.year === null && /\(/.test(input))) {
           out.episode = Number(trailing[1]);
           if (trailing[2]) out.version = Number(trailing[2]);
@@ -303,7 +303,7 @@ export function parseRelease(input: string): ParsedRelease {
     } else if (/^(?:part|cour)$/i.test(w) && next && (/^\d{1,2}$/.test(next) || ROMAN[next.toLowerCase()])) {
       out.part = /^\d+$/.test(next) ? Number(next) : ROMAN[next.toLowerCase()]!;
       cut(words, i--, 2);
-    } else if (i === words.length - 1 && i > 0 && /^(?:ii|iii|iv)$/i.test(w)) {
+    } else if (i === words.length - 1 && i > 0 && out.season === null && /^(?:ii|iii|iv)$/i.test(w)) {
       out.season = ROMAN[lower]!;
       cut(words, i--);
     } else if (SPECIAL_WORDS[lower] && i > 0 && out.special === null) {

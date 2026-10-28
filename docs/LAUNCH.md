@@ -2,7 +2,7 @@
 
 Everything still open before the public launch post (r/sonarr, r/selfhosted, anime self-hosting Discords). Each item says who does it and how to check it is done. Claude Code updates this file at the end of every session; Xwolv ticks items off by saying so in the session prompt.
 
-Last updated 2026-10-25, after the PR and issue review session. Status: **not ready.** 12 of 20 items are done and 3 are partly done; what is left is mostly real-world use (proxy week, corpus, screenshots, testers).
+Last updated 2026-10-27, after the docs overhaul session (the 2026-10-25 status below is otherwise unchanged). Status: **not ready.** 12 of 20 items are done and 3 are partly done; what is left is mostly real-world use (proxy week, corpus, screenshots, testers).
 
 Legend: [x] done, [ ] open, [~] partly done.
 
@@ -70,9 +70,9 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Proposed launch bar: at least 200 verified cases, most of them real names from the proxy, with a 95% pass rate. The M2 milestone remains 1,000.
     - Today: **199 verified, all passing; 394 unverified** imported from the 2026-10-25 and 2026-10-26 exports (the second pass of 2026-10-26 verified 49 more: Black Lagoon, Lulutto Lilly, Umayuru, aliases). The unverified cases are a watch list: any case expected ambiguous or unmatched that starts resolving fails CI and names itself. Was 93 before that export, 81 before the Spy x Family and second-export imports, 35 before the first proxy export (2026-10-20).
     - Verify: `pnpm corpus` reports at least 200 verified at 95% or more.
-17. [ ] **Screenshots in the Sonarr guide.** Who: Xwolv takes them; Claude Code places them. Six placeholders are in `site/src/content/docs/sonarr.mdx`:
+17. [ ] **Screenshots in the Sonarr guide.** Who: Xwolv takes them; Claude Code places them. Six placeholders are in `site/src/content/docs/sonarr.mdx` (the full Sonarr guide, under "Set up"):
     - Prowlarr indexers with the ID visible.
-    - Prowlarr's Sonarr app dialog with Show Advanced on and **Anime Sync Categories** cleared (quick start step 4A).
+    - Prowlarr's Sonarr app dialog with Show Advanced on and **Anime Sync Categories** cleared (Sonarr quickstart step 3A).
     - Sonarr's Add Torznab dialog.
     - The status page after a day.
     - The Unraid Add Container form.
@@ -100,7 +100,12 @@ Legend: [x] done, [ ] open, [~] partly done.
 - [x] `pnpm check:tokens` in CI: no GitHub token can be committed (session 8).
 - [x] Assisted numbering cannot import a wrong episode through a bot prequel link (maintenance session after session 8).
 - [x] Security advisories fixed 2026-10-25: vitest 4.1.12 (GHSA-xp26-3454-mjgp), postcss-selector-parser 7.1.7 through astro-expressive-code 0.44.3 (GHSA-rj75-hqrm-r3gf) and fast-uri 3.1.9 (GHSA-w74x-v6f9-j3xg). The Dependabot security job had failed because it could not resolve past vitest 4.1.11.
-- [x] Duplicate-indexer guidance that keeps regular TV working (2026-10-19): for indexers with regular TV and anime, Prowlarr's copy keeps regular TV (Anime Sync Categories cleared, Full Sync, no tags) and the Courmap copy takes anime (Categories empty, Anime Categories 5070, Indexer Priority 10); the tag method is for anime-only indexers like Nyaa. Checked with real Prowlarr, Sonarr 4.0.20 and the proxy in Docker; not with a live torrent or usenet indexer (quick start step 4, decision in DECISIONS.md).
+- [x] Duplicate-indexer guidance that keeps regular TV working (2026-10-19): for indexers with regular TV and anime, Prowlarr's copy keeps regular TV (Anime Sync Categories cleared, Full Sync, no tags) and the Courmap copy takes anime (Categories empty, Anime Categories 5070, Indexer Priority 10); the tag method is for anime-only indexers like Nyaa. Checked with real Prowlarr, Sonarr 4.0.20 and the proxy in Docker; not with a live torrent or usenet indexer (quick start step 3, decision in DECISIONS.md).
+
+## Also done, 2026-10-27
+
+- [x] Docs overhaul (2026-10-27, branch `docs/overhaul`, not yet merged): new sidebar, homepage, Sonarr quickstart, glossary, trimmed README; see DECISIONS.md, "Docs overhaul".
+- [ ] After the docs overhaul merges: cut `proxy-v0.1.0` (Xwolv), then change the quickstart, full guide and READMEs from `:edge` to the versioned tag. Verify: `grep -rn "proxy:edge" README.md site/src packages/proxy/README.md` prints nothing.
 
 ## Also done, 2026-10-20
 

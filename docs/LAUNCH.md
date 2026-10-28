@@ -2,7 +2,7 @@
 
 Everything still open before the public launch post (r/sonarr, r/selfhosted, anime self-hosting Discords). Each item says who does it and how to check it is done. Claude Code updates this file at the end of every session; Xwolv ticks items off by saying so in the session prompt.
 
-Last updated 2026-10-28, after the 2026-10-28 proxy export (issue #154). Status: **not ready.** 16 of 20 items are done and none is partly done. The four open items (12, 14, 17, 18) are all real-world use: the proxy week and its 0.1.0 tag, screenshots and fresh-eyes testers.
+Last updated 2026-10-28, at the start of the proxy week (item 14, running 2026-10-28 to 2026-11-04 on data 2026.44.1). Status: **not ready.** 16 of 20 items are done and one is partly done (14, in progress). The four open items (12, 14, 17, 18) are all real-world use: the proxy week and its 0.1.0 tag, screenshots and fresh-eyes testers.
 
 Legend: [x] done, [ ] open, [~] partly done.
 
@@ -56,7 +56,7 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Crons now avoid busy minutes (scan 07:23 daily; seed 06:17, release 09:13, weekly bots 10:47 on Tuesdays), with the Worker watchdog 30 minutes behind each.
     - Checked 2026-10-25: the daily scan ran on 2026-10-22, 23, 24 and 25 (the 2026-10-21 run failed and nothing has failed since); the scheduled seed and release both ran on Tuesday 2026-10-20. The seed schedule failed on a stale commit (a gap diagnostic the seed fix da02a50 addressed) and a dispatch on da02a50 verified instead; the next seed schedule is 2026-10-27.
     - Verify: `gh run list --workflow bots.yml --event schedule` lists runs on consecutive days that update issues #13 to #29 instead of duplicating them.
-14. [ ] **A week of real proxy traffic with no wrong imports.** Who: Xwolv, on the Unraid server. Not started: it starts when Xwolv begins running the proxy against his real Sonarr, and the week counts from that day.
+14. [~] **A week of real proxy traffic with no wrong imports.** Who: Xwolv, on the Unraid server. Started 2026-10-28, ends 2026-11-04: Xwolv's proxy runs the latest `:edge` image against his real Sonarr, on data 2026.44.1 (the 2026-10-28 revision release, which carries the fixes from #155, #156 and #158).
     - Earlier exports (first received 2026-10-20: two usenet indexers, about 550 items, 17 rewritten, 201 unresolved) led to fixes but do not count towards the week. It found a secret-logging risk, the stale-count problem for airing shows, and parser gaps; all fixed or recorded (DECISIONS.md, "First real traffic"). Xwolv updates his proxy to the new `:edge` image to get them.
     Verify: Sonarr's history for the week shows no anime episode imported as the wrong episode; the status page's export is imported with `pnpm corpus:from-proxy` (item 16).
 15. [x] **Bot PRs and issues reviewed.** Who: Xwolv decides; Claude Code applies. Done, on Xwolv's decision (2026-10-27).

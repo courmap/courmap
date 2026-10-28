@@ -22,7 +22,7 @@ It says so. A release name that could be two works comes back `ambiguous` with b
 A new data release comes out every week. Airing shows are tracked daily by the bots, and their updates ship in the next weekly release.
 
 **Is there an API server?**
-Not one you need. Everything is published as files, and the library does the work locally. A small optional HTTP API for quick experiments may follow.
+Yes, an optional one. `api.courmap.com` is a convenience HTTP API with lookup, translate, resolve and search, limited to 60 requests a minute per client. Heavier use should go to the library or the dumps, which need no server at all: everything is published as files, and the library does the work locally. See [Use the data](/getting-started/data/#the-http-api) for examples.
 
 **Something is mapped wrong. What do I do?**
 Open an issue with the release name or IDs, or fix it yourself in a small pull request; see [Fix a mapping](/getting-started/contributing/).

@@ -27,7 +27,7 @@ sha256sum -c SHA256SUMS --ignore-missing
 
 ## Static shards
 
-The same data, split into small JSON files for remote mode, under `https://data.courmap.com/v1/` (live once the Cloudflare R2 bucket is set up):
+The same data, split into small JSON files for remote mode, under `https://data.courmap.com/v1/`:
 
 | Path | Contents |
 | --- | --- |

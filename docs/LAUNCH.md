@@ -70,7 +70,7 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Proposed launch bar: at least 200 verified cases, most of them real names from the proxy, with a 95% pass rate. The M2 milestone remains 1,000.
     - Today: **199 verified, all passing; 394 unverified** imported from the 2026-10-25 and 2026-10-26 exports (the second pass of 2026-10-26 verified 49 more: Black Lagoon, Lulutto Lilly, Umayuru, aliases). The unverified cases are a watch list: any case expected ambiguous or unmatched that starts resolving fails CI and names itself. Was 93 before that export, 81 before the Spy x Family and second-export imports, 35 before the first proxy export (2026-10-20).
     - Verify: `pnpm corpus` reports at least 200 verified at 95% or more.
-17. [ ] **Screenshots in the Sonarr guide.** Who: Xwolv takes them; Claude Code places them. Six placeholders are in `site/src/content/docs/sonarr.mdx` (the full Sonarr guide, under "Set up"):
+17. [ ] **Screenshots in the Sonarr guide.** Who: Xwolv takes them; Claude Code places them. Six placeholders are in `site/src/content/docs/sonarr.mdx` (the full Sonarr guide, under "Set up"; the quickstart has none):
     - Prowlarr indexers with the ID visible.
     - Prowlarr's Sonarr app dialog with Show Advanced on and **Anime Sync Categories** cleared (Sonarr quickstart step 3A).
     - Sonarr's Add Torznab dialog.
@@ -105,6 +105,7 @@ Legend: [x] done, [ ] open, [~] partly done.
 ## Also done, 2026-10-27
 
 - [x] Docs overhaul (2026-10-27, branch `docs/overhaul`, not yet merged): new sidebar, homepage, Sonarr quickstart, glossary, trimmed README; see DECISIONS.md, "Docs overhaul".
+- [x] Docs overhaul follow-up (2026-10-27, same branch): shorter Sonarr quickstart, "Use the data" page for the HTTP API, static files and dumps, four-card homepage; see DECISIONS.md.
 - [ ] After the docs overhaul merges: cut `proxy-v0.1.0` (Xwolv), then change the quickstart, full guide and READMEs from `:edge` to the versioned tag. Verify: `grep -rn "proxy:edge" README.md site/src packages/proxy/README.md` prints nothing.
 
 ## Also done, 2026-10-20

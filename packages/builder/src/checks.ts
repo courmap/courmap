@@ -578,7 +578,7 @@ function checkSequences(seqs: Typed<SequenceFile>[], works: Map<string, MergedWo
   for (const { src, data: s } of seqs) {
     const spans: { i: number; work: string; span: EpisodeSpan; abs: { from: number; to: number | null } }[] = [];
     s.members.forEach((m, i) => {
-      const at = (field: string, code: Code, msg: string) => reporter.report(src.loc, code, ['members', i, field], msg);
+      const at = (field: string, code: Code, msg: string) => reporter.report(src.loc, code, ['members', i, field], msg, { work: m.work });
       if (!knownWorks.has(m.work)) {
         at('work', 'unknown-work', `work "${m.work}" is not a known work`);
         return;

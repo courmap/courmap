@@ -1,11 +1,11 @@
 ---
-title: For contributors
+title: Fix a mapping
 description: Fix a wrong mapping once, for everyone, with a small YAML pull request.
 sidebar:
-  order: 3
+  order: 4
 ---
 
-Every mapping lives in [`data/`](https://github.com/courmap/courmap/tree/main/data) on GitHub. Most [works](/concepts/works/) come from seed datasets; when one is wrong, you add a short file in `data/works/` that overrides just the part that is wrong. CI checks it, and it ships in the next weekly data release.
+A wrong mapping is wrong for everyone, so a fix helps everyone. Every mapping lives in [`data/`](https://github.com/courmap/courmap/tree/main/data) on GitHub. Most [works](/concepts/works/) come from seed datasets; when one is wrong, you add a short file in `data/works/` that overrides just the part that is wrong. CI checks it, and it ships in the next weekly data release.
 
 ## 1. Find the work
 
@@ -13,7 +13,7 @@ Every work has a permanent id (its slug), derived from its romaji title, such as
 
 ## 2. Write the fix
 
-Create `data/works/<id>.yaml` with the id and only what changes. For example, if TMDB numbers a sequel as a continuation of season 1:
+Create `data/works/<id>.yaml` with the id and only what changes. (You need Node 22 or later and [pnpm](https://pnpm.io/); clone the repository first.) For example, if TMDB numbers a sequel as a continuation of season 1:
 
 ```yaml
 id: kusuriya-no-hitorigoto-2nd-season
@@ -39,4 +39,4 @@ pnpm validate
 
 CI runs the same checks and comments with the resolver corpus pass rate. A maintainer reviews it; once merged, it ships in the next weekly release.
 
-Looking for something to fix? [Fixing open issues](/fixing-issues/) explains each kind of issue the bots open and how to check and close it. [Contributing mappings](/contributing/) walks through the hard cases: split cours, specials, long-runners and release groups with their own numbering.
+That is the whole loop. For the hard cases (split cours, specials, long-runners, release groups with their own numbering) see [Contributing mappings](/contributing/), and for the rules every file follows see the [data format](/reference/data-format/). Looking for something to fix? [Fixing open issues](/fixing-issues/) explains each kind of bot-opened issue.

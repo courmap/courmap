@@ -2,7 +2,7 @@
 title: Fix a mapping
 description: Fix a wrong mapping once, for everyone, with a small YAML pull request.
 sidebar:
-  order: 4
+  order: 5
 ---
 
 A wrong mapping is wrong for everyone, so a fix helps everyone. Every mapping lives in [`data/`](https://github.com/courmap/courmap/tree/main/data) on GitHub. Most [works](/concepts/works/) come from seed datasets; when one is wrong, you add a short file in `data/works/` that overrides just the part that is wrong. CI checks it, and it ships in the next weekly data release.

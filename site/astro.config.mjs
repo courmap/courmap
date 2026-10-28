@@ -56,6 +56,7 @@ export default defineConfig({
             { label: 'What is Courmap?', slug: 'getting-started/what-is-courmap' },
             { label: 'Sonarr quickstart', slug: 'getting-started/sonarr' },
             { label: 'Library quickstart', slug: 'getting-started/library' },
+            { label: 'Use the data', slug: 'getting-started/data' },
             { label: 'Fix a mapping', slug: 'getting-started/contributing' },
           ],
         },

@@ -4,3 +4,4 @@ export { dumpData, latestOfWeek, nextVersion, releasedData, revisionOf } from '.
 export { verifyRelease, type VerifyReport } from './verify.js';
 export { makeBadges, writeBadges, type Badge, type BadgeInputs } from './badges.js';
 export { s3Client, targetFromEnv, uploadShards, type S3Target, type UploadOptions, type UploadReport } from './upload.js';
+export { purgeCache, purgeTargetFromEnv, type PurgeTarget } from './purge.js';

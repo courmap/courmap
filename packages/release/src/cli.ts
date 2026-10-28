@@ -6,6 +6,7 @@ import { fillMetaDumps } from './meta.js';
 import { verifyRelease } from './verify.js';
 import { dumpData, latestOfWeek, nextVersion, releasedData } from './revision.js';
 import { makeBadges, readJsonOrNull, writeBadges } from './badges.js';
+import { purgeCache, purgeTargetFromEnv } from './purge.js';
 import { targetFromEnv, uploadShards } from './upload.js';
 
 const USAGE = `Usage: courmap-release <command> [options]
@@ -26,9 +27,11 @@ Commands:
                                       Write the README badge files (shields.io endpoint JSON)
   upload --dir <shards> [--prefix v1/] [--dry-run] [--prune]
                                       Publish a shard tree to S3-compatible storage, meta.json last
+  purge                               Drop the Cloudflare edge copies of the shards, after an upload
 
 Upload reads S3_ENDPOINT, S3_BUCKET, S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY and S3_REGION
-(default auto). Without them it runs as a dry run.
+(default auto). Without them it runs as a dry run. Purge reads CLOUDFLARE_ZONE_ID and
+CLOUDFLARE_PURGE_TOKEN (and CACHE_PURGE_PREFIX, default data.courmap.com/v1/); without them it does nothing.
 `;
 
 async function main(argv: string[]): Promise<number> {
@@ -116,6 +119,13 @@ async function main(argv: string[]): Promise<number> {
     const target = targetFromEnv();
     if (!target) console.log('No S3 credentials in the environment: dry run.');
     await uploadShards(values.dir, target, { prefix: values.prefix!, dryRun: values['dry-run'] === true, prune: values.prune === true, log: console.log });
+    return 0;
+  }
+  if (command === 'purge') {
+    const target = purgeTargetFromEnv();
+    if (!target) return (console.log('No CLOUDFLARE_ZONE_ID and CLOUDFLARE_PURGE_TOKEN in the environment: nothing purged.'), 0);
+    await purgeCache(target);
+    console.log(`Purged the edge cache for ${target.prefixes.join(', ')}.`);
     return 0;
   }
   console.error(`Unknown command "${command}"\n`);

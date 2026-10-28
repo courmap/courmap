@@ -445,6 +445,7 @@ There is no server to run. Data changes only when a PR merges, so everything is 
 - `meta.json`: `Cache-Control: max-age=300`.
 - Everything else is immutable within a `data_version`; shards are published under `/v1/` and overwritten atomically per release, with `max-age=3600, stale-while-revalidate=86400`.
 - Clients poll `meta.json` at most hourly and refetch only when `data_version` changes.
+- Cloudflare's edge caches the shards under a Cache Rule on `data.courmap.com/v1/*` and follows these headers; a release purges that prefix after the sync (see DECISIONS.md, "Edge cache for the shards").
 - The bucket sends `Access-Control-Allow-Origin: *` for `GET` and `HEAD` (an R2 CORS rule), so browser clients such as the docs site's try-it box can read the shards from another origin.
 
 **Licensing of the code**

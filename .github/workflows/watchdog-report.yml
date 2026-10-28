@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       job:
-        description: The scheduled job that was checked (scan, seed, release, weekly)
+        description: The scheduled job that was checked (scan, seed, release, weekly, uptime)
         required: true
       workflow:
         description: The workflow file it belongs to

@@ -8,6 +8,7 @@ import { MISS_REFRESH_INTERVAL_MS, SonarrClient } from '../src/sonarr.js';
 import { Stats } from '../src/stats.js';
 import { fakeProwlarr, fakeSonarr, fixtureDump, SONARR_SERIES, tmp } from './helpers.js';
 
+const dump = await fixtureDump('2026.01');
 const SIMPLE_SHOW = SONARR_SERIES.find((s) => s.tvdbId === 5001)!;
 const withoutSimpleShow = () => SONARR_SERIES.filter((s) => s !== SIMPLE_SHOW);
 const seriesRequests = (sonarr: { requests: URL[] }) => sonarr.requests.filter((r) => r.pathname === '/api/v3/series').length;
@@ -66,7 +67,7 @@ describe('series list refresh on a miss', async () => {
     const cached = episodeRequests(sonarrServer);
 
     clock += 2 * MISS_REFRESH_INTERVAL_MS;
-    await sonarr.refresh(9003); // a reload that a miss started
+    await sonarr.refresh({ tvdbId: 9003 }); // a reload that a miss started
     await sonarr.episodesOf(splitShow);
     expect(episodeRequests(sonarrServer)).toBe(cached); // still cached
 
@@ -83,7 +84,6 @@ describe('series list refresh on a miss', async () => {
 });
 
 describe('a series added to Sonarr is rewritten after one miss', async () => {
-  const dump = await fixtureDump('2026.01');
   const prowlarr = await fakeProwlarr(['[Other] Simple Show - 03-05 [1080p]'], {});
   const live = withoutSimpleShow();
   const sonarrServer = await fakeSonarr(live);
@@ -109,5 +109,59 @@ describe('a series added to Sonarr is rewritten after one miss', async () => {
     expect(await titles()).toEqual(['[Other] Simple Show - 03-05 [1080p]']);
     await vi.waitFor(() => expect(sonarr.seriesByTvdb(5001)).toBeDefined()); // the miss started a reload
     expect(await titles()).toEqual(['Simple Show S01E03-E05 [1080p] [Other]']);
+  });
+});
+
+describe('a search for a series added to Sonarr', async () => {
+  const prowlarr = await fakeProwlarr([], {
+    'split show part 2 05': ['[Other] Split Show Part 2 - 05 [720p]'],
+    'split show 17': ['[Other] Split Show - 17 [1080p] [ABCD1234].mkv'],
+  });
+  const SPLIT_SHOW = SONARR_SERIES.find((s) => s.tvdbId === 5002)!;
+  const live = SONARR_SERIES.filter((s) => s !== SPLIT_SHOW && s !== SIMPLE_SHOW);
+  const sonarrServer = await fakeSonarr(live);
+  const data = new DataManager({ dataDir: path.join(tmp, 'd-search-refresh'), metaUrl: 'unused', dump, refreshHours: 24 });
+  await data.start();
+  let clock = 9_000_000;
+  const sonarr = new SonarrClient({ url: sonarrServer.url, apiKey: 'sonarr-key', refreshMinutes: 60, now: () => clock });
+  await sonarr.start();
+  const server = createProxyServer({ indexers: [{ name: 'nyaa', url: `${prowlarr.url}/1/api` }], data, sonarr, stats: new Stats(null), version: 'test', timeoutMs: 5000, limits: { cacheSeconds: 0, stopOnMatch: false } });
+  await new Promise<void>((r) => server.listen(0, '127.0.0.1', r));
+  const base = `http://127.0.0.1:${(server.address() as AddressInfo).port}`;
+  afterAll(async () => {
+    server.close();
+    data.stop();
+    await prowlarr.close();
+    await sonarrServer.close();
+  });
+  const search = async (query: string) => {
+    prowlarr.requests.length = 0;
+    const body = await (await fetch(`${base}/nyaa/api?apikey=prowlarr-key&${query}`)).text();
+    return { sent: prowlarr.requests.map((u) => u.searchParams.get('q')), titles: items(body).map((i) => i.title) };
+  };
+
+  it('translates an absolute-number search on the first try', async () => {
+    clock += 2 * MISS_REFRESH_INTERVAL_MS; // a while after the proxy loaded the list
+    live.push(SPLIT_SHOW); // added to Sonarr since
+    const r = await search('t=tvsearch&tvdbid=5002&q=17&cat=5070');
+    expect(r.sent).toEqual(['Split Show Part 2 05', 'Split Show 17']);
+    expect(r.titles).toContain('Split Show S01E17 [1080p] [ABCD1234] [Other]');
+  });
+
+  it('translates a search by title on the first try', async () => {
+    clock += 2 * MISS_REFRESH_INTERVAL_MS;
+    live.push(SIMPLE_SHOW);
+    const r = await search('t=tvsearch&q=Simple%20Show&season=1&ep=3');
+    expect(r.sent).toContain('Simple Show 03');
+  });
+
+  it('reloads for a show that is not in Sonarr once a minute, and then passes the search through', async () => {
+    clock += 2 * MISS_REFRESH_INTERVAL_MS;
+    const before = seriesRequests(sonarrServer);
+    const first = await search('t=tvsearch&tvdbid=9999&q=5');
+    const second = await search('t=tvsearch&tvdbid=9999&q=5');
+    expect(seriesRequests(sonarrServer)).toBe(before + 1);
+    expect(first.sent).toEqual(['5']); // upstream got the search as Sonarr sent it
+    expect(second.sent).toEqual(['5']);
   });
 });

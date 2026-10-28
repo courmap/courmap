@@ -2,7 +2,7 @@
 
 Everything still open before the public launch post (r/sonarr, r/selfhosted, anime self-hosting Discords). Each item says who does it and how to check it is done. Claude Code updates this file at the end of every session; Xwolv ticks items off by saying so in the session prompt.
 
-Last updated 2026-10-28, at the start of the proxy week (item 14, running 2026-10-28 to 2026-11-04 on data 2026.44.1). Status: **not ready.** 16 of 20 items are done and one is partly done (14, in progress). The four open items (12, 14, 17, 18) are all real-world use: the proxy week and its 0.1.0 tag, screenshots and fresh-eyes testers.
+Last updated 2026-10-28, at the start of the proxy week (item 14, running 2026-10-28 to 2026-11-04 on data 2026.44.1). Status: **not ready.** 17 of 20 items are done and one is partly done (14, in progress). The three open items (12, 14, 18) are all real-world use: the proxy week and its 0.1.0 tag, and fresh-eyes testers.
 
 Legend: [x] done, [ ] open, [~] partly done.
 
@@ -72,7 +72,7 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Updated 2026-10-28 (port of #157): **484 verified, all passing; 611 unverified.** The 29 new verified cases are Black Lagoon (22) and Dance in the Vampire Bund (7); SKET Dance season 2 (7 more) went from verified ambiguous to verified ok, checked on TheTVDB; the cases come from other shows, but the corpus is still concentrated in a few shows (Dandadan, Danganronpa 3, Wandance, Black Lagoon), so names from other shows still count for more.
     - On record (Xwolv, 2026-10-28): the first 251 new verified cases are concentrated in three shows, Dandadan, Danganronpa 3 and Wandance, and the skew is expected for a first export. The weekly proxy exports will broaden it; new names from other shows count for more than more of these. The Cat's Eye cases (5 verified) rest on the remake-by-posting-date rule, with the first sighting as the posting date (DECISIONS.md, "A remake by posting date").
     - Verify: `pnpm corpus` reports at least 200 verified at 95% or more.
-17. [ ] **Screenshots in the Sonarr guide.** Who: Xwolv takes them; Claude Code places them. Six placeholders are in `site/src/content/docs/sonarr.mdx` (the full Sonarr guide, under "Set up"; the quickstart has none):
+17. [x] **Screenshots in the Sonarr guide.** Who: Xwolv takes them; Claude Code places them. Done (Xwolv, 2026-10-28): taken from the live install, secrets masked. Six placeholders are in `site/src/content/docs/sonarr.mdx` (the full Sonarr guide, under "Set up"; the quickstart has none):
     - Prowlarr indexers with the ID visible.
     - Prowlarr's Sonarr app dialog with Show Advanced on and **Anime Sync Categories** cleared (Sonarr quickstart step 3A).
     - Sonarr's Add Torznab dialog.

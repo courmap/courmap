@@ -1,0 +1,14 @@
+id: bleach-sennen-kessen-hen-kashin-tan
+status: finished
+episodes: 10
+projections:
+  tvdb_show:
+    - { season: 17, episodes: 1-10, start: 41 }
+  tmdb_show:
+    - { season: 2, episodes: 1-10, start: 41 }
+notes: >-
+  The fourth and last cour of Bleach: Thousand-Year Blood War finished airing with 10 episodes
+  (AniList 185874 says FINISHED, 10). Closes the open-ended ranges the seed carried while it aired,
+  here and in bleach-tybw-absolute. Found by the bot scan failure in issue #146.
+sources:
+  - https://anilist.co/anime/185874

@@ -159,3 +159,33 @@ cases:
   # A range before "Complete" is a batch of episodes, not a number glued to the title.
   - name: "[anime4life.] Black Lagoon 1-29 Complete (BDRip 1080p AC3 10bit) [HEVC] Dual Audio"
     expect: { title: Black Lagoon, episode: 1, episode_to: 29, batch: true, group: "anime4life." }
+  # A streaming service's own tag (Bahamut, Netflix, ADN) is metadata, not part of the title (proxy export 2026-10-28).
+  - name: "Dandadan.S01.2024.1080p.Baha.WEB-DL.x264.AAC-ADWeb"
+    expect: { title: Dandadan, season: 1, episode: null, year: 2024, batch: true, group: ADWeb }
+  - name: "Dan.da.dan.S01.2024.Complete.1080p.Netflix.WEB-DL.AVC.AAC.2.0-DBTV"
+    expect: { title: Dan da dan, season: 1, episode: null, year: 2024, batch: true, group: DBTV }
+  - name: "The.Dangers.in.My.Heart.The.Movie.2026.1080p.ADN.WEB-DL.DUAL.DDP5.1.H.264-VARYG"
+    expect: { title: The Dangers in My Heart The Movie, year: 2026, group: VARYG }
+  # Whole language words are tags in a scene name; a release version after the season is not part of the title.
+  - name: "One.Piece.S02.DANiSH.ENGLiSH.JAPANESE.1080p.WEB-DL.H.264.DDP2.0-NoTrace"
+    expect: { title: One Piece, season: 2, episode: null, batch: true, group: NoTrace }
+  - name: "Dandadan.S01.2025.V2.1080p.WEB-DL.H.264.AAC-ADWeb"
+    expect: { title: Dandadan, season: 1, episode: null, year: 2025, batch: true, group: ADWeb }
+  # "ESub" is a subtitle tag, like "MSubs".
+  - name: "The.Dangers.in.My.Heart.The.Movie.2026.1080p.HIDIVE.WEB-DL.DUAL.AAC2.0.H.264.ESub-ToonsHub"
+    expect: { title: The Dangers in My Heart The Movie, year: 2026, group: ToonsHub }
+  # Sonarr's own "1x12" form: season and episode, never a resolution.
+  - name: "Dan.Da.Dan.1x12"
+    expect: { title: Dan Da Dan, season: 1, episode: 12 }
+  - name: "Digimon Digital Monsters - 1x11 - The Dancing Digimon"
+    expect: { title: Digimon Digital Monsters, season: 1, episode: 11 }
+  - name: "[Group] Show Name - 05 [1280x720 x264]"
+    expect: { title: Show Name, season: null, episode: 5, resolution: 1280x720 }
+  # "Season.1" in a dotted name is a season, not a decimal; "Dual Audio" after it is two tag words.
+  - name: "[neoDESU].Dandadan.Season.1.BD.1080p.x265.HEVC.OPUS.AAC.Dual.Audio"
+    expect: { title: Dandadan, season: 1, episode: null, batch: true, group: neoDESU }
+  - name: "Dandadan S02 1080p Dual Audio WEBRip DD+ x265-EMBER"
+    expect: { title: Dandadan, season: 2, episode: null, batch: true, group: EMBER, flags: [dual-audio, batch] }
+  # A glued season followed by more tags: "Title-S02-1080p".
+  - name: "[Cryon] Dan Da Dan-S02-1080p BluRay AV1 Opus 2.0 Dual Audio"
+    expect: { title: Dan Da Dan, season: 2, episode: null, batch: true, group: Cryon }

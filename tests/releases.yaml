@@ -2845,11 +2845,12 @@ cases:
     notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.19). Check it, correct it if needed, then set verified: true."
   - name: "[zza].Black.Lagoon-24-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon-the-second-barrage
+      episode: 12
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.269). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: Black Lagoon 23 Snow Whites Payback (BDRip 1080p AC3 10bit)
     expect:
       status: unmatched
@@ -2858,11 +2859,12 @@ cases:
     notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: "[zza].Black.Lagoon-23-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon-the-second-barrage
+      episode: 11
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.269). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: Black Lagoon 22 The Dark Tower (BDRip 1080p AC3 10bit)
     expect:
       status: ambiguous
@@ -2879,11 +2881,12 @@ cases:
     notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.195). Check it, correct it if needed, then set verified: true."
   - name: "[zza].Black.Lagoon-22-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon-the-second-barrage
+      episode: 10
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.269). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: Black Lagoon 21 Two Fathers Little Soldier Girls (BDRip 1080p AC3 10bit)
     expect:
       status: unmatched
@@ -2898,11 +2901,12 @@ cases:
     notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: "[zza].Black.Lagoon-21-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon-the-second-barrage
+      episode: 9
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.269). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: Black.Lagoon.21.DVDH264.AAC[KAA][FC041678]
     expect:
       status: ambiguous
@@ -2926,11 +2930,12 @@ cases:
     notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.2). Check it, correct it if needed, then set verified: true."
   - name: "[zza].Black.Lagoon-20-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon-the-second-barrage
+      episode: 8
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.269). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: Black Lagoon 19 Fujiyama Gangsta Paradise (BDRip 1080p AC3 10bit)
     expect:
       status: unmatched
@@ -2945,11 +2950,12 @@ cases:
     notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: "[zza].Black.Lagoon-19-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon-the-second-barrage
+      episode: 7
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.271). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: Black.Lagoon.18.Mr.Bennys.Good.Fortune.BDRip.1080p.AC3.10bit
     expect:
       status: unmatched
@@ -2958,11 +2964,12 @@ cases:
     notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: "[zza].Black.Lagoon-18-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon-the-second-barrage
+      episode: 6
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.271). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: Black Lagoon 17 The Roanapur Freakshow Circus (BDRip 1080p AC3 10bit)
     expect:
       status: unmatched
@@ -2977,11 +2984,12 @@ cases:
     notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: "[zza].Black.Lagoon-17-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon-the-second-barrage
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.271). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: Black Lagoon 16 Greenback Jane (BDRip 1080p AC3 10bit)
     expect:
       status: ambiguous
@@ -2998,11 +3006,12 @@ cases:
     notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.191). Check it, correct it if needed, then set verified: true."
   - name: "[zza].Black.Lagoon-16-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon-the-second-barrage
+      episode: 4
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.271). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: Black Lagoon 15 Swan Song at Dawn (BDRip 1080p AC3 10bit)
     expect:
       status: unmatched
@@ -3011,11 +3020,12 @@ cases:
     notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: "[zza].Black.Lagoon-15-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon-the-second-barrage
+      episode: 3
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.271). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: Black Lagoon 14 Bloodsport Fairytale (BDRip 1080p AC3 10bit)
     expect:
       status: unmatched
@@ -3030,11 +3040,12 @@ cases:
     notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: "[zza].Black.Lagoon-14-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon-the-second-barrage
+      episode: 2
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.271). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: Black Lagoon 13 The Vampire Twins Comen (BDRip 1080p AC3 10bit)
     expect:
       status: unmatched
@@ -3043,11 +3054,12 @@ cases:
     notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: "[zza].Black.Lagoon-13-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon-the-second-barrage
+      episode: 1
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.271). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: Black Lagoon 12 Guerrillas in the Jungle (BDRip 1080p AC3 10bit)
     expect:
       status: unmatched
@@ -3062,11 +3074,12 @@ cases:
     notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: "[zza].Black.Lagoon-12-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon
+      episode: 12
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.271). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: Black Lagoon 11 Lockn Load Revolution (BDRip 1080p AC3 10bit)
     expect:
       status: unmatched
@@ -3075,11 +3088,12 @@ cases:
     notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: "[zza].Black.Lagoon-11-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon
+      episode: 11
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.271). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: Black.Lagoon.Roberta.s.Blood.Trail-.OVA01-1080p.BluRay.x264.DHD
     expect:
       status: ambiguous
@@ -3255,46 +3269,52 @@ cases:
     notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 1). Check it, correct it if needed, then set verified: true."
   - name: "[zza].Black.Lagoon-03-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon
+      episode: 3
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.269). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: "[zza].Black.Lagoon-04-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon
+      episode: 4
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.269). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: "[zza].Black.Lagoon-05-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.269). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: "[zza].Black.Lagoon-06-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon
+      episode: 6
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.269). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: "[zza].Black.Lagoon-07-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon
+      episode: 7
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.269). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: "[zza].Black.Lagoon-09-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon
+      episode: 9
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.269). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: Black Lagoon The Second Barrage 23 Snow Whites Payback
     expect:
       status: ambiguous
@@ -3594,18 +3614,20 @@ cases:
     notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 2 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon-the-second-barrage at 0.3). Check it, correct it if needed, then set verified: true."
   - name: "[zza].Black.Lagoon-08-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon
+      episode: 8
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 2 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.269). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: "[zza].Black.Lagoon-10-[1080p.x265]"
     expect:
-      status: ambiguous
-      top: black-lagoon
-    verified: false
+      status: ok
+      work: black-lagoon
+      episode: 10
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-26: this is what the resolver answered then. A proxy saw it 2 time(s) on data 2026.43.6 and got ambiguous (best candidate black-lagoon at 0.271). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Black Lagoon as one season of 24 episodes (the data splits it in two cours of 12); a bare number 13 to 24 is the Second Barrage's episode 1 to 12."
   - name: "[zza].Black.Lagoon-25-Robertas.Blood.Trail-OAV1[1080p.x265]"
     expect: { status: ok, work: black-lagoon-roberta-s-blood-trail, episode: 1 }
     verified: true
@@ -4160,18 +4182,20 @@ cases:
     notes: "Verified 2026-10-28: genuinely ambiguous. Three works share the alias and the 1983 series (73 episodes) and the 2025 series (12) both have a TVDB season 1 that fits the number; the name has no year, and nothing in the data tells an Amazon 576p release from a Disney+ one. The proxy passes it through. Left unresolved by design, as in the 2026-10-25 pass."
   - name: SKET.Dance.S02E12.School.Rhapsody.Part.1.1080p.CR.WEB-DL.AAC2.0.H.264-Kitsune
     expect:
-      status: ambiguous
-      top: sket-dance
+      status: ok
+      work: sket-dance
+      episode: 63
     verified: true
     source: proxy-unresolved
-    notes: "Verified 2026-10-28: genuinely ambiguous. Crunchyroll's S02 is not a TVDB season: the data has one season of 77 episodes, so S02Exx fits nothing, and no verified offset exists. The proxy passes it through."
+    notes: "Verified 2026-10-28: TheTVDB lists SKET Dance as season 1 with 51 episodes and season 2 with 26, and its season 2 episode 12 has the title in this release name; season 2 episode 12 is episode 63."
   - name: SKET.Dance.S02E11.Skip.1080p.CR.WEB-DL.AAC2.0.H.264-Kitsune
     expect:
-      status: ambiguous
-      top: sket-dance
+      status: ok
+      work: sket-dance
+      episode: 62
     verified: true
     source: proxy-unresolved
-    notes: "Verified 2026-10-28: genuinely ambiguous. Crunchyroll's S02 is not a TVDB season: the data has one season of 77 episodes, so S02Exx fits nothing, and no verified offset exists. The proxy passes it through."
+    notes: "Verified 2026-10-28: TheTVDB lists SKET Dance as season 1 with 51 episodes and season 2 with 26, and its season 2 episode 11 has the title in this release name; season 2 episode 11 is episode 62."
   - name: Dejimon.Bitobureiku.S01E29.Dangerous.Fandom.1080p.CR.WEB-DL.AAC2.0.H.264-playWEB
     expect:
       status: ok
@@ -4248,25 +4272,28 @@ cases:
     notes: "Verified 2026-10-28: a pack of season 2 (12 episodes, 2025)."
   - name: SKET.Dance.S02E07.Stop.Invisible.Man-kun.1080p.CR.WEB-DL.AAC2.0.H.264-Kitsune
     expect:
-      status: ambiguous
-      top: sket-dance
+      status: ok
+      work: sket-dance
+      episode: 58
     verified: true
     source: proxy-unresolved
-    notes: "Verified 2026-10-28: genuinely ambiguous. Crunchyroll's S02 is not a TVDB season: the data has one season of 77 episodes, so S02Exx fits nothing, and no verified offset exists. The proxy passes it through."
+    notes: "Verified 2026-10-28: TheTVDB lists SKET Dance as season 1 with 51 episodes and season 2 with 26, and its season 2 episode 7 has the title in this release name; season 2 episode 7 is episode 58."
   - name: SKET.Dance.S02E06.You.Got.Mail.1080p.CR.WEB-DL.AAC2.0.H.264-Kitsune
     expect:
-      status: ambiguous
-      top: sket-dance
+      status: ok
+      work: sket-dance
+      episode: 57
     verified: true
     source: proxy-unresolved
-    notes: "Verified 2026-10-28: genuinely ambiguous. Crunchyroll's S02 is not a TVDB season: the data has one season of 77 episodes, so S02Exx fits nothing, and no verified offset exists. The proxy passes it through."
+    notes: "Verified 2026-10-28: TheTVDB lists SKET Dance as season 1 with 51 episodes and season 2 with 26, and its season 2 episode 6 has the title in this release name; season 2 episode 6 is episode 57."
   - name: SKET.Dance.S02E05.May.I.Come.Backstage.1080p.CR.WEB-DL.AAC2.0.H.264-Kitsune
     expect:
-      status: ambiguous
-      top: sket-dance
+      status: ok
+      work: sket-dance
+      episode: 56
     verified: true
     source: proxy-unresolved
-    notes: "Verified 2026-10-28: genuinely ambiguous. Crunchyroll's S02 is not a TVDB season: the data has one season of 77 episodes, so S02Exx fits nothing, and no verified offset exists. The proxy passes it through."
+    notes: "Verified 2026-10-28: TheTVDB lists SKET Dance as season 1 with 51 episodes and season 2 with 26, and its season 2 episode 5 has the title in this release name; season 2 episode 5 is episode 56."
   - name: Kyattsu.Ai.S01E04.Night.Flight.Is.a.Dangerous.Scent.1080p.DSNP.WEB-DL.AAC2.0.H.264-playWEB
     expect:
       status: unmatched
@@ -4663,11 +4690,12 @@ cases:
     notes: "Verified 2026-10-28: \"Wandansu\" is the Japanese reading of Wandance; TVDB S01E09 is episode 9."
   - name: SKET.Dance.S02E09.Go.Forth.Everyone.Concentrate.and.Cooperate.at.the.Pelocan.Girl.Study.Group.1080p.CR.WEB-DL.AAC2.0.H.264-Kitsune
     expect:
-      status: ambiguous
-      top: sket-dance
+      status: ok
+      work: sket-dance
+      episode: 60
     verified: true
     source: proxy-unresolved
-    notes: "Verified 2026-10-28: genuinely ambiguous. Crunchyroll's S02 is not a TVDB season: the data has one season of 77 episodes, so S02Exx fits nothing, and no verified offset exists. The proxy passes it through."
+    notes: "Verified 2026-10-28: TheTVDB lists SKET Dance as season 1 with 51 episodes and season 2 with 26, and its season 2 episode 9 has the title in this release name; season 2 episode 9 is episode 60."
   - name: VA-Death Humanity-[DONOTDANCE09]-VINYL-2025-CT
     expect:
       status: unmatched
@@ -4954,11 +4982,12 @@ cases:
     notes: "Checked 2026-10-28: the data has this work as a special of 1 episode (AniList 194884), while releases number it 02 and up, so no episode places them. A count to fix when the source updates."
   - name: SKET.Dance.S02E04.The.Man.Who.Was.Called.Laughing.on.the.Outside.but.Origami.on.the.Inside.1080p.CR.WEB-DL.AAC2.0.H.264-Kitsune
     expect:
-      status: ambiguous
-      top: sket-dance
+      status: ok
+      work: sket-dance
+      episode: 55
     verified: true
     source: proxy-unresolved
-    notes: "Verified 2026-10-28: genuinely ambiguous. Crunchyroll's S02 is not a TVDB season: the data has one season of 77 episodes, so S02Exx fits nothing, and no verified offset exists. The proxy passes it through."
+    notes: "Verified 2026-10-28: TheTVDB lists SKET Dance as season 1 with 51 episodes and season 2 with 26, and its season 2 episode 4 has the title in this release name; season 2 episode 4 is episode 55."
   - name: "[DankEnc].Kyou.Kara.Ore.Wa-03BD.960x720.H264."
     expect:
       status: ambiguous
@@ -4997,11 +5026,12 @@ cases:
     notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate keppeki-danshi-aoyama-kun at 0.8). Check it, correct it if needed, then set verified: true."
   - name: "[AniDL].Dance.in.the.Vampire.Bund-12-[720p][BD][D-A][CTR]"
     expect:
-      status: ambiguous
-      top: dance-in-the-vampire-bund
-    verified: false
+      status: ok
+      work: dance-in-the-vampire-bund
+      episode: 12
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate dance-in-the-vampire-bund at 0.281). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Dance in the Vampire Bund as one season of 12 episodes; the number is that episode of the TV series."
   - name: Dance in the Vampire Bund - 12Inter
     expect:
       status: ambiguous
@@ -5132,11 +5162,12 @@ cases:
     notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate dance-in-the-vampire-bund at 0.3). Check it, correct it if needed, then set verified: true."
   - name: "[Mr.Deadpool].Ascendance.of.a.Bookworm.Ep-12.Dual.Audio.720p.x265"
     expect:
-      status: ambiguous
-      top: honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen
+      status: ok
+      work: honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen
+      episode: 12
     verified: false
     source: proxy-unresolved
-    notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen at 0.943). Check it, correct it if needed, then set verified: true."
+    notes: "Re-recorded 2026-10-28: this is what the resolver answers after the parser fix for Ep-05 and Title-05-[tags]; A proxy saw it 1 time(s) on data 2026.44 and got ambiguous. Check it, correct it if needed, then set verified: true."
   - name: "[DB]Danshi.Koukousei.no.Nichijou-12.10bit.BD1080p.x265 time1597538637"
     expect:
       status: ambiguous
@@ -5485,11 +5516,12 @@ cases:
     notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate danshi-koukousei-no-nichijou at 0.05). Check it, correct it if needed, then set verified: true."
   - name: "[AniDL].Dance.in.the.Vampire.Bund-11-[720p][BD][D-A][CTR]"
     expect:
-      status: ambiguous
-      top: dance-in-the-vampire-bund
-    verified: false
+      status: ok
+      work: dance-in-the-vampire-bund
+      episode: 11
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate dance-in-the-vampire-bund at 0.281). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Dance in the Vampire Bund as one season of 12 episodes; the number is that episode of the TV series."
   - name: Towa.no.Quon.2.Dancing.Orchid.in.Chaos.2011.1080p.BluRay.Dual
     expect:
       status: ambiguous
@@ -5590,11 +5622,12 @@ cases:
     notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: "[Mr.Deadpool].Ascendance.of.a.Bookworm.Ep-11.Dual.Audio.720p.x265"
     expect:
-      status: ambiguous
-      top: honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen
+      status: ok
+      work: honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen
+      episode: 11
     verified: false
     source: proxy-unresolved
-    notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen at 0.943). Check it, correct it if needed, then set verified: true."
+    notes: "Re-recorded 2026-10-28: this is what the resolver answers after the parser fix for Ep-05 and Title-05-[tags]; A proxy saw it 1 time(s) on data 2026.44 and got ambiguous. Check it, correct it if needed, then set verified: true."
   - name: S02E11-Guidance.~Psychic.Sensor
     expect:
       status: unmatched
@@ -5933,11 +5966,12 @@ cases:
     notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: "[AniDL].Dance.in.the.Vampire.Bund-09-[720p][BD][D-A][CTR]"
     expect:
-      status: ambiguous
-      top: dance-in-the-vampire-bund
-    verified: false
+      status: ok
+      work: dance-in-the-vampire-bund
+      episode: 9
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate dance-in-the-vampire-bund at 0.281). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Dance in the Vampire Bund as one season of 12 episodes; the number is that episode of the TV series."
   - name: "[Saizen] Captain Tsubasa Movie 2 The Japanese Youth Selection is in Danger [DVD][33DB3096] - copia Re-up"
     expect:
       status: ambiguous
@@ -6025,11 +6059,12 @@ cases:
     notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka-ii at 0.6). Check it, correct it if needed, then set verified: true."
   - name: "[Mr.Deadpool].Ascendance.of.a.Bookworm.Ep-09.Dual.Audio.720p.x265"
     expect:
-      status: ambiguous
-      top: honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen
+      status: ok
+      work: honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen
+      episode: 9
     verified: false
     source: proxy-unresolved
-    notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen at 0.943). Check it, correct it if needed, then set verified: true."
+    notes: "Re-recorded 2026-10-28: this is what the resolver answers after the parser fix for Ep-05 and Title-05-[tags]; A proxy saw it 1 time(s) on data 2026.44 and got ambiguous. Check it, correct it if needed, then set verified: true."
   - name: S01E09-Dancing.Swindler.and.the.Giant.Gold.Coin
     expect:
       status: unmatched
@@ -6311,11 +6346,12 @@ cases:
     notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: "[AniDL].Dance.in.the.Vampire.Bund-07-[720p][BD][D-A][CTR]"
     expect:
-      status: ambiguous
-      top: dance-in-the-vampire-bund
-    verified: false
+      status: ok
+      work: dance-in-the-vampire-bund
+      episode: 7
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate dance-in-the-vampire-bund at 0.281). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Dance in the Vampire Bund as one season of 12 episodes; the number is that episode of the TV series."
   - name: Dance in the Vampire Bund - 07Inter
     expect:
       status: ambiguous
@@ -6395,11 +6431,12 @@ cases:
     notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka-ii at 0.6). Check it, correct it if needed, then set verified: true."
   - name: "[Mr.Deadpool].Ascendance.of.a.Bookworm.Ep-07.Dual.Audio.720p.x265"
     expect:
-      status: ambiguous
-      top: honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen
+      status: ok
+      work: honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen
+      episode: 7
     verified: false
     source: proxy-unresolved
-    notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen at 0.943). Check it, correct it if needed, then set verified: true."
+    notes: "Re-recorded 2026-10-28: this is what the resolver answers after the parser fix for Ep-05 and Title-05-[tags]; A proxy saw it 1 time(s) on data 2026.44 and got ambiguous. Check it, correct it if needed, then set verified: true."
   - name: Magical Girl Spec-Ops Asuka v07 (2019) (Digital) (danke-Empire)
     expect:
       status: ambiguous
@@ -6698,11 +6735,12 @@ cases:
     notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate iron-kid at 0.3). Check it, correct it if needed, then set verified: true."
   - name: "[AniDL].Dance.in.the.Vampire.Bund-06-[720p][BD][D-A][CTR]"
     expect:
-      status: ambiguous
-      top: dance-in-the-vampire-bund
-    verified: false
+      status: ok
+      work: dance-in-the-vampire-bund
+      episode: 6
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate dance-in-the-vampire-bund at 0.281). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Dance in the Vampire Bund as one season of 12 episodes; the number is that episode of the TV series."
   - name: "[mSubs] Dancouga Blazing Epilogue 01 SD [A7AC0648]"
     expect:
       status: ambiguous
@@ -6756,11 +6794,12 @@ cases:
     notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka at 0.033). Check it, correct it if needed, then set verified: true."
   - name: "[Mr.Deadpool].Ascendance.of.a.Bookworm.Ep-06.Dual.Audio.720p.x265"
     expect:
-      status: ambiguous
-      top: honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen
+      status: ok
+      work: honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen
+      episode: 6
     verified: false
     source: proxy-unresolved
-    notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen at 0.943). Check it, correct it if needed, then set verified: true."
+    notes: "Re-recorded 2026-10-28: this is what the resolver answers after the parser fix for Ep-05 and Title-05-[tags]; A proxy saw it 1 time(s) on data 2026.44 and got ambiguous. Check it, correct it if needed, then set verified: true."
   - name: "[DankEnc].Kyou.Kara.Ore.Wa-06BD.960x720.H264."
     expect:
       status: ambiguous
@@ -7000,11 +7039,12 @@ cases:
     notes: "Re-recorded 2026-10-28: this is what the resolver answers after the parser and scoring fixes; a proxy saw it 1 time(s) on data 2026.44 and got unmatched. Check it, correct it if needed, then set verified: true."
   - name: "[AniDL].Dance.in.the.Vampire.Bund-05-[720p][BD][D-A][CTR]"
     expect:
-      status: ambiguous
-      top: dance-in-the-vampire-bund
-    verified: false
+      status: ok
+      work: dance-in-the-vampire-bund
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate dance-in-the-vampire-bund at 0.281). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Dance in the Vampire Bund as one season of 12 episodes; the number is that episode of the TV series."
   - name: Dance in the Vampire Bund - 05Inter
     expect:
       status: ambiguous
@@ -7077,11 +7117,12 @@ cases:
     notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka-ii at 0.643). Check it, correct it if needed, then set verified: true."
   - name: "[Mr.Deadpool].Ascendance.of.a.Bookworm.Ep-05.Dual.Audio.720p.x265"
     expect:
-      status: ambiguous
-      top: honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen
+      status: ok
+      work: honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen
+      episode: 5
     verified: false
     source: proxy-unresolved
-    notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen at 0.943). Check it, correct it if needed, then set verified: true."
+    notes: "Re-recorded 2026-10-28: this is what the resolver answers after the parser fix for Ep-05 and Title-05-[tags]; A proxy saw it 1 time(s) on data 2026.44 and got ambiguous. Check it, correct it if needed, then set verified: true."
   - name: "[DankEnc].Kyou.Kara.Ore.Wa-05BD.960x720.H264."
     expect:
       status: ambiguous
@@ -7289,11 +7330,12 @@ cases:
     notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate danshi-koukousei-no-nichijou at 0.05). Check it, correct it if needed, then set verified: true."
   - name: "[AniDL].Dance.in.the.Vampire.Bund-03-[720p][BD][D-A][CTR]"
     expect:
-      status: ambiguous
-      top: dance-in-the-vampire-bund
-    verified: false
+      status: ok
+      work: dance-in-the-vampire-bund
+      episode: 3
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate dance-in-the-vampire-bund at 0.281). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-28: TheTVDB lists Dance in the Vampire Bund as one season of 12 episodes; the number is that episode of the TV series."
   - name: "[Omar Hidan] ?ban Star-Racers 03 [1080P][828ABF71]"
     expect:
       status: unmatched
@@ -7390,11 +7432,12 @@ cases:
     notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate seishun-anime-zenshuu at 0.833). Check it, correct it if needed, then set verified: true."
   - name: "[Mr.Deadpool].Ascendance.of.a.Bookworm.Ep-03.Dual.Audio.720p.x265"
     expect:
-      status: ambiguous
-      top: honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen
+      status: ok
+      work: honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen
+      episode: 3
     verified: false
     source: proxy-unresolved
-    notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44 and got ambiguous (best candidate honzuki-no-gekokujou-shisho-ni-naru-tame-ni-wa-shudan-wo-erandeiraremasen at 0.943). Check it, correct it if needed, then set verified: true."
+    notes: "Re-recorded 2026-10-28: this is what the resolver answers after the parser fix for Ep-05 and Title-05-[tags]; A proxy saw it 1 time(s) on data 2026.44 and got ambiguous. Check it, correct it if needed, then set verified: true."
   - name: "[DB]Danshi.Koukousei.no.Nichijou-03.10bit.BD1080p.x265 time1597538744"
     expect:
       status: ambiguous

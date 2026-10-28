@@ -35,6 +35,11 @@ cases:
   # H.264 keeps its dot in a dot-separated name, so the codec and group after it are tags, not title.
   - name: "Dara.san.of.the.Reiwa.Era.S01.1080p.CR.WEB-DL.AAC2.0.H.264-VARYG"
     expect: { title: Dara san of the Reiwa Era, season: 1, episode: null, resolution: 1080p, video_codec: h264, group: VARYG, batch: true }
+  # A hyphen episode followed by a hyphen and tags, and "Ep-05".
+  - name: "[AniDL].Dance.in.the.Vampire.Bund-05-[720p][BD][D-A][CTR]"
+    expect: { title: Dance in the Vampire Bund, episode: 5 }
+  - name: "[Mr.Deadpool].Ascendance.of.a.Bookworm.Ep-05.Dual.Audio.720p.x265"
+    expect: { title: Ascendance of a Bookworm, episode: 5 }
   - name: "[Group] Show Name 2nd Season [BD 1080p]"
     expect: { title: Show Name, season: 2, episode: null, batch: true }
   - name: "[Group] Show Name 2nd Season Movie [BD 1080p]"

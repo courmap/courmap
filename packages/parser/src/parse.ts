@@ -232,7 +232,7 @@ export function parseRelease(input: string): ParsedRelease {
     let found: RegExpExecArray | null = null;
     for (const m of main.matchAll(dash)) found = m;
     // Otherwise a marked number anywhere: EP05, E05, Episode 5, #5, or a bare trailing number.
-    const marked = /(?:\b(?:EP?\.?|Episode)|#)\s?(\d{1,4})(?:v(\d))?\b/i.exec(main);
+    const marked = /(?:\b(?:EP?\.?|Episode)|#)[\s-]?(\d{1,4})(?:v(\d))?\b/i.exec(main);
     // Chinese fansubs: "第13话" (also 話 and 集) is episode 13.
     const cjk = /第\s?(\d{1,4})\s?[话話集]/.exec(main);
     if (found) {
@@ -271,7 +271,7 @@ export function parseRelease(input: string): ParsedRelease {
         } else {
           // Erai-raws and SubsPlease style, "Title.Words-03.[1080p...]" or "Spy x Family-47 [1080p]": the number is
           // glued to the last word by a hyphen, with only tags after it. Never a year, and never a zero ("Gundam-00").
-          const glued = /(?<=[^\s-])-(\d{1,4})(?:v(\d))?(?=\s|$|-[A-Za-z])/.exec(main);
+          const glued = /(?<=[^\s-])-(\d{1,4})(?:v(\d))?(?=\s|$|-[A-Za-z]|-$)/.exec(main);
           if (glued && !YEAR.test(glued[1]!) && Number(glued[1]) > 0) {
             out.episode = Number(glued[1]);
             if (glued[2]) out.version = Number(glued[2]);

@@ -2,7 +2,7 @@
 
 Where the build stands, for the next session. Read CLAUDE.md, docs/SPEC.md and docs/DECISIONS.md first, as always; this file only says what is done and what is next. The 2026-10-25 session log, with the bot PRs, the closed issues and the proxy export maintenance, is `docs/SESSION-2026-10-25.md`. `docs/LAUNCH.md` lists everything open before the public launch. Update both at the end of every session.
 
-Last updated 2026-10-26: the 10 sequel PRs (#127 to #136) and the second proxy-export pass (#137) are merged; corpus 199 verified, 394 unverified. Details in DECISIONS.md, "Proxy export 2026-10-26, second pass".
+Last updated 2026-10-28: proxy export pass (draft PR "Corpus: proxy export 2026-10-28"): corpus 411 verified, 679 unverified. Details in DECISIONS.md, "Proxy export 2026-10-28". Earlier: the 10 sequel PRs (#127 to #136) and the second proxy-export pass (#137) are merged.
 
 ## Done
 

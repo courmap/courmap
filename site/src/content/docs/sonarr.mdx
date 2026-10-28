@@ -25,6 +25,10 @@ Sonarr  ->  Courmap proxy (/nyaa, /animetosho, /geek, ...)  ->  indexer feeds (t
 | A show that is not in your Sonarr | Unchanged |
 | Resolved, but Courmap has no TVDB numbering for it yet | Numbered from your own Sonarr when exactly one of your series matches it and the numbering is certain ("assisted"); otherwise unchanged |
 
+In Sonarr's Interactive Search, the rewrite shows in the **Title** column: every result below is a different release of episode 3, and each carries the same `S01E03`.
+
+![Sonarr's Interactive Search for episode 3 of an anime series: the Title column shows results renumbered as S01E03, each from "Usenet indexer B (Courmap)".](../../assets/sonarr/07-sonarr-interactive-search.png)
+
 The series title comes from your own Sonarr, matched by TVDB ID, so Sonarr always recognizes it. For series where Sonarr uses scene numbering (XEM), the proxy writes the episode's scene numbers, because that is how Sonarr reads SxxEyy for those series. Everything else in a result (the torrent or NZB enclosure and download link, size, seeders, grabs, dates, categories) reaches Sonarr unchanged.
 
 Searches are translated too. Sonarr searches by TVDB ID, season and episode, which anime indexers do not understand. The proxy turns that into the [work](/concepts/works/)'s own title plus its episode number (and the franchise title plus the [absolute number](/concepts/absolute-sequences/), when fansubs number it that way), sends those searches to Prowlarr, and rewrites the results.
@@ -35,7 +39,7 @@ The [Sonarr quickstart](/getting-started/sonarr/) is the short path with Docker 
 
 1. **Find each anime indexer's ID in Prowlarr.** It is the number in the indexer's feed address, `http://prowlarr:9696/1/api`. Each `INDEXER_<NAME>_URL` is one Prowlarr indexer's feed, and `<NAME>` is a label you choose: the proxy serves it at `/<name>`, lowercase, with underscores turned into hyphens. For a usenet indexer, add `INDEXER_<NAME>_TYPE: newznab`; torrent indexers need no type, and an indexer without one is detected from its first results.
 
-   ![Prowlarr's Indexers list with the ID column switched on: AniFix has ID 3 and NZBgeek has ID 2.](../../assets/sonarr/01-prowlarr-indexers.png)
+   ![Prowlarr's Indexers list with the ID column switched on: "Usenet indexer A" has ID 3 and "Usenet indexer B" has ID 2.](../../assets/sonarr/01-prowlarr-indexers.png)
 
    The list hides the ID by default. Turn it on under **Options** (the table icon at the top right), or read it from the indexer's feed address.
 
@@ -52,13 +56,13 @@ The [Sonarr quickstart](/getting-started/sonarr/) is the short path with Docker 
    - **Indexer Priority**: `10`, so the Courmap copy wins over Prowlarr's (25) when both return the same release
    - **Anime Standard Format Search**: optional; the proxy translates both kinds of search
 
-   ![Sonarr's Edit Indexer dialog for a Newznab indexer pointing at the Courmap proxy, with Show Advanced on: URL, API Path /api, a masked API key, empty Categories, Anime Categories set to TV/Anime and Indexer Priority 10.](../../assets/sonarr/03-sonarr-indexer.png)
+   ![Sonarr's Edit Indexer dialog for a Newznab indexer pointing at the Courmap proxy, with Show Advanced on: URL ending in /indexer-a, API Path /api, a masked API key, empty Categories, Anime Categories set to TV/Anime and Indexer Priority 10.](../../assets/sonarr/03-sonarr-indexer.png)
 
-   *The dialog for a Newznab (usenet) indexer. Torznab has the same fields.*
+   *The dialog for a Newznab (usenet) indexer; Torznab has the same fields. This install uses bridge networking, so the URL is the server's IP and port. With a shared Docker network, use container names as in the [quickstart](/getting-started/sonarr/).*
 
 4. **Open the status page** at `http://<your-host>:9797/` and check that it shows a data version and your series count.
 
-   ![The Courmap proxy status page: data version 2026.44, 16 series from Sonarr, and a table with one row per indexer showing requests, searches, items, rewritten and passed-through counts.](../../assets/sonarr/04-proxy-status.png)
+   ![The Courmap proxy status page: data version 2026.44, 16 series from Sonarr, and a table with one row per indexer (indexer-a and indexer-b) showing requests, searches, items, rewritten and passed-through counts.](../../assets/sonarr/04-proxy-status.png)
 
 ### Unraid
 
@@ -92,6 +96,8 @@ The [Sonarr quickstart](/getting-started/sonarr/) is the short path with Docker 
 </Steps>
 
 ![Unraid's Update Container form for courmap-proxy in Advanced View: the repository, the data and config paths, the status page port 9797, the Sonarr URL, the indexer URLs and types, and a masked Sonarr API key.](../../assets/sonarr/05-unraid-container.png)
+
+*This install uses bridge networking, so the URLs are the server's IP and ports. With a shared Docker network, use container names as in the [quickstart](/getting-started/sonarr/).*
 
 ### Image tags
 

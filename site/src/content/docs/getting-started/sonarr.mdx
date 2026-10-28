@@ -129,6 +129,10 @@ The proxy holds your **Sonarr** API key (step 1). Sonarr holds your **Prowlarr**
 
 NZB downloads do not go through the proxy: each result's download link still points at the indexer.
 
+![Sonarr's Edit Indexer dialog for a Newznab indexer pointing at the Courmap proxy: URL ending in /indexer-a, API Path /api, a masked API key, empty Categories, Anime Categories set to TV/Anime and Indexer Priority 10.](../../../assets/sonarr/03-sonarr-indexer.png)
+
+*Torznab has the same fields. This install uses bridge networking, so its URL is the server's IP and port; on a shared Docker network, use the container name as above.*
+
 </TabItem>
 </Tabs>
 
@@ -162,11 +166,15 @@ Open an anime series in Sonarr that has a few episodes out, and click the person
 | --- | --- |
 | `[SubsPlease] Spy x Family - 17 (1080p) [ABCD1234].mkv` | `Spy x Family S01E17 (1080p) [ABCD1234] [SubsPlease]` |
 
+![Sonarr's Interactive Search for episode 3 of an anime series: the Title column shows results renumbered as S01E03, each from "Usenet indexer B (Courmap)".](../../../assets/sonarr/07-sonarr-interactive-search.png)
+
 A release Courmap was not sure about keeps its original name, so Sonarr treats it exactly as it would without the proxy.
 
 ## What success looks like
 
 On the status page (`http://<your-host>:9797/`):
+
+![The Courmap proxy status page: data version 2026.44, 16 series from Sonarr, and a table with one row per indexer (indexer-a and indexer-b) showing requests, searches, items, rewritten and passed-through counts.](../../../assets/sonarr/04-proxy-status.png)
 
 - **Data** shows a data version and your Sonarr series count.
 - **Indexers** has one row per path (`geek`, `tracker`) with its **Protocol**, **Requests** counting up as Sonarr's RSS sync runs, **Rewritten** with the share of results renumbered, and **Passed through** with the reasons for the rest.

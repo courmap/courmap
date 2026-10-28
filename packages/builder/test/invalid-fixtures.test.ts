@@ -33,6 +33,8 @@ describe('builder validate rejects broken fixtures', () => {
     for (const d of result.diagnostics) {
       expect(d.message.length, 'messages should explain the problem').toBeGreaterThan(15);
       expect(d.line, 'every diagnostic should point at a line').toBeTypeOf('number');
+      // The bots match errors to their findings by work; a sequence error without one cannot be demoted.
+      if (d.file.startsWith('sequences/') && (d.code === 'open-ended-not-airing' || d.code === 'out-of-bounds')) expect(d.work, 'sequence diagnostics should name the work').toBeTypeOf('string');
     }
   });
 });

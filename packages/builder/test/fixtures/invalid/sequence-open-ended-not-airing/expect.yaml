@@ -1,0 +1,6 @@
+# Diagnostics `builder validate` must report for this fixture, exactly.
+errors:
+  - code: open-ended-not-airing
+    file: sequences/a-absolute.yaml
+    line: 3
+    message: open-ended range "1-" needs work "a" to have status airing

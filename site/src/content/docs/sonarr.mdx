@@ -178,7 +178,7 @@ The proxy is not tied to Prowlarr: it sits in front of any Torznab or Newznab fe
 | `COURMAP_DUMP` | none | A fixed local dump; the proxy then never downloads data. |
 | `COURMAP_META_URL` | the latest GitHub data release | Where the current data version and dump are announced. |
 | `REFRESH_HOURS` | `24` | How often the data release is checked. A new dump is downloaded only when the data version changes, and its SHA-256 is checked before it replaces the old one. |
-| `SONARR_REFRESH_MINUTES` | `60` | How often the series list is reloaded. |
+| `SONARR_REFRESH_MINUTES` | `60` | How often the series list is reloaded. It is also reloaded automatically, at most once a minute, when a release resolves to a show that is not in the list, so a series you just added is picked up without waiting. The status page shows the **Last Sonarr refresh**. |
 | `PORT`, `DATA_DIR`, `TIMEOUT_SECONDS` | `9797`, `/data`, `60` | Port, data folder and upstream timeout. |
 | `UPSTREAM_CACHE_SECONDS` | `60` | Identical queries to an indexer within this time share one request. `0` turns the cache off. See [Indexer API limits](#indexer-api-limits). |
 | `SEARCH_STOP_ON_MATCH` | `true` | An episode search sends its alternative query only when the first one did not return that episode. `false` always sends both. |
@@ -258,4 +258,5 @@ The proxy never writes an API key to its logs, its status page or its exports: a
 - **Sonarr's test fails with "Unable to connect" and Sonarr runs behind a VPN container.** The VPN container is blocking the LAN. Set its `FIREWALL_OUTBOUND_SUBNETS` to your LAN (see [Behind a VPN container](#behind-a-vpn-container)).
 - **Sonarr cannot reach `courmap-proxy`.** The containers are not on one network; use IP addresses instead of container names.
 - **The proxy refuses to start with "url must start with http://".** An `INDEXER_<NAME>_URL` value is missing its `http://` or `https://`.
+- **Just added a series?** The proxy reloads your Sonarr series list when a release arrives for a show it does not have, at most once a minute, so give it a minute and a new release. That first release passes through unchanged; the next one is rewritten. The status page's **Last Sonarr refresh** shows when the list was last read, and **Sonarr** how many series it holds. If the series still does not appear, check the **Sonarr error** line (a wrong `SONARR_URL` or `SONARR_API_KEY`), and that the series has a TVDB ID in Sonarr.
 - **A release is not rewritten.** The status page lists why: not resolved, no TVDB mapping, a show that is not in your Sonarr, or a batch spanning seasons. Unresolved names make good bug reports.

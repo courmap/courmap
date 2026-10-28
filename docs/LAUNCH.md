@@ -2,7 +2,7 @@
 
 Everything still open before the public launch post (r/sonarr, r/selfhosted, anime self-hosting Discords). Each item says who does it and how to check it is done. Claude Code updates this file at the end of every session; Xwolv ticks items off by saying so in the session prompt.
 
-Last updated 2026-10-27, after the docs overhaul session (the 2026-10-25 status below is otherwise unchanged). Status: **not ready.** 12 of 20 items are done and 3 are partly done; what is left is mostly real-world use (proxy week, corpus, screenshots, testers).
+Last updated 2026-10-27, after the docs overhaul and the launch status review. Status: **not ready.** 15 of 20 items are done and none is partly done. The five open items (12, 14, 16, 17, 18) are all real-world use: the proxy week and its 0.1.0 tag, a bigger corpus, screenshots and fresh-eyes testers.
 
 Legend: [x] done, [ ] open, [~] partly done.
 
@@ -25,20 +25,19 @@ Legend: [x] done, [ ] open, [~] partly done.
 7. [x] **Worker deployed** at `https://api.courmap.com` only. Who: automatic (`worker.yml`).
    - `wrangler.toml` sets `workers_dev = false`, `preview_urls = false` and the custom domain as a route, so deploys never re-enable the old addresses (the `workers.dev` URL answers 404).
    - Verify: `curl -s 'https://api.courmap.com/v1/resolve?release=%5BSubsPlease%5D%20Sousou%20no%20Frieren%20-%2005%20(1080p)'` returns `"status":"ok"` with `sousou-no-frieren` episode 5 (checked 2026-10-19). After each deploy `worker.yml` compares the live Worker with the library (`check-deployed.ts`).
-8. [~] **Schedule watchdog token.** Who: Xwolv set it; Claude Code checks.
+8. [x] **Schedule watchdog token.** Who: Xwolv set it; Claude Code checks. Done: Xwolv confirmed green `watchdog-report` runs since 2026-10-20 (checked 2026-10-27: all 11 runs in the list succeeded, the first on 2026-10-20 and the latest `watchdog scan: dispatched` on 2026-10-27).
    - `GITHUB_DISPATCH_TOKEN` is an encrypted Worker secret managed in the Cloudflare dashboard. It is never in `wrangler.toml` or any committed file (`pnpm check:tokens` fails CI on anything shaped like a GitHub token), deploys keep it, and `worker.yml` fails if a deploy ever loses it (it was present after the 2026-10-19 deploy).
-   - Open: its first trigger is 2026-10-20 07:53 UTC.
-   - Verify: the Worker's logs (Workers & Pages, courmap, Logs) show `watchdog ... already-ran` or `dispatched` for that trigger; if it dispatched, `gh run list --workflow bots.yml --event workflow_dispatch` shows the run.
+   - Verify: `gh run list --workflow watchdog-report.yml` shows runs named `watchdog scan: dispatched` or `watchdog seed: already-ran`, all green.
 
 ## Packages
 
 9. [x] **Proxy image** `ghcr.io/courmap/proxy:edge` built for amd64 and arm64 on every change. Who: automatic (`proxy.yml`).
 10. [x] **GHCR package public.** Who: Xwolv. Done by session 8.
     Verify: `DOCKER_CONFIG=$(mktemp -d) docker pull ghcr.io/courmap/proxy:edge` works with no credentials (checked 2026-10-19).
-11. [~] **npm.** Who: Claude Code published; Xwolv sets up trusted publishing.
+11. [x] **npm.** Who: Claude Code published; Xwolv set up trusted publishing. Done: Xwolv confirmed trusted publishing is set up on all three packages.
     - Done 2026-10-19: `@courmap/core`, `@courmap/parser` and `@courmap/client` 0.1.0 are on npm with provenance (tag `client-v0.1.0`), and install from the registry in a clean project for Node, strict types and a browser bundle (`scripts/verify-npm.ts --registry 0.1.0`).
-    - Open: trusted publishing (OIDC). On npmjs.com, for each of the three packages: Settings, Trusted publishing, GitHub Actions, organization `courmap`, repository `courmap`, workflow `npm.yml`. Then set the repository variable `NPM_TRUSTED_PUBLISHING` to `true` (`gh variable set NPM_TRUSTED_PUBLISHING --body true`). `npm.yml` is ready for it and keeps `NPM_TOKEN` as a fallback.
-    - **Once Xwolv confirms trusted publishing is set up on all three packages, the `NPM_TOKEN` secret can be deleted** (after the next release publishes with "Published with trusted publishing (OIDC)" in the log).
+    - Trusted publishing (OIDC) is on for `@courmap/core`, `@courmap/parser` and `@courmap/client` (npmjs.com, GitHub Actions, organization `courmap`, repository `courmap`, workflow `npm.yml`), and the repository variable `NPM_TRUSTED_PUBLISHING` is `true`. The `client-v0.1.1` release (2026-10-26) published with "Published with trusted publishing (OIDC)" in its log.
+    - **The `NPM_TOKEN` secret can now be deleted** (Xwolv does that). `npm.yml` keeps reading it as a fallback, so nothing else needs to change.
     - Verify: `npm view @courmap/client version` prints the newest version, and the npm page shows the provenance badge.
 12. [ ] **Proxy 0.1.0.** Who: Claude Code, after item 14. Tag `proxy-v0.1.0`.
     Verify: `docker pull ghcr.io/courmap/proxy:0.1.0` and `:latest`.
@@ -57,13 +56,13 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Crons now avoid busy minutes (scan 07:23 daily; seed 06:17, release 09:13, weekly bots 10:47 on Tuesdays), with the Worker watchdog 30 minutes behind each.
     - Checked 2026-10-25: the daily scan ran on 2026-10-22, 23, 24 and 25 (the 2026-10-21 run failed and nothing has failed since); the scheduled seed and release both ran on Tuesday 2026-10-20. The seed schedule failed on a stale commit (a gap diagnostic the seed fix da02a50 addressed) and a dispatch on da02a50 verified instead; the next seed schedule is 2026-10-27.
     - Verify: `gh run list --workflow bots.yml --event schedule` lists runs on consecutive days that update issues #13 to #29 instead of duplicating them.
-14. [ ] **A week of real proxy traffic with no wrong imports.** Who: Xwolv, on the Unraid server, since 2026-10-19.
-    - First export received 2026-10-20 (two usenet indexers, about 550 items, 17 rewritten, 201 unresolved). It found a secret-logging risk, the stale-count problem for airing shows, and parser gaps; all fixed or recorded (DECISIONS.md, "First real traffic"). Xwolv updates his proxy to the new `:edge` image to get them.
+14. [ ] **A week of real proxy traffic with no wrong imports.** Who: Xwolv, on the Unraid server. Not started: it starts when Xwolv begins running the proxy against his real Sonarr, and the week counts from that day.
+    - Earlier exports (first received 2026-10-20: two usenet indexers, about 550 items, 17 rewritten, 201 unresolved) led to fixes but do not count towards the week. It found a secret-logging risk, the stale-count problem for airing shows, and parser gaps; all fixed or recorded (DECISIONS.md, "First real traffic"). Xwolv updates his proxy to the new `:edge` image to get them.
     Verify: Sonarr's history for the week shows no anime episode imported as the wrong episode; the status page's export is imported with `pnpm corpus:from-proxy` (item 16).
-15. [~] **Bot PRs and issues reviewed.** Who: Xwolv decides; Claude Code applies.
+15. [x] **Bot PRs and issues reviewed.** Who: Xwolv decides; Claude Code applies. Done, on Xwolv's decision (2026-10-27).
     - First batch done 2026-10-19 (decided by Xwolv): #2 (without the Koori no Jouheki 2nd Season line), #3 to #9, #11 and #12 merged; #10 closed and recorded in `data/rejected.yaml`, which the bots read so it is never proposed again. No bot PR is open.
     - Resolved 2026-10-25 (on Xwolv's instruction): the 11 open PRs merged (#110 airing updates, #111 to #120 sequels), and 28 issues closed, 11 by rejection (reasons in `data/rejected.yaml`), 16 by data fixes in manual files with the provider's pages as sources (Girls und Panzer as the 2026 TV series, Steel Ball Run stages, Osomatsu's missing finale, the MHA 19th special, Kaguya's special number, the Shibou Yuugi film, Virgin Punk's nonexistent show, the Watashi ga Koibito TV special, the two second-cour splits, Cyberpunk Edgerunners 2, and the Dragon Ball Super and Gundam SEED prequels, plus four that were already right), and #23 because no provider has an entry. Details in HANDOFF.md and DECISIONS.md.
-    - Left open: #77 (Kingdom's 14th TMDB and TVDB episode, "Zoku-hen", has no air date; the sequel is the seed's `kingdom-zoku-hen`, mapped from episode 14 when it airs), #13 (Sazae-san needs a season-by-season TMDB mapping), #59 (Oshiri Dandy has no TMDB entry).
+    - Left open, not launch blockers: #77 (Kingdom's 14th TMDB and TVDB episode, "Zoku-hen", has no air date; the sequel is the seed's `kingdom-zoku-hen`, mapped from episode 14 when it airs), #13 (Sazae-san needs a season-by-season TMDB mapping) and #59 (Oshiri Dandy has no TMDB entry). They stay open as ordinary data issues waiting on outside sources (Xwolv, 2026-10-27).
     - chitose-kun-wa-ramune-bin-no-naka-part-2 and dark-machine-the-animation (11 vs 12 episodes) stay as tier C issues for now (Xwolv, session 8).
     - Verify: no bot PR or `mapping-conflict` issue older than a week without a decision.
 16. [ ] **Corpus large enough to trust.** Who: Xwolv supplies names (proxy exports); Claude Code imports and verifies them with Xwolv.
@@ -78,8 +77,8 @@ Legend: [x] done, [ ] open, [~] partly done.
     - The Unraid Add Container form.
     - The "Copy as GitHub issue" block.
     - Verify: `grep -c "Screenshot to add:" site/src/content/docs/sonarr.mdx` prints 0.
-18. [ ] **Fresh-eyes test on all three front doors** (Sonarr users, developers, contributors). Who: Xwolv finds testers who have never seen the project; Claude Code fixes every place they stall.
-    - Verify: each tester reaches a working result in under five minutes (proxy resolving releases, a first `translate` result, a first PR passing CI), and every stall became a docs fix.
+18. [ ] **Fresh-eyes test on all four front doors** (Sonarr users, developers, data users, contributors). Who: Xwolv finds testers who have never seen the project; Claude Code fixes every place they stall.
+    - Verify: each tester reaches a working result in under five minutes: the proxy resolving releases (Sonarr quickstart), a first `translate` result (Library quickstart), a first `curl` result from `api.courmap.com` (Use the data), and a first PR passing CI (Fix a mapping). Every stall became a docs fix.
 19. [x] **Docs, README and snippets.** Who: Claude Code. Done in session 6; re-verified in session 8 after the domain switch and the npm release (no page points at the old hosts or calls the packages unpublished).
     - Polished 2026-10-19:
       - The Sonarr quick start now stands alone: API keys, Prowlarr indexer IDs, one path per indexer, category 5070, shared networks, Unraid and Compose tabs, and what success looks like.

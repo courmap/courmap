@@ -10,7 +10,7 @@ import { Aside, Steps, TabItem, Tabs } from '@astrojs/starlight/components';
 Get anime episodes grabbed and imported as the right episode in a few minutes. The proxy sits between Prowlarr and Sonarr and rewrites a release only when it is sure about it. When it is not sure, it passes the release through unchanged, so Sonarr never does worse than it does today. It works for torrent indexers (Torznab) and usenet indexers (Newznab) alike.
 
 ```
-Sonarr  ->  Courmap proxy (/nyaa, /animetosho, ...)  ->  Prowlarr  ->  your indexers
+Sonarr  ->  Courmap proxy  ->  Prowlarr  ->  indexers
 ```
 
 ## Before you start

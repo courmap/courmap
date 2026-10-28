@@ -9,7 +9,7 @@ import { Aside, Steps, TabItem, Tabs } from '@astrojs/starlight/components';
 
 Get anime episodes grabbed and imported as the right episode in a few minutes. The proxy sits between Prowlarr and Sonarr and rewrites a release only when it is sure about it. When it is not sure, it passes the release through unchanged, so Sonarr never does worse than it does today.
 
-```
+```text wrap
 Sonarr  ->  Courmap proxy  ->  Prowlarr  ->  indexers
 ```
 
@@ -37,15 +37,19 @@ Addresses such as `http://sonarr:8989` and `http://prowlarr:9696` use container 
 
 You add one `INDEXER_<NAME>_URL` setting per indexer. `<NAME>` is a label you choose, written in capital letters, digits and underscores. It is **not** the Prowlarr ID. The proxy lowercases it and turns underscores into hyphens, and the result is the path Sonarr will use. The Prowlarr ID goes inside the value. A usenet indexer also takes `INDEXER_<NAME>_TYPE` set to `newznab`; torrent indexers need none.
 
+<div class="stack-table">
+
 | Setting | Value | Address Sonarr uses |
 | --- | --- | --- |
 | `INDEXER_TRACKER_URL` | `http://prowlarr:9696/1/api` | `http://courmap-proxy:9797/tracker` |
 | `INDEXER_GEEK_URL` | `http://prowlarr:9696/2/api` | `http://courmap-proxy:9797/geek` |
 | `INDEXER_GEEK_TYPE` | `newznab` | |
 
+</div>
+
 Add this service next to Sonarr and Prowlarr, in the same Compose file so it joins their network:
 
-```yaml
+```yaml wrap
 services:
   courmap-proxy:
     image: ghcr.io/courmap/proxy:edge   # the only tag for now

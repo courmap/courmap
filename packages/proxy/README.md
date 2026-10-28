@@ -79,7 +79,7 @@ Environment variables win over the optional YAML file at `/config/courmap-proxy.
 | `COURMAP_DUMP` | none | A fixed local dump. The proxy then never downloads data. |
 | `COURMAP_META_URL` | `https://github.com/courmap/courmap/releases/latest/download/meta.json` | Where the current data version and dump are announced: the latest GitHub data release. |
 | `REFRESH_HOURS` | `24` | How often `meta.json` is checked. A dump is downloaded only when the data version changes, and its SHA-256 is checked before it replaces the old one. |
-| `SONARR_REFRESH_MINUTES` | `60` | How often the series list is reloaded. |
+| `SONARR_REFRESH_MINUTES` | `60` | How often the series list is reloaded. It is also reloaded automatically, at most once a minute, when a release or a search needs a show that is not in the list, so a series you just added is picked up without waiting. The status page shows the **Last Sonarr refresh**. |
 | `PORT` | `9797` | Listening port. |
 | `DATA_DIR` | `/data` | Dumps, `current.json` and `unresolved.jsonl`. |
 | `TIMEOUT_SECONDS` | `60` | Upstream request timeout. |

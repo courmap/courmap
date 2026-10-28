@@ -96,7 +96,11 @@ export class Rewriter {
     let assisted: AssistedMapping | undefined;
     if (m.ids.tvdb_show !== undefined && items.every((p) => p.projections.tvdb_show?.season !== undefined)) {
       series = this.sonarr.seriesByTvdb(Number(m.ids.tvdb_show));
-      if (!series) return pass('not-in-sonarr', `TVDB ${m.ids.tvdb_show} (${m.work}) is not a series in Sonarr`);
+      if (!series) {
+        // Maybe the series was added to Sonarr since the list was loaded: reload it (rate-limited), and pass this release through.
+        this.sonarr.refreshOnMiss(Number(m.ids.tvdb_show));
+        return pass('not-in-sonarr', `TVDB ${m.ids.tvdb_show} (${m.work}) is not a series in Sonarr`);
+      }
       for (const p of items) {
         const t = p.projections.tvdb_show!;
         for (let e = t.episode; e <= (t.episode_to ?? t.episode); e++) eps.push({ season: t.season!, episode: e });

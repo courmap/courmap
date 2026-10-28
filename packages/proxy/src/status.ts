@@ -118,7 +118,8 @@ export function statusHtml(s: StatusInput): string {
   <dt>Last check</dt><dd>${esc(s.data.lastCheck ?? 'never')}</dd>
   <dt>Last change</dt><dd>${esc(s.data.lastChange ?? 'never')}</dd>
   ${s.data.lastError ? `<dt>Last error</dt><dd class="bad">${esc(s.data.lastError)}</dd>` : ''}
-  <dt>Sonarr</dt><dd>${s.sonarr.configured ? `${s.sonarr.series} series, refreshed ${esc(s.sonarr.lastRefresh ?? 'never')}` : '<span class="bad">not configured</span>'}</dd>
+  <dt>Sonarr</dt><dd>${s.sonarr.configured ? `${s.sonarr.series} series` : '<span class="bad">not configured</span>'}</dd>
+  ${s.sonarr.configured ? `<dt>Last Sonarr refresh</dt><dd>${esc(s.sonarr.lastRefresh ?? 'never')}</dd>` : ''}
   ${s.sonarr.lastError ? `<dt>Sonarr error</dt><dd class="bad">${esc(s.sonarr.lastError)}</dd>` : ''}
 </dl>
 

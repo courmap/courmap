@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Instructions for agents working in this repo. Start with `docs/HANDOFF.md` (where the build stands and what is next) and `docs/LAUNCH.md` (everything open before the public launch, with owners and checks; update it at the end of every session). `docs/SPEC.md` is the source of truth for scope, data model, layout, licensing and build order; read it before starting a new build step. Choices the spec left open, or where we deviated from it, are logged in `docs/DECISIONS.md`. Read that too, and add to it.
+Instructions for agents working in this repo. Start with `docs/dev/HANDOFF.md` (where the build stands and what is next) and `docs/dev/LAUNCH.md` (everything open before the public launch, with owners and checks; update it at the end of every session). `docs/SPEC.md` is the source of truth for scope, data model, layout, licensing and build order; read it before starting a new build step. Choices the spec left open, or where we deviated from it, are logged in `docs/DECISIONS.md`. Read that too, and add to it.
 
 ## Hard constraints
 

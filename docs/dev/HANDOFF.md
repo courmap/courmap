@@ -1,6 +1,6 @@
 # Handoff
 
-Where the build stands, for the next session. Read CLAUDE.md, docs/SPEC.md and docs/DECISIONS.md first, as always; this file only says what is done and what is next. The 2026-10-25 session log, with the bot PRs, the closed issues and the proxy export maintenance, is `docs/SESSION-2026-10-25.md`. `docs/LAUNCH.md` lists everything open before the public launch. Update both at the end of every session.
+Where the build stands, for the next session. Read CLAUDE.md, docs/SPEC.md and docs/DECISIONS.md first, as always; this file only says what is done and what is next. The 2026-10-25 session log, with the bot PRs, the closed issues and the proxy export maintenance, is `docs/dev/SESSION-2026-10-25.md`. `docs/dev/LAUNCH.md` lists everything open before the public launch. Update both at the end of every session.
 
 Last updated 2026-10-26: the 10 sequel PRs (#127 to #136) and the second proxy-export pass (#137) are merged; corpus 199 verified, 394 unverified. Details in DECISIONS.md, "Proxy export 2026-10-26, second pass".
 
@@ -48,7 +48,7 @@ Last updated 2026-10-26: the 10 sequel PRs (#127 to #136) and the second proxy-e
   - The Sonarr quick start was rewritten for first-time self-hosters.
   - The Prowlarr advice was wrong in three places (the guide, the quick start and the proxy README); all now say to tag what Sonarr should still get directly. Prowlarr's app tags only include, and it re-adds indexers deleted from Sonarr.
   - The home page has a title and an explanation under its table; logo alt text and concept links are in place.
-- **Newznab (usenet) support in the proxy, issue #30** (done and closed 2026-10-20: a real SPY x FAMILY S02E07 grab from NZBgeek imported correctly):
+- **Newznab (usenet) support in the proxy, issue #30** (done and closed 2026-10-20: a real grab from a real usenet indexer imported correctly):
   - `INDEXER_<NAME>_TYPE=torznab|newznab` (YAML `type:`); unset means learned from the feed's first results. Caps carry no protocol marker, so they pass through unchanged apart from the TV search.
   - The one real difference between the protocols is the attribute namespace Sonarr reads the `tvdbid` from (`newznab:attr` against `torznab:attr`). Confirmed on a real Sonarr 4.0.20: the old image's usenet results had `tvdbId` 0, the new image's 405920.
   - `packages/proxy/src/feed.ts` (was `torznab.ts`) holds the protocol-aware feed handling; `test/newznab.test.ts` has 19 tests including a mixed setup.
@@ -107,7 +107,7 @@ Last updated 2026-10-26: the 10 sequel PRs (#127 to #136) and the second proxy-e
 
 ## What Xwolv needs to provide
 
-See `docs/LAUNCH.md`. In short:
+See `docs/dev/LAUNCH.md`. In short:
 
 - **npm trusted publishing:** configure all three packages, then set the `NPM_TRUSTED_PUBLISHING` variable.
 - **Newznab check:** done (2026-10-20), #30 is closed.

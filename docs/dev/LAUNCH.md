@@ -44,8 +44,8 @@ Legend: [x] done, [ ] open, [~] partly done.
 20. [x] **Usenet (Newznab) support in the proxy:** [#30](https://github.com/courmap/courmap/issues/30). Who: Claude Code built it; Xwolv verifies on his own Sonarr.
     - Built: `INDEXER_<NAME>_TYPE=newznab|torznab` (detected from the feed's first results when unset), Newznab attributes written in the right namespace, caps and errors passed through, a new `:edge` image, and docs (quick start tabs for Torznab and Newznab, guide, proxy README).
     - Tested against a fake Newznab feed (19 tests) and by hand with a real Sonarr 4.0.20 and a fake usenet indexer: the indexer test passes, interactive search and RSS sync work, Sonarr reads the TVDB ID and size. Not tested against a live usenet indexer.
-    - Verified on Xwolv's own Sonarr (2026-10-20): both Courmap indexers (NZBgeek and AniFix) pass Sonarr's indexer test. #30's "passes Sonarr's indexer test" box is ticked.
-    - Verified on Xwolv's own Sonarr (2026-10-20): a real grab imported correctly, SPY x FAMILY S02E07 (absolute 32) from NZBgeek through the proxy, imported as S02E07. Every box in #30 is ticked and the issue is closed by the commit that records it.
+    - Verified on Xwolv's own Sonarr (2026-10-20): both Courmap indexers (real usenet indexers) pass Sonarr's indexer test. #30's "passes Sonarr's indexer test" box is ticked.
+    - Verified on Xwolv's own Sonarr (2026-10-20): a real grab from a real usenet indexer went through the proxy and imported correctly, as the right episode (absolute numbering). Every box in #30 is ticked and the issue is closed by the commit that records it.
     - Verify: #30 is closed.
 
 ## Data and quality

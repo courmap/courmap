@@ -35,13 +35,13 @@ Searches are translated too. Sonarr searches by TVDB ID, season and episode, whi
 
 ## Set up
 
-The [Sonarr quickstart](/getting-started/sonarr/) has the full steps for Docker Compose and Unraid, torrent and usenet indexers, and Jackett or direct feeds. The screenshots below belong to those steps.
+The [Sonarr quickstart](/getting-started/sonarr/) is the short path with Docker Compose. This page has everything else: Unraid, a different Compose project, anime-only indexers, Jackett and other feeds, a VPN container, and the details behind each setting. The screenshots below belong to the quickstart's steps.
 
 1. **Find each anime indexer's ID in Prowlarr.** It is the number in the indexer's feed address, `http://prowlarr:9696/1/api`. Each `INDEXER_<NAME>_URL` is one Prowlarr indexer's feed, and `<NAME>` is a label you choose: the proxy serves it at `/<name>`, lowercase, with underscores turned into hyphens. For a usenet indexer, add `INDEXER_<NAME>_TYPE: newznab`; torrent indexers need no type, and an indexer without one is detected from its first results.
 
    > **Screenshot to add:** Prowlarr, Indexers list, with the anime indexer's ID visible.
 
-2. **Keep Prowlarr's own copies for regular TV.** Sonarr searches standard series in an indexer's **Categories** and anime series in its **Anime Categories**, so Prowlarr's copy can keep handling regular TV while the Courmap copy handles anime. For an indexer that carries both, clear **Anime Sync Categories** in Prowlarr's Sonarr app (**Settings**, **Apps**, Sonarr, **Show Advanced**), keep **Full Sync** and no tags, and click **Sync App Indexers**. For an anime-only indexer such as Nyaa, remove Prowlarr's copy with a tag instead. The [quickstart](/getting-started/sonarr/#3-keep-prowlarrs-copies-for-regular-tv) has the clicks step by step, and why. Do not change the categories of Prowlarr's copies in Sonarr: Prowlarr rewrites them on every sync.
+2. **Keep Prowlarr's own copies for regular TV.** Sonarr searches standard series in an indexer's **Categories** and anime series in its **Anime Categories**, so Prowlarr's copy can keep handling regular TV while the Courmap copy handles anime. For an indexer that carries both, clear **Anime Sync Categories** in Prowlarr's Sonarr app (**Settings**, **Apps**, Sonarr, **Show Advanced**), keep **Full Sync** and no tags, and click **Sync App Indexers**. For an anime-only indexer such as Nyaa, remove Prowlarr's copy with a [tag](#anime-only-indexers) instead. The [quickstart](/getting-started/sonarr/#3-keep-prowlarrs-copies-for-regular-tv) has the clicks step by step, and why. Do not change the categories of Prowlarr's copies in Sonarr: Prowlarr rewrites them on every sync.
 
    > **Screenshot to add:** Prowlarr, Settings, Apps, Sonarr app dialog, with Sync Level and Tags.
 
@@ -62,13 +62,110 @@ The [Sonarr quickstart](/getting-started/sonarr/) has the full steps for Docker 
 
 ### Unraid
 
-In the **Docker** tab choose **Add Container** (template: none). Set **Name** to `courmap-proxy` and **Repository** to `ghcr.io/courmap/proxy:edge`, and **Network Type** to the custom network your Sonarr and Prowlarr use, so container names resolve. Under **Extra Parameters** add `--user 99:100` so files belong to `nobody:users` like your other appdata. Add a **Port** (container `9797`, host `9797`), a **Path** `/data` to `/mnt/user/appdata/courmap-proxy/data`, a **Path** `/config` to `/mnt/user/appdata/courmap-proxy/config`, and the **Variables** `SONARR_URL`, `SONARR_API_KEY` and one `INDEXER_<NAME>_URL` per Prowlarr indexer. If the status page says the data folder is not writable, run `chown -R 99:100 /mnt/user/appdata/courmap-proxy`.
+<Steps>
+
+1. Open the **Docker** tab and click **Add Container**. Leave **Template** empty, and switch on **Advanced View** at the top right so every field shows.
+
+2. Fill in the form:
+
+   - **Name**: `courmap-proxy`
+   - **Repository**: `ghcr.io/courmap/proxy:edge`
+   - **Network Type**: the custom network your Sonarr and Prowlarr use (for example **Custom: proxynet**). If they run on **bridge**, choose **bridge** and use IP addresses in every URL.
+   - **WebUI**: `http://[IP]:[PORT:9797]/`
+   - **Extra Parameters**: `--user 99:100`, so its files belong to `nobody:users` like your other appdata
+
+3. Click **Add another Path, Port, Variable, Label or Device** once for each item below, choosing the **Config Type** shown first:
+
+   - **Port**: **Container Port** `9797`, **Host Port** `9797` (the status page).
+   - **Path**: **Container Path** `/data`, **Host Path** `/mnt/user/appdata/courmap-proxy/data`.
+   - **Path**: **Container Path** `/config`, **Host Path** `/mnt/user/appdata/courmap-proxy/config`.
+   - **Variable**: **Key** `SONARR_URL`, **Value** `http://sonarr:8989`.
+   - **Variable**: **Key** `SONARR_API_KEY`, **Value** your **Sonarr** API key.
+   - **Variable**: **Key** `INDEXER_TRACKER_URL`, **Value** `http://prowlarr:9696/1/api`.
+   - **Variable**, only for a usenet indexer: **Key** `INDEXER_GEEK_URL`, **Value** `http://prowlarr:9696/2/api`.
+   - **Variable**, only for a usenet indexer: **Key** `INDEXER_GEEK_TYPE`, **Value** `newznab`.
+
+   Give each a **Name** you will recognize later, such as "Sonarr URL".
+
+4. Click **Apply**. If the status page later says the data folder is not writable, run `chown -R 99:100 /mnt/user/appdata/courmap-proxy` in the Unraid terminal.
+
+</Steps>
 
 > **Screenshot to add:** the Unraid Add Container form, filled in.
 
 ### Image tags
 
 `ghcr.io/courmap/proxy:edge` is the only tag for now. It follows the main branch. Every build also gets a `sha-<commit>` tag (the status page shows `edge-` plus the same seven characters), which pins one build. Versioned tags will appear once the first proxy release is cut.
+
+### Compose in a different project
+
+If Sonarr and Prowlarr live in a different Compose project, the proxy has to join their network. `docker inspect sonarr --format '{{range $name, $_ := .NetworkSettings.Networks}}{{$name}} {{end}}'` prints its name; put that name in place of `media_default` below:
+
+```yaml
+services:
+  courmap-proxy:
+    image: ghcr.io/courmap/proxy:edge
+    container_name: courmap-proxy
+    restart: unless-stopped
+    ports:
+      - "9797:9797"
+    volumes:
+      - ./courmap/data:/data
+      - ./courmap/config:/config
+    environment:
+      SONARR_URL: http://sonarr:8989
+      SONARR_API_KEY: your-sonarr-api-key
+      INDEXER_TRACKER_URL: http://prowlarr:9696/1/api
+    networks: [arr]
+
+networks:
+  arr:
+    external: true
+    name: media_default   # the network Sonarr and Prowlarr are on
+```
+
+### Categories and Indexer Priority
+
+`5070` is the standard Torznab and Newznab category number for TV/Anime, which anime releases are filed under. Sonarr searches **Anime Categories** for series whose type is Anime and **Categories** for the rest, and an empty list means that kind of series is not searched at this indexer (Sonarr accepts an empty **Categories** as long as **Anime Categories** is set). So an empty **Categories** on the Courmap copy keeps it for anime only, and regular series are still searched at Prowlarr's copy of the same indexer. **Indexer Priority** 10 beats Prowlarr's 25 when both copies return the same release.
+
+An indexer that carries only anime has no Prowlarr copy to serve regular series (see below), so its Courmap copy also takes `5070` in **Categories**.
+
+### Anime-only indexers
+
+Clearing **Anime Sync Categories** does not remove an anime-only indexer such as Nyaa or AnimeTosho from Sonarr, because its anime category sits under the TV category. Remove its copy with a tag instead. Prowlarr's app tags only *include* indexers (an app with tags receives just the indexers sharing one of them), so tag the indexers that should keep a copy, and the app:
+
+<Steps>
+
+1. In Prowlarr, open **Indexers**. For each indexer Sonarr should still get directly (the ones that also carry regular TV), click it, type `sonarr` in **Tags**, press Enter, and click **Save**. Leave the anime-only indexers untagged.
+
+2. Open **Settings**, then **Apps**, then your **Sonarr** app. Type `sonarr` in **Tags**, check that **Sync Level** is **Full Sync**, and click **Save**.
+
+3. Back on **Indexers**, click **Sync App Indexers**. Prowlarr removes from Sonarr every indexer without the `sonarr` tag.
+
+4. In Sonarr, open **Settings**, then **Indexers**, and check that the "(Prowlarr)" copies of your anime-only indexers are gone.
+
+</Steps>
+
+If you have both kinds of indexer, do both: clear **Anime Sync Categories**, tag the indexers that carry regular TV, and tag the app. With only anime-only indexers, tag the app and no indexer. Then add the Courmap copy of an anime-only indexer with **Categories** `5070` and **Anime Categories** `5070`.
+
+## Not using Prowlarr?
+
+The proxy is not tied to Prowlarr: it sits in front of any Torznab or Newznab feed. Sonarr's request goes to the address in `INDEXER_<NAME>_URL` with Sonarr's query and API key added, and the results come back rewritten.
+
+- **Jackett** works. This setup was tested end to end on 2026-10-19 with Jackett, Sonarr 4.0.20 and the proxy image: Sonarr's indexer test passed, its TVDB searches were translated into title searches Jackett understands, and `[Erai-raws] Spy x Family Season 2 - 05 [1080p]...` reached Sonarr as `SPY x FAMILY S02E05 [1080p] ... -Erai-raws`. What changes from the quickstart:
+  - **The feed address.** In Jackett, click **Copy Torznab Feed** on the indexer's row and add `api` to the end, so Nyaa becomes:
+
+    ```yaml
+    INDEXER_NYAA_URL: http://jackett:9117/api/v2.0/indexers/nyaasi/results/torznab/api
+    ```
+
+  - **The API key.** In Sonarr's indexer, **API Key** is your Jackett API key (shown at the top of the Jackett dashboard). The proxy passes it on to Jackett.
+  - **Keeping Prowlarr's copies is simpler.** Jackett does not sync anything to Sonarr, so there is nothing in Jackett to change. For an indexer that also carries regular TV, keep the copy you added to Sonarr from Jackett and clear its **Anime Categories**; for an anime-only indexer, delete (or disable) it.
+  - **Leave Jackett's title tweaks off.** Some Jackett indexers offer to "improve Sonarr compatibility" by adding season information to titles. Keep that off for indexers behind the proxy: Courmap resolves the original name.
+- **Another Torznab feed**, such as a tracker's own Torznab API, works the same way: put its address in `INDEXER_<NAME>_URL`. If it needs a key other than the one Sonarr sends, set `INDEXER_<NAME>_APIKEY`.
+- **Sonarr's built-in Nyaa indexer** cannot go through the proxy: it reads Nyaa's own RSS feed, not Torznab, so there is nothing for the proxy to sit in front of. Add Prowlarr or Jackett to use Courmap.
+- **Usenet (Newznab) indexers** work the same way, straight from the indexer if you like: set `INDEXER_<NAME>_URL` to its API address (for NZBgeek that is `https://api.nzbgeek.info/api`, the base address plus `/api`), `INDEXER_<NAME>_TYPE` to `newznab`, and use the indexer's own API key in Sonarr.
+- **Sonarr's built-in Fanzub indexer** is its own type, neither Torznab nor Newznab, so it cannot go through the proxy.
 
 ## Settings
 

@@ -47,6 +47,7 @@ export default defineConfig({
       editLink: { baseUrl: 'https://github.com/courmap/courmap/edit/main/site/' },
       customCss: ['./src/styles/brand.css'],
       components: { Footer: './src/components/Footer.astro' },
+      head: [{ tag: 'script', attrs: { src: '/image-zoom.js', defer: true } }],
       plugins: [starlightLinksValidator()],
       sidebar: [
         { label: 'Try it', slug: 'try' },

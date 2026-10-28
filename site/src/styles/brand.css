@@ -87,3 +87,9 @@
   .stack-table td:nth-child(2)::before { content: 'Value: '; color: var(--sl-color-gray-3); }
   .stack-table td:nth-child(3)::before { content: 'Sonarr uses: '; color: var(--sl-color-gray-3); }
 }
+
+/* Click-to-zoom screenshots (public/image-zoom.js). */
+.sl-markdown-content img.zoomable { cursor: zoom-in; }
+dialog.image-zoom { position: fixed; inset: 0; margin: auto; padding: 0; border: 0; background: transparent; max-width: 96vw; max-height: 94vh; overflow: auto; cursor: zoom-out; }
+dialog.image-zoom::backdrop { background: rgb(0 0 0 / 0.8); }
+dialog.image-zoom img { display: block; max-width: 96vw; max-height: 94vh; margin: 0 auto; border-radius: 0.25rem; }

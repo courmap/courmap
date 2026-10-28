@@ -5,17 +5,13 @@ sidebar:
   order: 1
 ---
 
-import { Aside, Steps } from '@astrojs/starlight/components';
+import { Steps } from '@astrojs/starlight/components';
 
 The Courmap proxy is a Torznab and Newznab indexer proxy, for torrents and usenet alike. It sits between your indexers (usually through Prowlarr) and Sonarr, resolves every anime [release name](/concepts/release-names/) with Courmap, and rewrites the ones it is sure about into the numbering Sonarr understands.
 
 ```
 Sonarr  ->  Courmap proxy (/nyaa, /animetosho, /geek, ...)  ->  indexer feeds (torrent or usenet)
 ```
-
-<Aside type="caution" title="Screenshots are placeholders">
-Boxes marked "Screenshot to add" will be replaced with screenshots from a real install.
-</Aside>
 
 ## What it rewrites, and what it never touches
 
@@ -39,11 +35,13 @@ The [Sonarr quickstart](/getting-started/sonarr/) is the short path with Docker 
 
 1. **Find each anime indexer's ID in Prowlarr.** It is the number in the indexer's feed address, `http://prowlarr:9696/1/api`. Each `INDEXER_<NAME>_URL` is one Prowlarr indexer's feed, and `<NAME>` is a label you choose: the proxy serves it at `/<name>`, lowercase, with underscores turned into hyphens. For a usenet indexer, add `INDEXER_<NAME>_TYPE: newznab`; torrent indexers need no type, and an indexer without one is detected from its first results.
 
-   > **Screenshot to add:** Prowlarr, Indexers list, with the anime indexer's ID visible.
+   ![Prowlarr's Indexers list with the ID column switched on: AniFix has ID 3 and NZBgeek has ID 2.](../../assets/sonarr/01-prowlarr-indexers.png)
+
+   The list hides the ID by default. Turn it on under **Options** (the table icon at the top right), or read it from the indexer's feed address.
 
 2. **Keep Prowlarr's own copies for regular TV.** Sonarr searches standard series in an indexer's **Categories** and anime series in its **Anime Categories**, so Prowlarr's copy can keep handling regular TV while the Courmap copy handles anime. For an indexer that carries both, clear **Anime Sync Categories** in Prowlarr's Sonarr app (**Settings**, **Apps**, Sonarr, **Show Advanced**), keep **Full Sync** and no tags, and click **Sync App Indexers**. For an anime-only indexer such as Nyaa, remove Prowlarr's copy with a [tag](#anime-only-indexers) instead. The [quickstart](/getting-started/sonarr/#3-keep-prowlarrs-copies-for-regular-tv) has the clicks step by step, and why. Do not change the categories of Prowlarr's copies in Sonarr: Prowlarr rewrites them on every sync.
 
-   > **Screenshot to add:** Prowlarr, Settings, Apps, Sonarr app dialog, with Show Advanced on, Anime Sync Categories cleared and Sync Level Full Sync.
+   ![Prowlarr's Edit Application dialog for Sonarr with Show Advanced on: Sync Level is Full Sync, Tags is empty and Anime Sync Categories is empty.](../../assets/sonarr/02-prowlarr-sonarr-app.png)
 
 3. **Add the proxy to Sonarr.** Open **Settings**, then **Indexers**, then **+**, and choose **Torznab** under Custom for a torrent indexer, or **Newznab** under Custom for a usenet one. Add each indexer as the type it is: a torrent feed as Newznab, or a usenet feed as Torznab, returns results Sonarr cannot use. The settings that matter:
 
@@ -54,11 +52,13 @@ The [Sonarr quickstart](/getting-started/sonarr/) is the short path with Docker 
    - **Indexer Priority**: `10`, so the Courmap copy wins over Prowlarr's (25) when both return the same release
    - **Anime Standard Format Search**: optional; the proxy translates both kinds of search
 
-   > **Screenshot to add:** Sonarr, Settings, Indexers, Add Torznab and Add Newznab dialogs, filled in for the proxy.
+   ![Sonarr's Edit Indexer dialog for a Newznab indexer pointing at the Courmap proxy, with Show Advanced on: URL, API Path /api, a masked API key, empty Categories, Anime Categories set to TV/Anime and Indexer Priority 10.](../../assets/sonarr/03-sonarr-indexer.png)
+
+   *The dialog for a Newznab (usenet) indexer. Torznab has the same fields.*
 
 4. **Open the status page** at `http://<your-host>:9797/` and check that it shows a data version and your series count.
 
-   > **Screenshot to add:** the proxy status page after a day of RSS traffic.
+   ![The Courmap proxy status page: data version 2026.44, 16 series from Sonarr, and a table with one row per indexer showing requests, searches, items, rewritten and passed-through counts.](../../assets/sonarr/04-proxy-status.png)
 
 ### Unraid
 
@@ -91,7 +91,7 @@ The [Sonarr quickstart](/getting-started/sonarr/) is the short path with Docker 
 
 </Steps>
 
-> **Screenshot to add:** the Unraid Add Container form, filled in.
+![Unraid's Update Container form for courmap-proxy in Advanced View: the repository, the data and config paths, the status page port 9797, the Sonarr URL, the indexer URLs and types, and a masked Sonarr API key.](../../assets/sonarr/05-unraid-container.png)
 
 ### Image tags
 
@@ -240,7 +240,7 @@ Prowlarr's own Sonarr app needs no change: Sonarr and Prowlarr share one network
 
 `http://<your-host>:9797/` shows the data version and its last refresh, the Sonarr connection, and per indexer its protocol (torznab or newznab, as set or detected), how many requests, searches and results it saw, how many results it rewrote, and why the rest passed through. Below that are the works numbered with your Sonarr's help ("assisted") and the release names Courmap could not resolve, with a block of text you can paste into a GitHub issue to help improve the data: assisted works appear in it as ready-made mapping files. To report them, press Copy and open an "Unresolved release names from the proxy" issue; [Turning proxy reports into data](/proxy-reports/) says how to title it and what a maintainer does with it. Nothing on the page is sent anywhere.
 
-> **Screenshot to add:** the unresolved names section with the "Copy as GitHub issue" block.
+![The status page's unresolved release names table, followed by the Copy as GitHub issue block: a text box with a ready-made issue body and a Copy button.](../../assets/sonarr/06-proxy-unresolved.png)
 
 ## API keys
 

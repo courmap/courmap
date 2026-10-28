@@ -31,7 +31,7 @@ const axis = Astro.props.axis ?? Math.max(...lanes.flatMap((l) => l.segments.map
   .epmap-label { font-size: var(--sl-text-sm); color: var(--sl-color-gray-3); white-space: nowrap; }
   .epmap-lane { display: grid; grid-template-columns: repeat(var(--axis), minmax(0.6rem, 1fr)); gap: 2px; min-width: 18rem; }
   .epmap-seg { font-size: var(--sl-text-xs); padding: 0.3rem 0.4rem; border-radius: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; }
-  .epmap-a { background: var(--sl-color-accent); color: #fff; }
+  .epmap-a { background: var(--sl-color-accent); color: var(--sl-color-black); }
   .epmap-b { background: #2f6f73; color: #fff; }
   .epmap-c { background: #6b5b95; color: #fff; }
   .epmap-muted { background: var(--sl-color-gray-5); color: var(--sl-color-gray-2); }

@@ -1,9 +1,11 @@
 ---
 title: Contributing mappings
-description: Step-by-step mapping fixes, with worked examples for the hard cases.
+description: The full guide to mapping fixes, with worked examples for the hard cases.
+sidebar:
+  order: 3
 ---
 
-Mappings are YAML files in [`data/`](https://github.com/courmap/courmap/tree/main/data). A pull request with one file fixes one show for everyone. Every field is listed in the [data format reference](/reference/data-format/); this page shows how to use them.
+Never edited a mapping before? Start with [Fix a mapping](/getting-started/contributing/), which covers the basic loop of find, override, validate and open a pull request. This page is the full guide for the hard cases. Mappings are YAML files in [`data/`](https://github.com/courmap/courmap/tree/main/data). A pull request with one file fixes one show for everyone. Every field is listed in the [data format reference](/reference/data-format/); this page shows how to use them.
 
 Not sure what to work on? [Fixing open issues](/fixing-issues/) explains every kind of bot-opened issue and the usual fix.
 

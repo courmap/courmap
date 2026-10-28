@@ -7,7 +7,7 @@ description: Common questions about Courmap.
 No. It has no synopses, images, staff or ratings. It maps IDs and episode numbers; fetch everything else from the providers themselves.
 
 **How is this different from TheXEM?**
-TheXEM maps scene numbering to TVDB for Sonarr. Courmap maps every provider (AniDB, AniList, MAL, Kitsu, TVDB, TMDB, IMDb and [absolute numbering](/concepts/absolute-sequences/)) to one canonical [work](/concepts/works/), resolves [release names](/concepts/release-names/), and publishes everything as open data and a library. The Sonarr proxy uses Sonarr's own scene numbering where TheXEM provides it.
+TheXEM maps scene numbering to TVDB for Sonarr. Courmap maps every provider (AniDB, AniList, MAL, Kitsu, TVDB, TMDB, IMDb and [absolute numbering](/concepts/absolute-sequences/)) to one canonical [work](/concepts/works/), resolves [release names](/concepts/release-names/), and publishes everything as open data and a library. The Sonarr proxy uses Sonarr's own scene numbering (TheXEM's, where Sonarr uses it) for the series that have it, so the two work together rather than compete.
 
 **How is it different from Anime-Lists and anime-offline-database?**
 Courmap builds on both: anime-offline-database supplies the IDs, titles and synonyms, and Anime-Lists the TVDB and TMDB episode offsets. Courmap joins them, adds hand-written corrections and absolute sequences, checks that every episode translates and round-trips, and adds release-name resolution.
@@ -22,7 +22,7 @@ It says so. A release name that could be two works comes back `ambiguous` with b
 A new data release comes out every week. Airing shows are tracked daily by the bots, and their updates ship in the next weekly release.
 
 **Is there an API server?**
-Not one you need. Everything is published as files, and the library does the work locally. A small optional HTTP API for quick experiments may follow.
+Yes, an optional one. `api.courmap.com` is a convenience HTTP API with lookup, translate, resolve and search, limited to 60 requests a minute per client. Heavier use should go to the library or the dumps, which need no server at all: everything is published as files, and the library does the work locally. See [Use the data](/getting-started/data/#the-http-api) for examples.
 
 **Something is mapped wrong. What do I do?**
-Open an issue with the release name or IDs, or fix it yourself in a small pull request; see [for contributors](/getting-started/contributing/).
+Open an issue with the release name or IDs, or fix it yourself in a small pull request; see [Fix a mapping](/getting-started/contributing/).

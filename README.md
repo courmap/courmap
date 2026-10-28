@@ -7,19 +7,15 @@
 
 **Courmap translates an anime episode between AniDB, AniList, MAL, Kitsu, TVDB, TMDB, IMDb and absolute (fansub) numbering, and resolves release names to the right show and episode, as open data and a library with no server to run.**
 
-One release, every numbering (from data release `data-2026.43`):
+The same release, counted every way:
 
-| `[SubsPlease] Spy x Family - 17 (1080p)` | ID | Episode |
-| --- | --- | --- |
-| AniDB | 17061 | 5 |
-| AniList | 142838 | 5 |
-| MAL | 50602 | 5 |
-| Kitsu | 45619 | 5 |
-| TVDB | 405920 | S01E17 |
-| TMDB | 120089 | S01E17 |
-| Absolute | `spy-x-family-absolute` | 17 |
+| Source | Episode |
+| --- | --- |
+| Fansub release `[SubsPlease] Spy x Family - 17 (1080p)` | 17 |
+| AniDB, AniList, MAL, Kitsu | Part 2, episode 5 |
+| TVDB, TMDB | S01E17 |
 
-The fansub group's episode 17 is the fifth episode of the second cour, which AniDB, AniList, MAL and Kitsu list as its own entry and TVDB and TMDB keep in season 1. [Try it in your browser](https://courmap.com/try/).
+Fansub groups count straight through the show. AniDB, AniList, MAL and Kitsu split it into two cours (about 12 episodes each) that restart at 1, and TVDB and TMDB keep one season. [Try it in your browser](https://courmap.com/try/).
 
 ## Pick your path
 
@@ -41,24 +37,23 @@ services:
       INDEXER_NYAA_URL: http://prowlarr:9696/1/api
 ```
 
-Then add `http://courmap-proxy:9797/nyaa` to Sonarr as a Torznab indexer (a Newznab indexer for usenet). [Sonarr guide](https://courmap.com/sonarr/), including Unraid.
+Finish setup with step 3 of the [quickstart](https://courmap.com/getting-started/sonarr/#3-keep-prowlarrs-copies-for-regular-tv), or Prowlarr's copies of your indexers will duplicate anime results.
 
-It works with usenet indexers too: it caches identical searches, stops querying once a result resolves, caps the queries per search, and shows each indexer's failure reasons and daily request counts on its status page (`http://<host>:9797/`), so your API limits stay safe. API keys never appear in its logs, pages or exports. Sonarr and Prowlarr behind a VPN container such as gluetun? See [the VPN steps](https://courmap.com/getting-started/sonarr/#sonarr-and-prowlarr-behind-a-vpn-container).
+`INDEXER_NYAA_URL` makes the proxy serve that Prowlarr feed at `/nyaa` (the `1` is the indexer's ID in Prowlarr). Then add `http://courmap-proxy:9797/nyaa` to Sonarr as a Torznab indexer (Newznab for usenet) with your Prowlarr API key. [Sonarr quickstart](https://courmap.com/getting-started/sonarr/); Unraid, VPN containers, usenet limits and troubleshooting are in the [full guide](https://courmap.com/sonarr/).
 
 ### Developers
 
 ```ts
-import { createOfflineClient } from '@courmap/client';
+import { createRemoteClient } from '@courmap/client';
 
-const courmap = createOfflineClient('courmap.sqlite'); // the dump from the latest data release
+const courmap = createRemoteClient(); // fetches small static files on demand, nothing to download
 const t = await courmap.translate('anilist:142838', 5, ['tvdb_show', 'absolute']);
 console.log(t.results.tvdb_show); // { id: '405920', season: 1, episode: 17 }
 const r = await courmap.resolve('[SubsPlease] Sousou no Frieren - 12 (1080p)');
 console.log(r.status, r.match?.work, r.match?.episode); // ok sousou-no-frieren 12
-courmap.close();
 ```
 
-Works fully offline over the weekly SQLite dump, or fetches small static files on demand, in Node, browsers and Workers. [Library quickstart](https://courmap.com/getting-started/library/).
+Works in Node, browsers and Workers, and fully offline over the weekly SQLite dump. [Library quickstart](https://courmap.com/getting-started/library/). No code? Ask the HTTP API: `curl "https://api.courmap.com/v1/translate?from=anilist:142838&episode=5&to=tvdb_show"` ([more](https://courmap.com/getting-started/data/)).
 
 ### Contributors
 
@@ -77,15 +72,13 @@ pnpm install
 pnpm validate
 ```
 
-[Contributing guide](https://courmap.com/getting-started/contributing/).
+[Fix a mapping](https://courmap.com/getting-started/contributing/), and the [full contributing guide](https://courmap.com/contributing/).
 
 ## How it works
 
 Every provider maps to one canonical **work** (usually one cour, film or OVA), never to each other, so any translation is two hops. About 33,000 works are seeded weekly from [anime-offline-database](https://github.com/cedya77/anime-offline-database) (IDs, titles, synonyms) and [Anime-Lists](https://github.com/Anime-Lists/anime-lists) (TVDB and TMDB offsets); hand-written YAML files in [`data/`](data/) correct and extend them. CI checks every mapping (every episode must translate to every provider and back) and compiles it all into a SQLite dump and static JSON files. Bots watch each anime season and open pull requests and issues; a person only reviews where sources disagree.
 
-- **Not TheXEM:** TheXEM maps scene numbering to TVDB for Sonarr. Courmap maps all providers and absolute numbering to one hub, resolves release names, and publishes open data and a library; the proxy uses Sonarr's TheXEM scene numbering where it exists.
-- **Built on Anime-Lists and anime-offline-database:** Courmap joins them, adds corrections, absolute sequences and release-name resolution, and checks the result.
-- **Never guesses silently:** an unsure answer is `ambiguous`, with its candidates.
+Courmap never guesses silently: an unsure answer is `ambiguous`, with its candidates. How it differs from TheXEM, Anime-Lists and anime-offline-database is in the [FAQ](https://courmap.com/faq/).
 
 Documentation: [courmap.com](https://courmap.com). Design: [docs/SPEC.md](docs/SPEC.md).
 

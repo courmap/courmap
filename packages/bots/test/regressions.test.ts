@@ -25,3 +25,16 @@ describe('AniList relations on the real data (decisions S5.1, S5.2)', async () =
     expect([r.status, r.match?.work, r.match?.episode]).toEqual(['ok', 'doraemon-2005', 1]);
   });
 });
+
+describe('sequence errors name their work', async () => {
+  const state = await loadState(data);
+
+  it('attributes an open-ended sequence member of a finished work to that work', () => {
+    // bleach-tybw-absolute ends in an open-ended range; finishing the last cour must be traceable
+    // to the work, or the classifier cannot demote the proposal and the scan throws.
+    const line = { work: 'bleach-sennen-kessen-hen-kashin-tan', episodes: 10, status: 'finished' as const, origin: 'bot' as const, anilist: 185874 };
+    const { errors } = evaluate(state.loaded, state.relations, [...state.airing.filter((a) => a.work !== line.work), line]);
+    const e = errors.find((x) => x.code === 'open-ended-not-airing' && x.file.includes('sequences/'));
+    expect(e?.work).toBe('bleach-sennen-kessen-hen-kashin-tan');
+  });
+});

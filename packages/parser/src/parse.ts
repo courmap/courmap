@@ -202,7 +202,7 @@ export function parseRelease(input: string): ParsedRelease {
   // Season and episode as "1x12" (Sonarr's own form). Never part of a resolution ("1280x720") or a codec ("x265").
   const nxm = /(?<![\dx])(\d{1,2})x(\d{1,3})(?:v(\d))?(?![\dx])/i.exec(main);
   // A season pack with the season glued to the title: "Title-S03".
-  const sGlued = /(?<=[^\s-])-S(\d{1,2})(?=\s|$)/i.exec(main);
+  const sGlued = /(?<=[^\s-])-S(\d{1,2})(?=[\s-]|$)/i.exec(main);
   if (sxe) {
     out.season = Number(sxe[1]);
     out.episode = Number(sxe[2]);

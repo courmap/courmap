@@ -186,3 +186,6 @@ cases:
     expect: { title: Dandadan, season: 1, episode: null, batch: true, group: neoDESU }
   - name: "Dandadan S02 1080p Dual Audio WEBRip DD+ x265-EMBER"
     expect: { title: Dandadan, season: 2, episode: null, batch: true, group: EMBER, flags: [dual-audio, batch] }
+  # A glued season followed by more tags: "Title-S02-1080p".
+  - name: "[Cryon] Dan Da Dan-S02-1080p BluRay AV1 Opus 2.0 Dual Audio"
+    expect: { title: Dan Da Dan, season: 2, episode: null, batch: true, group: Cryon }

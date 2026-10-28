@@ -35,7 +35,7 @@ Searches are translated too. Sonarr searches by TVDB ID, season and episode, whi
 
 ## Set up
 
-The [Sonarr quickstart](/getting-started/sonarr/) is the short path with Docker Compose. This page has everything else: Unraid, a different Compose project, anime-only indexers, Jackett and other feeds, a VPN container, and the details behind each setting. The screenshots below belong to the quickstart's steps.
+The [Sonarr quickstart](/getting-started/sonarr/) is the short path with Docker Compose. This page has everything else: Unraid, a different Compose project, anime-only indexers, Jackett and other feeds, a VPN container, and the details behind each setting.
 
 1. **Find each anime indexer's ID in Prowlarr.** It is the number in the indexer's feed address, `http://prowlarr:9696/1/api`. Each `INDEXER_<NAME>_URL` is one Prowlarr indexer's feed, and `<NAME>` is a label you choose: the proxy serves it at `/<name>`, lowercase, with underscores turned into hyphens. For a usenet indexer, add `INDEXER_<NAME>_TYPE: newznab`; torrent indexers need no type, and an indexer without one is detected from its first results.
 
@@ -43,7 +43,7 @@ The [Sonarr quickstart](/getting-started/sonarr/) is the short path with Docker 
 
 2. **Keep Prowlarr's own copies for regular TV.** Sonarr searches standard series in an indexer's **Categories** and anime series in its **Anime Categories**, so Prowlarr's copy can keep handling regular TV while the Courmap copy handles anime. For an indexer that carries both, clear **Anime Sync Categories** in Prowlarr's Sonarr app (**Settings**, **Apps**, Sonarr, **Show Advanced**), keep **Full Sync** and no tags, and click **Sync App Indexers**. For an anime-only indexer such as Nyaa, remove Prowlarr's copy with a [tag](#anime-only-indexers) instead. The [quickstart](/getting-started/sonarr/#3-keep-prowlarrs-copies-for-regular-tv) has the clicks step by step, and why. Do not change the categories of Prowlarr's copies in Sonarr: Prowlarr rewrites them on every sync.
 
-   > **Screenshot to add:** Prowlarr, Settings, Apps, Sonarr app dialog, with Sync Level and Tags.
+   > **Screenshot to add:** Prowlarr, Settings, Apps, Sonarr app dialog, with Show Advanced on, Anime Sync Categories cleared and Sync Level Full Sync.
 
 3. **Add the proxy to Sonarr.** Open **Settings**, then **Indexers**, then **+**, and choose **Torznab** under Custom for a torrent indexer, or **Newznab** under Custom for a usenet one. Add each indexer as the type it is: a torrent feed as Newznab, or a usenet feed as Torznab, returns results Sonarr cannot use. The settings that matter:
 
@@ -218,7 +218,7 @@ Some setups run Sonarr and Prowlarr inside a VPN container's network, for exampl
 
 <Steps>
 
-1. **Run the proxy on a normal (bridge) network**, not in the VPN container's. The Unraid and Compose steps in the quickstart stay as they are, except for the addresses below.
+1. **Run the proxy on a normal (bridge) network**, not in the VPN container's. The [Unraid](#unraid) steps on this page and the Compose step in the [quickstart](/getting-started/sonarr/#1-run-the-proxy) stay as they are, except for the addresses below.
 
 2. **Publish Sonarr's and Prowlarr's ports on the VPN container.** Containers that share its network cannot publish ports of their own, so for gluetun add `8989:8989` and `9696:9696` under its `ports` (or as Port entries on its Unraid container). Check that `http://<host LAN IP>:8989` and `http://<host LAN IP>:9696` open in a browser.
 

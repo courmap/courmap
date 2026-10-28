@@ -28,7 +28,7 @@ import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 The same release, with and without the Courmap proxy.
 
 <CardGrid>
-  <Card title="Without Courmap" icon="error">
+  <Card title='<span class="card-caution">Without Courmap</span>' icon="error">
     `[SubsPlease] Spy x Family - 17 (1080p)`
 
     The release says episode 17, but Sonarr counts this show differently from the fansub group. It may leave the release unmatched, or match the wrong episode.
@@ -47,7 +47,7 @@ Every site counts a show its own way. Here is the same episode everywhere.
 | Source | Episode |
 | --- | --- |
 | Fansub release | 17 |
-| AniDB, AniList, MyAnimeList, Kitsu | Part 2, episode 5 |
+| AniDB, AniList, MyAnimeList, Kitsu | Part 2, episode&nbsp;5 |
 | TVDB, TMDB | S01E17 |
 
 Fansub groups count straight through the whole show. AniDB, AniList, MyAnimeList and Kitsu split it into halves (a cour is one broadcast season, about 12 episodes) that each start again at 1. TVDB and TMDB keep it as one season. All three are right in their own way, which is why tools disagree.
@@ -64,7 +64,7 @@ Fansub groups count straight through the whole show. AniDB, AniList, MyAnimeList
 ## Why trust it
 
 <CardGrid>
-  <Card title="Never guesses silently" icon="warning">An unsure answer comes back as ambiguous, with the candidates, never as a confident wrong episode.</Card>
+  <Card title='<span class="card-caution">Never guesses silently</span>' icon="warning">An unsure answer comes back as ambiguous, with the candidates, never as a confident wrong episode.</Card>
   <Card title="Kept current" icon="seti:clock">Bots watch each anime season; people review only where sources disagree.</Card>
   <Card title="No server to run" icon="rocket">The library works from a local file or small static files.</Card>
   <Card title="Open" icon="document">The code is Apache-2.0 and the data is ODbL.</Card>

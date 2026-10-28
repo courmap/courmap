@@ -13,6 +13,7 @@
   --sl-color-gray-6: #23262c;
   --sl-color-black: #16181d;
   --courmap-amber: #f0a04b;
+  --courmap-amber-low: #3a2a12;
   --courmap-on-amber: #16181d;
 }
 :root[data-theme='light'] {
@@ -29,6 +30,7 @@
   --sl-color-gray-7: #f7f5f0;
   --sl-color-black: #f4f1ea;
   --courmap-amber: #8a5a10; /* text on paper: 5.2:1 */
+  --courmap-amber-low: #f7e8cc;
   --courmap-on-amber: #f4f1ea;
 }
 
@@ -40,6 +42,19 @@
   font-weight: 700;
 }
 .sl-link-button.primary:hover { background-color: #f08a78; border-color: #f08a78; color: #16181d; }
+
+/* Cards: Starlight cycles card icons through purple, green and pink (inside a CSS layer, so this unlayered
+   rule wins). Icons use the brand accent; a card whose title is wrapped in .card-caution uses amber.
+   Contrast of icon and border on the page: accent 4.5:1 (dark) and 5.1:1 (light), amber 8.3:1 and 5.2:1. */
+.card {
+  --sl-card-border: var(--sl-color-accent);
+  --sl-card-bg: var(--sl-color-accent-low);
+}
+.card:has(.card-caution) {
+  --sl-card-border: var(--courmap-amber);
+  --sl-card-bg: var(--courmap-amber-low);
+}
+.card .icon { color: var(--sl-card-border); }
 
 /* Try-it box */
 .tryit { border: 1px solid var(--sl-color-gray-5); border-radius: 8px; padding: 1rem; margin: 1.5rem 0; }
@@ -57,3 +72,18 @@
 .tryit-ambiguous, .tryit-unmatched { background: var(--courmap-amber); color: var(--courmap-on-amber); }
 .tryit-ms, .tryit-reason { color: var(--sl-color-gray-3); font-size: var(--sl-text-sm); }
 .tryit-result table { width: 100%; font-size: var(--sl-text-sm); }
+
+/* Small screens: let inline code in tables wrap, so a table fits instead of scrolling sideways. A table inside
+   .stack-table (the Sonarr quickstart's name-to-path table) stacks its cells with labels instead, so long
+   settings and addresses stay in one piece. */
+@media (max-width: 50rem) {
+  .sl-markdown-content table code { overflow-wrap: anywhere; word-break: break-word; }
+  .stack-table table, .stack-table tbody, .stack-table tr, .stack-table td { display: block; }
+  .stack-table thead { display: none; }
+  .stack-table tr { padding: 0.5rem 0; border-bottom: 1px solid var(--sl-color-gray-5); }
+  .stack-table td { border: 0; padding: 0.15rem 0; }
+  .stack-table td:empty { display: none; }
+  .stack-table td:nth-child(1)::before { content: 'Setting: '; color: var(--sl-color-gray-3); }
+  .stack-table td:nth-child(2)::before { content: 'Value: '; color: var(--sl-color-gray-3); }
+  .stack-table td:nth-child(3)::before { content: 'Sonarr uses: '; color: var(--sl-color-gray-3); }
+}

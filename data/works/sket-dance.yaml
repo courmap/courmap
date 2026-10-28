@@ -1,0 +1,11 @@
+id: sket-dance
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-51 }
+    - { season: 2, episodes: 52-77, start: 1 }
+notes: >-
+  TheTVDB lists SKET Dance as season 1 with 51 episodes and season 2 with 26 (plus one special), 77 in all;
+  the seed maps all 77 to season 1. Crunchyroll's release "SKET Dance S02E11 Skip" is season 2 episode 11,
+  which is episode 62. Seen in a proxy export on 2026-10-28.
+sources:
+  - https://thetvdb.com/series/sket-dance/allseasons/official

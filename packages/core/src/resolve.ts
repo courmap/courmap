@@ -301,6 +301,36 @@ function yearFit(w: WorkRecord, year: number | null): { fit: number; reason: str
   return { fit: MISMATCH, reason: `year ${year} does not match (${w.year})` };
 }
 
+/** The first work of w's prequel chain (w itself when it has no prequel). */
+async function chainRoot(ds: Dataset, w: WorkRecord): Promise<WorkRecord> {
+  let cur = w;
+  const seen = new Set<string>();
+  while (cur.prequel && !seen.has(cur.id)) {
+    seen.add(cur.id);
+    const prev = await ds.getWork(cur.prequel);
+    if (!prev) break;
+    cur = prev;
+  }
+  return cur;
+}
+
+/**
+ * The year as evidence for the work the title matched. A release with a season token ("S01E19", "S04E17") names
+ * the episode the TVDB way, and its year may then belong to the work the episode lands in ("Dandadan S01E19 2025"
+ * is the second season, which aired in 2025) or to the series, the first season's year ("Ascendance of a Bookworm
+ * 2019 S04E17"), as Sonarr and TVDB name a show. Without a season token only the matched work's own year counts.
+ */
+async function yearFitFor(ds: Dataset, w: WorkRecord, placed: WorkRecord, parsed: ParsedRelease): Promise<{ fit: number; reason: string | null }> {
+  const own = yearFit(w, parsed.year);
+  if (own.fit === 1 || parsed.year === null || parsed.season === null) return own;
+  const landing = yearFit(placed, parsed.year);
+  if (landing.fit === 1) return { fit: 1, reason: `year ${parsed.year} is that of the work it lands in (${placed.id})` };
+  const root = await chainRoot(ds, placed);
+  const series = yearFit(root, parsed.year);
+  if (series.fit === 1) return { fit: 1, reason: `year ${parsed.year} is the series' first year (${root.id})` };
+  return own;
+}
+
 /** What the caller knows about the release besides its name. */
 export interface ResolveOptions {
   /** When the release was posted (ISO date or time). A recent one favors works on air now. */
@@ -395,7 +425,7 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease, options: Resol
       const pref = preference(w, hit, parsed);
       const placement = await place(ctx, w);
       const season = await seasonFit(ds, w, hit, placement, parsed, fuzzyWorks);
-      const year = yearFit(w, parsed.year);
+      const year = await yearFitFor(ds, w, placement.work, parsed);
       const titleReason = hit.similarity === 1 ? `title alias "${hit.alias}" exact` : `title alias "${hit.alias}" similar (${round(hit.similarity)})`;
       const shared = hit.works.length > 1 ? `, shared by ${hit.works.length} works` : '';
       scored.push({

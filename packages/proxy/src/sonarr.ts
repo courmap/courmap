@@ -30,16 +30,23 @@ export interface SonarrStatus {
 /** Sonarr's own title cleaning, roughly: lowercase letters and digits only. Used to match search queries to series. */
 export const cleanTitle = (t: string) => t.toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]/g, '');
 
+/** The shortest time between two series-list reloads that a missing series may trigger. */
+export const MISS_REFRESH_INTERVAL_MS = 60_000;
+
 /**
  * Reads the user's Sonarr: series titles by TVDB ID (the rewritten title must be the one Sonarr
  * knows) and, per series, episodes with absolute and scene numbers. The series list is cached
- * and refreshed on a schedule; episode lists are cached for the same interval.
+ * and refreshed on a schedule, and also when a release resolves to a TVDB show the list does not
+ * have (at most once a minute), so a series added to Sonarr is picked up without waiting for the
+ * schedule; episode lists are cached for the same interval.
  */
 export class SonarrClient {
   private byTvdb = new Map<number, SonarrSeries>();
   private byTitle = new Map<string, SonarrSeries>();
   private episodes = new Map<number, { at: number; list: Promise<SonarrEpisode[]> }>();
   private timer: NodeJS.Timeout | null = null;
+  private inflight: Promise<void> | null = null;
+  private lastAttempt = -Infinity;
   readonly status: SonarrStatus;
 
   constructor(
@@ -69,9 +76,39 @@ export class SonarrClient {
     if (this.timer) clearInterval(this.timer);
   }
 
-  /** Reloads the series list. A failure keeps the previous list. */
-  async refresh(): Promise<void> {
-    if (!this.opts) return;
+  /**
+   * Reloads the series list. A failure keeps the previous list. A reload already running is
+   * shared, not repeated. `missedTvdbId` marks a reload triggered by a series the list did not
+   * have: the other series' cached episode lists are kept, and the new series' own is dropped,
+   * since Sonarr may still have been filling it in when it was last read.
+   */
+  refresh(missedTvdbId?: number): Promise<void> {
+    if (!this.opts) return Promise.resolve();
+    this.inflight ??= this.load(missedTvdbId).finally(() => {
+      this.inflight = null;
+    });
+    return this.inflight;
+  }
+
+  /**
+   * Called when a release resolves to a TVDB show that is not in the cached series list. Starts a
+   * reload in the background and returns at once: the release in hand passes through as it would
+   * without the reload, and the next one sees the new series. At most one reload per
+   * MISS_REFRESH_INTERVAL_MS, counted from the last reload of any kind, so a Sonarr that is
+   * down or a show that is not in Sonarr at all costs at most one request a minute.
+   */
+  refreshOnMiss(tvdbId: number): void {
+    if (!this.opts || this.byTvdb.has(tvdbId) || this.inflight) return;
+    if (this.now() - this.lastAttempt < MISS_REFRESH_INTERVAL_MS) return;
+    void this.refresh(tvdbId);
+  }
+
+  private now(): number {
+    return this.opts?.now?.() ?? Date.now();
+  }
+
+  private async load(missedTvdbId?: number): Promise<void> {
+    this.lastAttempt = this.now();
     try {
       const series = await this.get<SonarrSeries[]>('/api/v3/series');
       this.byTvdb = new Map(series.filter((s) => s.tvdbId > 0).map((s) => [s.tvdbId, s]));
@@ -80,8 +117,14 @@ export class SonarrClient {
         this.byTitle.set(cleanTitle(s.title), s);
         for (const a of s.alternateTitles ?? []) if (!this.byTitle.has(cleanTitle(a.title))) this.byTitle.set(cleanTitle(a.title), s);
       }
-      this.episodes.clear();
-      Object.assign(this.status, { series: this.byTvdb.size, lastRefresh: new Date(this.opts.now?.() ?? Date.now()).toISOString(), lastError: null });
+      if (missedTvdbId === undefined) this.episodes.clear();
+      else {
+        const ids = new Set(series.map((s) => s.id));
+        for (const id of [...this.episodes.keys()]) if (!ids.has(id)) this.episodes.delete(id);
+        const added = this.byTvdb.get(missedTvdbId);
+        if (added) this.episodes.delete(added.id);
+      }
+      Object.assign(this.status, { series: this.byTvdb.size, lastRefresh: new Date(this.now()).toISOString(), lastError: null });
     } catch (err) {
       this.status.lastError = (err as Error).message;
     }
@@ -114,7 +157,7 @@ export class SonarrClient {
 
   /** A series' episodes, cached per refresh interval. */
   async episodesOf(series: SonarrSeries): Promise<SonarrEpisode[]> {
-    const now = this.opts?.now?.() ?? Date.now();
+    const now = this.now();
     const hit = this.episodes.get(series.id);
     if (hit && now - hit.at < (this.opts?.refreshMinutes ?? 60) * 60_000) return hit.list;
     const list = this.get<SonarrEpisode[]>(`/api/v3/episode?seriesId=${series.id}`);

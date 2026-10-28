@@ -37,22 +37,23 @@ services:
       INDEXER_NYAA_URL: http://prowlarr:9696/1/api
 ```
 
+Finish setup with step 3 of the [quickstart](https://courmap.com/getting-started/sonarr/#3-keep-prowlarrs-copies-for-regular-tv), or Prowlarr's copies of your indexers will duplicate anime results.
+
 `INDEXER_NYAA_URL` makes the proxy serve that Prowlarr feed at `/nyaa` (the `1` is the indexer's ID in Prowlarr). Then add `http://courmap-proxy:9797/nyaa` to Sonarr as a Torznab indexer (Newznab for usenet) with your Prowlarr API key. [Sonarr quickstart](https://courmap.com/getting-started/sonarr/); Unraid, VPN containers, usenet limits and troubleshooting are in the [full guide](https://courmap.com/sonarr/).
 
 ### Developers
 
 ```ts
-import { createOfflineClient } from '@courmap/client';
+import { createRemoteClient } from '@courmap/client';
 
-const courmap = createOfflineClient('courmap.sqlite'); // the dump from the latest data release
+const courmap = createRemoteClient(); // fetches small static files on demand, nothing to download
 const t = await courmap.translate('anilist:142838', 5, ['tvdb_show', 'absolute']);
 console.log(t.results.tvdb_show); // { id: '405920', season: 1, episode: 17 }
 const r = await courmap.resolve('[SubsPlease] Sousou no Frieren - 12 (1080p)');
 console.log(r.status, r.match?.work, r.match?.episode); // ok sousou-no-frieren 12
-courmap.close();
 ```
 
-Works fully offline over the weekly SQLite dump, or fetches small static files on demand, in Node, browsers and Workers. [Library quickstart](https://courmap.com/getting-started/library/).
+Works in Node, browsers and Workers, and fully offline over the weekly SQLite dump. [Library quickstart](https://courmap.com/getting-started/library/). No code? Ask the HTTP API: `curl "https://api.courmap.com/v1/translate?from=anilist:142838&episode=5&to=tvdb_show"` ([more](https://courmap.com/getting-started/data/)).
 
 ### Contributors
 

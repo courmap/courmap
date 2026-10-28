@@ -395,7 +395,11 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease, options: Resol
       const pref = preference(w, hit, parsed);
       const placement = await place(ctx, w);
       const season = await seasonFit(ds, w, hit, placement, parsed, fuzzyWorks);
-      const year = yearFit(w, parsed.year);
+      // A number placed on a later work of the chain (a continuous S01E19) may carry that work's year, but
+      // only to settle a year that is one off: a year far from the title holder's stays a mismatch.
+      const yearOwn = yearFit(w, parsed.year);
+      const yearPlaced = placement.work.id === w.id ? yearOwn : yearFit(placement.work, parsed.year);
+      const year = yearOwn.fit === 0.7 && yearPlaced.fit > yearOwn.fit ? yearPlaced : yearOwn;
       const titleReason = hit.similarity === 1 ? `title alias "${hit.alias}" exact` : `title alias "${hit.alias}" similar (${round(hit.similarity)})`;
       const shared = hit.works.length > 1 ? `, shared by ${hit.works.length} works` : '';
       scored.push({

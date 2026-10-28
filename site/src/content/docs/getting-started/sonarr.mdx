@@ -91,12 +91,24 @@ services:
       # INDEXER_GEEK_TYPE: newznab
 ```
 
-If Sonarr and Prowlarr live in a different Compose project, the proxy has to join their network. `docker inspect sonarr --format '{{range $name, $_ := .NetworkSettings.Networks}}{{$name}} {{end}}'` prints its name; put that name in place of `media_default` below and keep everything else as above:
+If Sonarr and Prowlarr live in a different Compose project, the proxy has to join their network. `docker inspect sonarr --format '{{range $name, $_ := .NetworkSettings.Networks}}{{$name}} {{end}}'` prints its name; put that name in place of `media_default` below:
 
 ```yaml
 services:
   courmap-proxy:
-    # ...image, ports, volumes and environment as above...
+    image: ghcr.io/courmap/proxy:edge
+    container_name: courmap-proxy
+    restart: unless-stopped
+    ports:
+      - "9797:9797"
+    volumes:
+      - ./courmap/data:/data
+      - ./courmap/config:/config
+    environment:
+      SONARR_URL: http://sonarr:8989
+      SONARR_API_KEY: your-sonarr-api-key
+      INDEXER_NYAA_URL: http://prowlarr:9696/1/api
+      INDEXER_ANIMETOSHO_URL: http://prowlarr:9696/2/api
     networks: [arr]
 
 networks:

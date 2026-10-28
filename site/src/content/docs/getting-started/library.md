@@ -33,11 +33,11 @@ The remote client fetches only the small files a call needs and caches them by d
 
 ## Offline: download the dump once
 
-Offline mode reads the weekly SQLite dump, so no call touches the network. Use it for PVRs and any tool that resolves many names. Download and unpack the dump of the [latest data release](https://github.com/courmap/courmap/releases/latest). Its file name carries the version, so ask `meta.json` for the address:
+Offline mode reads the weekly SQLite dump, so no call touches the network. Use it for PVRs and any tool that resolves many names. Download and unpack the dump of the [latest data release](https://github.com/courmap/courmap/releases/latest). Its file name carries the version, so ask `meta.json` for the address (this uses `curl` and `jq`):
 
 ```sh
 url=$(curl -sL https://github.com/courmap/courmap/releases/latest/download/meta.json | jq -r .dumps.sqlite.url)
-curl -LO "$url" && gunzip courmap-*.sqlite.gz   # leaves courmap-<version>.sqlite
+curl -sL "$url" | gunzip > courmap.sqlite
 ```
 
 [Library: remote vs offline](/guides/library/#offline-mode) shows how to check the download against `SHA256SUMS`. Then open it:
@@ -45,7 +45,7 @@ curl -LO "$url" && gunzip courmap-*.sqlite.gz   # leaves courmap-<version>.sqlit
 ```ts
 import { createOfflineClient } from '@courmap/client';
 
-const courmap = createOfflineClient('courmap-2026.44.sqlite'); // the file you unpacked
+const courmap = createOfflineClient('courmap.sqlite'); // the file you unpacked
 
 // Which work is AniList 142838?
 const work = await courmap.lookup('anilist:142838');

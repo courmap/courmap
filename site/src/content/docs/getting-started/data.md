@@ -15,7 +15,7 @@ You do not need the library to use Courmap. The same data is available three way
 
 ## The HTTP API
 
-`https://api.courmap.com` is a convenience API over the static files. It runs the same code as the library, so its answers are the library's answers. It is optional: if it is ever switched off, the files, the dumps and the library keep working.
+`https://api.courmap.com` is a convenience API over the static files. It runs the same code as the library, so its answers are the library's answers. It is optional: if it is ever switched off, the files, the dumps and the library keep working. Its uptime is on [status.courmap.com](https://status.courmap.com).
 
 Translate episode 5 of AniList 142838 into TVDB and absolute numbering:
 

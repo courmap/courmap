@@ -3,7 +3,8 @@
  * effort basis and may drop them under load; the first scheduled bots scan (2026-10-19 07:30 UTC)
  * never ran. A Cloudflare Cron Trigger fires this 30 minutes after each GitHub schedule: if the
  * job has not run today (by schedule or by hand), it dispatches it. Without the
- * GITHUB_DISPATCH_TOKEN secret (fine-grained, Actions: write on courmap/courmap) it does nothing.
+ * GITHUB_DISPATCH_TOKEN secret (fine-grained, Actions: write on courmap/courmap, and on courmap/status for
+ * the uptime check) it does nothing.
  *
  * Every decision is made visible in GitHub: after each check the watchdog dispatches the
  * watchdog-report workflow, whose run name says what was checked and what was done (see report()),
@@ -21,6 +22,10 @@ export interface Watched {
   /** Only runs whose title contains this count as the job having run (bots.yml has two jobs). */
   match?: string;
   inputs?: Record<string, string>;
+  /** Another repository's workflow (it needs its own access on the token). The default is courmap/courmap. */
+  repo?: string;
+  /** Judge by the latest run's age instead of "ran today": dispatch if it is older than this many minutes. */
+  maxAgeMinutes?: number;
 }
 
 /** Cloudflare cron expression to the GitHub job it backs up. Keep in sync with wrangler.toml. */
@@ -29,6 +34,9 @@ export const WATCHED: Record<string, Watched> = {
   '47 6 * * 2': { job: 'seed', workflow: 'seed.yml' }, // seed.yml at 06:17 on Tuesdays
   '43 9 * * 2': { job: 'release', workflow: 'release.yml' }, // release.yml at 09:13 on Tuesdays
   '17 11 * * 2': { job: 'weekly', workflow: 'bots.yml', match: 'weekly', inputs: { job: 'weekly' } }, // bots.yml weekly at 10:47 on Tuesdays
+  // The Upptime uptime check behind status.courmap.com runs every 5 minutes; GitHub drops some of those runs, and a
+  // stale status page is worse than none. Every 30 minutes, dispatch it if its last run is older than 30 minutes.
+  '11,41 * * * *': { job: 'uptime', workflow: 'uptime.yml', repo: 'courmap/status', maxAgeMinutes: 30 },
 };
 
 const REPO = 'courmap/courmap';
@@ -62,21 +70,33 @@ export async function watchdog(cron: string, env: WatchdogEnv, now: Date, fetchF
   const base = { job: w.job, workflow: w.workflow };
   if (!env.GITHUB_DISPATCH_TOKEN) return { ...base, action: 'disabled', detail: 'GITHUB_DISPATCH_TOKEN is not set on the Worker, so nothing is checked' };
   const headers = headersOf(env.GITHUB_DISPATCH_TOKEN);
+  const repo = w.repo ?? REPO;
   const today = now.toISOString().slice(0, 10);
-  const runs = await fetchFn(`https://api.github.com/repos/${REPO}/actions/workflows/${w.workflow}/runs?created=%3E%3D${today}&per_page=30`, { headers });
-  if (!runs.ok) throw new Error(`GitHub runs for ${w.workflow}: HTTP ${runs.status}`);
+  const age = w.maxAgeMinutes;
+  // A job judged by age looks at the latest run whatever its event; the others at today's runs.
+  const query = age === undefined ? `created=%3E%3D${today}&per_page=30` : 'per_page=1';
+  const runs = await fetchFn(`https://api.github.com/repos/${repo}/actions/workflows/${w.workflow}/runs?${query}`, { headers });
+  if (!runs.ok) throw new Error(`GitHub runs for ${repo} ${w.workflow}: HTTP ${runs.status}${runs.status === 404 ? ' (does the token have access to that repository?)' : ''}`);
   const found = (((await runs.json()) as { workflow_runs?: Run[] }).workflow_runs ?? []).filter((r) => !w.match || (r.display_title ?? r.name ?? '').includes(w.match));
-  if (found.length > 0) {
-    const r = found[0]!;
-    return { ...base, action: 'already-ran', detail: `run ${r.id} (${r.event}, ${r.conclusion ?? r.status}) at ${r.created_at}` };
+  const latest = found[0];
+  if (latest && (age === undefined || now.getTime() - Date.parse(latest.created_at) <= age * 60_000)) {
+    return { ...base, action: 'already-ran', detail: `run ${latest.id} (${latest.event}, ${latest.conclusion ?? latest.status}) at ${latest.created_at}` };
   }
-  const res = await fetchFn(`https://api.github.com/repos/${REPO}/actions/workflows/${w.workflow}/dispatches`, {
+  // Another repository may not be on main (Upptime's is master): ask for its default branch.
+  let ref = 'main';
+  if (w.repo) {
+    const info = await fetchFn(`https://api.github.com/repos/${repo}`, { headers });
+    if (!info.ok) throw new Error(`GitHub repository ${repo}: HTTP ${info.status}`);
+    ref = ((await info.json()) as { default_branch?: string }).default_branch ?? 'main';
+  }
+  const res = await fetchFn(`https://api.github.com/repos/${repo}/actions/workflows/${w.workflow}/dispatches`, {
     method: 'POST',
     headers: { ...headers, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ref: 'main', ...(w.inputs && { inputs: w.inputs }) }),
+    body: JSON.stringify({ ref, ...(w.inputs && { inputs: w.inputs }) }),
   });
-  if (res.status !== 204) throw new Error(`dispatching ${w.workflow}: HTTP ${res.status}`);
-  return { ...base, action: 'dispatched', detail: `no ${w.job} run today (${today}), so ${w.workflow} was dispatched` };
+  if (res.status !== 204) throw new Error(`dispatching ${repo} ${w.workflow}: HTTP ${res.status}${res.status === 403 || res.status === 404 ? ' (needs Actions: write on that repository)' : ''}`);
+  const why = age === undefined ? `no ${w.job} run today (${today})` : latest ? `its last run (${latest.created_at}) is older than ${age} minutes` : 'it has no runs';
+  return { ...base, action: 'dispatched', detail: `${why}, so ${repo} ${w.workflow} was dispatched` };
 }
 
 /**

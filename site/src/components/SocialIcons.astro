@@ -1,0 +1,19 @@
+---
+// The default Starlight social icons (GitHub), preceded by a text link to the status page. The header
+// and the mobile menu both render this component, so the link is on every page.
+import Default from '@astrojs/starlight/components/SocialIcons.astro';
+---
+
+<a href="https://status.courmap.com" class="status-link">Status</a>
+<Default {...Astro.props} />
+
+<style>
+  .status-link {
+    color: var(--sl-color-text-accent);
+    font-size: var(--sl-text-sm);
+    text-decoration: none;
+  }
+  .status-link:hover {
+    color: var(--sl-color-white);
+  }
+</style>

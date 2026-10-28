@@ -21,11 +21,12 @@ namespace_id = "1001"
   period = 60
 
 # The schedule watchdog (worker/src/watchdog.ts): 30 minutes after each GitHub schedule, dispatch
-# the workflow if it has not run today. GITHUB_DISPATCH_TOKEN is a secret managed in the Cloudflare
+# the workflow if it has not run today. The fifth cron (every 30 minutes) checks the Upptime uptime
+# check in courmap/status instead: dispatch it if its last run is older than 30 minutes. GITHUB_DISPATCH_TOKEN is a secret managed in the Cloudflare
 # dashboard (Workers & Pages, courmap, Settings, Variables and Secrets). Deploys keep secrets; never
 # put it here or in any committed file (pnpm check:tokens).
 [triggers]
-crons = ["53 7 * * *", "47 6 * * 2", "43 9 * * 2", "17 11 * * 2"]
+crons = ["53 7 * * *", "47 6 * * 2", "43 9 * * 2", "17 11 * * 2", "11,41 * * * *"]
 
 [alias]
 "@courmap/client/remote" = "../packages/client/src/browser.ts"

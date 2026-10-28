@@ -169,6 +169,48 @@ describe('schedule watchdog (decision S7.3)', async () => {
     expect(await watchdog('43 9 * * 2', { GITHUB_DISPATCH_TOKEN: 't' }, now, fake(['release']).f)).toMatchObject({ job: 'release', workflow: 'release.yml', action: 'already-ran' });
   });
 
+  describe('the Upptime check in courmap/status', () => {
+    const tok = { GITHUB_DISPATCH_TOKEN: 't' };
+    const cron = '11,41 * * * *';
+    // latest: when the latest uptime.yml run was created, or null for none. Records every call.
+    const gh = (latest: string | null, status = 204) => {
+      const calls: { url: string; init?: RequestInit }[] = [];
+      const f = (async (url: string, init?: RequestInit) => {
+        calls.push({ url, ...(init && { init }) });
+        if (url.endsWith('/dispatches')) return new Response(null, { status });
+        if (url.endsWith('/repos/courmap/status')) return new Response(JSON.stringify({ default_branch: 'master' }));
+        return new Response(JSON.stringify({ workflow_runs: latest ? [{ id: 7, event: 'schedule', status: 'completed', conclusion: 'success', created_at: latest }] : [] }));
+      }) as unknown as typeof fetch;
+      return { f, calls };
+    };
+    const at = new Date('2026-10-28T12:41:00Z');
+
+    it('leaves a recent run alone, whatever day it was', async () => {
+      const { f, calls } = gh('2026-10-28T12:20:00Z');
+      expect(await watchdog(cron, tok, at, f)).toMatchObject({ job: 'uptime', action: 'already-ran' });
+      expect(calls).toHaveLength(1);
+      expect(calls[0]!.url).toBe('https://api.github.com/repos/courmap/status/actions/workflows/uptime.yml/runs?per_page=1');
+    });
+
+    it('dispatches on the default branch when the last run is older than 30 minutes', async () => {
+      const { f, calls } = gh('2026-10-28T12:05:00Z');
+      const r = await watchdog(cron, tok, at, f);
+      expect(r).toMatchObject({ job: 'uptime', workflow: 'uptime.yml', action: 'dispatched' });
+      expect(r.detail).toContain('older than 30 minutes');
+      const last = calls[calls.length - 1]!;
+      expect(last.url).toBe('https://api.github.com/repos/courmap/status/actions/workflows/uptime.yml/dispatches');
+      expect(JSON.parse(String(last.init!.body))).toEqual({ ref: 'master' });
+    });
+
+    it('dispatches when there is no run at all', async () => {
+      expect((await watchdog(cron, tok, at, gh(null).f)).action).toBe('dispatched');
+    });
+
+    it('says which access is missing when the token cannot dispatch there', async () => {
+      await expect(watchdog(cron, tok, at, gh(null, 403).f)).rejects.toThrow('Actions: write on that repository');
+    });
+  });
+
   it('reports every decision as a watchdog-report run, with the job and action as inputs', async () => {
     const { f, calls } = fake([]);
     const result = await watchdog('53 7 * * *', { GITHUB_DISPATCH_TOKEN: 't' }, now, f);
@@ -190,7 +232,8 @@ describe('schedule watchdog (decision S7.3)', async () => {
     expect(JSON.parse(/crons = (\[.*\])/.exec(wrangler)![1]!)).toEqual(Object.keys(WATCHED));
     const github = (file: string) => [...readFileSync(path.join(root, '.github/workflows', file), 'utf8').matchAll(/cron: '([^']+)'/g)].map((m) => m[1]!);
     const later = (cron: string) => cron.replace(/^(\d+) (\d+) /, (_, m: string, h: string) => (Number(m) + 30 >= 60 ? `${Number(m) - 30} ${Number(h) + 1} ` : `${Number(m) + 30} ${h} `));
-    expect(Object.keys(WATCHED)).toEqual([later(github('bots.yml')[0]!), later(github('seed.yml')[0]!), later(github('release.yml')[0]!), later(github('bots.yml')[1]!)]);
+    expect(Object.keys(WATCHED).slice(0, 4)).toEqual([later(github('bots.yml')[0]!), later(github('seed.yml')[0]!), later(github('release.yml')[0]!), later(github('bots.yml')[1]!)]);
+    expect(Object.keys(WATCHED)[4]).toBe('11,41 * * * *'); // the uptime check: every 30 minutes, not a daily job
   });
 
   it('deploys only to api.courmap.com, reads data.courmap.com and keeps the dispatch token out of the config', () => {

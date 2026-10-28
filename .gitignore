@@ -14,3 +14,8 @@ coverage/
 
 # Browser automation artifacts
 .playwright-mcp/
+
+# Private working files
+docs/NEEDS-FROM-XWOLV.md
+docs/courmap-docs-overhaul-prompt.md
+docs/mockups/

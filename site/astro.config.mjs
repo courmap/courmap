@@ -46,7 +46,7 @@ export default defineConfig({
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/courmap/courmap' }],
       editLink: { baseUrl: 'https://github.com/courmap/courmap/edit/main/site/' },
       customCss: ['./src/styles/brand.css'],
-      components: { Footer: './src/components/Footer.astro' },
+      components: { Footer: './src/components/Footer.astro', SocialIcons: './src/components/SocialIcons.astro' },
       head: [{ tag: 'script', attrs: { src: '/image-zoom.js', defer: true } }],
       plugins: [starlightLinksValidator()],
       sidebar: [

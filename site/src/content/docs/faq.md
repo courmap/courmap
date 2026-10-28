@@ -21,6 +21,9 @@ It says so. A release name that could be two works comes back `ambiguous` with b
 **How fresh is the data?**
 A new data release comes out every week. Airing shows are tracked daily by the bots, and their updates ship in the next weekly release.
 
+**Is Courmap down?**
+Check [the status page](https://status.courmap.com), which watches the data files, the API and the docs. An outage is rarely a problem for you: the Sonarr proxy keeps working on the last data it downloaded, and the library's offline mode (a local dump) needs no network at all. Only fetching a newer data release, the remote library mode and `api.courmap.com` need the network.
+
 **Is there an API server?**
 Yes, an optional one. `api.courmap.com` is a convenience HTTP API with lookup, translate, resolve and search, limited to 60 requests a minute per client. Heavier use should go to the library or the dumps, which need no server at all: everything is published as files, and the library does the work locally. See [Use the data](/getting-started/data/#the-http-api) for examples.
 

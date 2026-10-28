@@ -255,7 +255,7 @@ The proxy never writes an API key to its logs, its status page or its exports: a
 ## Troubleshooting
 
 - **The status page shows upstream errors.** The row says how many and why: `api-limit` (the indexer's quota is spent, or HTTP 429), `auth` (the indexer rejected the API key), `indexer-error` (any other error document), `http` (another HTTP error, such as 503), `bad-response` (an answer that is not a feed, such as a maintenance page), `timeout` (no answer in `TIMEOUT_SECONDS`) and `network` (could not connect). The latest one is spelled out under the table.
-- **The status page says no data is loaded.** The proxy downloads the latest data release from GitHub on start; check that the container can reach `github.com`, or set `COURMAP_DUMP` to a local dump.
+- **The status page says no data is loaded.** The proxy downloads the latest data release from GitHub on start; check that the container can reach `github.com`, or set `COURMAP_DUMP` to a local dump. If GitHub is the problem, check [status.courmap.com](https://status.courmap.com); a proxy that already downloaded data keeps using it.
 - **"The data folder is not writable".** On Unraid, run `chown -R 99:100 /mnt/user/appdata/courmap-proxy`.
 - **Sonarr's test fails with HTTP 401.** The API key Sonarr sends is passed to Prowlarr; use the Prowlarr API key, not Sonarr's.
 - **Sonarr's log says "did you intend to add a Torznab indexer?".** A torrent feed was added to Sonarr as a Newznab indexer; add torrent feeds as Torznab.

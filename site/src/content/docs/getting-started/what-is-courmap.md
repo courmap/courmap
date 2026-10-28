@@ -9,11 +9,12 @@ Every anime tool has to answer the same question: which episode is this? A fansu
 
 Courmap covers AniDB, AniList, MyAnimeList, Kitsu, TVDB, TMDB, IMDb and absolute (fansub) numbering. The name comes from "cour", one broadcast season of an anime, usually about 12 episodes. Anime often come in several cours, and each provider decides differently whether they are one entry or several.
 
-## The three parts
+## The four parts
 
 - **The Sonarr proxy** is a Docker container that sits between Prowlarr and Sonarr. It reads the name of each anime release, works out which episode it is, and rewrites the ones it is sure about into the numbering Sonarr understands. Start with the [Sonarr quickstart](/getting-started/sonarr/).
 - **The library**, `@courmap/client`, answers three questions in your own code: what is this ID, what is this episode in every other numbering, and which show and episode is this release name. Start with the [Library quickstart](/getting-started/library/).
-- **The data** is a public set of YAML files, built into weekly SQLite and JSON dumps. Most of it is seeded from other open datasets and corrected by pull request. If something is mapped wrong, [fix a mapping](/getting-started/contributing/).
+- **The HTTP API** at `api.courmap.com` answers lookup, translate, resolve and search with `curl`, for scripts in any language. It is a convenience over the data below, limited to 60 requests a minute. See [Use the data](/getting-started/data/).
+- **The data** is a public set of YAML files, built into weekly SQLite and JSON dumps and small static JSON files. Most of it is seeded from other open datasets and corrected by pull request. If something is mapped wrong, [fix a mapping](/getting-started/contributing/).
 
 Courmap never guesses silently. When it is not sure, it says so, and the Sonarr proxy then leaves the release exactly as it was.
 

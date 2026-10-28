@@ -2,7 +2,7 @@
 
 Everything still open before the public launch post (r/sonarr, r/selfhosted, anime self-hosting Discords). Each item says who does it and how to check it is done. Claude Code updates this file at the end of every session; Xwolv ticks items off by saying so in the session prompt.
 
-Last updated 2026-10-27, after the docs overhaul and the launch status review. Status: **not ready.** 15 of 20 items are done and none is partly done. The five open items (12, 14, 16, 17, 18) are all real-world use: the proxy week and its 0.1.0 tag, a bigger corpus, screenshots and fresh-eyes testers.
+Last updated 2026-10-28, after the 2026-10-28 proxy export (issue #154). Status: **not ready.** 16 of 20 items are done and none is partly done. The four open items (12, 14, 17, 18) are all real-world use: the proxy week and its 0.1.0 tag, screenshots and fresh-eyes testers.
 
 Legend: [x] done, [ ] open, [~] partly done.
 
@@ -65,10 +65,11 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Left open, not launch blockers: #77 (Kingdom's 14th TMDB and TVDB episode, "Zoku-hen", has no air date; the sequel is the seed's `kingdom-zoku-hen`, mapped from episode 14 when it airs), #13 (Sazae-san needs a season-by-season TMDB mapping) and #59 (Oshiri Dandy has no TMDB entry). They stay open as ordinary data issues waiting on outside sources (Xwolv, 2026-10-27).
     - chitose-kun-wa-ramune-bin-no-naka-part-2 and dark-machine-the-animation (11 vs 12 episodes) stay as tier C issues for now (Xwolv, session 8).
     - Verify: no bot PR or `mapping-conflict` issue older than a week without a decision.
-16. [ ] **Corpus large enough to trust.** Who: Xwolv supplies names (proxy exports); Claude Code imports and verifies them with Xwolv.
+16. [x] **Corpus large enough to trust.** Who: Xwolv supplies names (proxy exports); Claude Code imports and verifies them with Xwolv. Done (Xwolv, 2026-10-28): the bar of 200 verified real names at 95% was 450 at 100%.
     - Proposed launch bar: at least 200 verified cases, most of them real names from the proxy, with a 95% pass rate. The M2 milestone remains 1,000.
     - Today: **199 verified, all passing; 394 unverified** imported from the 2026-10-25 and 2026-10-26 exports (the second pass of 2026-10-26 verified 49 more: Black Lagoon, Lulutto Lilly, Umayuru, aliases). The unverified cases are a watch list: any case expected ambiguous or unmatched that starts resolving fails CI and names itself. Was 93 before that export, 81 before the Spy x Family and second-export imports, 35 before the first proxy export (2026-10-20).
     - Updated 2026-10-28 (issue #154): **450 verified, all passing; 640 unverified.** Of the 2026-10-28 export of Xwolv's proxy (500 names), none resolved before the fixes and 225 do after; 251 new cases were verified, 33 of them as ambiguous with a reason. The bar is met by count, but most of the new cases are variants of a few shows (Dandadan, Danganronpa 3, Wandance), so for the "trust" part new names from other shows count for more than more of these. Xwolv decides when to tick it.
+    - On record (Xwolv, 2026-10-28): the first 251 new verified cases are concentrated in three shows, Dandadan, Danganronpa 3 and Wandance, and the skew is expected for a first export. The weekly proxy exports will broaden it; new names from other shows count for more than more of these. The Cat's Eye cases (5 verified) rest on the remake-by-posting-date rule, with the first sighting as the posting date (DECISIONS.md, "A remake by posting date").
     - Verify: `pnpm corpus` reports at least 200 verified at 95% or more.
 17. [ ] **Screenshots in the Sonarr guide.** Who: Xwolv takes them; Claude Code places them. Six placeholders are in `site/src/content/docs/sonarr.mdx` (the full Sonarr guide, under "Set up"; the quickstart has none):
     - Prowlarr indexers with the ID visible.

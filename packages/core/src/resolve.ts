@@ -344,6 +344,20 @@ export const RECENT_DAYS = 45;
 /** Extra demotion of an older sharer when a current one has no worse evidence and the release is recent. */
 export const RECENT_FACTOR = 0.1;
 
+/** A remake premiered at least this many years after every older sharer of its title. */
+export const REMAKE_GAP_YEARS = 5;
+/** Extra demotion of an older sharer when the release was posted after a remake of it premiered. */
+export const REMAKE_FACTOR = 0.1;
+
+/** The year the release was posted in, whatever its age; null when unknown, unreadable or in the future. */
+function postedYear(o: ResolveOptions): number | null {
+  if (!o.postedAt) return null;
+  const posted = Date.parse(o.postedAt);
+  const now = o.now ? Date.parse(o.now) : Date.now();
+  if (Number.isNaN(posted) || Number.isNaN(now) || posted > now + 86_400_000) return null;
+  return new Date(posted).getUTCFullYear();
+}
+
 /** The year the release was posted in, when it is recent; otherwise null. */
 function recentPostingYear(o: ResolveOptions): number | null {
   if (!o.postedAt) return null;
@@ -407,6 +421,7 @@ function findGroup(groups: GroupRecord[], name: string | null): GroupRecord | nu
  */
 export async function resolve(ds: Dataset, parsed: ParsedRelease, options: ResolveOptions = {}): Promise<ResolveResult> {
   const recentYear = recentPostingYear(options);
+  const postedIn = postedYear(options);
   const { data_version } = await ds.meta();
   const base: Omit<ResolveResult, 'status' | 'match' | 'candidates'> = { data_version, parsed };
   if (!parsed.title) return { ...base, status: 'unmatched', match: null, candidates: [] };
@@ -418,7 +433,7 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease, options: Resol
   // Score each (alias hit, work); a shared alias splits its weight by each sharer's evidence.
   const best = new Map<string, ResolveCandidate>();
   for (const hit of hits) {
-    const scored: { evidence: number; current: boolean; workYear: number | null; pref: { weight: number; isTitle: boolean; reason: string | null }; cand: Omit<ResolveCandidate, 'confidence'> }[] = [];
+    const scored: { id: string; status: string; evidence: number; current: boolean; workYear: number | null; pref: { weight: number; isTitle: boolean; reason: string | null }; cand: Omit<ResolveCandidate, 'confidence'> }[] = [];
     for (const id of hit.works) {
       const w = await ds.getWork(id);
       if (!w) continue;
@@ -429,6 +444,8 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease, options: Resol
       const titleReason = hit.similarity === 1 ? `title alias "${hit.alias}" exact` : `title alias "${hit.alias}" similar (${round(hit.similarity)})`;
       const shared = hit.works.length > 1 ? `, shared by ${hit.works.length} works` : '';
       scored.push({
+        id: w.id,
+        status: w.status,
         evidence: placement.fit * season.fit * year.fit,
         current: w.status === 'airing' || (w.year !== null && recentYear !== null && w.year >= recentYear),
         workYear: w.year,
@@ -451,6 +468,36 @@ export async function resolve(ds: Dataset, parsed: ParsedRelease, options: Resol
           x.evidence *= RECENT_FACTOR;
           x.cand.reason += '; an older work, and the release is recent';
         }
+      }
+    }
+    // A remake (Xwolv, 2026-10-28): a release posted after a remake premiered, in the name of a title it
+    // shares with finished works from years before and no relation to them (Cat's Eye 1983 and 2025), is
+    // most likely the remake, and its episode fits no worse. Only a tie on the evidence is settled this way:
+    // an older work that the name fits better (a year, a season, the number) keeps its lead.
+    if (postedIn !== null && scored.length > 1) {
+      const roots = new Map<string, string>();
+      const rootOf = async (id: string) => {
+        if (!roots.has(id)) roots.set(id, (await chainRoot(ds, (await ds.getWork(id))!)).id);
+        return roots.get(id)!;
+      };
+      for (const x of scored) {
+        if (x.workYear === null || x.workYear > postedIn) continue;
+        // The works that could be meant: those the number fits at all (a one-episode special that cannot hold it is not a rival).
+        const rivals = scored.filter((y) => y !== x && y.evidence > MISMATCH);
+        // A tie on the title: the remake and every rival hold the alias as one of their titles. A newer work that only
+        // lists it as a synonym does not beat the title holder unless the release is recent (the rule above).
+        if (rivals.length === 0 || !x.pref.isTitle || rivals.some((y) => y.evidence > x.evidence || !y.pref.isTitle)) continue;
+        const xRoot = await rootOf(x.id);
+        let remake = true;
+        for (const y of rivals) {
+          if (y.status !== 'finished' || y.workYear === null || x.workYear - y.workYear < REMAKE_GAP_YEARS || (await rootOf(y.id)) === xRoot) remake = false;
+        }
+        if (!remake) continue;
+        for (const y of rivals) {
+          y.evidence *= REMAKE_FACTOR;
+          y.cand.reason += `; an older work, and the release was posted in ${postedIn}, after ${x.id} premiered`;
+        }
+        break;
       }
     }
     // Title rank and type only break ties or widen a lead: weights are relative to the sharer the

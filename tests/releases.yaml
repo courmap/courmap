@@ -7482,3 +7482,48 @@ cases:
     verified: true
     source: proxy-unresolved
     notes: "Verified 2026-10-28: \"Despair Arc / Zetsubou Hen\" is the work's own arc name, and the number in the name is its episode 3."
+  - name: Cats.Eye.S01E05.Night.Flight.Is.a.Dangerous.Scent.JAPANESE.576p.AMZN.WEB-DL.DDP2.0.x264-AndreMor
+    posted: 2026-10-25
+    expect:
+      status: ok
+      work: cat-s-eye-2025
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-28 by the remake rule (DECISIONS.md, 'A remake by posting date'): the release was posted in 2026, after Cat's Eye (2025) premiered, and the 1983 series (finished, 73 episodes) shares the title with no relation to it. posted is the proxy's first sighting (2026-10-25), as the export has no posting date; if this is a re-upload of the 1983 series the answer is wrong, but the proxy only rewrites when the 2025 series' TVDB id is in the user's Sonarr, and otherwise passes it through. Seen 52 time(s) on data 2026.44."
+  - name: Cats.Eye.S01E11.A.Dangerous.American.Seduction.JAPANESE.576p.AMZN.WEB-DL.DDP2.0.x264-AndreMor
+    posted: 2026-10-25
+    expect:
+      status: ok
+      work: cat-s-eye-2025
+      episode: 11
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-28 by the remake rule (DECISIONS.md, 'A remake by posting date'): the release was posted in 2026, after Cat's Eye (2025) premiered, and the 1983 series (finished, 73 episodes) shares the title with no relation to it. posted is the proxy's first sighting (2026-10-25), as the export has no posting date; if this is a re-upload of the 1983 series the answer is wrong, but the proxy only rewrites when the 2025 series' TVDB id is in the user's Sonarr, and otherwise passes it through. Seen 49 time(s) on data 2026.44."
+  - name: Cats.Eye.S01E04.Night.Flight.Is.a.Dangerous.Scent.1080p.DSNP.WEB-DL.AAC2.0.H.264-OldT
+    posted: 2026-10-28
+    expect:
+      status: ok
+      work: cat-s-eye-2025
+      episode: 4
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-28 by the remake rule (DECISIONS.md, 'A remake by posting date'): the release was posted in 2026, after Cat's Eye (2025) premiered, and the 1983 series (finished, 73 episodes) shares the title with no relation to it. posted is the proxy's first sighting (2026-10-28), as the export has no posting date; if this is a re-upload of the 1983 series the answer is wrong, but the proxy only rewrites when the 2025 series' TVDB id is in the user's Sonarr, and otherwise passes it through. Seen 5 time(s) on data 2026.44."
+  - name: Cats.Eye.S01E04.Night.Flight.Is.a.Dangerous.Scent.1080p.DSNP.WEB-DL.DUAL.AAC2.0.H.264-VARYG
+    posted: 2026-10-28
+    expect:
+      status: ok
+      work: cat-s-eye-2025
+      episode: 4
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-28 by the remake rule (DECISIONS.md, 'A remake by posting date'): the release was posted in 2026, after Cat's Eye (2025) premiered, and the 1983 series (finished, 73 episodes) shares the title with no relation to it. posted is the proxy's first sighting (2026-10-28), as the export has no posting date; if this is a re-upload of the 1983 series the answer is wrong, but the proxy only rewrites when the 2025 series' TVDB id is in the user's Sonarr, and otherwise passes it through. Seen 1 time(s) on data 2026.44."
+  - name: Cats.Eye.S01E04.Night.Flight.Is.a.Dangerous.Scent.1080p.HULU.WEB-DL.JPN.AAC2.0.H.264.ESub-ToonsHub
+    posted: 2026-10-28
+    expect:
+      status: ok
+      work: cat-s-eye-2025
+      episode: 4
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-28 by the remake rule (DECISIONS.md, 'A remake by posting date'): the release was posted in 2026, after Cat's Eye (2025) premiered, and the 1983 series (finished, 73 episodes) shares the title with no relation to it. posted is the proxy's first sighting (2026-10-28), as the export has no posting date; if this is a re-upload of the 1983 series the answer is wrong, but the proxy only rewrites when the 2025 series' TVDB id is in the user's Sonarr, and otherwise passes it through. Seen 1 time(s) on data 2026.44."

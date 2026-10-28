@@ -51,4 +51,26 @@ describe('proxy export 2026-10-28', () => {
     expect((await at('Cats.Eye.S01E05.Night.Flight.Is.a.Dangerous.Scent.JAPANESE.576p.AMZN.WEB-DL.DDP2.0.x264-AndreMor')).status).toBe('ambiguous');
     expect((await at('One.Piece.S01E07.DANiSH.ENGLiSH.JAPANESE.1080p.WEB-DL.H.264.DDP2.0-NoTrace')).status).toBe('ambiguous');
   });
+
+  describe("a remake, by posting date (Cat's Eye 1983 and 2025)", () => {
+    const CATS = 'Cats.Eye.S01E05.Night.Flight.Is.a.Dangerous.Scent.JAPANESE.576p.AMZN.WEB-DL.DDP2.0.x264-AndreMor';
+    const on = async (name: string, postedAt?: string, now = '2026-10-28') => {
+      const r = await client.resolve(name, postedAt ? { postedAt, now } : undefined);
+      return { status: r.status, work: r.match?.work, episode: r.match?.episode };
+    };
+
+    it('a release posted after the remake premiered goes to the remake', async () => {
+      expect(await on(CATS, '2026-10-25')).toEqual({ status: 'ok', work: 'cat-s-eye-2025', episode: 5 });
+      expect(await on(CATS, '2025-12-01')).toEqual({ status: 'ok', work: 'cat-s-eye-2025', episode: 5 });
+    });
+
+    it('without a posting date, or posted before the remake premiered, it stays ambiguous', async () => {
+      expect((await on(CATS)).status).toBe('ambiguous');
+      expect((await on(CATS, '2010-01-01')).status).toBe('ambiguous');
+    });
+
+    it('a sequel is not a remake: a posting date does not move Dandadan to its second season', async () => {
+      expect(await on('Dandadan - 05', '2026-10-25')).toEqual({ status: 'ok', work: 'dandadan', episode: 5 });
+    });
+  });
 });

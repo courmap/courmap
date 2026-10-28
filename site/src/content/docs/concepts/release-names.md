@@ -5,6 +5,8 @@ sidebar:
   order: 5
 ---
 
+Resolving is how the Sonarr proxy and the library's `resolve` call understand names like `[SubsPlease] Spy x Family - 17 (1080p)`. New terms are in the [glossary](/concepts/glossary/).
+
 Resolving turns a release name into a [work](/concepts/works/) and an episode. Every answer carries a confidence and a reason, so a wrong answer can be debugged from the response alone.
 
 1. **Parse.** The parser pulls out the group, title, season or part token, episode (a single number, a range, or a version like `05v2`), year, resolution, source, codec and flags. `[SubsPlease] Spy x Family - 17 (1080p)` gives group `SubsPlease`, title `Spy x Family`, episode 17.

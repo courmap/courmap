@@ -29,6 +29,8 @@ const r = await courmap.resolve('[SubsPlease] Spy x Family - 17 (1080p)');
 console.log(r.status, r.match?.work, r.match?.episode); // ok spy-x-family-part-2 5
 ```
 
+`status` is `ok` only when Courmap is sure. A name that could be several works comes back `ambiguous`, with `match` empty and every candidate and its score in `candidates`; a name that matches nothing comes back `unmatched` with no candidates. Neither throws, so check `status` before using `match`. The [library guide](/guides/library/) has the shapes.
+
 The remote client fetches only the small files a call needs and caches them by data version. In a browser, import from `@courmap/client/remote`, which has no Node-only code.
 
 ## Offline: download the dump once

@@ -6,7 +6,7 @@ import { gunzipSync, gzipSync } from 'node:zlib';
 import { CreateBucketCommand, HeadObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import { afterAll, describe, expect, it } from 'vitest';
 import { compile, generateShards, validate } from '@courmap/builder';
-import { buildAssets, fillMetaDumps, s3Client, verifyRelease, uploadShards, type S3Target } from '../src/index.js';
+import { buildAssets, fillMetaDumps, purgeCache, purgeTargetFromEnv, s3Client, verifyRelease, uploadShards, type S3Target } from '../src/index.js';
 
 const root = fileURLToPath(new URL('../../../', import.meta.url));
 const tmp = mkdtempSync(path.join(tmpdir(), 'courmap-release-'));
@@ -129,5 +129,30 @@ describe.skipIf(!endpoint)('shard upload to S3-compatible storage', async () => 
     expect(changed.uploaded).toBe(1);
     expect(changed.deleted).toBe(1);
     expect(await keys()).not.toContain('v1/works/a-movie.json');
+  });
+});
+
+describe('cache purge', () => {
+  const target = { zoneId: 'zone1', token: 'tok', prefixes: ['data.courmap.com/v1/'] };
+  const answer = (status: number, body: unknown) => (async () => new Response(JSON.stringify(body), { status })) as unknown as typeof fetch;
+
+  it('posts the prefixes to the zone with the bearer token', async () => {
+    let seen: { url: string; init: RequestInit } | null = null;
+    const f = (async (url: string, init: RequestInit) => ((seen = { url, init }), new Response(JSON.stringify({ success: true })))) as unknown as typeof fetch;
+    await purgeCache(target, f);
+    expect(seen!.url).toBe('https://api.cloudflare.com/client/v4/zones/zone1/purge_cache');
+    expect((seen!.init.headers as Record<string, string>).Authorization).toBe('Bearer tok');
+    expect(JSON.parse(seen!.init.body as string)).toEqual({ prefixes: ['data.courmap.com/v1/'] });
+  });
+
+  it('throws with Cloudflare\'s reason when the purge is refused', async () => {
+    await expect(purgeCache(target, answer(403, { success: false, errors: [{ message: 'Authentication error' }] }))).rejects.toThrow('Authentication error');
+    await expect(purgeCache(target, answer(500, 'oops'))).rejects.toThrow('HTTP 500');
+  });
+
+  it('is configured only when both secrets are present', () => {
+    expect(purgeTargetFromEnv({})).toBeNull();
+    expect(purgeTargetFromEnv({ CLOUDFLARE_ZONE_ID: 'z' })).toBeNull();
+    expect(purgeTargetFromEnv({ CLOUDFLARE_ZONE_ID: 'z', CLOUDFLARE_PURGE_TOKEN: 't' })!.prefixes).toEqual(['data.courmap.com/v1/']);
   });
 });

@@ -10,12 +10,15 @@ const RESOLUTION = /^(?:\d{3,4}[pi]|\d{3,4}x\d{3,4}|4k|2160p|uhd)$/i;
 const CHECKSUM = /^[0-9a-f]{8}$/i;
 const SOURCE = /^(?:bd|bdrip|bd-?rip|blu-?ray|bdmv|web|web-?dl|web-?rip|hdtv|hdtvrip|tv|tvrip|dvd|dvdrip|dvd-?rip|ld|vhs)$/i;
 const VIDEO = /^(?:x264|x265|h\.?264|h\.?265|hevc|avc|av1|vp9|xvid|divx|10-?bit|hi10p?|8-?bit|hdr|dolby-?vision)$/i;
-const AUDIO = /^(?:aac(?:2\.0|5\.1)?|flac|opus|ac3|e-?ac-?3|eac3|dts(?:-hd)?|ddp?(?:2\.0|5\.1)?|truehd|mp3|vorbis|lpcm|2\.0|5\.1|7\.1|(?:aac|flac|opus|ac3|e-?ac-?3|eac3|dts(?:-hd)?|ddp?|truehd|lpcm|ma)\.(?:2\.0|5\.1|7\.1))$/i;
+const AUDIO = /^(?:aac(?:2\.0|5\.1)?|flac|opus|ac3|e-?ac-?3|eac3|dts(?:-hd)?|ddp?(?:2\.0|5\.1)?|dd\+|truehd|mp3|vorbis|lpcm|2\.0|5\.1|7\.1|(?:aac|flac|opus|ac3|e-?ac-?3|eac3|dts(?:-hd)?|ddp?|truehd|lpcm|ma)\.(?:2\.0|5\.1|7\.1))$/i;
 const YEAR = /^(19[5-9]\d|20[0-4]\d)$/;
 // Language codes scene names put after the title (JPN audio, KOR, ...); metadata, not part of the title.
 // Streaming services that scene and web groups put after the title (CR WEB-DL, AMZN WEB-DL).
-const SERVICE = /^(?:cr|crunchyroll|amzn|dsnp|nf|hidi|hidive|funi|bili|bilibili|hulu|atvp)$/i;
+const SERVICE = /^(?:cr|crunchyroll|amzn|dsnp|nf|netflix|hidi|hidive|funi|bili|bilibili|hulu|atvp|baha|bahamut|adn|abema)$/i;
 const LANGUAGE = /^(?:jpn|jap|kor|ger|fre|fra|ita|esp|spa|rus|por|chs|cht|multi)$/i;
+// Whole language words in scene names ("One.Piece.S01.DANiSH.ENGLiSH.JAPANESE.1080p"). Read as tags only in a dotted
+// name, where a title ending in one of them is far less likely than a language tag (ENGLiSH is a flag word already).
+const SCENE_LANGUAGE = /^(?:danish|japanese|korean|german|french|italian|spanish|russian|portuguese|chinese|swedish|norwegian|finnish|dutch|polish|turkish)$/i;
 // DVD scene names: "FRA PAL DVD5" (country, video system, disc size) is metadata, not title.
 const DISC = /^(?:pal|ntsc|dvd[59]|bd25|bd50)$/i;
 
@@ -86,7 +89,7 @@ function classify(word: string, out: ParsedRelease): boolean {
   if (DISC.test(w)) return true;
   if (SERVICE.test(w)) return true;
   // A video-source word ("HYBRID") or a subtitle tag ("MSubs"), metadata with no field of its own.
-  if (/^(?:hybrid|msubs)$/i.test(w)) return true;
+  if (/^(?:hybrid|msubs|esubs?)$/i.test(w)) return true;
   if (FLAG_WORDS[lower]) return out.flags.push(FLAG_WORDS[lower]!), true;
   return false;
 }
@@ -157,6 +160,8 @@ export function parseRelease(input: string): ParsedRelease {
   }
   // Dots or underscores as word separators (Scene-style names) become spaces, keeping decimals like 5.1.
   const dotted = !/\s/.test(name) && /[._]/.test(name);
+  // "Season.1" is a season, not a decimal: the dot after a word that takes a number is a separator.
+  if (dotted) name = name.replace(/\b(season|part|cour|vol|volume|episode|ep|disc)\.(?=\d)/gi, '$1 ');
   if (dotted) name = name.replace(/_/g, ' ').replace(/\.(?!\d(?:\b|ch)|26[45]\b)/g, ' ');
   else name = name.replace(/_/g, ' ');
 
@@ -194,6 +199,8 @@ export function parseRelease(input: string): ParsedRelease {
   // Season and episode joined by a hyphen: "S2-07", "Season 3-13", "2nd-02" (Moozzi2, Erai-raws, Ohys-Raws).
   const sHyphen =
     /(?:\bS|\bSeason[\s.]?)(\d{1,2})-(\d{1,4})(?:v(\d))?(?=\s|$|-[A-Za-z])/i.exec(main) ?? /\b(\d{1,2})(?:st|nd|rd|th)-(\d{1,4})(?:v(\d))?(?=\s|$|-[A-Za-z])/i.exec(main);
+  // Season and episode as "1x12" (Sonarr's own form). Never part of a resolution ("1280x720") or a codec ("x265").
+  const nxm = /(?<![\dx])(\d{1,2})x(\d{1,3})(?:v(\d))?(?![\dx])/i.exec(main);
   // A season pack with the season glued to the title: "Title-S03".
   const sGlued = /(?<=[^\s-])-S(\d{1,2})(?=\s|$)/i.exec(main);
   if (sxe) {
@@ -203,6 +210,12 @@ export function parseRelease(input: string): ParsedRelease {
     if (sxe[4]) out.episode_to = Number(sxe[4]);
     titleEnd = sxe.index;
     markerEnd = sxe.index + sxe[0].length;
+  } else if (nxm && Number(nxm[1]) > 0 && Number(nxm[2]) > 0) {
+    out.season = Number(nxm[1]);
+    out.episode = Number(nxm[2]);
+    if (nxm[3]) out.version = Number(nxm[3]);
+    titleEnd = nxm.index;
+    markerEnd = nxm.index + nxm[0].length;
   } else if (sHyphen) {
     out.season = Number(sHyphen[1]);
     out.episode = Number(sHyphen[2]);
@@ -274,6 +287,9 @@ export function parseRelease(input: string): ParsedRelease {
   // "H264-GRP" ends in the group name.
   const tagWord = (w: string): boolean => {
     if (classify(w, out)) return true;
+    if (dotted && SCENE_LANGUAGE.test(w)) return true;
+    // "Show.S01.2025.V2.1080p": a release version after the season, in a scene name.
+    if (dotted && /^v\d$/i.test(w)) return true;
     const scene = /^(.+)-([A-Za-z0-9]+)$/.exec(w);
     if (scene && classify(scene[1]!, out)) {
       out.group ??= scene[2]!;
@@ -285,7 +301,18 @@ export function parseRelease(input: string): ParsedRelease {
 
   // The title is what precedes the episode marker, minus season, part and special tokens.
   const words = main.slice(0, titleEnd).replace(/\s[-:~|]\s*$/, '').trim().split(' ').filter(Boolean);
-  while (words.length > 1 && tagWord(words[words.length - 1]!)) words.pop();
+  while (words.length > 1) {
+    const last = words[words.length - 1]!;
+    const prev = words[words.length - 2]!;
+    // "Dual Audio" and "Multi Subs" are two words in a name with spaces or dots.
+    if (words.length > 2 && /^(?:dual|multi)$/i.test(prev) && /^(?:audio|subs?)$/i.test(last)) {
+      out.flags.push(/^audio$/i.test(last) ? 'dual-audio' : 'multi-sub');
+      words.splice(-2);
+      continue;
+    }
+    if (!tagWord(last)) break;
+    words.pop();
+  }
   for (let i = 0; i < words.length; i++) {
     const w = words[i]!;
     const next = words[i + 1];

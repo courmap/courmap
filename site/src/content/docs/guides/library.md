@@ -1,9 +1,11 @@
 ---
 title: 'Library guide: remote and offline'
 description: Which mode of @courmap/client to use, and how each one behaves.
+sidebar:
+  order: 2
 ---
 
-`@courmap/client` gives the same answers in every mode: every call runs the same engine over a `Dataset`, and a conformance suite in CI checks that the modes agree. Only where the data comes from differs.
+Pick the mode that fits where your code runs. New to the library? Start with the [Library quickstart](/getting-started/library/). `@courmap/client` gives the same answers in every mode: every call runs the same engine over a `Dataset`, and a conformance suite in CI checks that the modes agree. Only where the data comes from differs.
 
 | | Offline | Remote |
 | --- | --- | --- |

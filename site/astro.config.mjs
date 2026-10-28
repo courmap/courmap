@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import preact from '@astrojs/preact';
 import starlight from '@astrojs/starlight';
+import starlightLinksValidator from 'starlight-links-validator';
 import { defineConfig } from 'astro/config';
 
 const repoRoot = fileURLToPath(new URL('../', import.meta.url));
@@ -30,6 +31,10 @@ const localShardServer = {
 };
 
 export default defineConfig({
+  // Pages that moved keep working (the site is static, so these become redirect pages).
+  redirects: {
+    '/reference/library': '/guides/library/',
+  },
   // The domain itself lives in packages/core/src/site.ts.
   site: process.env.SITE_URL ?? 'https://courmap.com',
   integrations: [
@@ -42,31 +47,63 @@ export default defineConfig({
       editLink: { baseUrl: 'https://github.com/courmap/courmap/edit/main/site/' },
       customCss: ['./src/styles/brand.css'],
       components: { Footer: './src/components/Footer.astro' },
+      plugins: [starlightLinksValidator()],
       sidebar: [
-        { label: 'Try it', link: '/try/' },
-        { label: 'Getting started', items: [{ autogenerate: { directory: 'getting-started' } }] },
-        { label: 'Concepts', items: [{ autogenerate: { directory: 'concepts' } }] },
+        { label: 'Try it', slug: 'try' },
+        {
+          label: 'Get started',
+          items: [
+            { label: 'What is Courmap?', slug: 'getting-started/what-is-courmap' },
+            { label: 'Sonarr quickstart', slug: 'getting-started/sonarr' },
+            { label: 'Library quickstart', slug: 'getting-started/library' },
+            { label: 'Fix a mapping', slug: 'getting-started/contributing' },
+          ],
+        },
         {
           label: 'Guides',
           items: [
-            { label: 'Sonarr guide', link: '/sonarr/' },
-            { label: 'Fixing open issues', link: '/fixing-issues/' },
-            { label: 'Turning proxy reports into data', link: '/proxy-reports/' },
+            { label: 'Sonarr: full guide', slug: 'sonarr' },
+            { label: 'Library: remote vs offline', slug: 'guides/library' },
+            { label: 'Contributing mappings', slug: 'contributing' },
+          ],
+        },
+        {
+          label: 'Concepts',
+          items: [
+            { label: 'Glossary', slug: 'concepts/glossary' },
+            { label: 'Works', slug: 'concepts/works' },
+            { label: 'Projections', slug: 'concepts/projections' },
+            { label: 'Absolute sequences', slug: 'concepts/absolute-sequences' },
+            { label: 'Group overrides', slug: 'concepts/group-overrides' },
+            { label: 'Resolving release names', slug: 'concepts/release-names' },
           ],
         },
         {
           label: 'Reference',
           items: [
-            { label: 'Library guide: remote and offline', link: '/reference/library/' },
-            { label: 'Library API (generated)', collapsed: true, items: [{ autogenerate: { directory: 'reference/library/api' } }] },
-            { label: 'Static files and dumps', link: '/reference/static-files/' },
-            { label: 'Data format (generated)', link: '/reference/data-format/' },
+            { label: 'Library API', collapsed: true, items: [{ autogenerate: { directory: 'reference/library/api' } }] },
+            { label: 'Static files and dumps', slug: 'reference/static-files' },
+            { label: 'Data format', slug: 'reference/data-format' },
+            { label: 'Coverage', slug: 'coverage' },
           ],
         },
-        { label: 'Contributing mappings', link: '/contributing/' },
-        { label: 'How automation works', link: '/automation/' },
-        { label: 'Coverage', link: '/coverage/' },
-        { label: 'More', items: [{ label: 'FAQ', link: '/faq/' }, { label: 'Licensing and attribution', link: '/licensing/' }, { label: 'Changelog', link: '/changelog/' }] },
+        {
+          label: 'Maintainers',
+          collapsed: true,
+          items: [
+            { label: 'How automation works', slug: 'automation' },
+            { label: 'Fixing open issues', slug: 'fixing-issues' },
+            { label: 'Turning proxy reports into data', slug: 'proxy-reports' },
+          ],
+        },
+        {
+          label: 'More',
+          items: [
+            { label: 'FAQ', slug: 'faq' },
+            { label: 'Licensing and attribution', slug: 'licensing' },
+            { label: 'Changelog', slug: 'changelog' },
+          ],
+        },
       ],
     }),
     preact(),

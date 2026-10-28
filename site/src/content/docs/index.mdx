@@ -1,58 +1,72 @@
 ---
 title: Courmap
-description: One anime episode, every numbering. Translate episodes between AniDB, AniList, MAL, Kitsu, TVDB, TMDB, IMDb and absolute numbering, and resolve release names.
+description: Anime episodes import as the right episode in Sonarr, and every tool can translate episode numbers between AniDB, AniList, MAL, Kitsu, TVDB, TMDB, IMDb and fansub numbering.
 template: splash
 # The tab title: Starlight would otherwise render "Courmap | Courmap".
 head:
   - tag: title
-    content: 'Courmap: anime episode numbering, mapped across every provider'
+    content: 'Courmap: anime episodes, imported as the right episode'
 hero:
-  tagline: One anime episode, every numbering. Courmap translates an episode between AniDB, AniList, MAL, Kitsu, TVDB, TMDB, IMDb and absolute (fansub) numbering, and resolves release names to the right show and episode.
+  title: Anime episodes, imported as the right episode.
+  tagline: Fansubs, AniList and TVDB all number anime differently. Courmap translates between them, so Sonarr grabs and imports the episode you actually want, and any tool can do the same.
   image:
     file: ../../assets/logo.svg
     alt: 'The Courmap logo: two nested arcs forming a C, with five points on the outer arc linked to five on the inner one, like an episode mapped between two numberings.'
   actions:
-    - text: Try it
-      link: /try/
+    - text: Set up the Sonarr proxy
+      link: /getting-started/sonarr/
       icon: right-arrow
-    - text: View on GitHub
-      link: https://github.com/courmap/courmap
-      icon: external
-      variant: minimal
+    - text: Try it in your browser
+      link: /try/
+      variant: secondary
 ---
 
 import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
 
-## The problem, in one release
+## What changes in Sonarr
 
-`[SubsPlease] Spy x Family - 17 (1080p)` is episode 17 to the fansub group, episode 5 of "Part 2" to AniDB, AniList, MAL and Kitsu, and S01E17 to TVDB and TMDB. Every anime tool reinvents this translation. Courmap does it once, as open data, with a confidence score and a reason for every answer.
-
-| Numbering | ID | Episode |
-| --- | --- | --- |
-| Release name | `[SubsPlease] Spy x Family - 17` | 17 |
-| AniDB | 17061 | 5 |
-| AniList | 142838 | 5 |
-| MyAnimeList | 50602 | 5 |
-| Kitsu | 45619 | 5 |
-| TVDB | 405920 | S01E17 |
-| TMDB | 120089 | S01E17 |
-| Absolute | `spy-x-family-absolute` | 17 |
-
-The numbers differ because each source counts the show its own way: fansubs number straight through ([absolute numbering](/concepts/absolute-sequences/)), AniDB, AniList, MAL and Kitsu split it into parts that each start again at 1 (each part is its own [work](/concepts/works/)), and TVDB and TMDB keep it as one season (Courmap records where each part lands there as a [projection](/concepts/projections/)).
-
-## Pick your path
+The same release, with and without the Courmap proxy.
 
 <CardGrid>
-  <LinkCard title="Sonarr and self-hosted users" description="Run the Courmap proxy between Prowlarr and Sonarr so anime episodes import as the right episode." href="/getting-started/sonarr/" />
-  <LinkCard title="Developers" description="Install @courmap/client and translate or resolve in three calls, online or fully offline." href="/getting-started/library/" />
-  <LinkCard title="Contributors" description="Fix a wrong mapping once, for everyone, in a small YAML pull request." href="/getting-started/contributing/" />
+  <Card title="Without Courmap" icon="error">
+    `[SubsPlease] Spy x Family - 17 (1080p)`
+
+    The release says episode 17, but Sonarr counts this show differently from the fansub group. It may leave the release unmatched, or match the wrong episode.
+  </Card>
+  <Card title="With Courmap" icon="approve-check">
+    `[SubsPlease] Spy x Family - 17 (1080p)`
+
+    Courmap knows fansub episode 17 is the fifth episode of the second half, which TVDB files as S01E17. Sonarr imports **S01E17**.
+  </Card>
 </CardGrid>
 
-## What it is
+## One episode, many numbers
+
+Every site counts a show its own way. Here is the same episode everywhere.
+
+| Source | Episode |
+| --- | --- |
+| Fansub release | 17 |
+| AniDB, AniList, MyAnimeList, Kitsu | Part 2, episode 5 |
+| TVDB, TMDB | S01E17 |
+
+Fansub groups count straight through the whole show. AniDB, AniList, MyAnimeList and Kitsu split it into halves (a cour is one broadcast season, about 12 episodes) that each start again at 1. TVDB and TMDB keep it as one season. All three are right in their own way, which is why tools disagree.
+
+## Three ways to use it
 
 <CardGrid>
-  <Card title="Open data" icon="document">Mappings live as reviewable YAML in a public repository, seeded from anime-offline-database and Anime-Lists and corrected through pull requests. Data is ODbL 1.0 + DbCL 1.0.</Card>
-  <Card title="No server" icon="rocket">Weekly SQLite and JSON dumps on GitHub Releases, static JSON shards for on-demand use, and a client library that does the work locally.</Card>
-  <Card title="Never guesses silently" icon="warning">An unsure answer comes back as ambiguous, with the candidates and their scores, never as a confident wrong episode.</Card>
-  <Card title="Kept current" icon="seti:clock">Bots watch each anime season and open pull requests and issues; people review only where sources disagree.</Card>
+  <LinkCard title="Sonarr proxy" description="A Docker container between Prowlarr and Sonarr. Unsure results pass through untouched." href="/getting-started/sonarr/" />
+  <LinkCard title="Library" description="@courmap/client for Node, browsers and Workers. Translate or resolve in a few lines, online or offline." href="/getting-started/library/" />
+  <LinkCard title="Open data" description="Weekly SQLite and JSON dumps. Spot a wrong mapping? Fix it for everyone with a small YAML pull request." href="/getting-started/contributing/" />
 </CardGrid>
+
+## Why trust it
+
+<CardGrid>
+  <Card title="Never guesses silently" icon="warning">An unsure answer comes back as ambiguous, with the candidates, never as a confident wrong episode.</Card>
+  <Card title="Kept current" icon="seti:clock">Bots watch each anime season; people review only where sources disagree.</Card>
+  <Card title="No server to run" icon="rocket">The library works from a local file or small static files.</Card>
+  <Card title="Open" icon="document">The code is Apache-2.0 and the data is ODbL.</Card>
+</CardGrid>
+
+[How Courmap works under the hood](/getting-started/what-is-courmap/)

@@ -24,9 +24,10 @@ export const DEFAULT_MAX_QUERIES = 3;
  * Translates Sonarr's searches into what anime indexers understand (docs/SPEC.md, "Sonarr
  * proxy"). Sonarr asks by TVDB ID with a season and episode, by TVDB ID with an absolute number
  * (anime series), or by title. Anime indexers only search text, and releases are named by the
- * work's own title and its canonical or absolute (fansub) number. Returns null when there is
- * nothing to translate (RSS, or a show Courmap or Sonarr does not know): the request then goes
- * upstream unchanged.
+ * work's own title and its canonical or absolute (fansub) number. When the series is not in the
+ * cached list, the list is reloaded first (at most once a minute) in case it was just added.
+ * Returns null when there is nothing to translate (RSS, or a show Courmap or Sonarr does not
+ * know): the request then goes upstream unchanged.
  */
 export async function translateSearch(params: URLSearchParams, client: CourmapClient | null, sonarr: SonarrClient, opts: { maxQueries?: number } = {}): Promise<TranslatedSearch | null> {
   const t = params.get('t');
@@ -40,11 +41,22 @@ export async function translateSearch(params: URLSearchParams, client: CourmapCl
 
   if (Number.isInteger(tvdb) && tvdb > 0) {
     series = sonarr.seriesByTvdb(tvdb);
+    if (!series) {
+      // Maybe the series was added to Sonarr since the list was loaded. Searches need it (absolute and
+      // scene numbers, a season's episodes), so wait for a reload (rate-limited) before translating.
+      await sonarr.reloadOnMiss(tvdb);
+      series = sonarr.seriesByTvdb(tvdb);
+    }
     if (/^\d{1,4}$/.test(q)) absolute = Number(q);
   } else if (q !== '') {
     // A title search: "Title" with season/ep (tvsearch) or "Title 05" (search, anime).
     const m = /^(.*\S)\s+(\d{1,4})$/.exec(q);
-    series = sonarr.seriesByTitle(q) ?? (m ? sonarr.seriesByTitle(m[1]!) : undefined);
+    const find = () => sonarr.seriesByTitle(q) ?? (m ? sonarr.seriesByTitle(m[1]!) : undefined);
+    series = find();
+    if (!series) {
+      await sonarr.reloadOnMiss();
+      series = find();
+    }
     if (!series) return null;
     tvdb = series.tvdbId;
     if (m && sonarr.seriesByTitle(m[1]!) === series && seasonParam === null) absolute = Number(m[2]);

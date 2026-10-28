@@ -1,0 +1,12 @@
+id: ao-no-hako-season-2
+projections:
+  # TMDB has one season for the whole show (37 episodes): season 1 episodes 1-25 are the first series,
+  # episodes 26-37 (2026-10-04 to 2026-12-20) are this one. TheTVDB keeps it as its own season 2.
+  tmdb_show:
+    - { season: 1, episodes: 1-, start: 26 }
+notes: >-
+  The seed maps this work to TMDB season 2, which does not exist. The projection checker (2026-10-26, issue
+  #140) found TMDB season 1 listing 37 episodes against the 25 of ao-no-hako; the TMDB season 1 page
+  (checked 2026-10-28) lists episodes 26 to 37 as the continuation.
+sources:
+  - https://www.themoviedb.org/tv/207347/season/1

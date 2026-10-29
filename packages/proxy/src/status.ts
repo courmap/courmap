@@ -129,9 +129,13 @@ export function statusHtml(s: StatusInput): string {
 ${s.indexers.map((i) => row(i.name, i.type, s.stats.of(i.name))).join('\n')}
 </table></div>
 ${s.indexers
-  .map((i) => ({ name: i.name, last: s.stats.of(i.name).lastUpstreamError }))
+  .map((i) => ({ name: i.name, last: s.stats.of(i.name).lastUpstreamError, ok: s.stats.of(i.name).lastUpstreamOk }))
   .filter((i) => i.last)
-  .map((i) => `<p class="bad">${esc(i.name)}: last upstream problem ${esc(i.last!.at)}, ${esc(i.last!.kind)}: ${esc(i.last!.detail)}</p>`)
+  .map((i) => {
+    const text = `${esc(i.name)}: last upstream problem ${esc(i.last!.at)}, ${esc(i.last!.kind)}: ${esc(i.last!.detail)}`;
+    // A request that succeeded after the problem means it has passed: say so, and do not show it as a live fault.
+    return i.ok && i.ok > i.last!.at ? `<p class="muted">${text} (recovered: a request succeeded at ${esc(i.ok)})</p>` : `<p class="bad">${text}</p>`;
+  })
   .join('\n')}
 
 <h2>Requests to your indexers, per day</h2>

@@ -1,0 +1,11 @@
+id: high-school-dxd-hero
+projections:
+  # TheTVDB season 4 has 12 episodes, weekly from 2018-04-17 to 2018-07-03. The seed shifted the range by one
+  # (canonical 2-12 to E01-11, so E12 was never reached) and sent canonical 1 to S00E18, the OVA aired 2018-04-10
+  # ("Taiikukan-ura no Holy"), which is not one of the 12.
+  tvdb_show:
+    - { season: 4, episodes: 1-12 }
+notes: >-
+  Fixes the seeded TVDB projection (same pattern as fate-stay-night-unlimited-blade-works, issue #172).
+sources:
+  - https://www.thetvdb.com/series/254653

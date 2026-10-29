@@ -1,0 +1,12 @@
+id: fate-stay-night-unlimited-blade-works-2nd-season
+projections:
+  # TMDB has a season 2 of its own with 13 episodes (2015-04-05 to 2015-06-28, finale "Epilogue" is 2x13). The seed
+  # continued season 1 at episode 13, which TMDB does not have. TheTVDB keeps both cours in season 1 (E13-25).
+  tmdb_show:
+    - { season: 2, episodes: 1-13 }
+notes: >-
+  Fixes the seeded TMDB projection (issue #172). The seeded TVDB projection (S01E13-25, and S1 to S00E02 for
+  Sunny Day) matches TheTVDB and is unchanged.
+sources:
+  - https://www.themoviedb.org/tv/61415/season/2
+  - https://www.thetvdb.com/series/278626

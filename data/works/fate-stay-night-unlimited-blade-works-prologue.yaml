@@ -1,0 +1,16 @@
+id: fate-stay-night-unlimited-blade-works-prologue
+ids:
+  tvdb_show: 278626
+  tmdb_show: 61415
+projections:
+  # The prologue (episode #00 on the official Blu-ray) is the first special on both sites, aired 2014-10-05.
+  tvdb_show:
+    - { season: 0, episodes: 1 }
+  tmdb_show:
+    - { season: 0, episodes: 1 }
+notes: >-
+  The seed gave this work no TVDB or TMDB mapping (issue #172). The show IDs are the ones the two UBW cours carry
+  in the seed (Anime-Lists); TheTVDB and TMDB both list the prologue as S00E01.
+sources:
+  - https://www.thetvdb.com/series/278626
+  - https://www.themoviedb.org/tv/61415/season/0

@@ -1,0 +1,12 @@
+id: fate-stay-night-unlimited-blade-works-2nd-season-sunny-day
+ids:
+  tmdb_show: 61415
+projections:
+  # TMDB's second special, aired 2015-10-07. TheTVDB's matching special (S00E02) is already mapped by
+  # fate-stay-night-unlimited-blade-works-2nd-season.
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 2 }
+notes: >-
+  Fills the second TMDB special that the projection checker reports once the prologue is mapped (issue #172).
+sources:
+  - https://www.themoviedb.org/tv/61415/season/0

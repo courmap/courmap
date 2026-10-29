@@ -4,8 +4,10 @@ ids:
   tmdb_show: 153485
 notes: >-
   IDs only, no season projections yet (issue #13). TVDB 359424 and TMDB 153485 are both the 1969
-  series. TMDB has one season of 2650 episodes, TVDB's aired order has only about 100 episodes
-  (the rest are unassigned), and our record says 2874, so the episode mapping needs a person.
+  series. TVDB marks the show ended in 2018 with 102 aired-order episodes (season 1: 52, season 2:
+  50, season 2018: 1, as Sonarr shows it), so a TVDB projection cannot cover it. TMDB has one
+  season of 2650 episodes in broadcast order (latest 1x2650, 2022-09-11), while our record says
+  2874. A TMDB projection needs a check that our episode N is TMDB episode N.
 sources:
   - https://thetvdb.com/dereferrer/series/359424
   - https://www.themoviedb.org/tv/153485

@@ -8580,7 +8580,7 @@ cases:
       episode: 1
     verified: false
     source: proxy-unresolved
-    notes: "Imported 2026-10-29: resolves through the new absolute sequence (13 = second cour episode 1). Unverified: needs a check that Dekinai numbers the BD run 1-25."
+    notes: "Imported 2026-10-29: resolves through the new absolute sequence (13 = second cour episode 1). Unverified for Dekinai specifically, but Aniplex's official Blu-ray sets number the run #00 (prologue) then 01-12 and 13-25, so 13 is the second cour's first episode."
   - name: Hi10.Fate.Stay.Night.Unlimited.Blade.Works-12.BD.720p.Dekinai.10028386
     expect:
       status: ok

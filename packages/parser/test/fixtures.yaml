@@ -203,6 +203,17 @@ cases:
   # A two-digit episode before a bare resolution word (no brackets around it).
   - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 13 1080p [Multi-subs][h264 qsv][8bit][AAC]"
     expect: { title: Tokyo Revengers Seiya Kessen-hen, episode: 13, group: ShouryuuReppa }
+  # Titles that end in a number must not lose it to the "episode before resolution" rule.
+  - name: "Kaiju.No.8.1080p.WEB-DL"
+    expect: { episode: null }
+  - name: "Mob.Psycho.100.S01.1080p"
+    expect: { title: Mob Psycho 100, season: 1, episode: null }
+  - name: "86.Eighty.Six.1080p"
+    expect: { title: 86 Eighty Six, episode: null }
+  - name: "[Group] Kaiju No. 8 - 05 (1080p)"
+    expect: { title: Kaiju No. 8, episode: 5, group: Group }
+  - name: "Kaiju No. 8 S01E05 1080p"
+    expect: { title: Kaiju No. 8, season: 1, episode: 5 }
   # "Hi10" as a leading profile tag.
   - name: "Hi10.Fate.Stay.Night.Unlimited.Blade.Works-03.BD.720p.Dekinai.A5D015CF"
     expect: { title: Fate Stay Night Unlimited Blade Works, episode: 3 }

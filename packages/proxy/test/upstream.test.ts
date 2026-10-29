@@ -9,6 +9,7 @@ import { classifyUpstream, items } from '../src/feed.js';
 import { createProxyServer, type ProxyDeps } from '../src/server.js';
 import { SonarrClient } from '../src/sonarr.js';
 import { Stats } from '../src/stats.js';
+import { statusHtml } from '../src/status.js';
 import { fakeProwlarr, fakeSonarr, fixtureDump, rss, serve, tmp, type FakeServer } from './helpers.js';
 
 // What one Sonarr search costs an indexer, and how failures show up: usenet indexers enforce daily API limits.
@@ -225,6 +226,18 @@ describe('what a Sonarr search costs an indexer', async () => {
       const json = JSON.parse(await (await fetch(`${t.base}/status.json`)).text()) as { indexers: Record<string, { upstreamFailures: Record<string, number>; days: { requests: number; errors: number }[] }> };
       expect(json.indexers.nyaa!.upstreamFailures['api-limit']).toBe(3);
       expect(json.indexers.nyaa!.days[0]).toMatchObject({ requests: 6, errors: 6 });
+    });
+
+    it('shows a past upstream problem as recovered once a later request succeeded', () => {
+      const stats = new Stats(null);
+      const page = () => statusHtml({ version: 't', data: { dataVersion: null, file: null, lastCheck: null, lastChange: null, lastError: null }, sonarr: { configured: false, series: 0, lastRefresh: null, lastError: null }, stats, indexers: [{ name: 'geek' }] });
+      stats.countUpstream('geek', { kind: 'api-limit', detail: 'error 429' }, new Date('2026-10-28T17:07:00Z'));
+      expect(page()).toContain('<p class="bad">geek: last upstream problem');
+      stats.countUpstream('geek', null, new Date('2026-10-29T09:00:00Z'));
+      expect(page()).toContain('<p class="muted">geek: last upstream problem');
+      expect(page()).toContain('recovered: a request succeeded at 2026-10-29T09:00:00.000Z');
+      stats.countUpstream('geek', { kind: 'timeout', detail: 'no answer' }, new Date('2026-10-29T10:00:00Z'));
+      expect(page()).toContain('<p class="bad">geek: last upstream problem 2026-10-29T10:00:00.000Z');
     });
 
     it('passes HTTP 429 and its Retry-After on, so Sonarr backs off as long as the indexer asks', async () => {

@@ -26,6 +26,8 @@ export interface IndexerStats {
   /** Why upstream requests failed, by kind (`upstreamErrors` is their sum), and the latest failure in words. */
   upstreamFailures: Partial<Record<UpstreamFailure, number>>;
   lastUpstreamError: { at: string; kind: UpstreamFailure; detail: string } | null;
+  /** When an upstream request last succeeded, so the status page can tell a past failure from a current one. */
+  lastUpstreamOk: string | null;
 }
 
 /** What one indexer was asked on one UTC day: indexers enforce their API limits per day. */
@@ -86,7 +88,7 @@ export class Stats {
 
   of(indexer: string): IndexerStats {
     let s = this.indexers.get(indexer);
-    if (!s) this.indexers.set(indexer, (s = { requests: 0, searches: 0, translated: 0, items: 0, rewritten: 0, assisted: 0, passed: {}, upstreamErrors: 0, lastSearch: null, detected: null, upstreamRequests: 0, upstreamCacheHits: 0, upstreamSkipped: 0, upstreamFailures: {}, lastUpstreamError: null }));
+    if (!s) this.indexers.set(indexer, (s = { requests: 0, searches: 0, translated: 0, items: 0, rewritten: 0, assisted: 0, passed: {}, upstreamErrors: 0, lastSearch: null, detected: null, upstreamRequests: 0, upstreamCacheHits: 0, upstreamSkipped: 0, upstreamFailures: {}, lastUpstreamError: null, lastUpstreamOk: null }));
     return s;
   }
 
@@ -101,6 +103,8 @@ export class Stats {
       day.errors++;
       s.upstreamFailures[failure.kind] = (s.upstreamFailures[failure.kind] ?? 0) + 1;
       s.lastUpstreamError = { at: now.toISOString(), kind: failure.kind, detail: failure.detail };
+    } else {
+      s.lastUpstreamOk = now.toISOString();
     }
     this.scheduleSave();
   }

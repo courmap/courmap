@@ -1,0 +1,13 @@
+id: dies-irae
+projections:
+  # TheTVDB season 1: E01 "Twilight Girl" (2017-10-14) to E11 "Self Destruction Factor" (2017-12-23) are the 11 TV
+  # episodes; E12-17 (2018-07-01) are dies-irae-to-the-ring-reincarnation, seeded at E12-17. The seed shifted the
+  # range by one (canonical 2-11) and sent canonical 1 to S00E01, "The Dawning Days" (2017-10-07), a special.
+  tvdb_show:
+    - { season: 1, episodes: 1-11 }
+    - { season: 0, episodes: S10, start: 2 }
+notes: >-
+  Fixes the seeded TVDB projection (same pattern as fate-stay-night-unlimited-blade-works, issue #172). The seeded
+  special S10 to S00E02 ("Marie's Memory", 2017-12-30) is kept.
+sources:
+  - https://www.thetvdb.com/series/321690

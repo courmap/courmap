@@ -8589,6 +8589,14 @@ cases:
     verified: true
     source: proxy-unresolved
     notes: "Verified 2026-10-29: episode 12 of the first cour (12 episodes in the seed line); the leading Hi10 tag is no longer part of the title."
+  - name: "[Group] Fate stay night - Unlimited Blade Works - 12 [1080p]"
+    expect:
+      status: ok
+      work: fate-stay-night-unlimited-blade-works
+      episode: 12
+    verified: true
+    source: hand-written
+    notes: "Verified 2026-10-29: episode 12 is the last of the first cour and TVDB S01E12 (issue #172); the translation is checked in packages/client/test/tvdb-shift-fixes.test.ts."
   - name: Hi10.Fate.Stay.Night.Unlimited.Blade.Works-11.BD.720p.Dekinai.2C00636C
     expect:
       status: ok

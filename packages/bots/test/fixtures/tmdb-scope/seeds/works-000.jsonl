@@ -1,0 +1,3 @@
+{"id":"old-show","type":"tv","status":"finished","year":2014,"episodes":12,"ids":{"anilist":400,"tvdb_show":6001,"tmdb_show":7001},"projections":{"tvdb_show":[{"season":1,"episodes":"1-12"}],"tmdb_show":[{"season":1,"episodes":"1-12"}]},"origin":{"default":"offline-db"}}
+{"id":"old-show-2nd-season","type":"tv","status":"finished","year":2015,"episodes":13,"ids":{"anilist":401,"tvdb_show":6001,"tmdb_show":7001},"projections":{"tvdb_show":[{"season":1,"episodes":"1-13","start":13}],"tmdb_show":[{"season":1,"episodes":"1-13","start":13}]},"origin":{"default":"offline-db"}}
+{"id":"old-show-ova","type":"ova","status":"finished","year":2015,"episodes":1,"ids":{"anilist":402},"origin":{"default":"offline-db"}}

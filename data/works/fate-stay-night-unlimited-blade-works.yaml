@@ -1,0 +1,13 @@
+id: fate-stay-night-unlimited-blade-works
+projections:
+  # TheTVDB aired order has season 1 with 25 episodes: this cour is S01E01-12 and the second cour continues at
+  # S01E13. The seed shifted the range by one (canonical 2-13) and sent canonical 1 to S00E01, which is the
+  # prologue, a separate work here (fate-stay-night-unlimited-blade-works-prologue).
+  tvdb_show:
+    - { season: 1, episodes: 1-12 }
+notes: >-
+  Fixes the seeded TVDB projection (issue #172). TMDB season 1 lists the same 12 episodes, so its seed mapping
+  is unchanged.
+sources:
+  - https://www.thetvdb.com/series/278626
+  - https://www.themoviedb.org/tv/61415/season/1

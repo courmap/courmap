@@ -1,0 +1,12 @@
+id: tales-of-zestiria-the-cross
+projections:
+  # TheTVDB season 1 has 25 episodes (#01 on 2016-07-10 to #25 on 2017-04-29): this cour is E01-12 and
+  # tales-of-zestiria-the-cross-2nd-season (seeded at E13-25) continues it. The seed shifted the range by one
+  # (canonical 2-13) and sent canonical 1 to S00E02, the "#00 The Age of Chaos" special, which is not part of the 12.
+  tvdb_show:
+    - { season: 1, episodes: 1-12 }
+notes: >-
+  Fixes the seeded TVDB projection (same pattern as fate-stay-night-unlimited-blade-works, issue #172). TMDB has
+  no mapping for this work in the seed and none is added here.
+sources:
+  - https://www.thetvdb.com/series/311014

@@ -96,6 +96,7 @@ export function statusHtml(s: StatusInput): string {
   h1 { font-size: 22px; margin: 0 0 4px; } h1 span { color: var(--accent); }
   h2 { font-size: 16px; margin: 28px 0 8px; }
   .muted { color: var(--muted); }
+  summary { font-size: 16px; font-weight: bold; margin: 28px 0 8px; cursor: pointer; }
   .bad { color: var(--accent); }
   .scroll { overflow-x: auto; }
   table { border-collapse: collapse; width: 100%; font-size: 14px; }
@@ -156,7 +157,8 @@ ${assisted.slice(0, 200).map((a) => `<tr><td><code>${esc(a.mapping.work)}</code>
 </table></div>`
 }
 
-<h2>Unresolved release names (${list.length})</h2>
+<details>
+<summary>Unresolved release names (${list.length})</summary>
 ${
   list.length === 0
     ? '<p class="muted">None so far.</p>'
@@ -164,6 +166,7 @@ ${
 ${list.slice(0, 200).map((e) => `<tr><td><code>${esc(e.name)}</code></td><td>${e.count}</td><td>${esc(e.status)}: ${esc(e.detail)}</td><td>${esc(e.lastSeen)}</td></tr>`).join('\n')}
 </table></div>`
 }
+</details>
 ${
   list.length + assisted.length === 0
     ? ''

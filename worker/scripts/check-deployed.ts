@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { parse } from 'yaml';
 import { CourmapError, createOfflineClient, SqliteDataset } from '@courmap/client';
+import { fetchWithRetry } from './retry.js';
 
 const { positionals, values } = parseArgs({ allowPositionals: true, options: { works: { type: 'string', default: '200' } } });
 const [base, dumpPath] = positionals;
@@ -20,14 +21,15 @@ const api = base.replace(/\/+$/, '');
 const offline = createOfflineClient(dumpPath);
 const ds = new SqliteDataset(dumpPath);
 
-// The Worker allows 60 requests a minute per client: stay under it, and wait out a 429 if one comes.
+// The Worker allows 60 requests a minute per client: stay under it, and wait out a 429 if one comes. A dropped
+// connection or a 502 to 504 (a deploy in progress) is retried a few times before the check gives up.
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 let last = 0;
 const get = async (path: string): Promise<{ status: number; body: unknown }> => {
   const wait = last + 1100 - Date.now();
   if (wait > 0) await sleep(wait);
   last = Date.now();
-  const res = await fetch(`${api}${path}`);
+  const res = await fetchWithRetry(`${api}${path}`);
   if (res.status === 429) {
     await sleep(Number(res.headers.get('Retry-After') ?? 60) * 1000);
     return get(path);

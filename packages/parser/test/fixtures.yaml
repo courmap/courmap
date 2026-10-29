@@ -194,3 +194,15 @@ cases:
   # A glued season followed by more tags: "Title-S02-1080p".
   - name: "[Cryon] Dan Da Dan-S02-1080p BluRay AV1 Opus 2.0 Dual Audio"
     expect: { title: Dan Da Dan, season: 2, episode: null, batch: true, group: Cryon }
+  # A slash inside brackets is not a path separator.
+  - name: "[Trix] Blue Box S02E04 1080p NF WEB-DL Opus2.0 AV1 (Multi-Audio / Dual-Audio, Multi-Subs) (Ao no Hako Season 2) (Weekly)"
+    expect: { title: Blue Box, season: 2, episode: 4, group: Trix }
+  # A year between the title and the season is the year, not part of the title.
+  - name: "Kingdom.2012.S02.1080p.CR.WEB-DL.DUAL.DDP2.0.H.264-Kitsune"
+    expect: { title: Kingdom, season: 2, episode: null, year: 2012, batch: true, group: Kitsune }
+  # A two-digit episode before a bare resolution word (no brackets around it).
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 13 1080p [Multi-subs][h264 qsv][8bit][AAC]"
+    expect: { title: Tokyo Revengers Seiya Kessen-hen, episode: 13, group: ShouryuuReppa }
+  # "Hi10" as a leading profile tag.
+  - name: "Hi10.Fate.Stay.Night.Unlimited.Blade.Works-03.BD.720p.Dekinai.A5D015CF"
+    expect: { title: Fate Stay Night Unlimited Blade Works, episode: 3 }

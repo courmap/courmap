@@ -144,6 +144,19 @@ function decodeEntities(s: string): string {
   });
 }
 
+/** A path: keep the file name. Slashes inside brackets ("(Multi-Audio / Dual-Audio)") are not path separators. */
+function fileName(s: string): string {
+  let depth = 0;
+  let cut = -1;
+  for (let i = 0; i < s.length; i++) {
+    const c = s[i]!;
+    if (c === '[' || c === '(' || c === '{' || c === '【') depth++;
+    else if (c === ']' || c === ')' || c === '}' || c === '】') depth = Math.max(0, depth - 1);
+    else if ((c === '/' || c === '\\') && depth === 0) cut = i;
+  }
+  return s.slice(cut + 1);
+}
+
 /** Removes a recognized token from a word list, by index. */
 function cut<T>(arr: T[], i: number, n = 1): void {
   arr.splice(i, n);
@@ -152,7 +165,7 @@ function cut<T>(arr: T[], i: number, n = 1): void {
 /** Parses a release name (or file name) into its parts. Never throws; unknown parts stay null. */
 export function parseRelease(input: string): ParsedRelease {
   const out = blank(input);
-  let name = decodeEntities(input.trim()).replace(/^.*[\\/]/, ''); // a path: keep the file name
+  let name = fileName(decodeEntities(input.trim()));
   const ext = EXTENSIONS.exec(name);
   if (ext) {
     out.extension = ext[1]!.toLowerCase();
@@ -261,7 +274,7 @@ export function parseRelease(input: string): ParsedRelease {
         titleEnd = spaced.index;
         markerEnd = spaced.index + spaced[0].length;
       } else {
-        const trailing = /\s(\d{1,4})(?:v(\d))?(?:\s?-\s?(\d{1,4}))?$/.exec(main) ?? /\s(\d{1,4})()(?:\s?-\s?(\d{1,4}))(?=\s+(?:complete|batch)\b)/i.exec(main);
+        const trailing = /\s(\d{1,4})(?:v(\d))?(?:\s?-\s?(\d{1,4}))?$/.exec(main) ?? /\s(\d{1,4})()(?:\s?-\s?(\d{1,4}))(?=\s+(?:complete|batch)\b)/i.exec(main) ?? /\s(?!0+\s)(\d{1,2})(?:v(\d))?()(?=\s\d{3,4}p(?:\s|$))/i.exec(main);
         if (trailing && !(YEAR.test(trailing[1]!) && !trailing[3] && out.year === null && /\(/.test(input))) {
           out.episode = Number(trailing[1]);
           if (trailing[2]) out.version = Number(trailing[2]);
@@ -313,6 +326,8 @@ export function parseRelease(input: string): ParsedRelease {
     if (!tagWord(last)) break;
     words.pop();
   }
+  // "Hi10.Show.Name-13.BD.720p": the encode profile as a leading tag word.
+  if (words.length > 1 && /^hi10p?$/i.test(words[0]!)) words.shift();
   for (let i = 0; i < words.length; i++) {
     const w = words[i]!;
     const next = words[i + 1];
@@ -336,7 +351,7 @@ export function parseRelease(input: string): ParsedRelease {
     } else if (SPECIAL_WORDS[lower] && i > 0 && out.special === null) {
       // Kept in the title: many titles contain the word ("... Movie: Code: White"); resolve retries without it.
       out.special = SPECIAL_WORDS[lower]!;
-    } else if (YEAR.test(w) && i > 0 && out.year === null && i === words.length - 1) {
+    } else if (YEAR.test(w) && i > 0 && out.year === null && words.slice(i + 1).every((x) => /^S\d{1,2}$/i.test(x))) {
       out.year = Number(w);
       cut(words, i--);
     } else if (FLAG_WORDS[lower] && i === words.length - 1 && i > 0) {

@@ -1,0 +1,11 @@
+id: sazae-san
+ids:
+  tvdb_show: 359424
+  tmdb_show: 153485
+notes: >-
+  IDs only, no season projections yet (issue #13). TVDB 359424 and TMDB 153485 are both the 1969
+  series. TMDB has one season of 2650 episodes, TVDB's aired order has only about 100 episodes
+  (the rest are unassigned), and our record says 2874, so the episode mapping needs a person.
+sources:
+  - https://thetvdb.com/dereferrer/series/359424
+  - https://www.themoviedb.org/tv/153485

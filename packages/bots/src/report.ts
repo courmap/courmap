@@ -84,6 +84,9 @@ export const tmdbProposedComment = () =>
 export const tmdbFillComment = () =>
   'Closed by the projection checker: the episodes TMDB lists that none of our works map match one other work of the show, and a pull request proposes (or within a run or two will propose) the mapping that gives it those episodes (data/seeds/tmdb-splits/). It reopens the question as an issue if that proposal is rejected and the mismatch remains.';
 
+export const tmdbOlderComment = () =>
+  'Closed by the projection checker: this mismatch is still there, but the work is not airing, recent, manual or in the corpus, so it now lists in the pinned tracker issue "TMDB mismatches in older works" instead of having an issue of its own. It gets its own issue again if that changes.';
+
 export const tmdbResolvedComment = () => 'Closed by the projection checker: a later run found our TMDB projection and TMDB agree for this work. It opens a new issue if that changes.';
 
 export const issueTitle = (f: Finding) => `${KIND_TITLE[f.kind]}: ${f.work ?? `AniList ${f.anilist}`}`;

@@ -6,11 +6,11 @@ import { AniListClient, type AniListMedia } from './anilist.js';
 import { classify, type Classification, type Finding } from './classify.js';
 import { GitHubWriter } from './github.js';
 import { sendDigest } from './notify.js';
-import { LABELS, TMDB_ISSUE_PREFIX, airingPrBody, tmdbLagComment, tmdbProposedComment, tmdbFillComment, tmdbResolvedComment, tmdbFillPrBody, tmdbSplitPrBody, digestText, issueBody, issueTitle, labelsFor, sequelPrBody, summaryLine, trackerBody } from './report.js';
+import { LABELS, TMDB_ISSUE_PREFIX, airingPrBody, tmdbLagComment, tmdbProposedComment, tmdbFillComment, tmdbResolvedComment, tmdbOlderComment, tmdbFillPrBody, tmdbSplitPrBody, digestText, issueBody, issueTitle, labelsFor, sequelPrBody, summaryLine, trackerBody } from './report.js';
 import { nextSeason, seasonName, seasonOf, type SeasonRef } from './season.js';
 import { diffSequences } from './shifts.js';
 import { airingJson, evaluate, loadState, relationJson, tmdbSplitJson, type State } from './state.js';
-import { TmdbClient, checkProjectionsDetailed, checkScope, issuesToClose, searchShows, showInfo } from './tmdb.js';
+import { OLDER_TRACKER_TITLE, TmdbClient, checkProjectionsDetailed, checkScope, corpusWorks, isUrgent, issuesToClose, olderTrackerBody, searchShows, showInfo } from './tmdb.js';
 
 const USAGE = `Usage: courmap-bots <command> [options]
 
@@ -34,6 +34,7 @@ Options:
   --max-prs <n>         Tier B sequel PRs per run (default 10)
   --max-issues <n>      New or updated tier C issues per run (default 15)
   --all                 tmdb: accepted for compatibility; every work with a TMDB projection is always checked
+  --corpus <file>       tmdb: the resolver corpus; works it names count as urgent (default tests/releases.yaml)
   -h, --help            Show this help
 `;
 
@@ -116,6 +117,7 @@ async function main(argv: string[]): Promise<number> {
       'max-prs': { type: 'string', default: '10' },
       'max-issues': { type: 'string', default: '15' },
       all: { type: 'boolean' },
+      corpus: { type: 'string', default: 'tests/releases.yaml' },
       help: { type: 'boolean', short: 'h' },
     },
   });
@@ -171,7 +173,12 @@ async function main(argv: string[]): Promise<number> {
     }
     // Cours TMDB keeps inside the previous season become tier B PRs, unless one exists or was rejected.
     const noSplit = new Set([...state.tmdbSplits.map((s) => s.work), ...state.rejected.filter((r) => r.kind === 'tmdb-split').map((r) => r.work)]);
-    const result = await checkProjectionsDetailed(state.records, ids, tmdb, { now: new Date(), noSplit, premieres, onError: (show, err) => console.log(`TMDB show ${show} skipped: ${err.message}`) });
+    // A mismatch gets its own issue only on a work that affects people now (airing, recent, manual, in the corpus);
+    // the rest go into one pinned tracker issue.
+    const when = new Date();
+    const corpus = corpusWorks(await readFile(values.corpus!, 'utf8').catch(() => ''));
+    const urgent = isUrgent(state.records, (id) => state.merged.get(id)?.isManual === true, corpus, when);
+    const result = await checkProjectionsDetailed(state.records, ids, tmdb, { now: when, noSplit, premieres, urgent, onError: (show, err) => console.log(`TMDB show ${show} skipped: ${err.message}`) });
     // Each proposal is compiled with the current data first; one that does not validate is an ordinary issue instead.
     const splitLines = new Map(state.tmdbSplits.map((s) => [s.work, s]));
     const proposals = result.splits.slice();
@@ -183,7 +190,7 @@ async function main(argv: string[]): Promise<number> {
       if (!ev.records) {
         console.log(`TMDB split for ${f.work} does not validate (${ev.errors[0]?.message}); it becomes an issue.`);
         const owner = (f.data.for_work as string | undefined) ?? f.work!;
-        result.findings.push({ ...f, work: owner, title: state.records.works.get(owner)?.titles.romaji ?? owner, tier: 'C', kind: 'projection-mismatch', summary: `TMDB projection disagrees with TMDB: ${(f.data.problems as string[]).join('; ')}`, split: undefined as never });
+        (urgent(owner) ? result.findings : result.older).push({ ...f, work: owner, title: state.records.works.get(owner)?.titles.romaji ?? owner, tier: 'C', kind: 'projection-mismatch', summary: `TMDB projection disagrees with TMDB: ${(f.data.problems as string[]).join('; ')}`, split: undefined as never });
         continue;
       }
       result.splits.push(f);
@@ -192,16 +199,18 @@ async function main(argv: string[]): Promise<number> {
       await writer.upsertPullRequest(`bots/tmdb-split-${f.work}`, f.kind === 'tmdb-fill' ? `TMDB missing episodes: ${f.work} (for ${f.data.for_work})` : `TMDB split cour: ${f.work}`, f.kind === 'tmdb-fill' ? tmdbFillPrBody(f) : tmdbSplitPrBody(f), labelsFor(f), new Map([[botFilePath(TMDB_SPLITS_DIR, f.work!), tmdbSplitJson(f.split!)]]));
     }
     if (result.splits.length > prs) console.log(`${result.splits.length - prs} more TMDB split or fill PR(s) wait for the next run (--max-prs ${limits.prs}).`);
-    const { findings, lagging } = result;
-    console.log(`Projection checker: ${ids.length} works considered, ${tmdb.requests} TMDB shows fetched, ${findings.length} mismatch(es), ${lagging.length} more only because TMDB lags a show that is still starting.`);
+    const { findings, lagging, older } = result;
+    console.log(`Projection checker: ${ids.length} works considered, ${tmdb.requests} TMDB shows fetched, ${findings.length} mismatch(es) for issues, ${older.length} in older works (tracker), ${lagging.length} more only because TMDB lags a show that is still starting.`);
     printFindings(findings);
     if (lagging.length > 0) console.log(`TMDB lag, no issue: ${lagging.map((f) => f.work).join(', ')}`);
-    if (values.json) await writeFile(values.json, JSON.stringify({ findings, lagging: lagging.map((f) => f.work) }, null, 2));
+    if (values.json) await writeFile(values.json, JSON.stringify({ findings, older: older.map((f) => f.work), lagging: lagging.map((f) => f.work) }, null, 2));
     await writer.ensureLabels();
     for (const f of cap(findings, limits.issues)) await writer.upsertIssue(issueTitle(f), issueBody(f), labelsFor(f));
+    // The tracker is rewritten every run (and only created once there is something to list).
+    if (older.length > 0 || (await writer.openIssues(OLDER_TRACKER_TITLE)).length > 0) await writer.upsertIssue(OLDER_TRACKER_TITLE, olderTrackerBody(state.records, older, corpus, when), [LABELS.bot], { pin: true });
     // An issue the checker opened closes itself once a later run finds no mismatch worth one for that work.
     const prefix = `${TMDB_ISSUE_PREFIX}: `;
-    for (const c of issuesToClose(await writer.openIssues(prefix), prefix, result)) await writer.closeIssue(c.number, c.reason === 'lag' ? tmdbLagComment() : c.reason === 'proposed' ? tmdbProposedComment() : c.reason === 'proposed-fill' ? tmdbFillComment() : tmdbResolvedComment());
+    for (const c of issuesToClose(await writer.openIssues(prefix), prefix, result)) await writer.closeIssue(c.number, c.reason === 'lag' ? tmdbLagComment() : c.reason === 'older' ? tmdbOlderComment() : c.reason === 'proposed' ? tmdbProposedComment() : c.reason === 'proposed-fill' ? tmdbFillComment() : tmdbResolvedComment());
     return 0;
   }
 

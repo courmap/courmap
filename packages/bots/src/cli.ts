@@ -10,7 +10,7 @@ import { LABELS, TMDB_ISSUE_PREFIX, airingPrBody, tmdbLagComment, tmdbProposedCo
 import { nextSeason, seasonName, seasonOf, type SeasonRef } from './season.js';
 import { diffSequences } from './shifts.js';
 import { airingJson, evaluate, loadState, relationJson, tmdbSplitJson, type State } from './state.js';
-import { TmdbClient, checkProjectionsDetailed, issuesToClose, searchShows, showInfo } from './tmdb.js';
+import { TmdbClient, checkProjectionsDetailed, checkScope, issuesToClose, searchShows, showInfo } from './tmdb.js';
 
 const USAGE = `Usage: courmap-bots <command> [options]
 
@@ -33,7 +33,7 @@ Options:
   --now <iso>           scan: classify as of this time (default: now)
   --max-prs <n>         Tier B sequel PRs per run (default 10)
   --max-issues <n>      New or updated tier C issues per run (default 15)
-  --all                 tmdb: check every work with a TMDB projection, not just recent and manual ones
+  --all                 tmdb: accepted for compatibility; every work with a TMDB projection is always checked
   -h, --help            Show this help
 `;
 
@@ -156,10 +156,7 @@ async function main(argv: string[]): Promise<number> {
       return 0;
     }
     const state = await loadState(values.data!);
-    const year = new Date().getUTCFullYear();
-    const ids = [...state.records.works.values()]
-      .filter((w) => values.all || state.merged.get(w.id)!.isManual || w.status === 'airing' || (w.year !== null && w.year >= year - 1))
-      .map((w) => w.id);
+    const ids = checkScope(state.records);
     const tmdb = new TmdbClient(key);
     // When each airing or upcoming work's season premiered: TMDB gets six weeks after that before a lag is a finding.
     const premieres = new Map<string, Date | null>();

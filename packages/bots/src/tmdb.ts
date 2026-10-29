@@ -101,6 +101,17 @@ export function fillProposal(records: Records, workId: string, show: string, sea
   return { work: w.id, tmdb_show: [{ season, episodes: gap === 1 ? 1 : `1-${gap}`, start: mapped + 1 }], origin: 'bot', tmdb: show, ...(w.ids.tmdb_show === undefined && { tmdb_id: show }) };
 }
 
+/**
+ * The works the weekly projection checker asks TMDB about: every work with a TMDB show and a TMDB projection.
+ * It used to skip seeded works older than last year (and every non-airing, non-manual one), so a wrong Anime-Lists
+ * mapping on an old finished show was never compared with TMDB (issue #172: Fate/stay night UBW cour 2 mapped to
+ * season 1 episodes 13-25 while TMDB has a season 2). One request per show covers all its works, so the full scope costs
+ * about as much as the old one.
+ */
+export function checkScope(records: Records): string[] {
+  return [...records.works.values()].filter((w) => w.ids.tmdb_show !== undefined && (w.projections.tmdb_show?.length ?? 0) > 0).map((w) => w.id);
+}
+
 /** The last TMDB episode each season of a work's tmdb_show projection lands on (Infinity when open-ended). */
 export function landings(records: Records, workId: string): Map<number, number> {
   const out = new Map<number, number>();

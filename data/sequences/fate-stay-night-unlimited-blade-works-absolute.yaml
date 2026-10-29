@@ -1,0 +1,7 @@
+id: fate-stay-night-unlimited-blade-works-absolute
+members:
+  - { work: fate-stay-night-unlimited-blade-works, episodes: 1-12, absolute_start: 1 }
+  - { work: fate-stay-night-unlimited-blade-works-2nd-season, episodes: 1-13, absolute_start: 13 }
+notes: >-
+  Fansubs and Blu-ray rips number the two cours as one run of 25 (Dekinai's BD release: "Works-13" is the
+  second cour's first episode). Both works map into TVDB season 1 of the same show in the seed data, one after the other.

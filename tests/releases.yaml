@@ -4495,10 +4495,12 @@ cases:
     notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 2 time(s) on data 2026.44 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: "[Trix] Blue Box S02E04 1080p NF WEB-DL Opus2.0 AV1 (Multi-Audio / Dual-Audio, Multi-Subs) (Ao no Hako Season 2) (Weekly)"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: ao-no-hako-season-2
+      episode: 4
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-10-28: this is what the resolver answered then. A proxy saw it 2 time(s) on data 2026.44 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Verified 2026-10-29: the parser kept a slash inside brackets as a path separator. Blue Box is the English title of Ao no Hako; TVDB season 2 is ao-no-hako-season-2."
   - name: "[Kametsu] DanMachi - OVA (BD 1080p Hi10 FLAC) [0570F123]"
     expect:
       status: ambiguous
@@ -7570,3 +7572,1392 @@ cases:
     verified: true
     source: proxy-unresolved
     notes: "Verified 2026-10-28 by the remake rule (DECISIONS.md, 'A remake by posting date'): the release was posted in 2026, after Cat's Eye (2025) premiered, and the 1983 series (finished, 73 episodes) shares the title with no relation to it. posted is the proxy's first sighting (2026-10-28), as the export has no posting date; if this is a re-upload of the 1983 series the answer is wrong, but the proxy only rewrites when the 2025 series' TVDB id is in the user's Sonarr, and otherwise passes it through. Seen 1 time(s) on data 2026.44."
+  - name: Merii.Berii.Rabu.S01E04.1080p.DSNP.WEB-DL.AAC2.0.H.264-playWEB
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.44.1 and got unmatched (no candidate). Verified 2026-10-29: Merry Berry Love is a live-action Korean-Japanese series on Disney+ (premiered 2026-10-07), not an anime, so unmatched is right. https://www.yahoo.com/entertainment/tv/articles/ji-chang-wook-mio-imada-044950659.html"
+  - name: GUNMACHAN 2021 S01 1080p CR WEB-DL Dual Audio AAC2.0 H.264-OldT
+    expect:
+      status: ok
+      work: gunma-chan
+      episode: 1
+      episode_to: 13
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: season 1 pack of Gunma-chan (2021, 13 episodes in the seed line). The year before S01 is no longer left in the title."
+  - name: Merry.Berry.Love.S01E04.1080p.WEB.h264-EDITH
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 50 time(s) on data 2026.44.1 and got unmatched (no candidate). Verified 2026-10-29: Merry Berry Love is a live-action Korean-Japanese series on Disney+ (premiered 2026-10-07), not an anime, so unmatched is right. https://www.yahoo.com/entertainment/tv/articles/ji-chang-wook-mio-imada-044950659.html"
+  - name: MASHLE MAGIC AND MUSCLES S00E01 Mash Burnedead and the Mysterious Letter 1080p CR WEB-DL AAC2.0 H.264-OldT
+    expect:
+      status: ambiguous
+      top: mashle
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 45 time(s) on data 2026.44.1 and got ambiguous (best candidate mashle at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Kingdom.2012.S02.1080p.CR.WEB-DL.DUAL.DDP2.0.H.264-Kitsune
+    expect:
+      status: ok
+      work: kingdom-2nd-season
+      episode: 1
+      episode_to: 39
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: season 2 pack of Kingdom (2012); the year before S02 is no longer left in the title."
+  - name: Lupin.S01.1080p.NF.WEB-DL.DDP5.1.x264-playWEB
+    expect:
+      status: ambiguous
+      top: lupin-iii
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 22 time(s) on data 2026.44.1 and got ambiguous (best candidate lupin-iii at 0.769). Check it, correct it if needed, then set verified: true."
+  - name: "[Diogo4D].[BD][1080p].Turma.de.Elite.3..Temporada-01.[8842F36B]"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 20 time(s) on data 2026.44.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-11.S02E24.Japanese.1080p.x264.AAC.[English-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-09.S02E22.Japanese.1080p.x264.AAC.[English-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-07.S02E20.Japanese.1080p.x264.AAC.[English-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-07.S02E20.UNCENSORED.1080p.x264.AAC.[Multi-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-06.S02E19.Japanese.1080p.x264.AAC.[English-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-06.S02E19.UNCENSORED.1080p.x264.AAC.[Multi-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-05.S02E18.Japanese.1080p.x264.AAC.[English-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-04.S02E17.Japanese.1080p.x264.AAC.[English-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-03.S02E16.Japanese.1080p.x264.AAC.[English-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-01.S02E14.Japanese.1080p.x264.AAC.[Multi-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: "[Diogo4D].[BD][1080p].Turma.de.Elite.3..Temporada-05.[45DA3F5F]"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.44.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S02E01.The.Last.Sunday.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S02E02.I.Want.to.Pursue.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S02E03.Siberian.Express.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S02E04.Do.you.Remember.the.Promise.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S02E05.Moon.Over.Ekaterinburg.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S02E06.Broken.Heart.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S02E08.Sour.Grapes.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S02E09.The.Zoo.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S02E10.Two.Chevalier.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S02E11.Airy.Singing.Voice.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S02E12.The.Red.Shield.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S03E01.Those.Who.Serve.Saya.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S03E02.Paris.Je.taime.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S03E03.Limited.Existence.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S03E05.Joels.Diary.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S03E06.Breaking.Shield.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S03E07.Boy.Meets.Girl.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S03E08.Power.of.Believing.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S03E09.World.Where.We.Exist.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S03E10.A.Tomorrow.Without.Hope.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S03E11.Mismatched.Feelings.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S03E12.To.the.Level.of.Sheer.Madness.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S04E01.Magic.Words.Once.More.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S04E03.The.Place.Where.I.Belong.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S04E05.Confused.Mind.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S04E06.Into.the.Light.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S04E09.Beyond.All.Blood.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S04E10.Skyscraper.Opera.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Blood+.S04E11.The.Two.Queens.480p.TUBI.WEB-DL.AAC2.0.x264-AndreMor
+    expect:
+      status: ambiguous
+      top: blood
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate blood at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo.Revengers.S02E24.Nothing.is.Left.1080p.DSNP.WEB-DL.AAC2.0.H.264-OldT
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-10.S02E23.Japanese.1080p.x264.AAC.[English-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo.Revengers.S02E23.Brave.Heart.1080p.DSNP.WEB-DL.AAC2.0.H.264-OldT
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo.Revengers.S02E22.The.Blue.Ogre.1080p.DSNP.WEB-DL.AAC2.0.H.264-OldT
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-08.S02E21.Japanese.1080p.x264.AAC.[English-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo Revengers S01 Animeserie 2021 mp4 720p
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.615). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo.Revengers.S02E21.I.Know.in.My.Head.1080p.DSNP.WEB-DL.AAC2.0.H.264-OldT
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-03.S02E16.UNCENSORED.720p.x264.AAC.[English-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-05.S02E18.UNCENSORED.720p.x264.AAC.[Multi-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-06.S02E19.UNCENSORED.720p.x264.AAC.[Multi-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo.Revengers.S02E20.Turn.the.Tide.1080p.DSNP.WEB-DL.AAC2.0.H.264-OldT
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo.Revengers.S02E19.Rise.Against.1080p.DSNP.WEB-DL.AAC2.0.H.264-OldT
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo.Revengers.S02E18.A.Bad.Hunch.1080p.DSNP.WEB-DL.AAC2.0.H.264-OldT
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo.Revengers.S02E17.Come.Back.to.Life.1080p.DSNP.WEB-DL.AAC2.0.H.264-OldT
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo.Revengers.S02E16.Run.Out.of.Patience.1080p.DSNP.WEB-DL.AAC2.0.H.264-OldT
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-02.S02E15.Japanese.1080p.x264.AAC.[English-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo.Revengers.S02E15.Mortal.Enemy.1080p.DSNP.WEB-DL.AAC2.0.H.264-OldT
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo.Revengers.S02E14.The.Longest.Day.1080p.DSNP.WEB-DL.AAC2.0.H.264-OldT
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-13.END.S02E26.Japanese.1080p.x264.AAC.[English-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers-seiya-kessen-hen
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers-seiya-kessen-hen at 0.604). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-12.S02E25.Japanese.1080p.x264.AAC.[English-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers-seiya-kessen-hen
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers-seiya-kessen-hen at 0.653). Check it, correct it if needed, then set verified: true."
+  - name: "[YuiSubs].Tokyo.Revengers-21NVENC.H.265.1080p"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.246). Check it, correct it if needed, then set verified: true."
+  - name: "[YuiSubs].Tokyo.Revengers-20NVENC.H.265.1080p"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.246). Check it, correct it if needed, then set verified: true."
+  - name: "[ZigZag] Tokyo Revengers S02E14 [720p DSNP WEB-DL] [Multi-Sub]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[ZigZag].Tokyo.Revengers.S02E14.[720p.DSNP.WEB-DL].[Multi-Sub]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[ToonsHub].Tokyo.Revengers .Tenjiku-hen-07.S02E20.UNCENSORED.720p.x264.AAC.[Multi-Subs]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.034). Check it, correct it if needed, then set verified: true."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 13 1080p [Multi-subs][h264 qsv][8bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 13
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 13."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 13 1080p [Multi-subs][HEVC][x265][10bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 13
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 13."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 12 1080p [Multi-subs][h264 qsv][8bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 12
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 12."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 12 1080p [Multi-subs][HEVC][x265][10bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 12
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 12."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 11 1080p [Multi-subs][h264 qsv][8bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 11
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 11."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 11 1080p [Multi-subs][HEVC][x265][10bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 11
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 11."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 01 1080p [Multi-subs][h264 qsv][8bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 1
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 1."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 01 1080p [Multi-subs][HEVC][x265][10bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 1
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 1."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 02 1080p [Multi-subs][h264 qsv][8bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 2
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 2."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 02 1080p [Multi-subs][HEVC][x265][10bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 2
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 2."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 03 1080p [Multi-subs][h264 qsv][8bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 3
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 3."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 03 1080p [Multi-subs][HEVC][x265][10bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 3
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 3."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 04 1080p [Multi-subs][h264 qsv][8bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 4
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 4."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 04 1080p [Multi-subs][HEVC][x265][10bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 4
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 4."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 05 1080p [Multi-subs][h264 qsv][8bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 5."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 05 1080p [Multi-subs][HEVC][x265][10bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 5."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 06 1080p [Multi-subs][h264 qsv][8bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 6
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 6."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 06 1080p [Multi-subs][HEVC][x265][10bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 6
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 6."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 07 1080p [Multi-subs][h264 qsv][8bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 7
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 7."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 07 1080p [Multi-subs][HEVC][x265][10bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 7
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 7."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 09 1080p [Multi-subs][h264 qsv][8bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 9
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 9."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 09 1080p [Multi-subs][HEVC][x265][10bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 9
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 9."
+  - name: "[KRP] Tokyo Revengers - SP (WEB 1920x1080 x264 AAC)"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 6 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.3). Check it, correct it if needed, then set verified: true."
+  - name: "[KRP] Tokyo Revengers (WEB 1920x1080 x264 DD+)"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 6 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.3). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo.Revengers.Christmas.Showdown.S01E01.720p.DSNP.WEB-DL.AAC2.0.H264-Emmid
+    expect:
+      status: ambiguous
+      top: tokyo-revengers-seiya-kessen-hen
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 6 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers-seiya-kessen-hen at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[KRP].Tokyo.Revengers-.15v2.1080p.[3BA05CAD].AMZN"
+    expect:
+      status: ok
+      work: tokyo-revengers
+      episode: 15
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: episode 15 (version 2) of the 24-episode first series."
+  - name: "[anime-lover]TOKYO REVENGERS SEIYA KESSEN-HEN (CHRISTMAS SHOWDOWN) 1080P-DUAL AUDIO-SOFTSUBBED-EPISODE 1"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers-seiya-kessen-hen
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 6 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers-seiya-kessen-hen at 0.696). Check it, correct it if needed, then set verified: true."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 08 1080p [Multi-subs][h264 qsv][8bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 8
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 8."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 08 1080p [Multi-subs][HEVC][x265][10bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 8
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 8."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 10 1080p [Multi-subs][h264 qsv][8bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 10
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 10."
+  - name: "[ShouryuuReppa] Tokyo Revengers Seiya Kessen-hen 10 1080p [Multi-subs][HEVC][x265][10bit][AAC]"
+    expect:
+      status: ok
+      work: tokyo-revengers-seiya-kessen-hen
+      episode: 10
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: the work named in the release (13 episodes in the seed line), episode 10."
+  - name: "[project-gxs] Dominion Tank Police [10bit DVD 480p]"
+    expect:
+      status: ambiguous
+      top: dominion
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 4 time(s) on data 2026.44.1 and got ambiguous (best candidate dominion at 0.3). Check it, correct it if needed, then set verified: true."
+  - name: "[project-gxs] New Dominion Tank Police [10bit DVD 480p]"
+    expect:
+      status: ambiguous
+      top: tokusou-senshatai-dominion
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 4 time(s) on data 2026.44.1 and got ambiguous (best candidate tokusou-senshatai-dominion at 0.3). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Super.S03E13.A.Decision.at.Last.Is.the.Winner.Beerus.Or.is.it.Champa.AAC5.1.1080p.Bluray.x265-SiQ
+    expect:
+      status: ambiguous
+      top: dragon-ball-super
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 4 time(s) on data 2026.44.1 and got ambiguous (best candidate dragon-ball-super at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo Revengers -23-End of war(Uncensored)
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.209). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo Revengers -21-One and only(Uncensored)
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.204). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo Revengers -20-Dead or Alive(Uncensored)
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.196). Check it, correct it if needed, then set verified: true."
+  - name: "[YuiSubs].Tokyo.Revengers-19NVENC.H.265.1080p"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.246). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo Revengers -19-Turn Around(Uncensored)
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.204). Check it, correct it if needed, then set verified: true."
+  - name: "[YuiSubs].Tokyo.Revengers-18NVENC.H.265.1080p"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.246). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo Revengers -18-Open Fire(Uncensored)
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.213). Check it, correct it if needed, then set verified: true."
+  - name: "[YuiSubs].Tokyo.Revengers-17NVENC.H.265.1080p"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.246). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo Revengers -17-No way(Uncensored)
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.229). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo.Revengers.-17-No.wayUncensored
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.185). Check it, correct it if needed, then set verified: true."
+  - name: "[YuiSubs].Tokyo.Revengers-16NVENC.H.265.1080p"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.246). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo Revengers -16-Once upon a time(Uncensored)
+    expect:
+      status: ambiguous
+      top: okashi-na-tsuitachi
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate okashi-na-tsuitachi at 0.302). Check it, correct it if needed, then set verified: true."
+  - name: "[YuiSubs].Tokyo.Revengers-15NVENC.H.265.1080p"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.246). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo Revengers -15-No Pain, no gain(Uncensored)
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.204). Check it, correct it if needed, then set verified: true."
+  - name: Tokyo.Revengers.-15-No.Pain.no.gainUncensored
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[YuiSubs].Tokyo.Revengers-14NVENC.H.265.1080p"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.246). Check it, correct it if needed, then set verified: true."
+  - name: "[Gao] TokyoRevengers - 14 (Uncensored) (WEB 1080p Hi10P E-AC3) [5E8FB8E8]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.839). Check it, correct it if needed, then set verified: true."
+  - name: "[Gao].TokyoRevengers-14.Uncensored.WEB.1080p.Hi10P.E-AC3.[5E8FB8E8]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.839). Check it, correct it if needed, then set verified: true."
+  - name: "[Gao] TokyoRevengers - 13 (Uncensored) (WEB 1080p Hi10P E-AC3) [BB1A4446]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.839). Check it, correct it if needed, then set verified: true."
+  - name: "[Gao].TokyoRevengers-13.Uncensored.WEB.1080p.Hi10P.E-AC3.[BB1A4446]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.839). Check it, correct it if needed, then set verified: true."
+  - name: "[YuiSubs].Tokyo.Revengers-12NVENC.H.265.1080p"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.246). Check it, correct it if needed, then set verified: true."
+  - name: "[Gao] TokyoRevengers - 12 (Uncensored) (WEB 1080p Hi10P E-AC3) [83E96C7C]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.839). Check it, correct it if needed, then set verified: true."
+  - name: "[Gao].TokyoRevengers-12.Uncensored.WEB.1080p.Hi10P.E-AC3.[83E96C7C]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.839). Check it, correct it if needed, then set verified: true."
+  - name: "[Gao] TokyoRevengers - 11 (Uncensored) (WEB 1080p Hi10P E-AC3) [7E734285]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.839). Check it, correct it if needed, then set verified: true."
+  - name: "[Gao].TokyoRevengers-11.Uncensored.WEB.1080p.Hi10P.E-AC3.[7E734285]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.839). Check it, correct it if needed, then set verified: true."
+  - name: "[Gao] TokyoRevengers - 11v2 (Uncensored) (WEB 1080p Hi10P E-AC3) [2F2D6D54]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.839). Check it, correct it if needed, then set verified: true."
+  - name: "[Gao].TokyoRevengers-11v2.Uncensored.WEB.1080p.Hi10P.E-AC3.[2F2D6D54]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.839). Check it, correct it if needed, then set verified: true."
+  - name: "[Moozzi2] Tokyo Revengers Seiya Kessen Hen [ x265-10Bit Ver. ]-TV + SP"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers-seiya-kessen-hen
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers-seiya-kessen-hen at 0.274). Check it, correct it if needed, then set verified: true."
+  - name: "[Moozzi2] Tokyo Revengers Tenjiku Hen [ x265-10Bit Ver. ]-TV + SP"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.192). Check it, correct it if needed, then set verified: true."
+  - name: "[Moozzi2] Tokyo Revengers [ x265-10Bit Ver. ]-TV + SP"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.253). Check it, correct it if needed, then set verified: true."
+  - name: "[YuiSubs].Tokyo.Revengers-03NVENC.H.265.1080p"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.246). Check it, correct it if needed, then set verified: true."
+  - name: "[Gao] TokyoRevengers - 03 (Uncensored) (WEB 1080p Hi10P E-AC3) [AD6CFB0F]"
+    expect:
+      status: ambiguous
+      top: tokyo-revengers
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 3 time(s) on data 2026.44.1 and got ambiguous (best candidate tokyo-revengers at 0.839). Check it, correct it if needed, then set verified: true."
+  - name: "[UTW] Fate stay night Unlimited Blade Works - 13-15 [h264-720p]"
+    expect:
+      status: ok
+      work: fate-stay-night-unlimited-blade-works-2nd-season
+      episode: 1
+      episode_to: 3
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: resolves through the new absolute sequence (13-15 = second cour 1-3). Unverified."
+  - name: Hi10.Fate.Stay.Night.Unlimited.Blade.Works-13.BD.720p.Dekinai.59225E03
+    expect:
+      status: ok
+      work: fate-stay-night-unlimited-blade-works-2nd-season
+      episode: 1
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: resolves through the new absolute sequence (13 = second cour episode 1). Unverified for Dekinai specifically, but Aniplex's official Blu-ray sets number the run #00 (prologue) then 01-12 and 13-25, so 13 is the second cour's first episode."
+  - name: Hi10.Fate.Stay.Night.Unlimited.Blade.Works-12.BD.720p.Dekinai.10028386
+    expect:
+      status: ok
+      work: fate-stay-night-unlimited-blade-works
+      episode: 12
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: episode 12 of the first cour (12 episodes in the seed line); the leading Hi10 tag is no longer part of the title."
+  - name: Hi10.Fate.Stay.Night.Unlimited.Blade.Works-11.BD.720p.Dekinai.2C00636C
+    expect:
+      status: ok
+      work: fate-stay-night-unlimited-blade-works
+      episode: 11
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: episode 11 of the first cour (12 episodes in the seed line); the leading Hi10 tag is no longer part of the title."
+  - name: Hi10.Fate.Stay.Night.Unlimited.Blade.Works-10.BD.720p.Dekinai.361B5FCC
+    expect:
+      status: ok
+      work: fate-stay-night-unlimited-blade-works
+      episode: 10
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: episode 10 of the first cour (12 episodes in the seed line); the leading Hi10 tag is no longer part of the title."
+  - name: Hi10.Fate.Stay.Night.Unlimited.Blade.Works-09.BD.720p.Dekinai.06D75624
+    expect:
+      status: ok
+      work: fate-stay-night-unlimited-blade-works
+      episode: 9
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: episode 9 of the first cour (12 episodes in the seed line); the leading Hi10 tag is no longer part of the title."
+  - name: Hi10.Fate.Stay.Night.Unlimited.Blade.Works-08.BD.720p.Dekinai.39500FDA
+    expect:
+      status: ok
+      work: fate-stay-night-unlimited-blade-works
+      episode: 8
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: episode 8 of the first cour (12 episodes in the seed line); the leading Hi10 tag is no longer part of the title."
+  - name: Hi10.Fate.Stay.Night.Unlimited.Blade.Works-07.BD.720p.Dekinai.1105C15B
+    expect:
+      status: ok
+      work: fate-stay-night-unlimited-blade-works
+      episode: 7
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: episode 7 of the first cour (12 episodes in the seed line); the leading Hi10 tag is no longer part of the title."
+  - name: Hi10.Fate.Stay.Night.Unlimited.Blade.Works-06.BD.720p.Dekinai.CE42C9C8
+    expect:
+      status: ok
+      work: fate-stay-night-unlimited-blade-works
+      episode: 6
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: episode 6 of the first cour (12 episodes in the seed line); the leading Hi10 tag is no longer part of the title."
+  - name: Hi10.Fate.Stay.Night.Unlimited.Blade.Works-05.BD.720p.Dekinai.CB6783B1
+    expect:
+      status: ok
+      work: fate-stay-night-unlimited-blade-works
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: episode 5 of the first cour (12 episodes in the seed line); the leading Hi10 tag is no longer part of the title."
+  - name: Hi10.Fate.Stay.Night.Unlimited.Blade.Works-04.BD.720p.Dekinai.E05EC4E3
+    expect:
+      status: ok
+      work: fate-stay-night-unlimited-blade-works
+      episode: 4
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: episode 4 of the first cour (12 episodes in the seed line); the leading Hi10 tag is no longer part of the title."
+  - name: Hi10.Fate.Stay.Night.Unlimited.Blade.Works-03.BD.720p.Dekinai.A5D015CF
+    expect:
+      status: ok
+      work: fate-stay-night-unlimited-blade-works
+      episode: 3
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: episode 3 of the first cour (12 episodes in the seed line); the leading Hi10 tag is no longer part of the title."
+  - name: Dragon Ball Super (English Dub) 009 - Thanks For Waiting, Lord Beerus! A Super Saiyan God is Born At Last! [WinxBloom1980][504A033C]
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 2 time(s) on data 2026.44.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Super.English.Dub.009-Thanks.For.Waiting,.Lord.Beerus!.A.Super.Saiyan.God.is.Born.At.Last!.[WinxBloom1980][504A033C]
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 2 time(s) on data 2026.44.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Super.S03E13.A.Decision.at.Last.Is.the.Winner.Beerus.Or.is.it.Champa.BluRay.Remux.1080p.AVC.TrueHD.2.0-decibeL
+    expect:
+      status: ambiguous
+      top: dragon-ball-super
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 2 time(s) on data 2026.44.1 and got ambiguous (best candidate dragon-ball-super at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Super.S03E13.A.Decision.at.Last.Is.the.Winner.Beerus.Or.is.it.Champa.EAC3.5.1.1080p.Bluray.x265-iVy
+    expect:
+      status: ambiguous
+      top: dragon-ball-super
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 2 time(s) on data 2026.44.1 and got ambiguous (best candidate dragon-ball-super at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Super.S03E13.A.Decision.at.Last.Is.the.Winner.Beerus.Or.is.it.Champa.1080p.BluRay.FLAC2.0.x265-TayTO
+    expect:
+      status: ambiguous
+      top: dragon-ball-super
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 2 time(s) on data 2026.44.1 and got ambiguous (best candidate dragon-ball-super at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Is.It.Wrong.to.Try.to.Pick.Up.Girls.in.a.Dungeon.S01.1080p.HIDI.WEB-DL.DUAL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate dungeon-ni-deai-wo-motomeru-no-wa-machigatteiru-darou-ka at 0.714). Check it, correct it if needed, then set verified: true."
+  - name: Hi10.Fate.Stay.Night.Unlimited.Blade.Works-02.BD.720p.Dekinai.592CD86F
+    expect:
+      status: ok
+      work: fate-stay-night-unlimited-blade-works
+      episode: 2
+    verified: true
+    source: proxy-unresolved
+    notes: "Verified 2026-10-29: episode 2 of the first cour (12 episodes in the seed line); the leading Hi10 tag is no longer part of the title."
+  - name: Fate.Stay.Night.Unlimited.Blade.Works.2010.1080p.BluRay.x264-FaNSuB PAR2
+    expect:
+      status: ambiguous
+      top: fate-stay-night-movie-unlimited-blade-works
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night-movie-unlimited-blade-works at 0.697). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E18
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E25
+    expect:
+      status: ambiguous
+      top: fate-stay-night-unlimited-blade-works-2nd-season
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night-unlimited-blade-works-2nd-season at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E14
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E22
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E16
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E20
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E24
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E23
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E17
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E21
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E19
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E15
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E13
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E26
+    expect:
+      status: ambiguous
+      top: fate-stay-night-movie-unlimited-blade-works
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night-movie-unlimited-blade-works at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E10
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E02
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E06
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E05
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E09
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E04
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E07
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E08
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E12
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E01
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E11
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E03
+    expect:
+      status: ambiguous
+      top: fate-stay-night
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night at 0.78). Check it, correct it if needed, then set verified: true."
+  - name: Fate Stay Night UBW UTW S01E00
+    expect:
+      status: ambiguous
+      top: fate-stay-night-movie-unlimited-blade-works
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night-movie-unlimited-blade-works at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: Fate?Stay Night - Unlimited Blade Works [BOX I+II] (2014) [BD 1080p x264 10bit - FLAC 2.0]
+    expect:
+      status: ambiguous
+      top: fate-stay-night-unlimited-blade-works
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night-unlimited-blade-works at 0.3). Check it, correct it if needed, then set verified: true."
+  - name: Fate.Stay.Night.Unlimited.Blade.Works.S01E00.BDRip.x264-ANiHLS
+    expect:
+      status: ambiguous
+      top: fate-stay-night-unlimited-blade-works
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night-unlimited-blade-works at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Fate.Stay.Night.Unlimited.Blade.Works.S01E00.720p.BluRay.x264-ANiHLS
+    expect:
+      status: ambiguous
+      top: fate-stay-night-unlimited-blade-works
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night-unlimited-blade-works at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Fate.Stay.Night.Unlimited.Blade.Works.S01E00.1080p.BluRay.x264-ANiHLS
+    expect:
+      status: ambiguous
+      top: fate-stay-night-unlimited-blade-works
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night-unlimited-blade-works at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[MiniMTBB] Fate Stay Night Heavens Feel - 01 [B7B07D21]"
+    expect:
+      status: ambiguous
+      top: fate-stay-night-movie-heaven-s-feel-i-presage-flower
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night-movie-heaven-s-feel-i-presage-flower at 0.025). Check it, correct it if needed, then set verified: true."
+  - name: "[MiniMTBB].Fate.Stay.Night.Heavens.Feel-01.[B7B07D21]"
+    expect:
+      status: ambiguous
+      top: fate-stay-night-movie-heaven-s-feel-i-presage-flower
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night-movie-heaven-s-feel-i-presage-flower at 0.025). Check it, correct it if needed, then set verified: true."
+  - name: "[Okay-Subs] Fate Stay Night Heavens Feel - 01 [2BD89B10]"
+    expect:
+      status: ambiguous
+      top: fate-stay-night-movie-heaven-s-feel-i-presage-flower
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night-movie-heaven-s-feel-i-presage-flower at 0.025). Check it, correct it if needed, then set verified: true."
+  - name: "[Okay-Subs] Fate Stay Night Heavens Feel - 03 [3360E01F]"
+    expect:
+      status: ambiguous
+      top: fate-stay-night-movie-heaven-s-feel-i-presage-flower
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-10-29: this is what the resolver answered then. A proxy saw it 1 time(s) on data 2026.44.1 and got ambiguous (best candidate fate-stay-night-movie-heaven-s-feel-i-presage-flower at 0.025). Check it, correct it if needed, then set verified: true."

@@ -101,6 +101,75 @@ export function fillProposal(records: Records, workId: string, show: string, sea
   return { work: w.id, tmdb_show: [{ season, episodes: gap === 1 ? 1 : `1-${gap}`, start: mapped + 1 }], origin: 'bot', tmdb: show, ...(w.ids.tmdb_show === undefined && { tmdb_id: show }) };
 }
 
+/** What a work's TMDB projection maps, for a person to read: "S1 E1-12; S2 E1-13". */
+export function mappingText(records: Records, workId: string): string {
+  return (records.works.get(workId)?.projections.tmdb_show ?? [])
+    .filter((r) => r.season !== null)
+    .map((r) => {
+      const last = r.target_to ?? (r.ep_to === null ? null : r.target_from + (r.ep_to - r.ep_from));
+      return `S${r.season} E${r.target_from}${last === null ? '-' : last === r.target_from ? '' : `-${last}`}`;
+    })
+    .join('; ');
+}
+
+/** The work ids the corpus (tests/releases.yaml) expects as a match or a top candidate, with how many cases name each. */
+export function corpusWorks(yamlText: string): Map<string, number> {
+  const out = new Map<string, number>();
+  for (const m of yamlText.matchAll(/^\s+(?:work|top): ([a-z0-9][a-z0-9-]*)\s*$/gm)) out.set(m[1]!, (out.get(m[1]!) ?? 0) + 1);
+  return out;
+}
+
+/** How many calendar years back a work still counts as recent: the current year and the two before it. */
+export const RECENT_YEARS = 3;
+
+/**
+ * Whether a TMDB mismatch on a work gets an issue of its own: the work is airing or upcoming, from the last three years,
+ * has a manual file, or is in the corpus (which holds the names real proxies and indexers sent), since those affect
+ * people now. Every other mismatch goes to the tracker issue.
+ */
+export function isUrgent(records: Records, isManual: (id: string) => boolean, corpus: ReadonlyMap<string, number>, now: Date): (workId: string) => boolean {
+  return (id) => {
+    const w = records.works.get(id);
+    if (!w) return true;
+    return w.status === 'airing' || w.status === 'upcoming' || (w.year !== null && w.year > now.getUTCFullYear() - RECENT_YEARS) || isManual(id) || corpus.has(id);
+  };
+}
+
+/** Title of the pinned tracker issue for mismatches on works that are not urgent. */
+export const OLDER_TRACKER_TITLE = 'TMDB mismatches in older works';
+
+/**
+ * The tracker issue body: a table of the older works whose TMDB projection disagrees with TMDB, with the ones people are
+ * most likely to meet first. No download counts exist in the data, so the order is: works named by more corpus cases,
+ * then works with more aliases (a rough measure of how widely a show is known), then the id.
+ */
+export function olderTrackerBody(records: Records, older: readonly Finding[], corpus: ReadonlyMap<string, number>, when: Date, maxBody = 60_000): string {
+  const aliases = (id: string) => records.works.get(id)?.aliases.length ?? 0;
+  const rows = [...older].sort((a, b) => (corpus.get(b.work!) ?? 0) - (corpus.get(a.work!) ?? 0) || aliases(b.work!) - aliases(a.work!) || a.work!.localeCompare(b.work!));
+  const cell = (t: string) => t.replace(/\|/g, '\\|').replace(/\r?\n/g, ' ');
+  const head = [
+    `Works that are not airing, not from the last ${RECENT_YEARS} years, have no manual file and are not in the corpus, whose TMDB mapping disagrees with TMDB. They have no issue of their own. Rewritten by the projection checker on every weekly run; last run ${when.toISOString().slice(0, 16).replace('T', ' ')} UTC.`,
+    '',
+    rows.length === 0 ? 'No mismatches right now.' : `${rows.length} work(s), most likely to be met first at the top.`,
+  ];
+  if (rows.length > 0) head.push('', '| Work | What we map (TMDB) | What TMDB lists | TMDB show |', '| --- | --- | --- | --- |');
+  const lines = [...head];
+  let length = head.join('\n').length;
+  let omitted = 0;
+  for (const f of rows) {
+    const data = f.data as { mapped?: string; problems?: string[]; tmdb_show?: string; url?: string };
+    const l = `| \`${f.work}\` | ${cell(data.mapped ?? '')} | ${cell((data.problems ?? [f.summary]).join('; '))} | [${data.tmdb_show}](${data.url}) |`;
+    if (length + l.length + 1 > maxBody) omitted++;
+    else {
+      lines.push(l);
+      length += l.length + 1;
+    }
+  }
+  if (omitted > 0) lines.push('', `${omitted} more not listed: GitHub limits issue length.`);
+  if (rows.length > 0) lines.push('', '<sub>To fix one, add a short override in `data/works/<work>.yaml` (see `data/works/fate-stay-night-unlimited-blade-works-2nd-season.yaml`), checked against the TMDB season page. A work leaves this list once its mapping agrees with TMDB, and gets its own issue if it becomes airing, recent, manual or part of the corpus.</sub>');
+  return lines.join('\n');
+}
+
 /**
  * The works the weekly projection checker asks TMDB about: every work with a TMDB show and a TMDB projection.
  * It used to skip seeded works older than last year (and every non-airing, non-manual one), so a wrong Anime-Lists
@@ -157,6 +226,11 @@ export interface CheckOptions {
   now?: Date;
   /** When each work's season premiered (from AniList's start date), by work id; absent or null when unknown. */
   premieres?: ReadonlyMap<string, Date | null>;
+  /**
+   * Whether a mismatch on this work gets an issue of its own. A mismatch on any other work goes to `older` instead (one
+   * tracker issue). Absent means every work is urgent.
+   */
+  urgent?: (workId: string) => boolean;
   /** Called when TMDB cannot be asked about a show; the show's works are then neither flagged nor cleared. */
   onError?: (show: string, err: Error) => void;
 }
@@ -164,6 +238,8 @@ export interface CheckOptions {
 export interface CheckResult {
   /** Mismatches worth an issue. */
   findings: Finding[];
+  /** Mismatches on works that are not urgent (see `urgent`): listed in the tracker issue, not opened one by one. */
+  older: Finding[];
   /** Works whose only mismatch is TMDB lagging behind an airing or upcoming show: no issue, rechecked every run. */
   lagging: Finding[];
   /** Cours TMDB keeps inside the previous season (tier B): a PR continues them there instead of an issue. */
@@ -214,7 +290,7 @@ export async function checkProjectionsDetailed(records: Records, workIds: Iterab
     for (const [season, last] of landings(records, w.id)) seasons.set(season, Math.max(seasons.get(season) ?? 0, last));
     mapped.set(show, seasons);
   }
-  const result: CheckResult = { findings: [], lagging: [], splits: [], checked: new Set() };
+  const result: CheckResult = { findings: [], older: [], lagging: [], splits: [], checked: new Set() };
   const filled = new Set<string>();
   for (const [show, works] of [...byShow].sort((a, b) => Number(a[0]) - Number(b[0]))) {
     let counts: Map<number, number> | null;
@@ -287,9 +363,10 @@ export async function checkProjectionsDetailed(records: Records, workIds: Iterab
         anilist: w.ids.anilist !== undefined ? Number(w.ids.anilist) : null,
         title: w.titles.romaji ?? id,
         summary: `TMDB projection disagrees with TMDB: ${problems.map((p) => p.text).join('; ')}`,
-        data: { tmdb_show: show, url: `https://www.themoviedb.org/tv/${show}`, ...related(records, id) },
+        data: { tmdb_show: show, url: `https://www.themoviedb.org/tv/${show}`, mapped: mappingText(records, id), problems: problems.map((p) => p.text), ...related(records, id) },
       };
       if (onlyTmdbLag(w.status, problems, opts.premieres?.get(id) ?? null, now)) result.lagging.push(finding);
+      else if (opts.urgent && !opts.urgent(id)) result.older.push(finding);
       else result.findings.push(finding);
     }
   }
@@ -306,16 +383,17 @@ export async function checkProjections(records: Records, workIds: Iterable<strin
  * that now has no finding. `reason` says whether the work is only lagging (still being watched) or agrees,
  * and which kind of proposal takes it over when a PR proposes one.
  */
-export function issuesToClose(open: readonly { number: number; title: string }[], prefix: string, result: CheckResult): { number: number; reason: 'lag' | 'resolved' | 'proposed' | 'proposed-fill' }[] {
+export function issuesToClose(open: readonly { number: number; title: string }[], prefix: string, result: CheckResult): { number: number; reason: 'lag' | 'resolved' | 'proposed' | 'proposed-fill' | 'older' }[] {
   const flagged = new Set(result.findings.map((f) => f.work));
   const lagging = new Set(result.lagging.map((f) => f.work));
   const proposed = new Map(result.splits.map((f) => [(f.data.for_work as string | undefined) ?? f.work, f.kind]));
-  const out: { number: number; reason: 'lag' | 'resolved' | 'proposed' | 'proposed-fill' }[] = [];
+  const older = new Set(result.older.map((f) => f.work));
+  const out: { number: number; reason: 'lag' | 'resolved' | 'proposed' | 'proposed-fill' | 'older' }[] = [];
   for (const issue of open) {
     if (!issue.title.startsWith(prefix)) continue;
     const work = issue.title.slice(prefix.length);
     if (flagged.has(work) || !result.checked.has(work)) continue;
-    out.push({ number: issue.number, reason: proposed.has(work) ? (proposed.get(work) === 'tmdb-fill' ? 'proposed-fill' : 'proposed') : lagging.has(work) ? 'lag' : 'resolved' });
+    out.push({ number: issue.number, reason: older.has(work) ? 'older' : proposed.has(work) ? (proposed.get(work) === 'tmdb-fill' ? 'proposed-fill' : 'proposed') : lagging.has(work) ? 'lag' : 'resolved' });
   }
   return out;
 }

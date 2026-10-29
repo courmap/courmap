@@ -101,7 +101,7 @@ describe('the projection checker with the noise rule', async () => {
 describe('closing the checker\'s own issues', () => {
   const prefix = `${TMDB_ISSUE_PREFIX}: `;
   const finding = (work: string) => ({ tier: 'C' as const, kind: 'projection-mismatch' as const, work, anilist: null, title: work, summary: '', data: {} });
-  const result = { findings: [finding('still-wrong')], lagging: [finding('behind')], splits: [finding('split')], checked: new Set(['still-wrong', 'behind', 'fixed', 'split']) };
+  const result = { findings: [finding('still-wrong')], older: [], lagging: [finding('behind')], splits: [finding('split')], checked: new Set(['still-wrong', 'behind', 'fixed', 'split']) };
   const open = [
     { number: 1, title: `${prefix}still-wrong` },
     { number: 2, title: `${prefix}behind` },

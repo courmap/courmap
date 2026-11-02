@@ -1,0 +1,10 @@
+id: seishun-anime-zenshuu
+projections:
+  # TMDB season 1 lists episodes 33 "Student Days" (1987-10-08) and 34 "Friendship" (1987-10-15), the two specials
+  # the TVDB block already sends to season 1 episodes 33 and 34 (TheTVDB lists the same two as S01E33 and S01E34).
+  tmdb_show:
+    - { season: 1, episodes: 1-32 }
+    - { season: 1, episodes: S1-S2, start: 33 }
+sources:
+  - https://www.themoviedb.org/tv/22311/season/1
+  - https://thetvdb.com/?tab=seasonall&id=265556

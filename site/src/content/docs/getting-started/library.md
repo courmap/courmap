@@ -13,6 +13,8 @@ sidebar:
 npm install @courmap/client
 ```
 
+With pnpm, `pnpm add @courmap/client` may print "Ignored build scripts: better-sqlite3". It is harmless: better-sqlite3 ships prebuilt binaries, so nothing needs building. To silence it, list `better-sqlite3` under `ignoredBuiltDependencies` in `pnpm-workspace.yaml` (or under `pnpm.ignoredBuiltDependencies` in `package.json`).
+
 ## Remote: nothing to download
 
 ```ts

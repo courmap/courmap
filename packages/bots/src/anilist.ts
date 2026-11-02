@@ -52,6 +52,13 @@ const IDS_QUERY = `query ($ids: [Int], $page: Int) {
   }
 }`;
 
+const POPULARITY_QUERY = `query ($ids: [Int], $page: Int) {
+  Page(page: $page, perPage: ${PER_PAGE}) {
+    pageInfo { hasNextPage }
+    media(id_in: $ids, type: ANIME, sort: ID) { id popularity }
+  }
+}`;
+
 interface PageResult {
   Page: { pageInfo: { hasNextPage: boolean }; media: AniListMedia[] };
 }
@@ -144,6 +151,20 @@ export class AniListClient {
     const unique = [...new Set(ids)].sort((a, b) => a - b);
     const out: AniListMedia[] = [];
     for (let i = 0; i < unique.length; i += PER_PAGE) out.push(...(await this.pages(IDS_QUERY, { ids: unique.slice(i, i + PER_PAGE) })));
+    return out;
+  }
+
+  /** AniList's popularity (how many users list the anime) for the given media, 50 IDs per request. Media without one are absent. */
+  async popularityByIds(ids: readonly number[]): Promise<Map<number, number>> {
+    const unique = [...new Set(ids)].sort((a, b) => a - b);
+    const out = new Map<number, number>();
+    for (let i = 0; i < unique.length; i += PER_PAGE) {
+      for (let page = 1; page <= MAX_PAGES; page++) {
+        const r = await this.query<{ Page: { pageInfo: { hasNextPage: boolean }; media: { id: number; popularity: number | null }[] } }>(POPULARITY_QUERY, { ids: unique.slice(i, i + PER_PAGE), page });
+        for (const m of r.Page.media) if (typeof m.popularity === 'number') out.set(m.id, m.popularity);
+        if (!r.Page.pageInfo.hasNextPage) break;
+      }
+    }
     return out;
   }
 }

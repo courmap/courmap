@@ -1,0 +1,16 @@
+id: nihon-animator-mihonichi
+projections:
+  # TMDB 103927 has the same three seasons as TheTVDB (12, 12 and 11 shorts), but its season 2 also lists the
+  # "(Making of) Evangelion: Another Impact" special (2015-05-01) as episode 9; TheTVDB keeps that as a special. The
+  # 35 shorts are therefore 1-12 in season 1, 13-20 as season 2 episodes 1-8, 21-24 as season 2 episodes 10-13 (9 is
+  # the making-of) and 25-35 as season 3 episodes 1-11.
+  tmdb_show:
+    - { season: 1, episodes: 1-12 }
+    - { season: 2, episodes: 13-20, start: 1 }
+    - { season: 2, episodes: 21-24, start: 10 }
+    - { season: 3, episodes: 25-35, start: 1 }
+sources:
+  - https://www.themoviedb.org/tv/103927/season/1
+  - https://www.themoviedb.org/tv/103927/season/2
+  - https://www.themoviedb.org/tv/103927/season/3
+  - https://thetvdb.com/series/japan-animator-expo/allseasons/official

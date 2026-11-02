@@ -1,0 +1,15 @@
+id: aoki-denshou-welsh-shedar
+ids:
+  tvdb_show: 465468
+  tmdb_show: 335788
+projections:
+  tvdb_show:
+    - { season: 1, episodes: 1-12 }
+  tmdb_show:
+    - { season: 1, episodes: 1-12 }
+notes: >-
+  Both pages checked 2026-11-02: season 1 of 12 episodes, first aired 2026-10-02 (TheTVDB lists Ankama, TMDB Tokyo MX,
+  original title "Aoki Denshou Welsh & Shedar" in Japanese). TheTVDB still marks the entry as pending moderator approval.
+sources:
+  - https://thetvdb.com/series/welsh-and-shedar
+  - https://www.themoviedb.org/tv/335788

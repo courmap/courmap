@@ -1,7 +1,10 @@
 id: choujuu-kishin-dancougar-ushinawareta-mono-tachi-e-no-requiem
 projections:
-  # TMDB special 1, "Requiem for Victims (OVA 1)", 1986-04-21.
+  # Special 1, "Requiem for Victims (OVA 1)", 1986-04-21: S00E01 on TheTVDB and special 1 on TMDB.
+  tvdb_show:
+    - { season: 0, episodes: 1 }
   tmdb_show:
     - { season: 0, episodes: 1 }
 sources:
+  - https://thetvdb.com/?tab=seasonall&id=164361
   - https://www.themoviedb.org/tv/9478/season/0

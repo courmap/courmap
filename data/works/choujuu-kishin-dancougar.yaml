@@ -1,0 +1,10 @@
+id: choujuu-kishin-dancougar
+projections:
+  # TMDB season 0 lists the same seven specials in the same order as TheTVDB (OVA 1, OVA 2, the four Blazing Epilogue
+  # parts, then "Juusenki Tai Songs" as 7). The series' own special 1 is that last one, as in the TVDB block.
+  tmdb_show:
+    - { season: 1, episodes: 1-38 }
+    - { season: 0, episodes: S1, start: 7 }
+sources:
+  - https://thetvdb.com/?tab=seasonall&id=164361
+  - https://www.themoviedb.org/tv/9478/season/0

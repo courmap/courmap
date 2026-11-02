@@ -1,0 +1,7 @@
+id: yoru-wa-neko-to-issho-season-3
+projections:
+  # TMDB has one season of 100 episodes for all three seasons (30 + 30 + 40); this one is episodes 61-100.
+  tmdb_show:
+    - { season: 1, episodes: 1-40, start: 61 }
+sources:
+  - https://www.themoviedb.org/tv/199928

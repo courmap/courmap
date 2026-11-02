@@ -1,0 +1,8 @@
+id: shin-hokuto-no-ken
+projections:
+  # The three OVAs (2003-07-04, 2003-10-23, 2004-05-28) are TMDB specials 7 to 9; the seed's 2 to 4 are the later
+  # Legend of Raoh, Yuria and Raoh films.
+  tmdb_show:
+    - { season: 0, episodes: 1-3, start: 7 }
+sources:
+  - https://www.themoviedb.org/tv/56387/season/0

@@ -1,0 +1,10 @@
+id: shin-tennis-no-oujisama-u-17-world-cup-semifinal
+ids:
+  tmdb_show: 205493
+projections:
+  # Season 2 ("SEMIFINAL", 13 episodes, from 2024-10-03) of "The Prince of Tennis II U-17 WORLD CUP"; the 2012 show
+  # the seed used has no season 4.
+  tmdb_show:
+    - { season: 2, episodes: 1-13 }
+sources:
+  - https://www.themoviedb.org/tv/205493-u-17-world-cup/seasons

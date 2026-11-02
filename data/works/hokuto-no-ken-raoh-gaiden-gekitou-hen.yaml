@@ -1,0 +1,7 @@
+id: hokuto-no-ken-raoh-gaiden-gekitou-hen
+projections:
+  # TMDB special 4 of the show ("Legend of Raoh: Chapter of Fierce Fight, 2007").
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 4 }
+sources:
+  - https://www.themoviedb.org/tv/56387/season/0

@@ -1,0 +1,7 @@
+id: hokuto-no-ken-movie
+projections:
+  # TMDB special 1 of the show ("Fist of the North Star, 1986-03-08").
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 1 }
+sources:
+  - https://www.themoviedb.org/tv/56387/season/0

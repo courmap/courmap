@@ -1,0 +1,18 @@
+id: hanamaru-youchien
+projections:
+  # TMDB lists each broadcast episode as two segments (24 in season 1, two per air date), so episode n is TMDB 2n-1 and 2n.
+  tmdb_show:
+    - { season: 1, episodes: 1, target: "1-2" }
+    - { season: 1, episodes: 2, target: "3-4" }
+    - { season: 1, episodes: 3, target: "5-6" }
+    - { season: 1, episodes: 4, target: "7-8" }
+    - { season: 1, episodes: 5, target: "9-10" }
+    - { season: 1, episodes: 6, target: "11-12" }
+    - { season: 1, episodes: 7, target: "13-14" }
+    - { season: 1, episodes: 8, target: "15-16" }
+    - { season: 1, episodes: 9, target: "17-18" }
+    - { season: 1, episodes: 10, target: "19-20" }
+    - { season: 1, episodes: 11, target: "21-22" }
+    - { season: 1, episodes: 12, target: "23-24" }
+sources:
+  - https://www.themoviedb.org/tv/42408/season/1

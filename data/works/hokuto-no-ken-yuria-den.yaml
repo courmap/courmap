@@ -1,0 +1,7 @@
+id: hokuto-no-ken-yuria-den
+projections:
+  # TMDB special 3 of the show ("Legend of Yuria, 2007").
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 3 }
+sources:
+  - https://www.themoviedb.org/tv/56387/season/0

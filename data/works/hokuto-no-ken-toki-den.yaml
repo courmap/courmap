@@ -1,0 +1,7 @@
+id: hokuto-no-ken-toki-den
+projections:
+  # TMDB special 5 of the show ("Legend of Toki, 2008").
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 5 }
+sources:
+  - https://www.themoviedb.org/tv/56387/season/0

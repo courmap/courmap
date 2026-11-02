@@ -1,0 +1,10 @@
+id: shin-tennis-no-oujisama-u-17-world-cup
+ids:
+  tmdb_show: 205493
+projections:
+  # The 2022 series is its own TMDB show, "The Prince of Tennis II U-17 WORLD CUP" (season 1, 13 episodes); the seed
+  # put it in season 3 of the 2012 show.
+  tmdb_show:
+    - { season: 1, episodes: 1-13 }
+sources:
+  - https://www.themoviedb.org/tv/205493-u-17-world-cup/seasons

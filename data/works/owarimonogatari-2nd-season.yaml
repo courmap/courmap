@@ -1,0 +1,8 @@
+id: owarimonogatari-2nd-season
+projections:
+  # The seven 2017 episodes (Mayoi Hell, Hitagi Rendez-vous, Ougi Dark; aired 2017-08-12 and 13) are TMDB specials 35
+  # to 41. The seed put them in season 5, which is MONOGATARI Series OFF & MONSTER Season (2024).
+  tmdb_show:
+    - { season: 0, episodes: 1-7, start: 35 }
+sources:
+  - https://www.themoviedb.org/tv/46195/season/0

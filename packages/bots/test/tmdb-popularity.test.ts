@@ -25,7 +25,7 @@ describe('AniList popularity for older TMDB mismatches', async () => {
     const pop = await client.popularityByIds(Array.from({ length: 120 }, (_, i) => i + 1));
     expect(sent.map((s) => s.ids.length)).toEqual([50, 50, 20]);
     expect(sent[0]!.query).toContain('popularity');
-    expect(sent[0]!.query).not.toMatch(/title|descriptionexpect(body).toMatch(/old-plain.*| 400000 |/);
+    expect(sent[0]!.query).not.toMatch(/title|description/);
     expect(pop.get(7)).toBe(70);
     const byWork = await workPopularity(state.records, ['old-plain', 'no-such-work'], { popularityByIds: async (ids) => new Map(ids.map((i) => [i, 5])) });
     expect([...byWork.keys()].every((k) => state.records.works.get(k)?.ids.anilist !== undefined)).toBe(true);
@@ -69,7 +69,7 @@ describe('AniList popularity for older TMDB mismatches', async () => {
     const order = [...body.matchAll(/^\| `([a-z-]+)` \|/gm)].map((m) => m[1]);
     expect(order).toEqual(['old-plain', 'old-corpus', 'old-manual', 'old-popular']);
     expect(body).toContain('AniList popularity');
-    expect(body).toMatch(/old-plain.*| 400000 |/);\| old-plain|\| 400000 \|/);
+    expect(body).toMatch(/old-plain.*\| 400000 \|/);
     expect(olderTrackerBody(state.records, r.older, new Map(), now)).not.toContain('AniList popularity |');
   });
 });

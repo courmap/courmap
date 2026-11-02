@@ -10,7 +10,7 @@ import { LABELS, TMDB_ISSUE_PREFIX, airingPrBody, tmdbLagComment, tmdbProposedCo
 import { nextSeason, seasonName, seasonOf, type SeasonRef } from './season.js';
 import { diffSequences } from './shifts.js';
 import { airingJson, evaluate, loadState, relationJson, tmdbSplitJson, type State } from './state.js';
-import { OLDER_TRACKER_TITLE, TmdbClient, checkProjectionsDetailed, checkScope, corpusWorks, isUrgent, issuesToClose, olderTrackerBody, searchShows, showInfo } from './tmdb.js';
+import { OLDER_TRACKER_TITLE, TmdbClient, checkProjectionsDetailed, checkScope, corpusWorks, isUrgent, issuesToClose, olderTrackerBody, POPULARITY_THRESHOLD, promotePopular, searchShows, showInfo, workPopularity } from './tmdb.js';
 
 const USAGE = `Usage: courmap-bots <command> [options]
 
@@ -35,6 +35,7 @@ Options:
   --max-issues <n>      New or updated tier C issues per run (default 15)
   --all                 tmdb: accepted for compatibility; every work with a TMDB projection is always checked
   --corpus <file>       tmdb: the resolver corpus; works it names count as urgent (default tests/releases.yaml)
+  --popularity-threshold <n>  tmdb: older works with this AniList popularity or more get their own issue (default ${POPULARITY_THRESHOLD})
   -h, --help            Show this help
 `;
 
@@ -118,6 +119,7 @@ async function main(argv: string[]): Promise<number> {
       'max-issues': { type: 'string', default: '15' },
       all: { type: 'boolean' },
       corpus: { type: 'string', default: 'tests/releases.yaml' },
+      'popularity-threshold': { type: 'string', default: String(POPULARITY_THRESHOLD) },
       help: { type: 'boolean', short: 'h' },
     },
   });
@@ -199,6 +201,10 @@ async function main(argv: string[]): Promise<number> {
       await writer.upsertPullRequest(`bots/tmdb-split-${f.work}`, f.kind === 'tmdb-fill' ? `TMDB missing episodes: ${f.work} (for ${f.data.for_work})` : `TMDB split cour: ${f.work}`, f.kind === 'tmdb-fill' ? tmdbFillPrBody(f) : tmdbSplitPrBody(f), labelsFor(f), new Map([[botFilePath(TMDB_SPLITS_DIR, f.work!), tmdbSplitJson(f.split!)]]));
     }
     if (result.splits.length > prs) console.log(`${result.splits.length - prs} more TMDB split or fill PR(s) wait for the next run (--max-prs ${limits.prs}).`);
+    // Older works are ranked by AniList popularity (batched, rate limited); the popular ones get an issue of their own.
+    const popularity = await workPopularity(state.records, result.older.map((f) => f.work!), new AniListClient({ log }), log);
+    const promoted = promotePopular(result, popularity, Number(values['popularity-threshold']));
+    if (promoted.length > 0) console.log(`Popular older works promoted to their own issue: ${promoted.map((f) => `${f.work} (${popularity.get(f.work!)})`).join(', ')}`);
     const { findings, lagging, older } = result;
     console.log(`Projection checker: ${ids.length} works considered, ${tmdb.requests} TMDB shows fetched, ${findings.length} mismatch(es) for issues, ${older.length} in older works (tracker), ${lagging.length} more only because TMDB lags a show that is still starting.`);
     printFindings(findings);
@@ -207,7 +213,7 @@ async function main(argv: string[]): Promise<number> {
     await writer.ensureLabels();
     for (const f of cap(findings, limits.issues)) await writer.upsertIssue(issueTitle(f), issueBody(f), labelsFor(f));
     // The tracker is rewritten every run (and only created once there is something to list).
-    if (older.length > 0 || (await writer.openIssues(OLDER_TRACKER_TITLE)).length > 0) await writer.upsertIssue(OLDER_TRACKER_TITLE, olderTrackerBody(state.records, older, corpus, when), [LABELS.bot], { pin: true });
+    if (older.length > 0 || (await writer.openIssues(OLDER_TRACKER_TITLE)).length > 0) await writer.upsertIssue(OLDER_TRACKER_TITLE, olderTrackerBody(state.records, older, corpus, when, undefined, popularity), [LABELS.bot], { pin: true });
     // An issue the checker opened closes itself once a later run finds no mismatch worth one for that work.
     const prefix = `${TMDB_ISSUE_PREFIX}: `;
     for (const c of issuesToClose(await writer.openIssues(prefix), prefix, result)) await writer.closeIssue(c.number, c.reason === 'lag' ? tmdbLagComment() : c.reason === 'older' ? tmdbOlderComment() : c.reason === 'proposed' ? tmdbProposedComment() : c.reason === 'proposed-fill' ? tmdbFillComment() : tmdbResolvedComment());

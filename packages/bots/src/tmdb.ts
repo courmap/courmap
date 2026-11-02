@@ -135,30 +135,67 @@ export function isUrgent(records: Records, isManual: (id: string) => boolean, co
   };
 }
 
+/**
+ * AniList popularity (users with the anime on a list) at or above which an older work's mismatch still gets an issue of
+ * its own. About the top few hundred anime; Jujutsu Kaisen and the like are far above it, a forgotten 1990s OVA far below.
+ */
+export const POPULARITY_THRESHOLD = 50_000;
+
+/** AniList popularity per work id, for the works that have an AniList ID. A failed request gives an empty map (the tracker then sorts as before). */
+export async function workPopularity(records: Records, workIds: readonly string[], anilist: { popularityByIds(ids: readonly number[]): Promise<Map<number, number>> }, log: (line: string) => void = () => {}): Promise<Map<string, number>> {
+  const byAniList = new Map<number, string[]>();
+  for (const id of workIds) {
+    const a = records.works.get(id)?.ids.anilist;
+    if (a !== undefined) byAniList.set(Number(a), [...(byAniList.get(Number(a)) ?? []), id]);
+  }
+  const out = new Map<string, number>();
+  if (byAniList.size === 0) return out;
+  try {
+    for (const [aid, pop] of await anilist.popularityByIds([...byAniList.keys()])) for (const w of byAniList.get(aid) ?? []) out.set(w, pop);
+  } catch (e) {
+    log(`AniList popularity skipped: ${(e as Error).message}`);
+    return new Map();
+  }
+  return out;
+}
+
+/**
+ * Moves the older mismatches on works at or above `threshold` popularity into `findings` (they get an issue each), most
+ * popular first, so a per-run cap on new issues keeps the most popular ones. Works without a known popularity stay.
+ */
+export function promotePopular(result: Pick<CheckResult, 'findings' | 'older'>, popularity: ReadonlyMap<string, number>, threshold = POPULARITY_THRESHOLD): Finding[] {
+  const promoted = result.older.filter((f) => (popularity.get(f.work!) ?? -1) >= threshold).sort((a, b) => popularity.get(b.work!)! - popularity.get(a.work!)! || a.work!.localeCompare(b.work!));
+  result.older = result.older.filter((f) => !promoted.includes(f));
+  result.findings.push(...promoted);
+  return promoted;
+}
+
 /** Title of the pinned tracker issue for mismatches on works that are not urgent. */
 export const OLDER_TRACKER_TITLE = 'TMDB mismatches in older works';
 
 /**
  * The tracker issue body: a table of the older works whose TMDB projection disagrees with TMDB, with the ones people are
  * most likely to meet first. No download counts exist in the data, so the order is: works named by more corpus cases,
- * then works with more aliases (a rough measure of how widely a show is known), then the id.
+ * then AniList popularity when known, then works with more aliases (a rough measure of how widely a show is known), then the id.
  */
-export function olderTrackerBody(records: Records, older: readonly Finding[], corpus: ReadonlyMap<string, number>, when: Date, maxBody = 60_000): string {
+export function olderTrackerBody(records: Records, older: readonly Finding[], corpus: ReadonlyMap<string, number>, when: Date, maxBody = 60_000, popularity: ReadonlyMap<string, number> = new Map()): string {
   const aliases = (id: string) => records.works.get(id)?.aliases.length ?? 0;
-  const rows = [...older].sort((a, b) => (corpus.get(b.work!) ?? 0) - (corpus.get(a.work!) ?? 0) || aliases(b.work!) - aliases(a.work!) || a.work!.localeCompare(b.work!));
+  const pop = (id: string) => popularity.get(id) ?? 0;
+  const rows = [...older].sort((a, b) => (corpus.get(b.work!) ?? 0) - (corpus.get(a.work!) ?? 0) || pop(b.work!) - pop(a.work!) || aliases(b.work!) - aliases(a.work!) || a.work!.localeCompare(b.work!));
+  const withPop = popularity.size > 0;
   const cell = (t: string) => t.replace(/\|/g, '\\|').replace(/\r?\n/g, ' ');
   const head = [
-    `Works that are not airing, not from the last ${RECENT_YEARS} years, have no manual file and are not in the corpus, whose TMDB mapping disagrees with TMDB. They have no issue of their own. Rewritten by the projection checker on every weekly run; last run ${when.toISOString().slice(0, 16).replace('T', ' ')} UTC.`,
+    `Works that are not airing, not from the last ${RECENT_YEARS} years, have no manual file, are not in the corpus and are not popular on AniList (${POPULARITY_THRESHOLD}+ users), whose TMDB mapping disagrees with TMDB. They have no issue of their own. Rewritten by the projection checker on every weekly run; last run ${when.toISOString().slice(0, 16).replace('T', ' ')} UTC.`,
     '',
-    rows.length === 0 ? 'No mismatches right now.' : `${rows.length} work(s), most likely to be met first at the top.`,
+    rows.length === 0 ? 'No mismatches right now.' : `${rows.length} work(s), the most likely to be met first at the top (corpus mentions, then AniList popularity).`,
   ];
-  if (rows.length > 0) head.push('', '| Work | What we map (TMDB) | What TMDB lists | TMDB show |', '| --- | --- | --- | --- |');
+  if (rows.length > 0) head.push('', `| Work | What we map (TMDB) | What TMDB lists | TMDB show |${withPop ? ' AniList popularity |' : ''}`, `| --- | --- | --- | --- |${withPop ? ' ---: |' : ''}`);
   const lines = [...head];
   let length = head.join('\n').length;
   let omitted = 0;
   for (const f of rows) {
     const data = f.data as { mapped?: string; problems?: string[]; tmdb_show?: string; url?: string };
-    const l = `| \`${f.work}\` | ${cell(data.mapped ?? '')} | ${cell((data.problems ?? [f.summary]).join('; '))} | [${data.tmdb_show}](${data.url}) |`;
+    const l = `| \`${f.work}\` | ${cell(data.mapped ?? '')} | ${cell((data.problems ?? [f.summary]).join('; '))} | [${data.tmdb_show}](${data.url}) |${withPop ? ` ${popularity.get(f.work!) ?? ''} |` : ''}`;
     if (length + l.length + 1 > maxBody) omitted++;
     else {
       lines.push(l);

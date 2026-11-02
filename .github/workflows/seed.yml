@@ -20,7 +20,7 @@ jobs:
   seed:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           # Pushes with the built-in token do not trigger the validate workflow on the seed PR.
           token: ${{ secrets.SEED_PR_TOKEN || github.token }}
@@ -37,9 +37,9 @@ jobs:
           gh api "repos/$GITHUB_REPOSITORY/pulls?per_page=1" --jq length >/dev/null || { echo "::error::SEED_PR_TOKEN cannot read pull requests"; exit 1; }
           echo "::notice::SEED_PR_TOKEN authenticates for $GITHUB_REPOSITORY (push: $push) and can read pull requests."
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: pnpm
@@ -47,7 +47,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Cache seed downloads
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: .cache/seed
           key: seed-${{ github.run_id }}

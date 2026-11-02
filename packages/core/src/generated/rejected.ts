@@ -22,7 +22,9 @@ export type Link = string;
  * Bot proposals a maintainer rejected: data/rejected.yaml. The bots read it before proposing anything and never propose a matching change again. Hand-written only (origin: manual).
  */
 export interface RejectedFile {
-  rejected: (RelationRejection | AiringRejection | TmdbSplitRejection)[];
+  rejected: ((RelationRejection | AiringRejection | TmdbSplitRejection) & {
+    kind: 'relation' | 'airing' | 'tmdb-split';
+  })[];
 }
 /**
  * A prequel link the bots must not propose: `prequel` as the prequel of `work`.

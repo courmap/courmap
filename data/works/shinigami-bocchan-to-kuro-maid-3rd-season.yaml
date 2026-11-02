@@ -1,0 +1,7 @@
+id: shinigami-bocchan-to-kuro-maid-3rd-season
+projections:
+  # TMDB has one season of 36 episodes for all three seasons (12 each); this one is episodes 25-36.
+  tmdb_show:
+    - { season: 1, episodes: 1-12, start: 25 }
+sources:
+  - https://www.themoviedb.org/tv/117992

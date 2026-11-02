@@ -1,0 +1,7 @@
+id: mashle-shinkakusha-kouho-senbatsu-shiken-hen
+projections:
+  # TMDB keeps both cours in one season 1 of 24 episodes (no season 2); this cour is episodes 13-24.
+  tmdb_show:
+    - { season: 1, episodes: 1-12, start: 13 }
+sources:
+  - https://www.themoviedb.org/tv/204832

@@ -1,0 +1,7 @@
+id: yoru-wa-neko-to-issho-season-2
+projections:
+  # TMDB has one season of 100 episodes for all three seasons (30 + 30 + 40); this one is episodes 31-60.
+  tmdb_show:
+    - { season: 1, episodes: 1-30, start: 31 }
+sources:
+  - https://www.themoviedb.org/tv/199928

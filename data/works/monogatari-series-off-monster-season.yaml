@@ -1,0 +1,8 @@
+id: monogatari-series-off-monster-season
+projections:
+  # TMDB's season 5 is this one ("MONOGATARI Series OFF & MONSTER Season", 15 episodes, from 2024-07-06); it has no
+  # season 6.
+  tmdb_show:
+    - { season: 5, episodes: 1-14 }
+sources:
+  - https://www.themoviedb.org/tv/46195

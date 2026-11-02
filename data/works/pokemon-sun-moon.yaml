@@ -1,0 +1,10 @@
+id: pokemon-sun-moon
+projections:
+  # TMDB's seasons 20, 21 and 22 (Sun & Moon, Ultra Adventures, Ultra Legends: 43, 49 and 54 episodes) are the 146
+  # episodes; season 18 is XY: Kalos Quest.
+  tmdb_show:
+    - { season: 20, episodes: 1-43 }
+    - { season: 21, episodes: 44-92, start: 1 }
+    - { season: 22, episodes: 93-146, start: 1 }
+sources:
+  - https://www.themoviedb.org/tv/60572

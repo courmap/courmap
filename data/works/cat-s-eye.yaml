@@ -1,0 +1,12 @@
+id: cat-s-eye
+episodes: 36
+projections:
+  # AniList and TMDB both have 36 episodes in the first series (the seed said 73, the two series together; the
+  # second is cat-s-eye-2nd-season, 37 episodes, TMDB and TVDB season 2).
+  tvdb_show:
+    - { season: 1, episodes: 1-36 }
+  tmdb_show:
+    - { season: 1, episodes: 1-36 }
+sources:
+  - https://anilist.co/anime/2043
+  - https://www.themoviedb.org/tv/34114

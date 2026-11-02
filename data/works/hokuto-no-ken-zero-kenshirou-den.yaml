@@ -1,0 +1,7 @@
+id: hokuto-no-ken-zero-kenshirou-den
+projections:
+  # TMDB special 6 of the show ("Zero: Legend of Kenshiro, 2008").
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 6 }
+sources:
+  - https://www.themoviedb.org/tv/56387/season/0

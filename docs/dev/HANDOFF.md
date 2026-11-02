@@ -2,10 +2,11 @@
 
 Where the build stands, for the next session. Read CLAUDE.md, docs/SPEC.md and docs/DECISIONS.md first, as always; this file only says what is done and what is next. The 2026-10-25 session log, with the bot PRs, the closed issues and the proxy export maintenance, is `docs/dev/SESSION-2026-10-25.md`. `docs/dev/LAUNCH.md` lists everything open before the public launch. Update both at the end of every session.
 
-Last updated 2026-11-01 (export pass above); before that 2026-10-26: the 10 sequel PRs (#127 to #136) and the second proxy-export pass (#137) are merged; corpus 199 verified, 394 unverified. Details in DECISIONS.md, "Proxy export 2026-10-26, second pass".
+Last updated 2026-11-02 (export pass above); before that 2026-11-01; before that 2026-10-26: the 10 sequel PRs (#127 to #136) and the second proxy-export pass (#137) are merged; corpus 199 verified, 394 unverified. Details in DECISIONS.md, "Proxy export 2026-10-26, second pass".
 
 ## Done
 
+- **Proxy export pass (2026-11-02, unattended).** 53 names imported from Xwolv's export (data 2026.44.2, 500 names, 7,095 sightings, 447 already in the corpus); none of the 500 resolve, before or after. The top 15 shows are again live-action Japanese dramas (FUZEER Viki WEB-DL): ten were verified on 2026-11-01, and the 58 cases of Roppongi Class, Sweet Moratorium and Seductive Nights are now verified as unmatched on their TMDB pages. PLEASE LOVE ME and ANIMALS stay unverified (the ambiguous resolver question). Corpus 800 verified, 1,036 unverified. Details in DECISIONS.md, "Proxy export 2026-11-02".
 - **Proxy export pass (2026-11-01, unattended).** 494 names imported from Xwolv's export (data 2026.44.2, 500 names, 6,357 sightings); none of the 500 resolve, before or after. The 15 shows with the most sightings are all live-action Japanese dramas (FUZEER Viki WEB-DL), so no data or parser change was right: 214 cases verified as unmatched on TMDB and TheTVDB pages, 70 left unverified because the resolver answers ambiguous. Corpus 742 verified. Details in DECISIONS.md, "Proxy export 2026-11-01".
 - **Proxy export pass (2026-10-29, unattended).** 193 names imported from Xwolv's export; 152 of its 500 names resolved before, 194 after (507 to 1,002 of 2,652 sightings). Parser fixes, a Fate/stay night UBW absolute sequence and the verified cases are in DECISIONS.md, "Proxy export 2026-10-29". Open items are in the PR's "Needs Xwolv" list.
 

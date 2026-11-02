@@ -108,8 +108,25 @@ jobs:
       - name: Install the published packages from npm in a clean project (Node, types, browser bundle)
         if: steps.publish.outputs.version != ''
         run: |
-          for i in 1 2 3 4 5 6 7 8 9 10; do
-            npm view "@courmap/client@${{ steps.publish.outputs.version }}" version >/dev/null 2>&1 && break
-            echo "Waiting for the registry ($i)"; sleep 30
+          # The publish already succeeded; the registry can take several minutes to serve the new tarballs. Wait up
+          # to about 20 minutes (10 s, doubling to a 120 s step) for all three, and warn instead of failing on a timeout.
+          version="${{ steps.publish.outputs.version }}"
+          served() {
+            for p in core parser client; do
+              [ "$(curl -s -o /dev/null -w '%{http_code}' "https://registry.npmjs.org/@courmap/$p/-/$p-$version.tgz")" = 200 ] || return 1
+            done
+          }
+          delay=10; waited=0
+          until served; do
+            if [ "$waited" -ge 1200 ]; then
+              msg="The registry was not serving @courmap/{core,parser,client}@$version after ${waited} s. The publish itself succeeded; the install check was skipped. Re-run this job to check."
+              echo "::warning::$msg"
+              echo "### Post-publish install check skipped" >> "$GITHUB_STEP_SUMMARY"
+              echo "$msg" >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            echo "Waiting for the registry (${waited} s so far, next wait ${delay} s)"
+            sleep "$delay"; waited=$((waited + delay))
+            delay=$((delay * 2 > 120 ? 120 : delay * 2))
           done
-          pnpm exec tsx --conditions=@courmap/source scripts/verify-npm.ts --registry "${{ steps.publish.outputs.version }}"
+          pnpm exec tsx --conditions=@courmap/source scripts/verify-npm.ts --registry "$version"

@@ -12035,3 +12035,321 @@ cases:
     verified: false
     source: proxy-unresolved
     notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 2 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Chibi.Tiny.Tales.S2026E05.Cheetah.Girls.As.Told.By.Chibi.1080p.DSNP.US.WEB-DL.DDP5.1.x264-AndreMor
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Chibi.Tiny.Tales.S2026E08.Camp.Rock.2.As.Told.By.Chibi.1080p.DSNP.US.WEB-DL.DDP5.1.x264-AndreMor
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Chibi.Tiny.Tales.S2026E09.The.Doomies.The.Crepe.Escape.1080p.DSNP.US.WEB-DL.DDP5.1.x264-AndreMor
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Chibi.Tiny.Tales.S2026E10.The.Doomies.Mime.Time.1080p.DSNP.US.WEB-DL.DDP5.1.x264-AndreMor
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Chibi.Tiny.Tales.S2026E04.Phineas.and.Ferb.Helicopter.Doof.1080p.DSNP.US.WEB-DL.DDP5.1.x264-AndreMor
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 53 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Chibi.Tiny.Tales.S2026E07.Descendants.Paint.the.Town.Red.1080p.DSNP.US.WEB-DL.DDP5.1.x264-AndreMor
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 53 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Chibi.Tiny.Tales.S2026E11.The.Doomies.Fright.House.1080p.DSNP.US.WEB-DL.DDP5.1.x264-AndreMor
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 53 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[Diogo4D].[BD][1080p].Turma.de.Elite.3..Temporada-08.[03315892]"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 52 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Love.Transit.S03E07.1080p.WEB.h264-EDITH
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 43 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Ikiru.1952.2160p.UHD.Blu-ray.Remux.DV.HDR.HEVC.FLAC.1.0-CiNEPHiLES
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 39 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[NanakoRaws].Tetsuryou-04.[AT-X.TV.1080p.HEVC.AAC]"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 31 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Godzilla.Minus.One.2023.PROPER2.BluRay.1080p.DDP.Atmos.5.1.x264-hallowed
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 31 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: SPY.x.FAMILY.S02.1080p.BluRay.Dual-Audio.Opus.5.1.x265-YURASUKA (SPYxFAMILY 2nd Season)
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 28 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Love.Transit.S03E03.1080p.WEB.h264-EDITH
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 26 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Love.Transit.S03E06.1080p.WEB.h264-EDITH
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 16 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Dive.into.You.2026.S01E12.1080p.VIKI.WEB-DL.AAC2.0.H.264-DUSKLiGHT 2
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 13 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Love.Transit.S03E01.1080p.WEB.h264-EDITH
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 11 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Love.Transit.S03E08.1080p.WEB.h264-EDITH
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 11 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E01.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 10 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E02.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 10 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E01.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 10 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E02.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 10 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E03.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 10 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E03.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 10 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E04.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 10 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E04.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 10 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Naked.People.S01E05.1080p.friDay.WEB-DL.AAC2.0.H.264-MWeb
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 10 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E08.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E05.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E06.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E07.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E08.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E05.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E07.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E06.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E09.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E09.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E10.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E10.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E11.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E11.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E12.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E12.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E13.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Roppongi.Class.S01E13.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Love.Transit.S03E04.1080p.WEB.h264-EDITH
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 8 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Love.Transit.S03E02.1080p.WEB.h264-EDITH
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 8 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Keiran.Lee.Onlyfans.MegaPack. 2022.Richelle.Ryan.1920x1080.6003kbps
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 8 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Love.Transit.S03E05.1080p.WEB.h264-EDITH
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 7 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Strange.Junji.Itos.Tales.for.Sleepless.Nights.S01E04.1080p.WEB.h264-EDITH
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 7 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Strange.Junji.Itos.Tales.for.Sleepless.Nights.S01E05.1080p.WEB.h264-EDITH
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 7 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Political.Lupin.S01E02.1080p.NF.WEB-DL.AAC2.0.H.264-playWEB
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 5 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: SQUALL.2026.S01E03.1080p.VIKI.WEB-DL.AAC2.0.H.264-DUSKLiGHT
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-02: this is what the resolver answered then. A proxy saw it 4 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."

@@ -1,0 +1,8 @@
+id: bungou-stray-dogs-3rd-season
+projections:
+  # TMDB keeps all five seasons in season 1 (60 episodes). Season 3 starts at episode 25
+  # ("Dazai, Chuuya, Fifteen Years Old", 2019-04-12).
+  tmdb_show:
+    - { season: 1, episodes: 1-12, start: 25 }
+sources:
+  - https://www.themoviedb.org/tv/65931/season/1

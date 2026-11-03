@@ -1,0 +1,7 @@
+id: ooi-tonbo-2nd-season
+projections:
+  # TMDB keeps both cours in season 1: episodes 14 to 26 aired 2024-10-05 to 2025-01-04.
+  tmdb_show:
+    - { season: 1, episodes: 1-13, start: 14 }
+sources:
+  - https://www.themoviedb.org/tv/243140/season/1

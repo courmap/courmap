@@ -2,7 +2,7 @@
 
 Everything still open before the public launch post (r/sonarr, r/selfhosted, anime self-hosting Discords). Each item says who does it and how to check it is done. Claude Code updates this file at the end of every session; Xwolv ticks items off by saying so in the session prompt.
 
-Last updated 2026-10-28, at the start of the proxy week (item 14, running 2026-10-28 to 2026-11-04 on data 2026.44.1). Status: **not ready.** 17 of 20 items are done and one is partly done (14, in progress). The three open items (12, 14, 18) are all real-world use: the proxy week and its 0.1.0 tag, and fresh-eyes testers.
+Last updated 2026-11-03, the day before the proxy week ends and the day before the first stable release (proxy 0.1.0). Status: **not ready until tomorrow's steps are done.** 17 of 20 items are done; the open ones are 12 (tag and merge the proxy PR), 14 (the proxy week ends 2026-11-04), 18 (fresh-eyes testers) and the ruleset bypass. All four need Xwolv.
 
 Legend: [x] done, [ ] open, [~] partly done.
 
@@ -133,6 +133,12 @@ Legend: [x] done, [ ] open, [~] partly done.
 ## Before the launch post, repository settings
 
 - [ ] **Remove the ruleset bypass.** The rulesets "Protect main" and "No force pushes or deletion on main" let the repository admin role (only xwolvos today) bypass them, which the history rewrite and the merges needed. At launch, delete the bypass actor from both so main is protected for everyone. Who: Xwolv. Verify: `gh api repos/courmap/courmap/rulesets/<id> --jq .bypass_actors` is empty for both.
+
+## Status, 2026-11-03
+
+- Bot PRs #221 to #230 (TMDB splits and missing episodes) merged on Xwolv's instruction; the only open PR is #219 (proxy 0.1.0 prep), which waits for the tag and the published images (item 12).
+- Open TMDB issues from the 2026-11-03 scan (#231 to #244) and #220 were checked against TMDB pages; the fixes are in the PR "TMDB mappings for today's issues", details in DECISIONS.md. Still for a person: #239 (TMDB placeholder, nothing to do), #240 (Hyakushou Kizoku count), rest of #231.
+- Not launch blockers: #77, #13, #59, #173, #178.
 
 ## Launch post
 

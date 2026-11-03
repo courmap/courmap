@@ -1,0 +1,9 @@
+id: shibuya-hachi-part-2
+ids:
+  tmdb_show: 246676
+projections:
+  # TMDB has one season of 50 episodes. Part 2 is episodes 14 to 25 (2024-10-05 to 2024-12-21).
+  tmdb_show:
+    - { season: 1, episodes: 1-12, start: 14 }
+sources:
+  - https://www.themoviedb.org/tv/246676/season/1

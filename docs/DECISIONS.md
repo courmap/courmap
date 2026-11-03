@@ -539,3 +539,7 @@ Xwolv's proxy, data 2026.44: 500 names (the export's cap) from 1,130 sightings, 
 - **Rule.** A new `rejected.yaml` kind, `tmdb-extras`: `work` (any work of that TMDB show), `season`, `episodes` (a number or range), `reason`, `decided_by`, `date`, optional `link`, `origin: manual`. The checker treats the declared episodes as mapped (up to the last one named) when it compares TMDB's count with ours. It is bot input like the other kinds: it is not in `data/` projections, dumps or the work schema, so no released shape changes.
 - **Limit.** The checker compares counts to the highest mapped episode, so a hole below it was never flagged and needs no entry; only extras above the last mapped episode matter.
 - **Used for.** Hokuto no Ken specials 11 and 12 (#232 to #238) and Monogatari specials 48 and 49 (#231).
+
+### Hyakushou Kizoku seasons 2 and 3 on TMDB (2026-11-03, #240)
+
+- TMDB season 1 holds all 36 episodes: 12 (2023), the two 2023 specials at 13 and 14, 10 listed for the 2024 cour (15 to 24, ends 2024-12-06), 12 for the 3rd season (25 to 36). AniDB lists 12 episodes for the 2nd season (to 2024-12-20), so TMDB is incomplete: the 2nd season maps 1 to 10 with `coverage: partial`, and the 3rd season (no TMDB ID before) takes the show's 221165 at 25 to 36. Checked on the TMDB season page and AniDB's public page.

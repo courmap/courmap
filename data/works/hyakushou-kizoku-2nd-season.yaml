@@ -1,0 +1,12 @@
+id: hyakushou-kizoku-2nd-season
+projections:
+  # TMDB keeps every cour in season 1 (36 episodes). Its episodes 13 and 14 are the two 2023 specials; the 2024 cour is
+  # episodes 15 to 24 (2024-10-04 to 2024-12-06). AniDB lists 12 episodes up to 2024-12-20, so TMDB lacks the last two.
+  tmdb_show:
+    coverage: partial
+    notes: TMDB lists only the first 10 of the 12 episodes (stops at 2024-12-06; episodes 11 and 12 aired 2024-12-13 and 2024-12-20)
+    ranges:
+      - { season: 1, episodes: 1-10, start: 15 }
+sources:
+  - https://www.themoviedb.org/tv/221165/season/1
+  - https://anidb.net/anime/18328

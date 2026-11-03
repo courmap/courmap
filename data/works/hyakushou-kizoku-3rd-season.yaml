@@ -1,0 +1,9 @@
+id: hyakushou-kizoku-3rd-season
+ids:
+  tmdb_show: 221165
+projections:
+  # TMDB season 1 episodes 25 to 36 (2025-10-03 to 2025-12-19).
+  tmdb_show:
+    - { season: 1, episodes: 1-12, start: 25 }
+sources:
+  - https://www.themoviedb.org/tv/221165/season/1

@@ -1,14 +1,14 @@
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { LineCounter, parseDocument } from 'yaml';
-import type { AiringRejection, RejectedFile, RelationRejection, TmdbSplitRejection } from '@courmap/core';
+import type { AiringRejection, RejectedFile, RelationRejection, TmdbExtrasRejection, TmdbSplitRejection } from '@courmap/core';
 import { makeLocator, type Reporter } from './diagnostics.js';
 import { schemaIssues } from './schema.js';
 
 /** data/rejected.yaml: bot proposals a maintainer rejected, which the bots never propose again. */
 export const REJECTED_FILE = 'rejected.yaml';
 
-export type Rejection = RelationRejection | AiringRejection | TmdbSplitRejection;
+export type Rejection = RelationRejection | AiringRejection | TmdbSplitRejection | TmdbExtrasRejection;
 
 /**
  * Reads data/rejected.yaml (optional) and checks it against schema/rejected.schema.json and,
@@ -69,3 +69,7 @@ export const rejectsAiring = (list: readonly Rejection[], work: string, update: 
       (r.episodes === undefined || r.episodes === update.episodes) &&
       (r.status === undefined || r.status === update.status),
   );
+
+/** The TMDB episodes declared as covered by no work (kind: tmdb-extras), as the last episode number per work and season. */
+export const tmdbExtras = (list: readonly Rejection[]): { work: string; season: number; last: number }[] =>
+  list.flatMap((r) => (r.kind === 'tmdb-extras' ? [{ work: r.work, season: r.season, last: Number(r.episodes.split('-').pop()) }] : []));

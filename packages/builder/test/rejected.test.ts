@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { afterAll, describe, expect, it } from 'vitest';
 import { Reporter } from '../src/diagnostics.js';
-import { loadRejected, rejectsAiring, rejectsRelation } from '../src/rejected.js';
+import { loadRejected, rejectsAiring, rejectsRelation, tmdbExtras } from '../src/rejected.js';
 
 const tmp = mkdtempSync(path.join(tmpdir(), 'courmap-rejected-'));
 afterAll(() => rmSync(tmp, { recursive: true, force: true }));
@@ -40,5 +40,22 @@ describe('data/rejected.yaml', () => {
     );
     expect(diagnostics).toEqual(['schema 16 missing required field "reason"', 'schema 21 "bot" is not allowed; expected "manual"', 'unknown-work 10 "zz" is not a work in the data']);
     expect(list.map((r) => r.work)).toEqual(['b', 'zz']);
+  });
+
+  it('loads TMDB extras and reports the last episode per work and season', async () => {
+    const extra = (work: string, episodes: string) =>
+      `  - kind: tmdb-extras
+    work: ${work}
+    season: 0
+    episodes: ${episodes}
+    reason: a 3D version and a bonus no work owns
+    decided_by: Xwolv
+    date: 2026-11-03
+    origin: manual
+`;
+    const { list, diagnostics } = await load(`rejected:
+${extra('a', '11-12')}${extra('b', 'x')}`);
+    expect(diagnostics.length).toBeGreaterThan(0);
+    expect(tmdbExtras(list)).toEqual([{ work: 'a', season: 0, last: 12 }]);
   });
 });

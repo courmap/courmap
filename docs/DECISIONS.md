@@ -533,6 +533,13 @@ Xwolv's proxy, data 2026.44: 500 names (the export's cap) from 1,130 sightings, 
 - **Mahou Shoujo Ikusei Keikaku: Restart (#220).** TMDB show 337277 (season 1, 12 episodes, premiered 2026-10-06), added from the TMDB page and mapped open-ended while it airs. TheTVDB has no entry we could find, so no TVDB ID.
 - **Not fixed, and why.** #239 Shangri-La Frontier: TMDB episode 51 is a placeholder dated 2027-01-10, the start of season 3, not a missing episode; nothing to map until season 3 airs. #240 Hyakushou Kizoku 2nd Season: TMDB season 1 has 36 episodes where episodes 13 and 14 are the two 2023 specials and only 10 regular episodes are listed for the 2024 cour, so the count does not match our 12; left for a person. #231 stays open: specials 1 to 5, 10 to 12, 13 to 21 (Hanamonogatari, Tsukimonogatari: their seeded TheTVDB ranges fail bounds checks once a manual file exists for them), 34 and 48 to 49 have no clean work. #232 to #238: TMDB specials 11 (Legend of Heroes 3D) and 12 (a Zero bonus) have no work of their own.
 
+### Declaring TMDB episodes no work owns: `tmdb-extras` in data/rejected.yaml (2026-11-03, requested by Xwolv)
+
+- **Problem.** TMDB lists specials that are not releases of their own (Hokuto no Ken specials 11 and 12, Monogatari specials 48 and 49). The checker dedupes only against open issues, so closing the issue by hand makes it reopen next week.
+- **Rule.** A new `rejected.yaml` kind, `tmdb-extras`: `work` (any work of that TMDB show), `season`, `episodes` (a number or range), `reason`, `decided_by`, `date`, optional `link`, `origin: manual`. The checker treats the declared episodes as mapped (up to the last one named) when it compares TMDB's count with ours. It is bot input like the other kinds: it is not in `data/` projections, dumps or the work schema, so no released shape changes.
+- **Limit.** The checker compares counts to the highest mapped episode, so a hole below it was never flagged and needs no entry; only extras above the last mapped episode matter.
+- **Used for.** Hokuto no Ken specials 11 and 12 (#232 to #238) and Monogatari specials 48 and 49 (#231).
+
 ### Hyakushou Kizoku seasons 2 and 3 on TMDB (2026-11-03, #240)
 
 - TMDB season 1 holds all 36 episodes: 12 (2023), the two 2023 specials at 13 and 14, 10 listed for the 2024 cour (15 to 24, ends 2024-12-06), 12 for the 3rd season (25 to 36). AniDB lists 12 episodes for the 2nd season (to 2024-12-20), so TMDB is incomplete: the 2nd season maps 1 to 10 with `coverage: partial`, and the 3rd season (no TMDB ID before) takes the show's 221165 at 25 to 36. Checked on the TMDB season page and AniDB's public page.

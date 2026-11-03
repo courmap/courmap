@@ -154,6 +154,8 @@ A pinned dashboard of the season's shows and their state. It is generated; nothi
 
 The bots also open pull requests, each with a small file under `data/seeds/` (`relations/`, `airing/` or `tmdb-splits/`, one file per work). Review one by reading its description: it says what changes and why. Check the claim on the provider's page, look at the CI result, and approve or comment. To reject a proposal for good, close it and add an entry to `data/rejected.yaml` with the reason; the bots never propose it again. Bot pull requests are merged by a maintainer.
 
+When TMDB lists specials or extra episodes that no work of ours covers (a bonus, a 3D version, a broadcast special with no AniDB or AniList entry), declare them in `data/rejected.yaml` with `kind: tmdb-extras`, the `work` of that TMDB show to attach them to, the TMDB `season` and `episodes` (a number or a range such as `11-12`), and a `reason`. The TMDB check then counts them as covered and stops opening issues for them.
+
 ## When you are done
 
 - A merged fix reaches users in the next data release (a revision such as `2026.43.7` when the data changed within a week).

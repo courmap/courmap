@@ -56,4 +56,12 @@ describe('proposing the work that fills a TMDB gap', async () => {
   it('writes the show ID into the file', () => {
     expect(tmdbSplitJson({ work: 'w', tmdb_show: [{ season: 1, episodes: 1, start: 12 }], origin: 'bot', tmdb: '5', tmdb_id: '5' })).toBe('{"work":"w","tmdb_show":[{"season":1,"episodes":1,"start":12}],"origin":"bot","tmdb":"5","tmdb_id":"5"}\n');
   });
+
+  it('counts TMDB episodes declared as extras (data/rejected.yaml, kind: tmdb-extras) as mapped', async () => {
+    const extras = [{ work: 'twin', season: 1, last: 13 }];
+    const r = await checkProjectionsDetailed(state.records, state.records.works.keys(), tmdb(), { now: new Date('2026-10-21T00:00:00Z'), extras });
+    expect(r.findings.map((f) => f.work)).not.toContain('twin');
+    const short = await checkProjectionsDetailed(state.records, state.records.works.keys(), tmdb(), { now: new Date('2026-10-21T00:00:00Z'), extras: [{ work: 'twin', season: 1, last: 12 }] });
+    expect(short.findings.map((f) => f.work)).toContain('twin');
+  });
 });

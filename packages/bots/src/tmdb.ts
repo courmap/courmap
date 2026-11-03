@@ -260,6 +260,11 @@ export function onlyTmdbLag(status: string, problems: readonly Problem[], premie
 export interface CheckOptions {
   /** Works whose split-cour proposal must not be made (data/rejected.yaml, or a file already in data/seeds/tmdb-splits/). */
   noSplit?: ReadonlySet<string>;
+  /**
+   * TMDB episodes no work of ours covers, declared in data/rejected.yaml (kind: tmdb-extras) on a work of the show. They
+   * count as mapped, up to `last`, so TMDB listing them is no finding.
+   */
+  extras?: readonly { work: string; season: number; last: number }[];
   now?: Date;
   /** When each work's season premiered (from AniList's start date), by work id; absent or null when unknown. */
   premieres?: ReadonlyMap<string, Date | null>;
@@ -325,6 +330,13 @@ export async function checkProjectionsDetailed(records: Records, workIds: Iterab
     if (show === undefined || !byShow.has(show)) continue;
     const seasons = mapped.get(show) ?? new Map<number, number>();
     for (const [season, last] of landings(records, w.id)) seasons.set(season, Math.max(seasons.get(season) ?? 0, last));
+    mapped.set(show, seasons);
+  }
+  for (const x of opts.extras ?? []) {
+    const show = records.works.get(x.work)?.ids.tmdb_show;
+    if (show === undefined || !byShow.has(show)) continue;
+    const seasons = mapped.get(show) ?? new Map<number, number>();
+    seasons.set(x.season, Math.max(seasons.get(x.season) ?? 0, x.last));
     mapped.set(show, seasons);
   }
   const result: CheckResult = { findings: [], older: [], lagging: [], splits: [], checked: new Set() };

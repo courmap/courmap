@@ -9,7 +9,7 @@ export { Reporter, formatDiagnostic, formatPath, makeLineLocator, makeLocator, t
 export { toRecords, aliasPairs, MemoryDataset, type Records, type GroupRecord } from './records.js';
 export { aliasReport, type AliasReport } from './alias-report.js';
 export { AIRING_DIR, RELATIONS_DIR } from './load.js';
-export { REJECTED_FILE, loadRejected, rejectsAiring, rejectsRelation, rejectsTmdbSplit, type Rejection } from './rejected.js';
+export { REJECTED_FILE, loadRejected, rejectsAiring, rejectsRelation, rejectsTmdbSplit, tmdbExtras, type Rejection } from './rejected.js';
 export type { AiringLine, RelationLine, TmdbSplitLine } from './checks.js';
 export { compile, expectedCounts, isoWeekVersion, type CompileOptions, type CompileReport } from './compile.js';
 export { SCHEMA_SQL, SCHEMA_VERSION, TABLES, type Table } from './sql.js';

@@ -155,3 +155,27 @@ rejected:
     date: 2026-10-25
     link: https://github.com/courmap/courmap/issues/58
     origin: manual
+  - kind: tmdb-extras
+    work: hokuto-no-ken-legend-of-heroes
+    season: 0
+    episodes: 11-12
+    reason: >-
+      TMDB specials 11 ("Legend of Heroes 3D", a 3D version of special 10) and 12 ("Legend of Kenshiro Bonus
+      Celebration", a bonus of the Zero film, 2008-10-11) are not releases of their own in AniDB or AniList, so no
+      work owns them. Special 10 is hokuto-no-ken-legend-of-heroes and special 6 is the Zero film.
+    decided_by: Xwolv
+    date: 2026-11-03
+    link: https://www.themoviedb.org/tv/56387/season/0
+    origin: manual
+  - kind: tmdb-extras
+    work: zoku-owarimonogatari-2019
+    season: 0
+    episodes: 48-49
+    reason: >-
+      TMDB specials 48 ("A Cruel Fairy Tale: The Beautiful Princess", 2024-08-17) and 49 (the Monogatari Series Off &
+      Monster Season ABEMA special programme, 2024-09-07) are broadcast extras with no work of their own in the seed
+      datasets. Specials 42 to 47 are this work.
+    decided_by: Xwolv
+    date: 2026-11-03
+    link: https://www.themoviedb.org/tv/46195/season/0
+    origin: manual

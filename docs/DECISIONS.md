@@ -543,3 +543,7 @@ Xwolv's proxy, data 2026.44: 500 names (the export's cap) from 1,130 sightings, 
 ### Hyakushou Kizoku seasons 2 and 3 on TMDB (2026-11-03, #240)
 
 - TMDB season 1 holds all 36 episodes: 12 (2023), the two 2023 specials at 13 and 14, 10 listed for the 2024 cour (15 to 24, ends 2024-12-06), 12 for the 3rd season (25 to 36). AniDB lists 12 episodes for the 2nd season (to 2024-12-20), so TMDB is incomplete: the 2nd season maps 1 to 10 with `coverage: partial`, and the 3rd season (no TMDB ID before) takes the show's 221165 at 25 to 36. Checked on the TMDB season page and AniDB's public page.
+
+### TheTVDB and TMDB IDs for two airing shows (2026-11-03, #220 and #178)
+
+- Magical Girl Raising Project: Restart is TheTVDB 457780 and TMDB 337277; Shirotan is TheTVDB 480112 and TMDB 337195. All four IDs and the premiere dates (2026-10-06 and 2026-10-03) were read from the providers' public series pages, not guessed. Each is one season mapped open-ended while it airs, since the providers disagree on the count so far (Shirotan: 9 on TheTVDB, 12 on TMDB).

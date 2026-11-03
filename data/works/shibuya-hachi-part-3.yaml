@@ -1,0 +1,9 @@
+id: shibuya-hachi-part-3
+ids:
+  tmdb_show: 246676
+projections:
+  # Part 3 is TMDB episodes 26 to 38 (2025-04-05 to 2025-06-28).
+  tmdb_show:
+    - { season: 1, episodes: 1-13, start: 26 }
+sources:
+  - https://www.themoviedb.org/tv/246676/season/1

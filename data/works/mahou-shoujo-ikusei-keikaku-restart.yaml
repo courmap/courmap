@@ -1,0 +1,10 @@
+id: mahou-shoujo-ikusei-keikaku-restart
+ids:
+  tmdb_show: 337277
+projections:
+  # TMDB lists one season of 12 episodes, premiered 2026-10-06; open-ended while it airs.
+  tmdb_show:
+    - { season: 1, episodes: 1- }
+sources:
+  - https://www.themoviedb.org/tv/337277
+notes: TMDB only; no TheTVDB entry found yet

@@ -1,0 +1,8 @@
+id: jujutsu-kaisen-2nd-season
+projections:
+  # TMDB has no season 2. Season 1 holds 59 episodes: 24 (season 1), 23 (this work), then the 12 of
+  # Shimetsu Kaiyuu Zenpen from 48 (already mapped).
+  tmdb_show:
+    - { season: 1, episodes: 1-23, start: 25 }
+sources:
+  - https://www.themoviedb.org/tv/95479/seasons

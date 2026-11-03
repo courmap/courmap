@@ -1,0 +1,10 @@
+id: hokuto-no-ken-legend-of-heroes
+ids:
+  tmdb_show: 56387
+projections:
+  # TMDB special 10 of the show ("Hokuto no Ken - Legend of Heroes", 2007-04-09). Special 11 is its 3D
+  # version and special 12 a Zero bonus; no work here maps them.
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 10 }
+sources:
+  - https://www.themoviedb.org/tv/56387/season/0

@@ -1,0 +1,7 @@
+id: bungou-stray-dogs-5th-season
+projections:
+  # TMDB season 1 episodes 50 to 60 (2023-07-12 to 2023-09-20).
+  tmdb_show:
+    - { season: 1, episodes: 1-11, start: 50 }
+sources:
+  - https://www.themoviedb.org/tv/65931/season/1

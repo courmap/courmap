@@ -1,0 +1,8 @@
+id: koyomimonogatari
+projections:
+  # TMDB specials 22 to 33, "Koyomimonogatari: Koyomi Stone ... Koyomi Dead", 2016-01-09 to 2016-03-26. The seed starts
+  # at 21, which is the last Tsukimonogatari special.
+  tmdb_show:
+    - { season: 0, episodes: 1-12, start: 22 }
+sources:
+  - https://www.themoviedb.org/tv/46195/season/0

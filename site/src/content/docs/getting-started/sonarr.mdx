@@ -52,7 +52,7 @@ Add this service next to Sonarr and Prowlarr, in the same Compose file so it joi
 ```yaml wrap
 services:
   courmap-proxy:
-    image: ghcr.io/courmap/proxy:edge   # the only tag for now
+    image: ghcr.io/courmap/proxy:latest
     container_name: courmap-proxy
     restart: unless-stopped
     ports:
@@ -71,7 +71,7 @@ services:
       INDEXER_GEEK_TYPE: newznab                 # usenet only
 ```
 
-Start it with `docker compose up -d courmap-proxy`. `edge` is the only image tag for now; see [image tags](/sonarr/#image-tags) for pinning a build. Open `http://<your-host>:9797/`: within a minute it shows a **Data version** and how many Sonarr series it found.
+Start it with `docker compose up -d courmap-proxy`. See [image tags](/sonarr/#image-tags) for pinning a version. Open `http://<your-host>:9797/`: within a minute it shows a **Data version** and how many Sonarr series it found.
 
 ## 2. Add each proxy path to Sonarr
 

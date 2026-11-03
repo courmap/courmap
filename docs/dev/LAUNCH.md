@@ -39,7 +39,7 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Trusted publishing (OIDC) is on for `@courmap/core`, `@courmap/parser` and `@courmap/client` (npmjs.com, GitHub Actions, organization `courmap`, repository `courmap`, workflow `npm.yml`), and the repository variable `NPM_TRUSTED_PUBLISHING` is `true`. The `client-v0.1.1` release (2026-10-26) published with "Published with trusted publishing (OIDC)" in its log.
     - **The `NPM_TOKEN` secret can now be deleted** (Xwolv does that). `npm.yml` keeps reading it as a fallback, so nothing else needs to change.
     - Verify: `npm view @courmap/client version` prints the newest version, and the npm page shows the provenance badge.
-12. [ ] **Proxy 0.1.0.** Who: Claude Code, after item 14. Tag `proxy-v0.1.0`.
+12. [ ] **Proxy 0.1.0.** Who: Claude Code prepared it (PR `release/proxy-0.1.0`, version, `:latest` docs, changelog); Xwolv tags and merges, after item 14. Release-day order: (1) Xwolv tags `proxy-v0.1.0` on main; (2) wait for `proxy.yml` to publish `:0.1.0` and `:latest`; (3) `docker pull` both to confirm; (4) Xwolv merges the PR; (5) re-scan and submit the Unraid template.
     Verify: `docker pull ghcr.io/courmap/proxy:0.1.0` and `:latest`.
 20. [x] **Usenet (Newznab) support in the proxy:** [#30](https://github.com/courmap/courmap/issues/30). Who: Claude Code built it; Xwolv verifies on his own Sonarr.
     - Built: `INDEXER_<NAME>_TYPE=newznab|torznab` (detected from the feed's first results when unset), Newznab attributes written in the right namespace, caps and errors passed through, a new `:edge` image, and docs (quick start tabs for Torznab and Newznab, guide, proxy README).
@@ -58,6 +58,7 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Verify: `gh run list --workflow bots.yml --event schedule` lists runs on consecutive days that update issues #13 to #29 instead of duplicating them.
 14. [~] **A week of real proxy traffic with no wrong imports.** Who: Xwolv, on the Unraid server. Started 2026-10-28, ends 2026-11-04: Xwolv's proxy runs the latest `:edge` image against his real Sonarr, on data 2026.44.1 (the 2026-10-28 revision release, which carries the fixes from #155, #156 and #158).
     - Earlier exports (first received 2026-10-20: two usenet indexers, about 550 items, 17 rewritten, 201 unresolved) led to fixes but do not count towards the week. It found a secret-logging risk, the stale-count problem for airing shows, and parser gaps; all fixed or recorded (DECISIONS.md, "First real traffic"). Xwolv updates his proxy to the new `:edge` image to get them.
+    - Release-day order with item 12: item 14 ends first (2026-11-04), then the tag, `:0.1.0` and `:latest` published and pulled, then this PR merged, then the Unraid template.
     Verify: Sonarr's history for the week shows no anime episode imported as the wrong episode; the status page's export is imported with `pnpm corpus:from-proxy` (item 16).
 15. [x] **Bot PRs and issues reviewed.** Who: Xwolv decides; Claude Code applies. Done, on Xwolv's decision (2026-10-27).
     - First batch done 2026-10-19 (decided by Xwolv): #2 (without the Koori no Jouheki 2nd Season line), #3 to #9, #11 and #12 merged; #10 closed and recorded in `data/rejected.yaml`, which the bots read so it is never proposed again. No bot PR is open.
@@ -110,7 +111,7 @@ Legend: [x] done, [ ] open, [~] partly done.
 
 - [x] Docs overhaul (2026-10-27, branch `docs/overhaul`, not yet merged): new sidebar, homepage, Sonarr quickstart, glossary, trimmed README; see DECISIONS.md, "Docs overhaul".
 - [x] Docs overhaul follow-up (2026-10-27, same branch): shorter Sonarr quickstart, "Use the data" page for the HTTP API, static files and dumps, four-card homepage; see DECISIONS.md.
-- [ ] After the docs overhaul merges: cut `proxy-v0.1.0` (Xwolv), then change the quickstart, full guide and READMEs from `:edge` to the versioned tag. Verify: `grep -rn "proxy:edge" README.md site/src packages/proxy/README.md` prints nothing.
+- [x] Docs and READMEs switched from `:edge` to `:latest` in the proxy 0.1.0 PR (merge only after the tag is published, see item 12). Verify: `grep -rn "proxy:edge" README.md site/src packages/proxy/README.md` prints only the image tags section.
 
 ## Also done, 2026-10-20
 

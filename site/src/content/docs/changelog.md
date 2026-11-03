@@ -5,6 +5,17 @@ description: Notable changes to Courmap's data format, library and tools.
 
 Weekly data releases are listed on [GitHub Releases](https://github.com/courmap/courmap/releases). This page records changes to formats and tools.
 
+## Proxy 0.1.0
+
+First release of the Sonarr proxy, `ghcr.io/courmap/proxy:0.1.0` (also `:latest`), for amd64 and arm64.
+
+- **What it does.** Sits between Prowlarr (or your indexers) and Sonarr and rewrites anime release names into the numbering Sonarr understands, and translates Sonarr's searches into the names indexers know. Works with Torznab (torrents) and Newznab (usenet) feeds, set per indexer or detected from the feed.
+- **Series reload on a miss.** When a release or a search needs a show that is not in the proxy's Sonarr series list, it reloads the list (at most once a minute). A search is translated straight away; an RSS release that arrives first passes through unchanged and the next one is rewritten.
+- **Indexer API limits.** A cache for identical queries, early stop on episode searches, and a cap on queries per search keep request counts low. The status page shows requests per indexer for the last seven UTC days, with cache hits and failures. When an indexer reports its limit, the proxy passes the answer to Sonarr unchanged and does not retry.
+- **Secret redaction.** API keys (Sonarr's, an indexer's, any `apikey=` in a feed address) never reach the logs, the status page or the exports.
+- **Status page and exports.** `http://<your-host>:9797/` shows the data version, the Sonarr connection, per-indexer counts, the works numbered with Sonarr's help and the release names that could not be resolved, with a block you can paste into a GitHub issue.
+- **Known limits.** Sonarr only (no Radarr). Ambiguous releases pass through unchanged rather than being guessed. The unresolved and assisted lists, and so the export, hold at most 500 names each.
+
 ## 2026-11-02
 
 - **`@courmap/client`, `@courmap/core` and `@courmap/parser` 0.1.2.** The client now depends on `better-sqlite3` 13, which ships prebuilt binaries: `npm install @courmap/client` and `pnpm add @courmap/client` work without build scripts or build tools (0.1.1 needed `pnpm approve-builds`, or a compiler, to open a dump with pnpm).

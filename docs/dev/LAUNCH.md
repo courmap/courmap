@@ -2,7 +2,7 @@
 
 Everything still open before the public launch post (r/sonarr, r/selfhosted, anime self-hosting Discords). Each item says who does it and how to check it is done. Claude Code updates this file at the end of every session; Xwolv ticks items off by saying so in the session prompt.
 
-Last updated 2026-11-03, the day before the proxy week ends and the day before the first stable release (proxy 0.1.0). Status: **not ready until tomorrow's steps are done.** 17 of 20 items are done; the open ones are 12 (tag and merge the proxy PR), 14 (the proxy week ends 2026-11-04), 18 (fresh-eyes testers) and the ruleset bypass. All four need Xwolv.
+Last updated 2026-11-04, the day of the first stable release (proxy 0.1.0). Status: **nearly ready.** 19 of 20 items are done (12 and 14 closed today). Open: 18 (fresh-eyes testers) and, before the launch post, the ruleset bypass. Both need Xwolv; the Unraid template re-scan and submission (last step of item 12) is also Xwolv's.
 
 Legend: [x] done, [ ] open, [~] partly done.
 
@@ -39,7 +39,8 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Trusted publishing (OIDC) is on for `@courmap/core`, `@courmap/parser` and `@courmap/client` (npmjs.com, GitHub Actions, organization `courmap`, repository `courmap`, workflow `npm.yml`), and the repository variable `NPM_TRUSTED_PUBLISHING` is `true`. The `client-v0.1.1` release (2026-10-26) published with "Published with trusted publishing (OIDC)" in its log.
     - **The `NPM_TOKEN` secret can now be deleted** (Xwolv does that). `npm.yml` keeps reading it as a fallback, so nothing else needs to change.
     - Verify: `npm view @courmap/client version` prints the newest version, and the npm page shows the provenance badge.
-12. [ ] **Proxy 0.1.0.** Who: Claude Code prepared it (PR `release/proxy-0.1.0`, version, `:latest` docs, changelog); Xwolv tags and merges, after item 14. Release-day order: (1) Xwolv tags `proxy-v0.1.0` on main; (2) wait for `proxy.yml` to publish `:0.1.0` and `:latest`; (3) `docker pull` both to confirm; (4) Xwolv merges the PR; (5) re-scan and submit the Unraid template.
+12. [x] **Proxy 0.1.0.** Who: Claude Code prepared it (PR #219); Xwolv approved the release. Done 2026-11-04: tag `proxy-v0.1.0` on main (306dc5a) and its GitHub Release (not marked latest, so `releases/latest` is still the data release, data 2026.45.1); `proxy.yml` published `:0.1.0` and `:latest` as one multi-arch image (amd64 and arm64, same digest for both tags, manifests fetched anonymously from ghcr.io; a local `docker pull` was not run because Docker was not running on the machine); #219 squash-merged and the docs deployed (`grep -rn "proxy:edge"` prints only the image tags list). Open: Xwolv re-scans and submits the Unraid template.
+    Verify: `docker pull ghcr.io/courmap/proxy:0.1.0` and `:latest`.
     Verify: `docker pull ghcr.io/courmap/proxy:0.1.0` and `:latest`.
 20. [x] **Usenet (Newznab) support in the proxy:** [#30](https://github.com/courmap/courmap/issues/30). Who: Claude Code built it; Xwolv verifies on his own Sonarr.
     - Built: `INDEXER_<NAME>_TYPE=newznab|torznab` (detected from the feed's first results when unset), Newznab attributes written in the right namespace, caps and errors passed through, a new `:edge` image, and docs (quick start tabs for Torznab and Newznab, guide, proxy README).
@@ -56,7 +57,7 @@ Legend: [x] done, [ ] open, [~] partly done.
     - Crons now avoid busy minutes (scan 07:23 daily; seed 06:17, release 09:13, weekly bots 10:47 on Tuesdays), with the Worker watchdog 30 minutes behind each.
     - Checked 2026-10-25: the daily scan ran on 2026-10-22, 23, 24 and 25 (the 2026-10-21 run failed and nothing has failed since); the scheduled seed and release both ran on Tuesday 2026-10-20. The seed schedule failed on a stale commit (a gap diagnostic the seed fix da02a50 addressed) and a dispatch on da02a50 verified instead; the next seed schedule is 2026-10-27.
     - Verify: `gh run list --workflow bots.yml --event schedule` lists runs on consecutive days that update issues #13 to #29 instead of duplicating them.
-14. [~] **A week of real proxy traffic with no wrong imports.** Who: Xwolv, on the Unraid server. Started 2026-10-28, ends 2026-11-04: Xwolv's proxy runs the latest `:edge` image against his real Sonarr, on data 2026.44.1 (the 2026-10-28 revision release, which carries the fixes from #155, #156 and #158).
+14. [x] **A week of real proxy traffic with no wrong imports.** Done: Xwolv confirmed on 2026-11-04 that Sonarr's history for the week (2026-10-28 to 2026-11-04) shows no wrong imports. Who: Xwolv, on the Unraid server. Started 2026-10-28, ends 2026-11-04: Xwolv's proxy runs the latest `:edge` image against his real Sonarr, on data 2026.44.1 (the 2026-10-28 revision release, which carries the fixes from #155, #156 and #158).
     - Earlier exports (first received 2026-10-20: two usenet indexers, about 550 items, 17 rewritten, 201 unresolved) led to fixes but do not count towards the week. It found a secret-logging risk, the stale-count problem for airing shows, and parser gaps; all fixed or recorded (DECISIONS.md, "First real traffic"). Xwolv updates his proxy to the new `:edge` image to get them.
     - Release-day order with item 12: item 14 ends first (2026-11-04), then the tag, `:0.1.0` and `:latest` published and pulled, then this PR merged, then the Unraid template.
     Verify: Sonarr's history for the week shows no anime episode imported as the wrong episode; the status page's export is imported with `pnpm corpus:from-proxy` (item 16).

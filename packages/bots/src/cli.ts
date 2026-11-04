@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { readFile, writeFile } from 'node:fs/promises';
 import { parseArgs } from 'node:util';
-import { AIRING_DIR, RELATIONS_DIR, TMDB_SPLITS_DIR, aliasPairs, aliasReport, botFilePath } from '@courmap/builder';
+import { AIRING_DIR, RELATIONS_DIR, TMDB_SPLITS_DIR, aliasPairs, aliasReport, botFilePath, tmdbExtras } from '@courmap/builder';
 import { AniListClient, type AniListMedia } from './anilist.js';
 import { classify, type Classification, type Finding } from './classify.js';
 import { GitHubWriter } from './github.js';
@@ -180,7 +180,7 @@ async function main(argv: string[]): Promise<number> {
     const when = new Date();
     const corpus = corpusWorks(await readFile(values.corpus!, 'utf8').catch(() => ''));
     const urgent = isUrgent(state.records, (id) => state.merged.get(id)?.isManual === true, corpus, when);
-    const result = await checkProjectionsDetailed(state.records, ids, tmdb, { now: when, noSplit, premieres, urgent, onError: (show, err) => console.log(`TMDB show ${show} skipped: ${err.message}`) });
+    const result = await checkProjectionsDetailed(state.records, ids, tmdb, { now: when, noSplit, extras: tmdbExtras(state.rejected), premieres, urgent, onError: (show, err) => console.log(`TMDB show ${show} skipped: ${err.message}`) });
     // Each proposal is compiled with the current data first; one that does not validate is an ordinary issue instead.
     const splitLines = new Map(state.tmdbSplits.map((s) => [s.work, s]));
     const proposals = result.splits.slice();

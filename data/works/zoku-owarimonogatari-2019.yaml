@@ -1,0 +1,9 @@
+id: zoku-owarimonogatari-2019
+ids:
+  tmdb_show: 46195
+projections:
+  # TMDB specials 42 to 47, "Zoku Owarimonogatari: Koyomi Reverse (1) to (6)", 2019-05-18 to 2019-06-22.
+  tmdb_show:
+    - { season: 0, episodes: 1-6, start: 42 }
+sources:
+  - https://www.themoviedb.org/tv/46195/season/0

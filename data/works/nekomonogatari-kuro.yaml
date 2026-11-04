@@ -1,0 +1,10 @@
+id: nekomonogatari-kuro
+ids:
+  tmdb_show: 46195
+projections:
+  # TMDB specials 6 to 9, "Nekomonogatari Kuro: Tsubasa Family (1) to (4)", 2012-12-31. Special 5 is the
+  # prologue entry of the same night.
+  tmdb_show:
+    - { season: 0, episodes: 1-4, start: 6 }
+sources:
+  - https://www.themoviedb.org/tv/46195/season/0

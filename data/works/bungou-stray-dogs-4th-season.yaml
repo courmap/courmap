@@ -1,0 +1,7 @@
+id: bungou-stray-dogs-4th-season
+projections:
+  # TMDB season 1 episodes 37 to 49 (2023-01-04 to 2023-03-29).
+  tmdb_show:
+    - { season: 1, episodes: 1-13, start: 37 }
+sources:
+  - https://www.themoviedb.org/tv/65931/season/1

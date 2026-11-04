@@ -22,8 +22,8 @@ export type Link = string;
  * Bot proposals a maintainer rejected: data/rejected.yaml. The bots read it before proposing anything and never propose a matching change again. Hand-written only (origin: manual).
  */
 export interface RejectedFile {
-  rejected: ((RelationRejection | AiringRejection | TmdbSplitRejection) & {
-    kind: 'relation' | 'airing' | 'tmdb-split';
+  rejected: ((RelationRejection | AiringRejection | TmdbSplitRejection | TmdbExtrasRejection) & {
+    kind: 'relation' | 'airing' | 'tmdb-split' | 'tmdb-extras';
   })[];
 }
 /**
@@ -59,6 +59,26 @@ export interface AiringRejection {
 export interface TmdbSplitRejection {
   kind: 'tmdb-split';
   work: Slug;
+  reason: Reason;
+  decided_by: DecidedBy;
+  date: Date;
+  link?: Link;
+  origin: 'manual';
+}
+/**
+ * TMDB episodes of `work`'s TMDB show that no work of ours covers (a bonus, a 3D version, a recap TMDB lists as a special). The TMDB checker counts them as mapped, so it stops flagging the show for them. Say which TMDB season and episodes, and why no work owns them.
+ */
+export interface TmdbExtrasRejection {
+  kind: 'tmdb-extras';
+  work: Slug;
+  /**
+   * The TMDB season the episodes are in (0 for specials).
+   */
+  season: number;
+  /**
+   * The TMDB episode number, or a range such as 11-12.
+   */
+  episodes: string;
   reason: Reason;
   decided_by: DecidedBy;
   date: Date;

@@ -21,7 +21,8 @@
             "enum": [
               "relation",
               "airing",
-              "tmdb-split"
+              "tmdb-split",
+              "tmdb-extras"
             ]
           }
         },
@@ -37,6 +38,9 @@
           },
           {
             "$ref": "#/$defs/tmdb_split"
+          },
+          {
+            "$ref": "#/$defs/tmdb_extras"
           }
         ]
       }
@@ -157,6 +161,55 @@
       "description": "The pull request or issue where it was rejected.",
       "type": "string",
       "format": "uri"
+    },
+    "tmdb_extras": {
+      "title": "TmdbExtrasRejection",
+      "description": "TMDB episodes of `work`'s TMDB show that no work of ours covers (a bonus, a 3D version, a recap TMDB lists as a special). The TMDB checker counts them as mapped, so it stops flagging the show for them. Say which TMDB season and episodes, and why no work owns them.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "work",
+        "season",
+        "episodes",
+        "reason",
+        "decided_by",
+        "date",
+        "origin"
+      ],
+      "properties": {
+        "kind": {
+          "const": "tmdb-extras"
+        },
+        "work": {
+          "$ref": "#/$defs/slug"
+        },
+        "season": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "The TMDB season the episodes are in (0 for specials)."
+        },
+        "episodes": {
+          "type": "string",
+          "pattern": "^[0-9]+(-[0-9]+)?$",
+          "description": "The TMDB episode number, or a range such as 11-12."
+        },
+        "reason": {
+          "$ref": "#/$defs/reason"
+        },
+        "decided_by": {
+          "$ref": "#/$defs/decided_by"
+        },
+        "date": {
+          "$ref": "#/$defs/date"
+        },
+        "link": {
+          "$ref": "#/$defs/link"
+        },
+        "origin": {
+          "const": "manual"
+        }
+      }
     },
     "tmdb_split": {
       "title": "TmdbSplitRejection",

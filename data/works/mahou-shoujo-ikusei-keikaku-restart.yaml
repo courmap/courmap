@@ -1,0 +1,13 @@
+id: mahou-shoujo-ikusei-keikaku-restart
+ids:
+  tvdb_show: 457780
+  tmdb_show: 337277
+projections:
+  # Both list one season, premiered 2026-10-06 (TheTVDB 12 episodes, TMDB 12); open-ended while it airs.
+  tvdb_show:
+    - { season: 1, episodes: 1- }
+  tmdb_show:
+    - { season: 1, episodes: 1- }
+sources:
+  - https://thetvdb.com/series/magical-girl-raising-project-restart
+  - https://www.themoviedb.org/tv/337277

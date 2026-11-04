@@ -1,0 +1,13 @@
+id: shirotan
+ids:
+  tvdb_show: 480112
+  tmdb_show: 337195
+projections:
+  # Both list one season, premiered 2026-10-03 (TheTVDB lists 9 episodes so far, TMDB 12); open-ended while it airs.
+  tvdb_show:
+    - { season: 1, episodes: 1- }
+  tmdb_show:
+    - { season: 1, episodes: 1- }
+sources:
+  - https://thetvdb.com/series/shirotan
+  - https://www.themoviedb.org/tv/337195

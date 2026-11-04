@@ -2,7 +2,7 @@
 
 Everything still open before the public launch post (r/sonarr, r/selfhosted, anime self-hosting Discords). Each item says who does it and how to check it is done. Claude Code updates this file at the end of every session; Xwolv ticks items off by saying so in the session prompt.
 
-Last updated 2026-11-04, the day of the first stable release (proxy 0.1.0). Status: **nearly ready.** 19 of 20 items are done (12 and 14 closed today). Open: 18 (fresh-eyes testers) and, before the launch post, the ruleset bypass. Both need Xwolv; the Unraid template re-scan and submission (last step of item 12) is also Xwolv's.
+Last updated 2026-11-04, the day of the first stable release (proxy 0.1.0). Status: **nearly ready.** 19 of 20 items are done (12 and 14 closed today). Open: 18 (fresh-eyes testers). It needs Xwolv; the ruleset bypass is removed (2026-11-04); the Unraid template re-scan and submission (last step of item 12) is also Xwolv's.
 
 Legend: [x] done, [ ] open, [~] partly done.
 
@@ -134,7 +134,7 @@ Legend: [x] done, [ ] open, [~] partly done.
 
 ## Before the launch post, repository settings
 
-- [ ] **Remove the ruleset bypass.** The rulesets "Protect main" and "No force pushes or deletion on main" let the repository admin role (only xwolvos today) bypass them, which the history rewrite and the merges needed. At launch, delete the bypass actor from both so main is protected for everyone. Who: Xwolv. Verify: `gh api repos/courmap/courmap/rulesets/<id> --jq .bypass_actors` is empty for both.
+- [x] **Remove the ruleset bypass.** Done 2026-11-04, on Xwolv's instruction, through the API: the repository admin bypass is deleted from both rulesets, "Protect main" and "No force pushes or deletion on main". Both stay active; main now takes a pull request and a green `validate` from everyone (zero approvals are required, so Xwolv can still merge his own pull requests). No workflow pushes straight to main (they push to `badges`, `bots/*` and seed branches). Verify: `gh api repos/courmap/courmap/rulesets/<id> --jq .bypass_actors` prints `[]` for ids 25451887 and 25474248.
 
 ## Status, 2026-11-03
 

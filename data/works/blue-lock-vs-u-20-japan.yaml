@@ -1,0 +1,7 @@
+id: blue-lock-vs-u-20-japan
+projections:
+  # TMDB keeps this cour in season 1 (38 episodes); the first cour is 1 to 24, this work is 25 to 38.
+  tmdb_show:
+    - { season: 1, episodes: 1-14, start: 25 }
+sources:
+  - https://www.themoviedb.org/tv/131041/seasons

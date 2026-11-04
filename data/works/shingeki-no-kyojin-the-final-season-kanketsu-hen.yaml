@@ -1,0 +1,6 @@
+id: shingeki-no-kyojin-the-final-season-kanketsu-hen
+projections:
+  # TMDB season 4 stops at episode 28 and does not list the two Final Chapters specials (TVDB 29 and 30).
+  tmdb_show: null
+sources:
+  - https://www.themoviedb.org/tv/1429/season/4

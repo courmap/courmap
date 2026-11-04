@@ -1,0 +1,8 @@
+id: clannad
+projections:
+  # TMDB season 1 has 22 episodes. Episode 23 is "Another World: Tomoyo Chapter", which TMDB lists as special 2.
+  tmdb_show:
+    - { season: 1, episodes: 1-22 }
+    - { season: 0, episodes: 23, start: 2 }
+sources:
+  - https://www.themoviedb.org/tv/24835/season/0

@@ -1,0 +1,7 @@
+id: komi-san-wa-comyushou-desu-2nd-season
+projections:
+  # TMDB keeps both cours in season 1 (24 episodes); this work is episodes 13 to 24.
+  tmdb_show:
+    - { season: 1, episodes: 1-12, start: 13 }
+sources:
+  - https://www.themoviedb.org/tv/123876/seasons

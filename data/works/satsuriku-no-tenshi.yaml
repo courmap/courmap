@@ -1,0 +1,11 @@
+id: satsuriku-no-tenshi
+projections:
+  # TMDB season 1 has 12 episodes and 4 specials (2018-10-05 to 10-26). Whether AniDB episodes 13 to 16 are those
+  # specials was not verified, so they stay unmapped.
+  tmdb_show:
+    coverage: partial
+    notes: TMDB season 1 lists 12 of the 16 episodes; episodes 13 to 16 are not mapped
+    ranges:
+      - { season: 1, episodes: 1-12 }
+sources:
+  - https://www.themoviedb.org/tv/80477/seasons

@@ -179,3 +179,14 @@ rejected:
     date: 2026-11-03
     link: https://www.themoviedb.org/tv/46195/season/0
     origin: manual
+  - kind: tmdb-extras
+    work: shangri-la-frontier-kusoge-hunter-kamige-ni-idoman-to-su-2nd-season
+    season: 1
+    episodes: "51"
+    reason: >-
+      TMDB season 1 lists an untitled episode 51 dated 2027-01-10, a placeholder for the next cour. The 2nd season
+      work is episodes 26 to 50, so nothing owns it until that cour has a work.
+    decided_by: Xwolv
+    date: 2026-11-04
+    link: https://www.themoviedb.org/tv/205050/season/1
+    origin: manual

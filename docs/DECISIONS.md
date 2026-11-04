@@ -547,3 +547,9 @@ Xwolv's proxy, data 2026.44: 500 names (the export's cap) from 1,130 sightings, 
 ### TheTVDB and TMDB IDs for two airing shows (2026-11-03, #220 and #178)
 
 - Magical Girl Raising Project: Restart is TheTVDB 457780 and TMDB 337277; Shirotan is TheTVDB 480112 and TMDB 337195. All four IDs and the premiere dates (2026-10-06 and 2026-10-03) were read from the providers' public series pages, not guessed. Each is one season mapped open-ended while it airs, since the providers disagree on the count so far (Shirotan: 9 on TheTVDB, 12 on TMDB).
+
+### Pull requests from forks (2026-11-04, requested by Xwolv)
+
+- **validate.yml.** A fork pull request's token is read-only, so `gh pr comment` failed and turned the required `validate` check red. The corpus report now always goes to the job summary; the pull request comment is posted only when the head repository is this one, and that step has `continue-on-error`. `pull_request_target` is deliberately not used.
+- **Other pull request workflows, checked.** `docs` (secrets arrive empty; build only, deploy skipped on pull requests), `worker` (same: Wrangler dry-run bundle, no deploy), `proxy` (login and push are off on pull requests, image build only), `npm` (dry run only; `id-token` is withheld from forks and only tag runs publish; the empty `NPM_TOKEN` only matters for a `client-v*` tag). None needs a secret or write access on a fork PR. Not exercised from a real fork yet; the first outside PR is the test.
+- **CODEOWNERS** names the account `@xwolvos` (there is no `@Xwolv` user). CONTRIBUTING.md and the Fix a mapping page start with a short "How to contribute".

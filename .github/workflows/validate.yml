@@ -71,13 +71,20 @@ jobs:
       - name: Alias quality (aliases shared by more than 5 works are flagged, more than 50 excluded)
         run: pnpm builder aliases --report "$RUNNER_TEMP/aliases.md" && cat "$RUNNER_TEMP/aliases.md" >> "$GITHUB_STEP_SUMMARY"
 
-      - name: Report the corpus on the pull request
-        if: always() && github.event_name == 'pull_request' && steps.corpus.outcome != 'skipped'
+      # Always in the job summary, so fork pull requests (whose token is read-only) still show it.
+      - name: Write the corpus report to the job summary
+        if: always() && steps.corpus.outcome != 'skipped'
+        run: '[ ! -f "$RUNNER_TEMP/corpus.md" ] || cat "$RUNNER_TEMP/corpus.md" >> "$GITHUB_STEP_SUMMARY"'
+
+      # Only for pull requests from this repository: a fork's token cannot comment. Never fails the job.
+      - name: Comment the corpus report on the pull request
+        if: always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && steps.corpus.outcome != 'skipped'
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           [ -f "$RUNNER_TEMP/corpus.md" ] || exit 0
-          gh pr comment ${{ github.event.pull_request.number }} --body-file "$RUNNER_TEMP/corpus.md" --edit-last             || gh pr comment ${{ github.event.pull_request.number }} --body-file "$RUNNER_TEMP/corpus.md"
+          gh pr comment ${{ github.event.pull_request.number }} --body-file "$RUNNER_TEMP/corpus.md" --edit-last || gh pr comment ${{ github.event.pull_request.number }} --body-file "$RUNNER_TEMP/corpus.md"
 
       - name: Build publishable packages
         run: pnpm build

@@ -73,7 +73,7 @@ The [Sonarr quickstart](/getting-started/sonarr/) is the short path with Docker 
 2. Fill in the form:
 
    - **Name**: `courmap-proxy`
-   - **Repository**: `ghcr.io/courmap/proxy:edge`
+   - **Repository**: `ghcr.io/courmap/proxy:latest`
    - **Network Type**: the custom network your Sonarr and Prowlarr use (for example **Custom: proxynet**). If they run on **bridge**, choose **bridge** and use IP addresses in every URL.
    - **WebUI**: `http://[IP]:[PORT:9797]/`
    - **Extra Parameters**: `--user 99:100`, so its files belong to `nobody:users` like your other appdata
@@ -101,7 +101,11 @@ The [Sonarr quickstart](/getting-started/sonarr/) is the short path with Docker 
 
 ### Image tags
 
-`ghcr.io/courmap/proxy:edge` is the only tag for now. It follows the main branch. Every build also gets a `sha-<commit>` tag (the status page shows `edge-` plus the same seven characters), which pins one build. Versioned tags will appear once the first proxy release is cut.
+- `ghcr.io/courmap/proxy:latest` is the newest release. Use it unless you have a reason not to.
+- `ghcr.io/courmap/proxy:0.1.0` pins that release. Change the number to move to a later one.
+- `ghcr.io/courmap/proxy:edge` follows the main branch, for testers. Every build also gets a `sha-<commit>` tag (the status page shows `edge-` plus the same seven characters), which pins one build.
+
+The proxy downloads new data on its own every 24 hours (see `REFRESH_HOURS`), but the container does not update itself. To get a new proxy version, update it from the Unraid Docker tab, or run `docker compose pull` and `docker compose up -d`. Automatic container updates are fine on `:latest` but not recommended on `:edge`, which can change on any commit.
 
 ### Compose in a different project
 
@@ -110,7 +114,7 @@ If Sonarr and Prowlarr live in a different Compose project, the proxy has to joi
 ```yaml
 services:
   courmap-proxy:
-    image: ghcr.io/courmap/proxy:edge
+    image: ghcr.io/courmap/proxy:latest
     container_name: courmap-proxy
     restart: unless-stopped
     ports:

@@ -26,7 +26,7 @@ The Courmap proxy sits between Prowlarr and Sonarr and rewrites anime releases i
 ```yaml
 services:
   courmap-proxy:
-    image: ghcr.io/courmap/proxy:edge
+    image: ghcr.io/courmap/proxy:latest
     ports:
       - "9797:9797"
     volumes:

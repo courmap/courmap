@@ -21,7 +21,7 @@ Nothing is sent anywhere except to your own indexers (or Prowlarr), your own Son
 ```yaml
 services:
   courmap-proxy:
-    image: ghcr.io/courmap/proxy:edge
+    image: ghcr.io/courmap/proxy:latest
     container_name: courmap-proxy
     restart: unless-stopped
     ports:
@@ -92,7 +92,7 @@ Environment variables win over the optional YAML file at `/config/courmap-proxy.
 1. Open the **Docker** tab and choose **Add Container**, with the template set to none.
 2. Fill in:
    - **Name:** `courmap-proxy`
-   - **Repository:** `ghcr.io/courmap/proxy:edge`
+   - **Repository:** `ghcr.io/courmap/proxy:latest`
    - **Network Type:** the same custom network as Sonarr and Prowlarr (for example `proxynet`), so the container names resolve. On plain `bridge`, use the Unraid server's IP and the published ports in the URLs instead.
    - **Extra Parameters:** `--user 99:100`, so files belong to `nobody:users` like your other appdata.
 3. Use **Add another Path, Port, Variable, Label or Device** for each of:

@@ -1,0 +1,8 @@
+id: k-on
+projections:
+  # TMDB season 1 has 12 episodes. Episode 13 is "Live House!", which TMDB lists as special 9.
+  tmdb_show:
+    - { season: 1, episodes: 1-12 }
+    - { season: 0, episodes: 13, start: 9 }
+sources:
+  - https://www.themoviedb.org/tv/42253/season/0

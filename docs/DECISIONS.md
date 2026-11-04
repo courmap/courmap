@@ -553,3 +553,12 @@ Xwolv's proxy, data 2026.44: 500 names (the export's cap) from 1,130 sightings, 
 - **validate.yml.** A fork pull request's token is read-only, so `gh pr comment` failed and turned the required `validate` check red. The corpus report now always goes to the job summary; the pull request comment is posted only when the head repository is this one, and that step has `continue-on-error`. `pull_request_target` is deliberately not used.
 - **Other pull request workflows, checked.** `docs` (secrets arrive empty; build only, deploy skipped on pull requests), `worker` (same: Wrangler dry-run bundle, no deploy), `proxy` (login and push are off on pull requests, image build only), `npm` (dry run only; `id-token` is withheld from forks and only tag runs publish; the empty `NPM_TOKEN` only matters for a `client-v*` tag). None needs a secret or write access on a fork PR. Not exercised from a real fork yet; the first outside PR is the test.
 - **CODEOWNERS** names the account `@xwolvos` (there is no `@Xwolv` user). CONTRIBUTING.md and the Fix a mapping page start with a short "How to contribute".
+
+### TMDB mismatch issues #259 to #272 (2026-11-04)
+
+- **Cours TMDB splits or merges differently.** Komi 2nd season sits in TMDB season 1 (episodes 13 to 24, also settles #258) and Blue Lock vs. U-20 Japan in season 1 (25 to 38); Fate/Zero 2nd season, Tokyo Ghoul:re 2nd season and Owari no Seraph: Nagoya Kessen-hen are TMDB seasons 2, 4 and 2 of their own. Counts read from each show's TMDB `/seasons` page.
+- **Extras counted as episodes by the seed.** Bakemonogatari 13 to 15 are TMDB specials 2 to 4, K-On! 13 is special 9 (Live House!), Clannad 23 is special 2 (Another World: Tomoyo Chapter), matched by title.
+- **Left partial, not guessed.** Clannad: After Story (22 of 24) and Satsuriku no Tenshi (12 of 16): the extra episodes may be TMDB specials but the match was not verified.
+- **Shingeki no Kyojin Kanketsu-hen** loses its TMDB mapping: TMDB season 4 ends at episode 28 and lists neither Final Chapters special.
+- **Shangri-La Frontier episode 51** is a TMDB placeholder dated 2027-01-10, declared as `tmdb-extras` on the 2nd season work.
+- **Not fixed: Saiki Kusuo no Psi-nan (#260).** The work has 120 five-minute episodes, TMDB has 24 half-hour ones; the range model cannot express that, so it needs a decision.

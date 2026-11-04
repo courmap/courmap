@@ -1,0 +1,7 @@
+id: tokyo-ghoul-re-2nd-season
+projections:
+  # TMDB gives this cour its own season 4 (12 episodes); TVDB continues season 3.
+  tmdb_show:
+    - { season: 4, episodes: 1-12 }
+sources:
+  - https://www.themoviedb.org/tv/61374/seasons

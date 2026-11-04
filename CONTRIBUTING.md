@@ -2,6 +2,17 @@
 
 Thanks for helping keep anime episode numbering correct for everyone.
 
+## How to contribute
+
+1. Fork the repository on GitHub.
+2. Make a branch in your fork.
+3. Change one file, usually one short YAML file in `data/works/`.
+4. Open a pull request against `courmap/courmap`.
+
+The first time you contribute, the automated checks wait for a maintainer to approve them; Xwolv or another maintainer does that, usually soon, and later pull requests from you run straight away.
+
+A one-file data fix can be done entirely in the browser: open the file under `data/works/` on GitHub and click the pencil icon, and GitHub forks the repository for you and walks you through the pull request. For the docs, the "Edit page" link at the bottom of any page does the same. See [Fix a mapping](https://courmap.com/getting-started/contributing/) for the full walk-through.
+
 ## Licensing of contributions
 
 - Code contributions are accepted under the Apache License 2.0 (`LICENSE`).

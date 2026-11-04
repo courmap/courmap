@@ -7,6 +7,17 @@ sidebar:
 
 A wrong mapping is wrong for everyone, so a fix helps everyone. Every mapping lives in [`data/`](https://github.com/courmap/courmap/tree/main/data) on GitHub. Most [works](/concepts/works/) come from seed datasets; when one is wrong, you add a short file in `data/works/` that overrides just the part that is wrong. CI checks it, and it ships in the next weekly data release.
 
+## How to contribute
+
+1. **Fork** the repository on GitHub (the Fork button, top right).
+2. **Make a branch** in your fork.
+3. **Change one file**, usually one short YAML file in `data/works/`.
+4. **Open a pull request** against `courmap/courmap`.
+
+The first time you contribute, the automated checks wait for a maintainer to approve them; Xwolv or another maintainer does that, usually soon, and later pull requests from you run straight away. Nothing is wrong if the checks show as waiting.
+
+A one-file data fix needs no clone and no Node install. Open the file under [`data/works/`](https://github.com/courmap/courmap/tree/main/data/works) on GitHub and click the pencil icon ("Edit this file"); GitHub forks the repository for you and walks you through the pull request. To add a new file, use "Add file" then "Create new file" in the same folder. To fix a typo or a sentence in these docs, use the "Edit page" link at the bottom of any page. Running `pnpm validate` first (steps below) is still the quickest way to catch a mistake, but CI runs the same checks on your pull request.
+
 ## 1. Find the work
 
 Every work has a permanent id (its slug), derived from its romaji title, such as `kusuriya-no-hitorigoto-2nd-season`. Find it with the [try-it box](/try/), or in `data/seeds/slugs.jsonl` by AniDB, AniList or MAL ID.

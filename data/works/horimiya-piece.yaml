@@ -1,0 +1,12 @@
+id: horimiya-piece
+aliases:
+  - Horimiya S2
+notes: >-
+  Adds "Horimiya S2" so "Horimiya S02Exx" releases (greg's CR WEB-DL, episodes 1 to 13)
+  reach this work. Horimiya has no
+  season 2 on TheTVDB (388593) or TMDB (110070), and Horimiya: Piece is the only later
+  Horimiya TV work in the seed (13 episodes, its own TheTVDB 436124 and TMDB 228663 show).
+sources:
+  - https://thetvdb.com/series/horimiya
+  - https://www.themoviedb.org/tv/110070-horimiya/seasons
+  - https://www.themoviedb.org/tv/228663

@@ -562,3 +562,12 @@ Xwolv's proxy, data 2026.44: 500 names (the export's cap) from 1,130 sightings, 
 - **Shingeki no Kyojin Kanketsu-hen** loses its TMDB mapping: TMDB season 4 ends at episode 28 and lists neither Final Chapters special.
 - **Shangri-La Frontier episode 51** is a TMDB placeholder dated 2027-01-10, declared as `tmdb-extras` on the 2nd season work.
 - **Not fixed: Saiki Kusuo no Psi-nan (#260).** The work has 120 five-minute episodes, TMDB has 24 half-hour ones; the range model cannot express that, so it needs a decision.
+
+### Proxy export 2026-11-05 (unattended corpus run)
+
+- **Imported** 505 new unverified cases from Xwolv's export (data 2026.45.1, 500 unresolved names, 9,958 sightings, plus the 5 example names of one assisted work, Initial D First Stage); none were already in the corpus. Replayed against this branch, 0 of the 500 resolved before and 14 after (263 sightings).
+- **Grouping.** Names were grouped by parsed title, with "STROBE.EDGE.2" counted as Strobe Edge (TMDB 299679 has it as season 2 of one show). That puts Strobe Edge (359 sightings) in the top 15 and pushes Musashino Rondo (208) out.
+- **Horimiya S02 is Horimiya: Piece.** greg's CR WEB-DL names it Horimiya S02E01 to E13 and an S02 pack. Horimiya has no season 2 on TheTVDB (388593) or TMDB (110070), and the seed's only later Horimiya TV work is horimiya-piece (13 episodes, its own TheTVDB 436124 and TMDB 228663 show). An override adds the alias "Horimiya S2", the same form as the resolver's season-suffixed lookup; "Horimiya - 05" and S01E05 still resolve to horimiya. 14 cases verified.
+- **Thirteen live-action dramas verified as unmatched** (246 cases), each checked on its TMDB page (URL in every case's note): Kururi, The Gift of Your Heart, Business Marriage, Love is for the Dogs, Secret Love with Prince, My Frosty Coworker Is Only Sweet to Me, Apollo's Song (the 2025 MBS drama, not Sakamichi no Apollon), Strobe Edge, The Night I Got Pregnant by the CEO, 119 Emergency Call, Whether or Not, Saint Love Survivors, If Only You Weren't the One. None is in the seed data.
+- **Left unverified:** The Revenge Lover (13 cases, a 2025 MBS drama, TMDB 283924): the right answer is unmatched, but the resolver answers ambiguous (Revenger at 0.05), the same resolver question as PLEASE LOVE ME and ANIMALS.
+- **Corpus** 800 to 1,060 verified, all passing; baseline updated. Two older unverified cases already drift from their recorded answer (DANG.2026 and Space.Force.2020, recorded unmatched, now ambiguous); not touched.

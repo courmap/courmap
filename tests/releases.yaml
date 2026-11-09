@@ -8978,22 +8978,28 @@ cases:
     notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 59 time(s) on data 2026.44.2 and got ambiguous (best candidate mushrambo at 0.227). Check it, correct it if needed, then set verified: true."
   - name: "[Erai-raws].Revo.Barai-05.[480p.CR.WEB-DL.AVC.AAC][MultiSub][1D6E0DA1]"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: kashita-maryoku-wa-revo-barai-de-kyousei-choushuu
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: \"Revo Barai\" is the bracketed part of the seed's romaji title Kashita Maryoku wa \"Revo Barai\" de Kyousei Choushuu (airing 2026, TheTVDB 470347 from Anime-Lists), and no other seed work has it. TheTVDB lists it as continuing with 12 episodes in season 1, so Erai-raws' number is the episode. https://thetvdb.com/series/revo-anime"
   - name: "[Erai-raws].Revo.Barai-05.[720p.CR.WEB-DL.AVC.AAC][MultiSub][F4BB96C6]"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: kashita-maryoku-wa-revo-barai-de-kyousei-choushuu
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: \"Revo Barai\" is the bracketed part of the seed's romaji title Kashita Maryoku wa \"Revo Barai\" de Kyousei Choushuu (airing 2026, TheTVDB 470347 from Anime-Lists), and no other seed work has it. TheTVDB lists it as continuing with 12 episodes in season 1, so Erai-raws' number is the episode. https://thetvdb.com/series/revo-anime"
   - name: "[Erai-raws].Revo.Barai-05.[1080p.CR.WEB-DL.AVC.AAC][MultiSub][F05DC6AF]"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: kashita-maryoku-wa-revo-barai-de-kyousei-choushuu
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: \"Revo Barai\" is the bracketed part of the seed's romaji title Kashita Maryoku wa \"Revo Barai\" de Kyousei Choushuu (airing 2026, TheTVDB 470347 from Anime-Lists), and no other seed work has it. TheTVDB lists it as continuing with 12 episodes in season 1, so Erai-raws' number is the episode. https://thetvdb.com/series/revo-anime"
   - name: The.Night.I.Became.an.Animal.S01E07.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
@@ -9610,10 +9616,12 @@ cases:
     notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 21 time(s) on data 2026.44.2 and got ambiguous (best candidate kill-me-baby at 0.6). Check it, correct it if needed, then set verified: true. Checked 2026-11-01: PLEASE LOVE ME! (Dame na Watashi ni Koi Shite Kudasai) is a live-action Japanese TBS drama (2016) on Viki. https://www.themoviedb.org/tv/65379 Not an anime and not in the seed data, so the right answer is no match; left unverified because the resolver returns ambiguous (it keeps any candidate above the trigram floor), as for Kamen Rider."
   - name: "[Erai-raws].Revo.Barai-05.[1080p.CR.WEBRip.HEVC.AAC][MultiSub][18C8FE39]"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: kashita-maryoku-wa-revo-barai-de-kyousei-choushuu
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 21 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 21 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: \"Revo Barai\" is the bracketed part of the seed's romaji title Kashita Maryoku wa \"Revo Barai\" de Kyousei Choushuu (airing 2026, TheTVDB 470347 from Anime-Lists), and no other seed work has it. TheTVDB lists it as continuing with 12 episodes in season 1, so Erai-raws' number is the episode. https://thetvdb.com/series/revo-anime"
   - name: Falling.high.school.girl.and.Irresponsible.teacher.S01E01.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
@@ -15516,22 +15524,28 @@ cases:
     notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 65 time(s) on data 2026.45.1 and got ambiguous (best candidate american-rabbit-no-bouken at 0.031). Check it, correct it if needed, then set verified: true."
   - name: "[Erai-raws].Revo.Barai-06.[480p.CR.WEB-DL.AVC.AAC][MultiSub][31D27857]"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: kashita-maryoku-wa-revo-barai-de-kyousei-choushuu
+      episode: 6
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 63 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 63 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: \"Revo Barai\" is the bracketed part of the seed's romaji title Kashita Maryoku wa \"Revo Barai\" de Kyousei Choushuu (airing 2026, TheTVDB 470347 from Anime-Lists), and no other seed work has it. TheTVDB lists it as continuing with 12 episodes in season 1, so Erai-raws' number is the episode. https://thetvdb.com/series/revo-anime"
   - name: "[Erai-raws].Revo.Barai-06.[720p.CR.WEB-DL.AVC.AAC][MultiSub][40B0FA0D]"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: kashita-maryoku-wa-revo-barai-de-kyousei-choushuu
+      episode: 6
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 62 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 62 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: \"Revo Barai\" is the bracketed part of the seed's romaji title Kashita Maryoku wa \"Revo Barai\" de Kyousei Choushuu (airing 2026, TheTVDB 470347 from Anime-Lists), and no other seed work has it. TheTVDB lists it as continuing with 12 episodes in season 1, so Erai-raws' number is the episode. https://thetvdb.com/series/revo-anime"
   - name: "[Erai-raws].Revo.Barai-06.[1080p.CR.WEB-DL.AVC.AAC][MultiSub][E414E7BD]"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: kashita-maryoku-wa-revo-barai-de-kyousei-choushuu
+      episode: 6
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 62 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 62 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: \"Revo Barai\" is the bracketed part of the seed's romaji title Kashita Maryoku wa \"Revo Barai\" de Kyousei Choushuu (airing 2026, TheTVDB 470347 from Anime-Lists), and no other seed work has it. TheTVDB lists it as continuing with 12 episodes in season 1, so Erai-raws' number is the episode. https://thetvdb.com/series/revo-anime"
   - name: "[Erai-raws].Ranma.1 2.[2024].3rd.Season-06.[1080p.NF.WEBRip.HEVC.AAC][MultiSub][237BC714]"
     expect:
       status: ambiguous
@@ -15772,10 +15786,12 @@ cases:
     notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
   - name: "[Erai-raws].Revo.Barai-06.[1080p.CR.WEBRip.HEVC.AAC][MultiSub][AE350EFF]"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: kashita-maryoku-wa-revo-barai-de-kyousei-choushuu
+      episode: 6
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 53 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 53 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: \"Revo Barai\" is the bracketed part of the seed's romaji title Kashita Maryoku wa \"Revo Barai\" de Kyousei Choushuu (airing 2026, TheTVDB 470347 from Anime-Lists), and no other seed work has it. TheTVDB lists it as continuing with 12 episodes in season 1, so Erai-raws' number is the episode. https://thetvdb.com/series/revo-anime"
   - name: Dragon.Ball.Z.S03E20.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
     expect:
       status: ambiguous

@@ -15618,27 +15618,27 @@ cases:
   - name: Eye.Love.You.S01E01.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E02.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E01.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E02.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Dragon.Ball.Z.S03E26.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
     expect:
       status: ambiguous
@@ -15677,99 +15677,99 @@ cases:
   - name: Eye.Love.You.S01E03.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E05.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E04.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E04.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E03.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E06.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E05.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E06.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E07.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E07.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E08.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E08.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E09.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E09.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E10.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Eye.Love.You.S01E10.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
   - name: Dragon.Ball.Z.S03E24.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
     expect:
       status: ambiguous
@@ -16318,63 +16318,63 @@ cases:
   - name: Your.Summer.My.Storm.S01E06.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E06.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E07.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E07.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E08.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E08.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E09.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E09.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E10.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E10.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Dark.Summoner.to.Dekiteiru.S00E05.1080p.AMZN.WEB-DL.JPN.DDP2.0.H.264-ToonsHub
     expect:
       status: ambiguous
@@ -16406,9 +16406,9 @@ cases:
   - name: Your.Summer.My.Storm.S01E05.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 26 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 26 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: "[Diogo4D].[BD][1080p].Turma.de.Elite.3..Temporada-11.[37E47B01]"
     expect:
       status: unmatched
@@ -16425,261 +16425,261 @@ cases:
   - name: Your.Summer.My.Storm.S01E01.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E02.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E02.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E03.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E03.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E04.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E04.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E05.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Lets.End.Our.Friendship.Now.S01E07.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Summer.My.Storm.S01E01.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E02.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E05.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E04.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E05.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E04.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E06.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E06.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E07.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E07.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Lets.End.Our.Friendship.Now.S01E02.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
   - name: Lets.End.Our.Friendship.Now.S01E02.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
   - name: Lets.End.Our.Friendship.Now.S01E03.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
   - name: Lets.End.Our.Friendship.Now.S01E03.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
   - name: Lets.End.Our.Friendship.Now.S01E04.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
   - name: Lets.End.Our.Friendship.Now.S01E04.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
   - name: Lets.End.Our.Friendship.Now.S01E05.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
   - name: Lets.End.Our.Friendship.Now.S01E05.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
   - name: Lets.End.Our.Friendship.Now.S01E06.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
   - name: Lets.End.Our.Friendship.Now.S01E06.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
   - name: Lets.End.Our.Friendship.Now.S01E07.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E10.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E09.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E08.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E09.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E10.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E08.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Lets.End.Our.Friendship.Now.S01E01.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
   - name: Lets.End.Our.Friendship.Now.S01E01.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E02.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E01.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E03.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E03.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Your.Love.So.Invincible.S01E01.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
-    verified: false
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
   - name: Bohachi.Bushido.Code.of.the.Forgotten.Eight.1973.REPACK.2160p.UHD.Blu-ray.Remux.DV.HDR.HEVC.FLAC.1.0-CiNEPHiLES
     expect:
       status: unmatched

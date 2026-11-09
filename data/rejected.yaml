@@ -190,3 +190,16 @@ rejected:
     date: 2026-11-04
     link: https://www.themoviedb.org/tv/205050/season/1
     origin: manual
+  - kind: tmdb-extras
+    work: nanatsu-no-taizai-seisen-no-shirushi
+    season: 0
+    episodes: 10-63
+    reason: >-
+      TMDB specials 10 to 48 are untitled one-minute shorts (2019-08-01 to 10-09), 49 to 62 are "Hawk's Trouble
+      Consultation Room" and "The Seven Deadly Sins Theater" shorts (2020-09 to 2021-01), and 63 is the "Great
+      Charming Emission Special" (2021-07-02). No work in the seed datasets owns them. Specials 2 and 3 are the OVA,
+      4 to 7 this work, 8 the Imashime prologue, 9 Eiyuu-tachi wa Hashagu.
+    decided_by: Xwolv
+    date: 2026-11-09
+    link: https://www.themoviedb.org/tv/62104/season/0
+    origin: manual

@@ -1,0 +1,7 @@
+id: ookami-to-koushinryou-ii-ookami-to-kohakuiro-no-yuuutsu
+projections:
+  # TMDB special 2, "Wolf and the Amber Melancholy" (2009-04-30).
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 2 }
+sources:
+  - https://www.themoviedb.org/tv/26707/season/0

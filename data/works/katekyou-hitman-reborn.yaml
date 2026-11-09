@@ -1,0 +1,14 @@
+id: katekyou-hitman-reborn
+projections:
+  # TMDB splits the 203 episodes into eight arc seasons: 33, 32, 8, 68, 13, 23, 12 and 14 episodes (sum 203).
+  tmdb_show:
+    - { season: 1, episodes: 1-33 }
+    - { season: 2, episodes: 34-65, start: 1 }
+    - { season: 3, episodes: 66-73, start: 1 }
+    - { season: 4, episodes: 74-141, start: 1 }
+    - { season: 5, episodes: 142-154, start: 1 }
+    - { season: 6, episodes: 155-177, start: 1 }
+    - { season: 7, episodes: 178-189, start: 1 }
+    - { season: 8, episodes: 190-203, start: 1 }
+sources:
+  - https://www.themoviedb.org/tv/45857/seasons

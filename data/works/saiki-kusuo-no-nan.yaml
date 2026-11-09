@@ -1,0 +1,32 @@
+id: saiki-kusuo-no-nan
+projections:
+  # The 120 shorts aired daily, five a week; TMDB season 1 lists the 24 weekly half-hour broadcasts, each the five
+  # shorts of its week (TMDB 1 is shorts 1 to 5, matched by segment titles for TMDB 1 to 3). 120 = 24 x 5.
+  tmdb_show:
+    - { season: 1, episodes: 1-5, target: 1 }
+    - { season: 1, episodes: 6-10, target: 2 }
+    - { season: 1, episodes: 11-15, target: 3 }
+    - { season: 1, episodes: 16-20, target: 4 }
+    - { season: 1, episodes: 21-25, target: 5 }
+    - { season: 1, episodes: 26-30, target: 6 }
+    - { season: 1, episodes: 31-35, target: 7 }
+    - { season: 1, episodes: 36-40, target: 8 }
+    - { season: 1, episodes: 41-45, target: 9 }
+    - { season: 1, episodes: 46-50, target: 10 }
+    - { season: 1, episodes: 51-55, target: 11 }
+    - { season: 1, episodes: 56-60, target: 12 }
+    - { season: 1, episodes: 61-65, target: 13 }
+    - { season: 1, episodes: 66-70, target: 14 }
+    - { season: 1, episodes: 71-75, target: 15 }
+    - { season: 1, episodes: 76-80, target: 16 }
+    - { season: 1, episodes: 81-85, target: 17 }
+    - { season: 1, episodes: 86-90, target: 18 }
+    - { season: 1, episodes: 91-95, target: 19 }
+    - { season: 1, episodes: 96-100, target: 20 }
+    - { season: 1, episodes: 101-105, target: 21 }
+    - { season: 1, episodes: 106-110, target: 22 }
+    - { season: 1, episodes: 111-115, target: 23 }
+    - { season: 1, episodes: 116-120, target: 24 }
+sources:
+  - https://www.themoviedb.org/tv/67676/season/1
+  - https://myanimelist.net/anime/33255/Saiki_Kusuo_no_%CE%A8-nan/episode

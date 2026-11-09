@@ -1,11 +1,10 @@
 id: clannad-after-story
 projections:
-  # TMDB season 2 has 22 episodes. Episodes 23 and 24 are OVA-type extras; which of TMDB's specials they are was not
-  # verified, so they stay unmapped.
+  # TMDB season 2 has 22 episodes. Episodes 23 and 24, "The Event from One Year Before" (2009-03-20) and "Under the
+  # Green Tree" (03-27), are TMDB specials 3 and 4.
   tmdb_show:
-    coverage: partial
-    notes: TMDB season 2 lists 22 episodes; the last two of the 24 are not mapped
-    ranges:
-      - { season: 2, episodes: 1-22 }
+    - { season: 2, episodes: 1-22 }
+    - { season: 0, episodes: 23-24, start: 3 }
 sources:
-  - https://www.themoviedb.org/tv/24835/seasons
+  - https://www.themoviedb.org/tv/24835/season/0
+  - https://myanimelist.net/anime/4181/Clannad__After_Story/episode

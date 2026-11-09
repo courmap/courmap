@@ -1,8 +1,10 @@
 id: k-on
 projections:
-  # TMDB season 1 has 12 episodes. Episode 13 is "Live House!", which TMDB lists as special 9.
+  # TMDB season 1 has 12 episodes. Episode 13 is "Winter Days!" (2009-06-26), TMDB special 1. "Live House!"
+  # (special 9) is its own work, k-on-live-house.
   tmdb_show:
     - { season: 1, episodes: 1-12 }
-    - { season: 0, episodes: 13, start: 9 }
+    - { season: 0, episodes: 13, start: 1 }
 sources:
   - https://www.themoviedb.org/tv/42253/season/0
+  - https://myanimelist.net/anime/5680/K-On/episode

@@ -8978,22 +8978,28 @@ cases:
     notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 59 time(s) on data 2026.44.2 and got ambiguous (best candidate mushrambo at 0.227). Check it, correct it if needed, then set verified: true."
   - name: "[Erai-raws].Revo.Barai-05.[480p.CR.WEB-DL.AVC.AAC][MultiSub][1D6E0DA1]"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: kashita-maryoku-wa-revo-barai-de-kyousei-choushuu
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: \"Revo Barai\" is the bracketed part of the seed's romaji title Kashita Maryoku wa \"Revo Barai\" de Kyousei Choushuu (airing 2026, TheTVDB 470347 from Anime-Lists), and no other seed work has it. TheTVDB lists it as continuing with 12 episodes in season 1, so Erai-raws' number is the episode. https://thetvdb.com/series/revo-anime"
   - name: "[Erai-raws].Revo.Barai-05.[720p.CR.WEB-DL.AVC.AAC][MultiSub][F4BB96C6]"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: kashita-maryoku-wa-revo-barai-de-kyousei-choushuu
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: \"Revo Barai\" is the bracketed part of the seed's romaji title Kashita Maryoku wa \"Revo Barai\" de Kyousei Choushuu (airing 2026, TheTVDB 470347 from Anime-Lists), and no other seed work has it. TheTVDB lists it as continuing with 12 episodes in season 1, so Erai-raws' number is the episode. https://thetvdb.com/series/revo-anime"
   - name: "[Erai-raws].Revo.Barai-05.[1080p.CR.WEB-DL.AVC.AAC][MultiSub][F05DC6AF]"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: kashita-maryoku-wa-revo-barai-de-kyousei-choushuu
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: \"Revo Barai\" is the bracketed part of the seed's romaji title Kashita Maryoku wa \"Revo Barai\" de Kyousei Choushuu (airing 2026, TheTVDB 470347 from Anime-Lists), and no other seed work has it. TheTVDB lists it as continuing with 12 episodes in season 1, so Erai-raws' number is the episode. https://thetvdb.com/series/revo-anime"
   - name: The.Night.I.Became.an.Animal.S01E07.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
@@ -9610,10 +9616,12 @@ cases:
     notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 21 time(s) on data 2026.44.2 and got ambiguous (best candidate kill-me-baby at 0.6). Check it, correct it if needed, then set verified: true. Checked 2026-11-01: PLEASE LOVE ME! (Dame na Watashi ni Koi Shite Kudasai) is a live-action Japanese TBS drama (2016) on Viki. https://www.themoviedb.org/tv/65379 Not an anime and not in the seed data, so the right answer is no match; left unverified because the resolver returns ambiguous (it keeps any candidate above the trigram floor), as for Kamen Rider."
   - name: "[Erai-raws].Revo.Barai-05.[1080p.CR.WEBRip.HEVC.AAC][MultiSub][18C8FE39]"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: kashita-maryoku-wa-revo-barai-de-kyousei-choushuu
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 21 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-01: this is what the resolver answered then. A proxy saw it 21 time(s) on data 2026.44.2 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: \"Revo Barai\" is the bracketed part of the seed's romaji title Kashita Maryoku wa \"Revo Barai\" de Kyousei Choushuu (airing 2026, TheTVDB 470347 from Anime-Lists), and no other seed work has it. TheTVDB lists it as continuing with 12 episodes in season 1, so Erai-raws' number is the episode. https://thetvdb.com/series/revo-anime"
   - name: Falling.high.school.girl.and.Irresponsible.teacher.S01E01.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
     expect:
       status: unmatched
@@ -15487,3 +15495,1438 @@ cases:
     verified: false
     source: proxy-assisted
     notes: "Imported 2026-11-05: this is what the resolver answered then. A proxy numbered it with Sonarr's help on data 2026.45.1: initial-d-first-stage as \"Initial D\" (TVDB 70900); the data has no TVDB projection for initial-d-first-stage yet. Check it, correct it if needed, then set verified: true."
+  - name: Cardfight.Vanguard.S16E64.Parallactic.Fate.1080p.AMZN.WEB-DL.JPN.DDP2.0.H.264.MSubs-ToonsHub
+    expect:
+      status: ambiguous
+      top: cardfight-vanguard
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 128 time(s) on data 2026.45.1 and got ambiguous (best candidate cardfight-vanguard at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Ranma.1 2.[2024].3rd.Season-06.[1080p.NF.WEB-DL.AVC.AAC][MultiSub][933E155B]"
+    expect:
+      status: ambiguous
+      top: ranma-1-2-2024
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.45.1 and got ambiguous (best candidate ranma-1-2-2024 at 0.202). Check it, correct it if needed, then set verified: true."
+  - name: "[Diogo4D].[BD][1080p].Turma.de.Elite.3..Temporada-10.[429ABA17]"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 67 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: American.Dad.S22.1080p.DSNP.WEB-DL.DD.5.1.H.264-MIXED
+    expect:
+      status: ambiguous
+      top: american-rabbit-no-bouken
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 65 time(s) on data 2026.45.1 and got ambiguous (best candidate american-rabbit-no-bouken at 0.031). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Revo.Barai-06.[480p.CR.WEB-DL.AVC.AAC][MultiSub][31D27857]"
+    expect:
+      status: ok
+      work: kashita-maryoku-wa-revo-barai-de-kyousei-choushuu
+      episode: 6
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 63 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: \"Revo Barai\" is the bracketed part of the seed's romaji title Kashita Maryoku wa \"Revo Barai\" de Kyousei Choushuu (airing 2026, TheTVDB 470347 from Anime-Lists), and no other seed work has it. TheTVDB lists it as continuing with 12 episodes in season 1, so Erai-raws' number is the episode. https://thetvdb.com/series/revo-anime"
+  - name: "[Erai-raws].Revo.Barai-06.[720p.CR.WEB-DL.AVC.AAC][MultiSub][40B0FA0D]"
+    expect:
+      status: ok
+      work: kashita-maryoku-wa-revo-barai-de-kyousei-choushuu
+      episode: 6
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 62 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: \"Revo Barai\" is the bracketed part of the seed's romaji title Kashita Maryoku wa \"Revo Barai\" de Kyousei Choushuu (airing 2026, TheTVDB 470347 from Anime-Lists), and no other seed work has it. TheTVDB lists it as continuing with 12 episodes in season 1, so Erai-raws' number is the episode. https://thetvdb.com/series/revo-anime"
+  - name: "[Erai-raws].Revo.Barai-06.[1080p.CR.WEB-DL.AVC.AAC][MultiSub][E414E7BD]"
+    expect:
+      status: ok
+      work: kashita-maryoku-wa-revo-barai-de-kyousei-choushuu
+      episode: 6
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 62 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: \"Revo Barai\" is the bracketed part of the seed's romaji title Kashita Maryoku wa \"Revo Barai\" de Kyousei Choushuu (airing 2026, TheTVDB 470347 from Anime-Lists), and no other seed work has it. TheTVDB lists it as continuing with 12 episodes in season 1, so Erai-raws' number is the episode. https://thetvdb.com/series/revo-anime"
+  - name: "[Erai-raws].Ranma.1 2.[2024].3rd.Season-06.[1080p.NF.WEBRip.HEVC.AAC][MultiSub][237BC714]"
+    expect:
+      status: ambiguous
+      top: ranma-1-2-2024
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 62 time(s) on data 2026.45.1 and got ambiguous (best candidate ranma-1-2-2024 at 0.202). Check it, correct it if needed, then set verified: true."
+  - name: "[Diogo4D].[BD][1080p].Turma.de.Elite.3..Temporada-13.[43FDF12F]"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 61 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S04E03.1080p.30th.Anniversary.BluRay.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 58 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S04E04.1080p.30th.Anniversary.BluRay.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 58 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S04E05.1080p.30th.Anniversary.BluRay.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 58 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S04E06.1080p.30th.Anniversary.BluRay.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 58 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dreamland.S01E04.Sabba.1080p.CR.WEB-DL.JPN.AAC2.0.H.264-ALANSARI87
+    expect:
+      status: ambiguous
+      top: dreamland
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 57 time(s) on data 2026.45.1 and got ambiguous (best candidate dreamland at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E32.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 57 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S04E01.1080p.30th.Anniversary.BluRay.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 57 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S04E02.1080p.30th.Anniversary.BluRay.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 57 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Eye.Love.You.S01E01.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E02.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E01.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E02.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Dragon.Ball.Z.S03E26.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E27.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E28.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E29.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E31.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Eye.Love.You.S01E03.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E05.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E04.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E04.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E03.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E06.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E05.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E06.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E07.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E07.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E08.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E08.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E09.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E09.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E10.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Eye.Love.You.S01E10.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Eye Love You is a live-action Japanese TBS drama (2024, 10 episodes, Fumi Nikaido and Chae Jong-hyeop). https://www.themoviedb.org/tv/240581 Not an anime and not in the seed data, so unmatched is right."
+  - name: Dragon.Ball.Z.S03E24.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E25.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Revo.Barai-06.[1080p.CR.WEBRip.HEVC.AAC][MultiSub][AE350EFF]"
+    expect:
+      status: ok
+      work: kashita-maryoku-wa-revo-barai-de-kyousei-choushuu
+      episode: 6
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 53 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: \"Revo Barai\" is the bracketed part of the seed's romaji title Kashita Maryoku wa \"Revo Barai\" de Kyousei Choushuu (airing 2026, TheTVDB 470347 from Anime-Lists), and no other seed work has it. TheTVDB lists it as continuing with 12 episodes in season 1, so Erai-raws' number is the episode. https://thetvdb.com/series/revo-anime"
+  - name: Dragon.Ball.Z.S03E20.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 53 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E21.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 53 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E22.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 53 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E23.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 53 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E19.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 51 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[NanakoRaws].Kakusei.Hunter.Omegahorn-15.[NBN.TV.1080p.HEVC.AAC]"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 50 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[NanakoRaws].Kamen.Rider.My-th-09.[NBN.TV.1080p.HEVC.AAC]"
+    expect:
+      status: ambiguous
+      top: fuuto-tantei
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 50 time(s) on data 2026.45.1 and got ambiguous (best candidate fuuto-tantei at 0.75). Check it, correct it if needed, then set verified: true."
+  - name: "[NanakoRaws].Koufu.Collector-05.[NHK-G.TV.1080p.HEVC.AAC]"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 49 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[NanakoRaws].Tetsuryou-05.[AT-X.TV.1080p.HEVC.AAC]"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 49 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: SQUALL.2026.S01E04.1080p.VIKI.WEB-DL.AAC2.0.H.264-DUSKLiGHT
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 49 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Shou.3.Ashibe.QQ.Goma-chan.S01E31.1080p.AMZN.WEB-DL.JPN.DDP2.0.H.264-ToonsHub
+    expect:
+      status: ambiguous
+      top: shou-3-ashibe-qq-goma-chan
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 49 time(s) on data 2026.45.1 and got ambiguous (best candidate shou-3-ashibe-qq-goma-chan at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: For.All.Mankind.2019.S05.1080p.WEBRip.10bit.EAC3.5.1.x265-iVy
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 49 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E17.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 49 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E18.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 49 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Some-Stuffs] Pocket Monsters (2023) 156 (1080p) v2 [C52BC9F1]"
+    expect:
+      status: ambiguous
+      top: pokemon-movie-23-koko
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 48 time(s) on data 2026.45.1 and got ambiguous (best candidate pokemon-movie-23-koko at 0.036). Check it, correct it if needed, then set verified: true."
+  - name: Foundation.2021.S03.1080p.WEBRip.10bit.EAC3.5.1.x265-iVy
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 48 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[Some-Stuffs] Pocket Monsters (2023) 156 (1080p HEVC 10-bit) v2 [A79C88FA]"
+    expect:
+      status: ambiguous
+      top: pokemon-movie-23-koko
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 47 time(s) on data 2026.45.1 and got ambiguous (best candidate pokemon-movie-23-koko at 0.036). Check it, correct it if needed, then set verified: true."
+  - name: Little.Mouses.Red.Vest.S01E19.1080p.AMZN.WEB-DL.JPN.DDP2.0.H.264-ToonsHub
+    expect:
+      status: ambiguous
+      top: nezumi-kun-no-chokki-tv
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 47 time(s) on data 2026.45.1 and got ambiguous (best candidate nezumi-kun-no-chokki-tv at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[LEM] The Orbital Children Season 1 (BD 1080p HEVC 10-bit FLAC) | Chikyuugai Shounen Shoujo"
+    expect:
+      status: ambiguous
+      top: chikyuugai-shounen-shoujo
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 46 time(s) on data 2026.45.1 and got ambiguous (best candidate chikyuugai-shounen-shoujo at 0.63). Check it, correct it if needed, then set verified: true."
+  - name: How.I.Met.Your.Father.2022.S01.1080p.WEBRip.10bit.EAC3.5.1.x265-iVy
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 46 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E16.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 46 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: How.I.Met.Your.Father.2022.S02.1080p.WEBRip.10bit.EAC3.5.1.x265-iVy
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 45 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[HnY] Beyblade X 139 - The Dazzling True Dragon.mkv"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 44 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E13.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 44 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E14.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 44 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E15.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 44 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[HnY] Beyblade X 138 - The Kingdom's Way.mkv"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 43 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Shadows.of.the.Ten.Ninja.S01E02.720p.NF.WEB-DL.AAC2.0.H.264-playWEB
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Shadows.of.the.Ten.Ninja.S01E02.1080p.NF.WEB-DL.AAC2.0.H.264-playWEB
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E12.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Bunny-Apocalypse] Management of a Novice Alchemist Season 1 (BD 1080p HEVC 10-bit FLAC) [Dual Audio] | Shinmai Renkinjutsushi no Tenpo Keiei"
+    expect:
+      status: ambiguous
+      top: shinmai-renkinjutsushi-no-tenpo-keiei
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 41 time(s) on data 2026.45.1 and got ambiguous (best candidate shinmai-renkinjutsushi-no-tenpo-keiei at 0.679). Check it, correct it if needed, then set verified: true."
+  - name: Last.Seen.2026.S01.1080p.WEBRip.10bit.EAC3.5.1.x265-iVy
+    expect:
+      status: ambiguous
+      top: last-song
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 41 time(s) on data 2026.45.1 and got ambiguous (best candidate last-song at 0.03). Check it, correct it if needed, then set verified: true."
+  - name: Fallout.2024.S02.1080p.BluRay.10bit.EAC3.5.1.x265-iVy
+    expect:
+      status: ambiguous
+      top: the-fall
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 41 time(s) on data 2026.45.1 and got ambiguous (best candidate the-fall at 0.002). Check it, correct it if needed, then set verified: true."
+  - name: "[Doomdos] - Tougen Anki Nikko Kegon no Taki-hen - S01E05 [1080p LFTLNET WEB-DL] [Tougen Anki_ Nikko Kegon Falls Arc]"
+    expect:
+      status: ambiguous
+      top: tougen-anki-nikko-kegon-no-taki-hen
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 39 time(s) on data 2026.45.1 and got ambiguous (best candidate tougen-anki-nikko-kegon-no-taki-hen at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E22.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E23.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E24.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E25.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E26.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E27.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E28.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E29.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E30.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E31.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E32.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E33.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E34.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E35.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E01.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E02.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E03.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E04.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E05.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E06.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E07.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E08.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E09.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E10.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S03E11.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 38 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E20.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 37 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E21.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 37 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Monarch.Legacy.Of.Monsters.2023.S01.1080p.WEBRip.10bit.EAC3.5.1.x265-iVy
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E13.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E14.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E15.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E16.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E17.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E18.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Detective.Conan.The.Counterfeit.Case.of.Ultra.30.S00E01.Detective.Conan.The.Counterfeit.Case.of.Ultra.30.1080p.CR.WEB-DL.AAC2.0.H.264-VARYG
+    expect:
+      status: ambiguous
+      top: meitantei-conan-30-gou-satsujin-jiken
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 35 time(s) on data 2026.45.1 and got ambiguous (best candidate meitantei-conan-30-gou-satsujin-jiken at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Puella.Magi.Madoka.Magica.Movies.2013.1080p.CR.WEB-DL.DUAL.AAC2.0.H.264-VARYG
+    expect:
+      status: ambiguous
+      top: mahou-shoujo-madoka-magica-movie-3-hangyaku-no-monogatari
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 34 time(s) on data 2026.45.1 and got ambiguous (best candidate mahou-shoujo-madoka-magica-movie-3-hangyaku-no-monogatari at 0.806). Check it, correct it if needed, then set verified: true."
+  - name: Monarch.Legacy.Of.Monsters.2023.S02.1080p.WEBRip.10bit.EAC3.5.1.x265-iVy
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 32 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Political.Lupin.S01E03.1080p.NF.WEB-DL.AAC2.0.H.264-playWEB
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 31 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Hollywood.Arts.2026.S01.1080p.WEBRip.10bit.EAC3.5.1.x265-iVy
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 31 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E12.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E10.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 28 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E11.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 28 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Welcome.back.First.love.2026.S01E05.1080p.VIKI.WEB-DL.AAC2.0.H.264-DUSKLiGHT
+    expect:
+      status: ambiguous
+      top: tadaima-okaeri
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 28 time(s) on data 2026.45.1 and got ambiguous (best candidate tadaima-okaeri at 0.03). Check it, correct it if needed, then set verified: true."
+  - name: Your.Summer.My.Storm.S01E06.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E06.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E07.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E07.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E08.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E08.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E09.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E09.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E10.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E10.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Dark.Summoner.to.Dekiteiru.S00E05.1080p.AMZN.WEB-DL.JPN.DDP2.0.H.264-ToonsHub
+    expect:
+      status: ambiguous
+      top: dark-summoner-to-dekiteiru
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 26 time(s) on data 2026.45.1 and got ambiguous (best candidate dark-summoner-to-dekiteiru at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dark.Summoner.to.Dekiteiru.S00E04.1080p.AMZN.WEB-DL.JPN.DDP2.0.H.264-ToonsHub
+    expect:
+      status: ambiguous
+      top: dark-summoner-to-dekiteiru
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 26 time(s) on data 2026.45.1 and got ambiguous (best candidate dark-summoner-to-dekiteiru at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Doomdos] - Bleach Sennen Kessen-hen - Kashin-tan - S01E09 [Korean Dub] [1080p LFTLNET WEB-DL] [Bleach Thousand-Year Blood War - The Calamity]"
+    expect:
+      status: ambiguous
+      top: bleach-sennen-kessen-hen-kashin-tan
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 26 time(s) on data 2026.45.1 and got ambiguous (best candidate bleach-sennen-kessen-hen-kashin-tan at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Doomdos] - Tougen Anki Nikko Kegon no Taki-hen - S01E06 [1080p BILIBILI INTERNATIONAL WEB-DL] [Tougen Anki: Nikko Kegon Falls Arc]"
+    expect:
+      status: ambiguous
+      top: tougen-anki-nikko-kegon-no-taki-hen
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 26 time(s) on data 2026.45.1 and got ambiguous (best candidate tougen-anki-nikko-kegon-no-taki-hen at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Your.Summer.My.Storm.S01E05.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 26 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: "[Diogo4D].[BD][1080p].Turma.de.Elite.3..Temporada-11.[37E47B01]"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 26 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E09.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 26 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Your.Summer.My.Storm.S01E01.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E02.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E02.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E03.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E03.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E04.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E04.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E05.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Lets.End.Our.Friendship.Now.S01E07.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Summer.My.Storm.S01E01.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Summer, My Storm (Natsuiro no Kumo ga Koi to Arashi wo Makiokosu) is a live-action Japanese TV Asahi drama (2026, 10 episodes, Ryusei Fukada). https://www.themoviedb.org/tv/323563 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E02.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E05.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E04.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E05.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E04.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E06.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E06.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E07.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E07.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Lets.End.Our.Friendship.Now.S01E02.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
+  - name: Lets.End.Our.Friendship.Now.S01E02.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
+  - name: Lets.End.Our.Friendship.Now.S01E03.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
+  - name: Lets.End.Our.Friendship.Now.S01E03.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
+  - name: Lets.End.Our.Friendship.Now.S01E04.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
+  - name: Lets.End.Our.Friendship.Now.S01E04.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
+  - name: Lets.End.Our.Friendship.Now.S01E05.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
+  - name: Lets.End.Our.Friendship.Now.S01E05.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
+  - name: Lets.End.Our.Friendship.Now.S01E06.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
+  - name: Lets.End.Our.Friendship.Now.S01E06.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
+  - name: Lets.End.Our.Friendship.Now.S01E07.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E10.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E09.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E08.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E09.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E10.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E08.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Lets.End.Our.Friendship.Now.S01E01.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
+  - name: Lets.End.Our.Friendship.Now.S01E01.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Let's End Our Friendship Now (Ima kara, Shinyuu Yameyou ka.) is a live-action Japanese MBS drama (2026, 7 episodes, Natsumi Okamoto and Rei Sawamura). https://www.themoviedb.org/tv/323264 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E02.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E01.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E03.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E03.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Your.Love.So.Invincible.S01E01.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-09: Your Love So Invincible (Kimi no Suki wa Muteki) is a live-action Japanese TBS drama (2026, 10 episodes, Wakana Matsumoto and Hayato Sano). https://www.themoviedb.org/tv/326064 Not an anime and not in the seed data, so unmatched is right."
+  - name: Bohachi.Bushido.Code.of.the.Forgotten.Eight.1973.REPACK.2160p.UHD.Blu-ray.Remux.DV.HDR.HEVC.FLAC.1.0-CiNEPHiLES
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 20 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[Diogo4D].[BD][1080p].Turma.de.Elite.3..Temporada-12.[39BF5CF9]"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 20 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Strange.Junji.Itos.Tales.for.Sleepless.Nights.S01E06.1080p.WEB.h264-EDITH
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 20 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Kamera.O.Tomeru.Na.AKA.One.Cut.of.the.Dead.2017.BluRay.1080p.DTS-HD.MA.2.0.AVC.REMUX-FraMeSToR
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 19 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: The.Animatrix.2003.BluRay.1080p.DDP.5.1.x264-hallowed
+    expect:
+      status: ambiguous
+      top: the-animatrix
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 18 time(s) on data 2026.45.1 and got ambiguous (best candidate the-animatrix at 0.3). Check it, correct it if needed, then set verified: true."
+  - name: The.Big.Cigar.2024.S01.1080p.WEBRip.10bit.EAC3.5.1.x265-iVy
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 13 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S01E07.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.5). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S01E08.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.5). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S01E09.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.5). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S01E10.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.5). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S01E11.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.5). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S01E01.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.5). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S01E02.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.5). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S01E03.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.5). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S01E04.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.5). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S01E05.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.5). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E07.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E08.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S03E05.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 11 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.025). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S03E06.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 11 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.025). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S03E07.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 11 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.025). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S03E09.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 11 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.025). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S03E10.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 11 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.025). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S03E12.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 11 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.025). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S03E01.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 11 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.025). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S01E12.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 10 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.5). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S01E06.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 10 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.5). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S03E03.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 10 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.025). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S03E04.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 10 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.025). Check it, correct it if needed, then set verified: true."
+  - name: Trust.Me.The.False.Prophet.2026.S01.1080p.WEBRip.10bit.EAC3.5.1.x265-iVy
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 10 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Will.Trent.S04.1080p.DSNP.WEB-DL.DD.5.1.H.264-playWEB
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S03E08.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.025). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S03E11.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.025). Check it, correct it if needed, then set verified: true."
+  - name: Cute.High.Earth.Defense.Club.LOVE.S03E02.1080p.CR.WEB-DL.AAC2.0.H.264-BiOMA
+    expect:
+      status: ambiguous
+      top: binan-koukou-chikyuu-bouei-bu-haikara
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.45.1 and got ambiguous (best candidate binan-koukou-chikyuu-bouei-bu-haikara at 0.025). Check it, correct it if needed, then set verified: true."
+  - name: The.Proud.Family.Louder.And.Prouder.2022.S02.1080p.WEBRip.10bit.EAC3.5.1.x265-iVy
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 7 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: The.Proud.Family.Louder.And.Prouder.2022.S01.1080p.WEBRip.10bit.EAC3.5.1.x265-iVy
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 6 time(s) on data 2026.45.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Dragon.Ball.Z.S02E06.1080p.30th.Anniversary.Bluray.DUAL.AC3.2.0.x264-CartoonNOW
+    expect:
+      status: ambiguous
+      top: dragon-ball-z
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 4 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."

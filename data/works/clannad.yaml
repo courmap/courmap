@@ -1,8 +1,10 @@
 id: clannad
 projections:
-  # TMDB season 1 has 22 episodes. Episode 23 is "Another World: Tomoyo Chapter", which TMDB lists as special 2.
+  # TMDB season 1 has 22 episodes. Episode 23 is "The Events of Summer Holidays" (2008-03-28), TMDB special 1.
+  # "Another World: Tomoyo Chapter" (special 2) is its own work, clannad-mou-hitotsu-no-sekai-tomoyo-hen.
   tmdb_show:
     - { season: 1, episodes: 1-22 }
-    - { season: 0, episodes: 23, start: 2 }
+    - { season: 0, episodes: 23, start: 1 }
 sources:
   - https://www.themoviedb.org/tv/24835/season/0
+  - https://myanimelist.net/anime/2167/Clannad/episode

@@ -1,0 +1,20 @@
+id: panty-stocking-with-garterbelt
+projections:
+  # TMDB season 1 lists the segments, not the 13 broadcast episodes: two per air date, except episode 6 (2010-11-06,
+  # one segment, TMDB 11) and episode 10 (2010-12-04, five entries, TMDB 18 to 22, "Chuck to the Future" in three parts).
+  tmdb_show:
+    - { season: 1, episodes: 1, target: "1-2" }
+    - { season: 1, episodes: 2, target: "3-4" }
+    - { season: 1, episodes: 3, target: "5-6" }
+    - { season: 1, episodes: 4, target: "7-8" }
+    - { season: 1, episodes: 5, target: "9-10" }
+    - { season: 1, episodes: 6, start: 11 }
+    - { season: 1, episodes: 7, target: "12-13" }
+    - { season: 1, episodes: 8, target: "14-15" }
+    - { season: 1, episodes: 9, target: "16-17" }
+    - { season: 1, episodes: 10, target: "18-22" }
+    - { season: 1, episodes: 11, target: "23-24" }
+    - { season: 1, episodes: 12, target: "25-26" }
+    - { season: 1, episodes: 13, target: "27-28" }
+sources:
+  - https://www.themoviedb.org/tv/42421/season/1

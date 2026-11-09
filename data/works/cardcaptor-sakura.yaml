@@ -1,0 +1,9 @@
+id: cardcaptor-sakura
+projections:
+  # TMDB splits the 70 episodes into seasons 1 to 3: 35, 11 and 24 episodes (sum 70), the same split as TVDB.
+  tmdb_show:
+    - { season: 1, episodes: 1-35 }
+    - { season: 2, episodes: 36-46, start: 1 }
+    - { season: 3, episodes: 47-70, start: 1 }
+sources:
+  - https://www.themoviedb.org/tv/35790/seasons

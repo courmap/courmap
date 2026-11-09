@@ -1,0 +1,12 @@
+id: ookami-to-koushinryou
+projections:
+  # Episode 7, "Wolf and a Tail of Happiness", was a DVD release (2008-05-30). TMDB lists it as special 1 and numbers
+  # the 12 broadcast episodes 1 to 12, so episodes 8 to 13 are TMDB 7 to 12.
+  tmdb_show:
+    - { season: 1, episodes: 1-6 }
+    - { season: 0, episodes: 7, start: 1 }
+    - { season: 1, episodes: 8-13, start: 7 }
+sources:
+  - https://www.themoviedb.org/tv/26707/season/1
+  - https://www.themoviedb.org/tv/26707/season/0
+  - https://myanimelist.net/anime/2966/Ookami_to_Koushinryou/episode

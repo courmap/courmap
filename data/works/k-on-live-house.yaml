@@ -1,0 +1,9 @@
+id: k-on-live-house
+ids:
+  tmdb_show: 42253
+projections:
+  # TMDB special 9, "Live House!" (2010-01-20).
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 9 }
+sources:
+  - https://www.themoviedb.org/tv/42253/season/0

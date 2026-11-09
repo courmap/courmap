@@ -1,0 +1,8 @@
+id: clannad-movie
+ids:
+  # The 2007 film is not part of TMDB show 24835: its special 4 is "Under the Green Tree", After Story episode 24.
+  tmdb_show: null
+projections:
+  tmdb_show: null
+sources:
+  - https://www.themoviedb.org/tv/24835/season/0

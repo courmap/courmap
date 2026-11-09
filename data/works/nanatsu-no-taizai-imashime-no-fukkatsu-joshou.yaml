@@ -1,0 +1,9 @@
+id: nanatsu-no-taizai-imashime-no-fukkatsu-joshou
+ids:
+  tmdb_show: 62104
+projections:
+  # TMDB special 8, "Revival of The Commandments -Prologue-" (2018-01-06).
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 8 }
+sources:
+  - https://www.themoviedb.org/tv/62104/season/0

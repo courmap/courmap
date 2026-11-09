@@ -1,0 +1,9 @@
+id: k-on-ura-on
+ids:
+  tmdb_show: 42253
+projections:
+  # TMDB specials 2 to 8, the seven "URA-ON!" shorts (2009-08-18 to 2010-01-20).
+  tmdb_show:
+    - { season: 0, episodes: 1-7, start: 2 }
+sources:
+  - https://www.themoviedb.org/tv/42253/season/0

@@ -1,6 +1,6 @@
 id: cheng-ye-xiao-he
 status: finished
 notes: >-
-  The pinned dataset still lists this ONA as upcoming with 12 episodes, but it is airing (release groups
-  were at episode 13 in October 2026). Airing makes the recorded count a floor, so later episodes
-  resolve. The airing tracker will take over once AniList and the dataset agree.
+  The pinned dataset listed this ONA as upcoming with 12 episodes while it was airing (release groups were at
+  episode 13 in October 2026). AniList now has it finished with 16 episodes (checked 2026-11-09), and the seed
+  count is 16, so only the status is overridden until the dataset catches up.

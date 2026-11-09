@@ -1,0 +1,11 @@
+id: k-on-ura-on-2010
+ids:
+  tmdb_show: 42253
+projections:
+  # The nine "URA-ON!!" shorts are TMDB specials 10 to 12 (2010-07-30 to 09-15) and 15 to 20 (2010-10-20 to
+  # 2011-03-16); specials 13 and 14 are k-on-2010 episodes 25 and 26.
+  tmdb_show:
+    - { season: 0, episodes: 1-3, start: 10 }
+    - { season: 0, episodes: 4-9, start: 15 }
+sources:
+  - https://www.themoviedb.org/tv/42253/season/0

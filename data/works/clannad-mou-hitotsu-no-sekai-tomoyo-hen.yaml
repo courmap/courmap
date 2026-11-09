@@ -1,0 +1,9 @@
+id: clannad-mou-hitotsu-no-sekai-tomoyo-hen
+ids:
+  tmdb_show: 24835
+projections:
+  # TMDB special 2, "Another World: Tomoyo Chapter" (2008-07-16).
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 2 }
+sources:
+  - https://www.themoviedb.org/tv/24835/season/0

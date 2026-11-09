@@ -1,0 +1,9 @@
+id: k-on-keikaku
+ids:
+  tmdb_show: 42253
+projections:
+  # TMDB special 21, "Plan!" (2011-03-16).
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 21 }
+sources:
+  - https://www.themoviedb.org/tv/42253/season/0

@@ -1,0 +1,7 @@
+id: dr-stone-ryuusui
+projections:
+  # TMDB special 3 is "Ryusui" (2022-07-10, 55 minutes). Special 2 is "Dr. STONE Special Feature" (2020-10-11).
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 3 }
+sources:
+  - https://www.themoviedb.org/tv/86031/season/0

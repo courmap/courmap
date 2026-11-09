@@ -1,0 +1,9 @@
+id: clannad-after-story-mou-hitotsu-no-sekai-kyou-hen
+ids:
+  tmdb_show: 24835
+projections:
+  # TMDB special 5, "Another World: Kyou Chapter" (2009-07-01).
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 5 }
+sources:
+  - https://www.themoviedb.org/tv/24835/season/0

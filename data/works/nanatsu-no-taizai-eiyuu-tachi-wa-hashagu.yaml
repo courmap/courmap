@@ -1,0 +1,7 @@
+id: nanatsu-no-taizai-eiyuu-tachi-wa-hashagu
+projections:
+  # TMDB special 9, "Revival of the Commandments: Heroes' Frolic" (2018-11-16).
+  tmdb_show:
+    - { season: 0, episodes: 1, start: 9 }
+sources:
+  - https://www.themoviedb.org/tv/62104/season/0

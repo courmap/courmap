@@ -1,0 +1,8 @@
+id: dragon-ball-kai-2014
+projections:
+  # The Final Chapters are TMDB seasons 5 and 6: 35 and 26 episodes (sum 61). TMDB season 2 is the first Kai run.
+  tmdb_show:
+    - { season: 5, episodes: 1-35 }
+    - { season: 6, episodes: 36-61, start: 1 }
+sources:
+  - https://www.themoviedb.org/tv/61709/seasons

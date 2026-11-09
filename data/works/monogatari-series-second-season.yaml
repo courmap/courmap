@@ -1,0 +1,15 @@
+id: monogatari-series-second-season
+projections:
+  # TMDB season 3 has the 23 arc episodes. Episodes 6, 11 and 16 are the recaps aired 2013-08-11, 09-15 and 10-20,
+  # TMDB specials 10 to 12 ("Summary I" to "III"), the same episodes the seed sends to TVDB specials.
+  tmdb_show:
+    - { season: 3, episodes: 1-5 }
+    - { season: 0, episodes: 6, start: 10 }
+    - { season: 3, episodes: 7-10, start: 6 }
+    - { season: 0, episodes: 11, start: 11 }
+    - { season: 3, episodes: 12-15, start: 10 }
+    - { season: 0, episodes: 16, start: 12 }
+    - { season: 3, episodes: 17-26, start: 14 }
+sources:
+  - https://www.themoviedb.org/tv/46195/season/3
+  - https://www.themoviedb.org/tv/46195/season/0

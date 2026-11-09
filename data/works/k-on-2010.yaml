@@ -1,0 +1,10 @@
+id: k-on-2010
+projections:
+  # TMDB season 2 has 24 episodes. Episodes 25 and 26, "Planning Discussion!" (2010-09-22) and "Visit!" (09-29), are
+  # TMDB specials 13 and 14.
+  tmdb_show:
+    - { season: 2, episodes: 1-24 }
+    - { season: 0, episodes: 25-26, start: 13 }
+sources:
+  - https://www.themoviedb.org/tv/42253/season/0
+  - https://myanimelist.net/anime/7791/K-On/episode

@@ -1,0 +1,10 @@
+id: dragon-ball-kai
+projections:
+  # TMDB splits the 97 episodes into seasons 1 to 4: 26, 26, 25 and 20 episodes (sum 97).
+  tmdb_show:
+    - { season: 1, episodes: 1-26 }
+    - { season: 2, episodes: 27-52, start: 1 }
+    - { season: 3, episodes: 53-77, start: 1 }
+    - { season: 4, episodes: 78-97, start: 1 }
+sources:
+  - https://www.themoviedb.org/tv/61709/seasons

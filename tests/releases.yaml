@@ -16930,3 +16930,1729 @@ cases:
     verified: false
     source: proxy-unresolved
     notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 4 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-08.[WEB.1080p.x265.AAC].[DUAL][48591718]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 8
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 80 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-06.[WEB.1080p.AV1.AAC.E-AC3].[16056599]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 6
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 80 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: Hakone.Ekiden.Our.Story.S01E05.1080p.NF.WEB-DL.AAC2.0.H.264-MWeb
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 74 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-03.[WEB.1080p.x265.AAC].[DUAL][5B4C26F3]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 3
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 72 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[HnY].BeyWheelz.13-A.New.World.[1080p]"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 71 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Until.the.T-shirt.Dries.S01E01.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E02.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E02.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E03.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E03.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E04.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E06.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E05.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E04.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E07.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E07.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E06.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E05.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E08.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E09.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E08.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E09.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E10.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 70 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Until.the.T-shirt.Dries.S01E10.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Until the T-Shirt Dries is a live-action Japanese drama (2026, 10 episodes, Yu Aoi and Ayumu Nakajima). https://www.themoviedb.org/tv/322570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Shaman.King.Flowers.S01E10.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
+    expect:
+      status: ok
+      work: shaman-king-flowers
+      episode: 10
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
+  - name: Shaman.King.Flowers.S01E11.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
+    expect:
+      status: ok
+      work: shaman-king-flowers
+      episode: 11
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
+  - name: Shaman.King.Flowers.S01E12.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
+    expect:
+      status: ok
+      work: shaman-king-flowers
+      episode: 12
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
+  - name: Shaman.King.Flowers.S01E13.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
+    expect:
+      status: ok
+      work: shaman-king-flowers
+      episode: 13
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
+  - name: Shaman.King.Flowers.S01.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
+    expect:
+      status: ok
+      work: shaman-king-flowers
+      episode: 1
+      episode_to: 13
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
+  - name: Shaman.King.Flowers.S01E09.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
+    expect:
+      status: ok
+      work: shaman-king-flowers
+      episode: 9
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
+  - name: "[Erai-raws].Ore.dake.Level.Up.na.Ken-07.5.[480p][Multiple.Subtitle][F1021D47]"
+    expect:
+      status: ambiguous
+      top: ore-dake-level-up-na-ken-reawakening
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken-reawakening at 0.769). Check it, correct it if needed, then set verified: true."
+  - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-01.[WEB.1080p.x265.AAC].[DUAL][C179D3FD]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 1
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-01.x265.10bit.1080p.143.8561fps"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 1
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-02.x265.10bit.1080p.143.8561fps"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 2
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-03.x265.10bit.1080p.143.8561fps"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 3
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-04.x265.10bit.1080p.143.8561fps"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 4
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-05.x265.10bit.1080p.143.8561fps"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-06.x265.10bit.1080p.143.8561fps"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 6
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-07.x265.10bit.1080p.143.8561fps"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 7
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-09.x265.10bit.1080p.143.8561fps"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 9
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-11.x265.10bit.1080p.143.8561fps"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 11
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-12.x265.10bit.1080p.143.8561fps"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 12
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-12.[WEB.1080p.AV1.AAC.E-AC3].[325A372A]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 12
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-07.[WEB.1080p.AV1.AAC].[4BED222C]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 7
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-11.[WEB.1080p.x265.AAC].[DUAL][1DB520F0]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 11
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-04.[WEB.1080p.x265.AAC].[DUAL][2D19EC3C]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 4
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-01.[WEB.1080p.AV1.E-AC3].[497188F2]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 1
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling.S02E03.[WEB][1080p][AV1][AAC]-b12f89"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken-season-2-arise-from-the-shadow
+      episode: 3
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken-season-2-arise-from-the-shadow at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title followed by its seed alias Solo Leveling (alias override on ore-dake-level-up-na-ken); S02 is TheTVDB 389597 season 2 (Arise from the Shadow, 13 episodes), the seed's mapping for this work. https://thetvdb.com/series/solo-leveling"
+  - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-24.[720p.CR.WEB-DL.AVC.AAC][MultiSub][83461BFE]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 59 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-26.[720p.CR.WEB-DL.AVC.AAC][MultiSub][F0BC77BC]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 59 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-25.[1080p.CR.WEB-DL.AVC.AAC][MultiSub][9F3C9884]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 59 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-23.[720p.CR.WEB-DL.AVC.AAC][MultiSub][0CCF26EA]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 59 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-24.[480p.CR.WEB-DL.AVC.AAC][MultiSub][FCC6D7F4]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 59 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-23.[1080p.CR.WEB-DL.AVC.AAC][MultiSub][DB2B862C]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 59 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-25.[720p.CR.WEB-DL.AVC.AAC][MultiSub][683F310C]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 59 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-26.[1080p.CR.WEB-DL.AVC.AAC][MultiSub][4AB6CDBE]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 59 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-24.[1080p.CR.WEB-DL.AVC.AAC][MultiSub][FFEC6993]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 59 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-26.[480p.CR.WEB-DL.AVC.AAC][MultiSub][7FEAE4C8]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 58 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-25.[480p.CR.WEB-DL.AVC.AAC][MultiSub][9A057A99]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 58 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-23.[480p.CR.WEB-DL.AVC.AAC][MultiSub][34C4E4BA]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 58 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: Shaman.King.Flowers.S01E08.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
+    expect:
+      status: ok
+      work: shaman-king-flowers
+      episode: 8
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 57 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
+  - name: Presence.2025.1080p.AMZN.WEB-DL.AAC2.0.HDR10+.H.265.DUAL-Lup1n
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S01E01.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.706). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S01E02.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.035). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S01E03.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.035). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S01E04.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.035). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S01E05.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.035). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S01E06.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.035). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S01E07.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.035). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S01E08.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.035). Check it, correct it if needed, then set verified: true."
+  - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-08.x265.10bit.1080p.143.8561fps"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 8
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: Atlanta.S01E09.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.035). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S01E10.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.035). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S01.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.706). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S02E01.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.035). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S02E02.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 55 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.002). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-23.[1080p.CR.WEBRip.HEVC.AAC][MultiSub][F93336B4]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S02E03.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.002). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S02E04.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.002). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S02E05.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.002). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S02E06.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.002). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S02E07.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.002). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S02E08.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.002). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S02E09.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 54 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.002). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S02E10.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 53 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.002). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S02E11.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 53 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.002). Check it, correct it if needed, then set verified: true."
+  - name: Atlanta.S02.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
+    expect:
+      status: ambiguous
+      top: atlantis
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 53 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.035). Check it, correct it if needed, then set verified: true."
+  - name: Blitz.2024.1080p.AMZN.WEB-DL.AAC2.0.H265.DUAL-Lup1n
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 53 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: The.Accountant.2016.1080p.AMZN.WEB-DL.AAC2.0.HDR10+.H.265.DUAL-Lup1n
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 52 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 24 [1080p CR WEB-DL AVC AAC][MultiSub][FFEC6993]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 50 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Scrubs.2026.S02E01.My.First.Time.in.a.While.1080p.DSNP.WEB-DL.DDP5.1.H.264.DUAL-SiGLA
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 49 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 23 [1080p CR WEBRip HEVC AAC][MultiSub][F93336B4]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 48 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 23 [1080p CR WEB-DL AVC AAC][MultiSub][DB2B862C]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 48 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Scrubs.2026.S02E02.My.Mentee.1080p.DSNP.WEB-DL.DDP5.1.H.264.DUAL-SiGLA
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 48 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Ore.dake.Level.Up.na.Ken-07.5.[720p][Multiple.Subtitle][D083BD0B]"
+    expect:
+      status: ambiguous
+      top: ore-dake-level-up-na-ken-reawakening
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 48 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken-reawakening at 0.769). Check it, correct it if needed, then set verified: true."
+  - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-12.[WEB.1080p.x265.AAC].[DUAL][11FADF0D]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 12
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 48 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[NeoLX].Solo.Leveling.Ore.dake.Level.Up.na.Ken-S01E02.[1080p.x264.10bits.AAC][Multiple.Subtitles]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 2
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 48 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title (alias override on ore-dake-level-up-na-ken); S01 is TheTVDB 389597 season 1 (12 episodes), the seed's mapping for this work. https://thetvdb.com/series/solo-leveling"
+  - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 24 [480p CR WEB-DL AVC AAC][MultiSub][FCC6D7F4]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 47 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Irohas.Love.Runs.Across.Eras.S01E05.1080p.friDay.WEB-DL.AAC2.0.H.264-MWeb
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 47 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 25 [1080p CR WEB-DL AVC AAC][MultiSub][9F3C9884]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 46 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 26 [1080p CR WEB-DL AVC AAC][MultiSub][4AB6CDBE]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 46 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 25 [480p CR WEB-DL AVC AAC][MultiSub][9A057A99]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 46 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 25 [720p CR WEB-DL AVC AAC][MultiSub][683F310C]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 45 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 23 [720p CR WEB-DL AVC AAC][MultiSub][0CCF26EA]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 45 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 26 [480p CR WEB-DL AVC AAC][MultiSub][7FEAE4C8]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 45 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 24 [720p CR WEB-DL AVC AAC][MultiSub][83461BFE]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 45 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 23 [480p CR WEB-DL AVC AAC][MultiSub][34C4E4BA]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 45 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 26 [720p CR WEB-DL AVC AAC][MultiSub][F0BC77BC]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 44 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E02.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: jinshin-yuugi
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.46.1 and got ambiguous (best candidate jinshin-yuugi at 0.727). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E01.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: jinshin-yuugi
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.46.1 and got ambiguous (best candidate jinshin-yuugi at 0.727). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E02.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: jinshin-yuugi
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.46.1 and got ambiguous (best candidate jinshin-yuugi at 0.727). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E01.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: jinshin-yuugi
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.46.1 and got ambiguous (best candidate jinshin-yuugi at 0.727). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E03.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E03.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E04.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E04.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E05.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E05.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E06.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E06.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E07.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E07.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 42 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E08.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 41 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E08.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 41 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E09.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 41 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E09.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 41 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E10.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 41 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E10.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 41 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E11.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 41 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: JIN.S01E11.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: ou-dorobou-jing
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 41 time(s) on data 2026.46.1 and got ambiguous (best candidate ou-dorobou-jing at 0.667). Check it, correct it if needed, then set verified: true."
+  - name: Virgin.Love.S01E01.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 40 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Virgin Love (Shojo Koi) is a live-action Japanese Fuji TV drama (2023, 8 episodes, Sayuri Matsumura). https://www.themoviedb.org/tv/223058 Not an anime and not in the seed data, so unmatched is right."
+  - name: Virgin.Love.S01E01.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 40 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Virgin Love (Shojo Koi) is a live-action Japanese Fuji TV drama (2023, 8 episodes, Sayuri Matsumura). https://www.themoviedb.org/tv/223058 Not an anime and not in the seed data, so unmatched is right."
+  - name: Virgin.Love.S01E02.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 40 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Virgin Love (Shojo Koi) is a live-action Japanese Fuji TV drama (2023, 8 episodes, Sayuri Matsumura). https://www.themoviedb.org/tv/223058 Not an anime and not in the seed data, so unmatched is right."
+  - name: Virgin.Love.S01E02.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 40 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Virgin Love (Shojo Koi) is a live-action Japanese Fuji TV drama (2023, 8 episodes, Sayuri Matsumura). https://www.themoviedb.org/tv/223058 Not an anime and not in the seed data, so unmatched is right."
+  - name: Virgin.Love.S01E03.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 40 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Virgin Love (Shojo Koi) is a live-action Japanese Fuji TV drama (2023, 8 episodes, Sayuri Matsumura). https://www.themoviedb.org/tv/223058 Not an anime and not in the seed data, so unmatched is right."
+  - name: Virgin.Love.S01E03.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 40 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Virgin Love (Shojo Koi) is a live-action Japanese Fuji TV drama (2023, 8 episodes, Sayuri Matsumura). https://www.themoviedb.org/tv/223058 Not an anime and not in the seed data, so unmatched is right."
+  - name: Virgin.Love.S01E04.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 40 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Virgin Love (Shojo Koi) is a live-action Japanese Fuji TV drama (2023, 8 episodes, Sayuri Matsumura). https://www.themoviedb.org/tv/223058 Not an anime and not in the seed data, so unmatched is right."
+  - name: Virgin.Love.S01E04.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 40 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Virgin Love (Shojo Koi) is a live-action Japanese Fuji TV drama (2023, 8 episodes, Sayuri Matsumura). https://www.themoviedb.org/tv/223058 Not an anime and not in the seed data, so unmatched is right."
+  - name: Virgin.Love.S01E05.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 40 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Virgin Love (Shojo Koi) is a live-action Japanese Fuji TV drama (2023, 8 episodes, Sayuri Matsumura). https://www.themoviedb.org/tv/223058 Not an anime and not in the seed data, so unmatched is right."
+  - name: Virgin.Love.S01E05.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 40 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Virgin Love (Shojo Koi) is a live-action Japanese Fuji TV drama (2023, 8 episodes, Sayuri Matsumura). https://www.themoviedb.org/tv/223058 Not an anime and not in the seed data, so unmatched is right."
+  - name: Virgin.Love.S01E06.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 40 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Virgin Love (Shojo Koi) is a live-action Japanese Fuji TV drama (2023, 8 episodes, Sayuri Matsumura). https://www.themoviedb.org/tv/223058 Not an anime and not in the seed data, so unmatched is right."
+  - name: Virgin.Love.S01E06.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 40 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Virgin Love (Shojo Koi) is a live-action Japanese Fuji TV drama (2023, 8 episodes, Sayuri Matsumura). https://www.themoviedb.org/tv/223058 Not an anime and not in the seed data, so unmatched is right."
+  - name: Virgin.Love.S01E07.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 39 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Virgin Love (Shojo Koi) is a live-action Japanese Fuji TV drama (2023, 8 episodes, Sayuri Matsumura). https://www.themoviedb.org/tv/223058 Not an anime and not in the seed data, so unmatched is right."
+  - name: Virgin.Love.S01E08.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 39 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Virgin Love (Shojo Koi) is a live-action Japanese Fuji TV drama (2023, 8 episodes, Sayuri Matsumura). https://www.themoviedb.org/tv/223058 Not an anime and not in the seed data, so unmatched is right."
+  - name: Virgin.Love.S01E07.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 39 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Virgin Love (Shojo Koi) is a live-action Japanese Fuji TV drama (2023, 8 episodes, Sayuri Matsumura). https://www.themoviedb.org/tv/223058 Not an anime and not in the seed data, so unmatched is right."
+  - name: Virgin.Love.S01E08.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 39 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Virgin Love (Shojo Koi) is a live-action Japanese Fuji TV drama (2023, 8 episodes, Sayuri Matsumura). https://www.themoviedb.org/tv/223058 Not an anime and not in the seed data, so unmatched is right."
+  - name: "[Doomdos] - Shin Tennis no Oujisama U-17 World Cup - Kesshou Member Ketteisen - S01E07 [1080p LFTLNET WEB-DL] [The Prince of Tennis II_ U-17 World Cup - Final Member Selection Match]"
+    expect:
+      status: ambiguous
+      top: shin-tennis-no-oujisama-u-17-world-cup-kesshou-member-ketteisen
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 37 time(s) on data 2026.46.1 and got ambiguous (best candidate shin-tennis-no-oujisama-u-17-world-cup-kesshou-member-ketteisen at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[HnY].BeyWheelz.11-The.Shocking.Truth.[1080p]"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-10.[WEB.1080p.x265.AAC].[DUAL][9C86127A]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 10
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-11.[WEB.1080p.AV1.AAC].[5BC3E6E0]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 11
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-11.[WEB.1080p.AV1.AAC.E-AC3].[5BC3E6E0]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 11
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[NeoLX].Solo.Leveling.Ore.dake.Level.Up.na.Ken-S01E01.[1080p.x264.10bits.AAC][Multiple.Subtitles]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 1
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title (alias override on ore-dake-level-up-na-ken); S01 is TheTVDB 389597 season 1 (12 episodes), the seed's mapping for this work. https://thetvdb.com/series/solo-leveling"
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-02.[WEB.1080p.AV1.AAC.E-AC3].[9566E557]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 2
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-03.[WEB.1080p.AV1.AAC.E-AC3].[D6C27403]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 3
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-04.[WEB.1080p.AV1.AAC.E-AC3].[A96C7F33]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 4
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-05.[WEB.1080p.AV1.AAC.E-AC3].[3364E7AB]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Erai-raws].Ore.dake.Level.Up.na.Ken-07.5.[1080p][Multiple.Subtitle][B30C0F4F]"
+    expect:
+      status: ambiguous
+      top: ore-dake-level-up-na-ken-reawakening
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken-reawakening at 0.769). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Ore.dake.Level.Up.na.Ken-07.5.[1080p][HEVC][Multiple.Subtitle][EDC57B73]"
+    expect:
+      status: ambiguous
+      top: ore-dake-level-up-na-ken-reawakening
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken-reawakening at 0.769). Check it, correct it if needed, then set verified: true."
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-08.[WEB.1080p.AV1.AAC.E-AC3].[97809ADE]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 8
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-09.[WEB.1080p.AV1.AAC].[CA3F426F]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 9
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-01.[WEB.1080p.AV1.AAC.E-AC3].[9F52BF3A]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 1
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-02.[WEB.1080p.AV1.AAC.E-AC3].[70DA89B8]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 2
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-02.[WEB.1080p.x265.AAC].[DUAL][96BCA4CE]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 2
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-05.[WEB.1080p.x265.AAC].[DUAL][7D8CDED0]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-09.[WEB.1080p.x265.AAC].[DUAL][43AE632B]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 9
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-07.[WEB.1080p.x265.AAC].[DUAL][A455C787]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 7
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-06.[WEB.1080p.x265.AAC].[DUAL][1ABFA28F]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 6
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[Anime Time] Solo Leveling [Season 02] + NC OP &amp; NC ED + OST [MP3] [Tri Audio] [BD] [1080p][HEVC 10bit x265][AAC][Multi Sub] [Batch] Ore dake Level Up na Ken"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Shaman.King.Flowers.S01E07.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
+    expect:
+      status: ok
+      work: shaman-king-flowers
+      episode: 7
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 34 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
+  - name: Extraordinary.Attorney.Minami.S01E04.1080p.NF.WEB-DL.AAC2.0.H.264-MWeb
+    expect:
+      status: ambiguous
+      top: mouretsu-atarou
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 33 time(s) on data 2026.46.1 and got ambiguous (best candidate mouretsu-atarou at 0.653). Check it, correct it if needed, then set verified: true."
+  - name: The.Sixteenth.Night.Kitchen.S01E05.1080p.friDay.WEB-DL.AAC2.0.H.264-MWeb
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 33 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Ao.to.Midori.S01E06.1080p.friDay.WEB-DL.AAC2.0.H.264-MWeb
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 33 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: You.Should.Be.The.One.To.Come.Kiss.Me.S01E04.1080p.friDay.WEB-DL.AAC2.0.H.264-MWeb
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 33 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Shen.Ye.Shi.Tang.6.S06E04.1080p.NF.WEB-DL.AAC2.0.H.264-MWeb
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 33 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[Naruto-Kun.Hu] One-Room TA S01E05 [1080p].mkv"
+    expect:
+      status: ambiguous
+      top: one-room-jogyo-nim
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 32 time(s) on data 2026.46.1 and got ambiguous (best candidate one-room-jogyo-nim at 0.5). Check it, correct it if needed, then set verified: true."
+  - name: "[HnY].BeyWheelz.12-Wheelers.Bond.[1080p]"
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 31 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Shaman.King.Flowers.S01E01.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
+    expect:
+      status: ok
+      work: shaman-king-flowers
+      episode: 1
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
+  - name: Shaman.King.Flowers.S01E02.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
+    expect:
+      status: ok
+      work: shaman-king-flowers
+      episode: 2
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
+  - name: Shaman.King.Flowers.S01E03.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
+    expect:
+      status: ok
+      work: shaman-king-flowers
+      episode: 3
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 29 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
+  - name: Shaman.King.Flowers.S01E04.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
+    expect:
+      status: ok
+      work: shaman-king-flowers
+      episode: 4
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 29 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
+  - name: Shaman.King.Flowers.S01E05.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
+    expect:
+      status: ok
+      work: shaman-king-flowers
+      episode: 5
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 29 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
+  - name: Shaman.King.Flowers.S01E06.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
+    expect:
+      status: ok
+      work: shaman-king-flowers
+      episode: 6
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 29 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
+  - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 25 [1080p CR WEBRip HEVC AAC][MultiSub][ADF0D2F4]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 24 [1080p CR WEBRip HEVC AAC][MultiSub][91FDFBB4]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 27 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-26.[1080p.CR.WEBRip.HEVC.AAC][MultiSub][097CE611]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 26 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-24.[1080p.CR.WEBRip.HEVC.AAC][MultiSub][91FDFBB4]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 26 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-25.[1080p.CR.WEBRip.HEVC.AAC][MultiSub][ADF0D2F4]"
+    expect:
+      status: ambiguous
+      top: yamato-yo-towa-ni-rebel-3199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 26 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
+  - name: Bleach.S17.1080p.DSNP.WEB-DL.AAC2.0.H.264-playWEB
+    expect:
+      status: ambiguous
+      top: bleach
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.46.1 and got ambiguous (best candidate bleach at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-10.[WEB.1080p.AV1.AAC].[F99E8E69]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 10
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-10.[WEB.1080p.AV1.AAC.E-AC3].[F99E8E69]"
+    expect:
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 10
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
+  - name: BLEACH.Thousand-Year.Blood.War.S17.1080p.DSNP.WEB-DL.AAC2.0.H.264.DUAL-OLYMPUS
+    expect:
+      status: ambiguous
+      top: bleach-sennen-kessen-hen
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 23 time(s) on data 2026.46.1 and got ambiguous (best candidate bleach-sennen-kessen-hen at 0.5). Check it, correct it if needed, then set verified: true."
+  - name: Irohas.Love.Runs.Across.Eras.2026.S01E04.1080p.VIKI.WEB-DL.AAC2.0.H.264-DUSKLiGHT
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 22 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Star.Blazers.2199.S04E26.Love.Until.That.Day.1080p.CR.WEB-DL.JPN.AAC2.0.H.264.MSubs-ToonsHub
+    expect:
+      status: ambiguous
+      top: uchuu-senkan-yamato-2199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 20 time(s) on data 2026.46.1 and got ambiguous (best candidate uchuu-senkan-yamato-2199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Merry.Berry.Love.S01E06.1080p.WEB.h264-EDITH
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 17 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Conversations.with.a.Killer.The.Ted.Bundy.Tapes.S01.1080p.NF.WEB-DL.DD5.1.x264-QOQ
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 16 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Troubles.All.Aboard.S01E01.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E01.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E02.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E02.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E03.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: kiDnap.GAME.2026.S01E06.1080p.VIU.WEB-DL.AAC2.0.H.264-DUSKLiGHT
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 15 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Troubles.All.Aboard.S01E10.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 14 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E10.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 14 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E03.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 14 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E06.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 14 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E05.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 14 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E04.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 14 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E06.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 14 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E05.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 14 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E04.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 14 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Merry.Berry.Love.S01E06.480p.x264-mSD
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 14 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Welcome.to.the.Family.The.Murder.of.Dan.Markel.S01.1080p.DSNP.WEB-DL.DD.5.1.H.264-playWEB
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 14 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Troubles.All.Aboard.S01E07.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 13 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E07.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 13 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E09.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 13 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E08.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 13 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E08.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 13 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Troubles.All.Aboard.S01E09.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: unmatched
+    verified: true
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 13 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Troubles All Aboard! (Hitomonchaku nara Yorokonde!) is a live-action Japanese TV Asahi drama (2023, 10 episodes, Honoka Yahagi and Atsuhiro Inukai). https://www.themoviedb.org/tv/216570 Not an anime and not in the seed data, so unmatched is right."
+  - name: Star.Blazers.2199.S04E23.Launch.the.Arizona.Defeat.the.Grand.Reverse.1080p.CR.WEB-DL.JPN.AAC2.0.H.264.MSubs-ToonsHub
+    expect:
+      status: ambiguous
+      top: uchuu-senkan-yamato-2199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 13 time(s) on data 2026.46.1 and got ambiguous (best candidate uchuu-senkan-yamato-2199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Star.Blazers.2199.S04E24.All-Out.Attack.Gather.the.Partisan.Fleet.1080p.CR.WEB-DL.JPN.AAC2.0.H.264.MSubs-ToonsHub
+    expect:
+      status: ambiguous
+      top: uchuu-senkan-yamato-2199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 13 time(s) on data 2026.46.1 and got ambiguous (best candidate uchuu-senkan-yamato-2199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Star.Blazers.2199.S04E25.Rise.up.Sasha.For.the.Sake.of.Love.1080p.CR.WEB-DL.JPN.AAC2.0.H.264.MSubs-ToonsHub
+    expect:
+      status: ambiguous
+      top: uchuu-senkan-yamato-2199
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 13 time(s) on data 2026.46.1 and got ambiguous (best candidate uchuu-senkan-yamato-2199 at 0.05). Check it, correct it if needed, then set verified: true."
+  - name: Last.One.Standing.2022.S04E07.1080p.WEB.h264-GRACE
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Last.One.Standing.2022.S04E08.1080p.WEB.h264-GRACE
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Last.One.Standing.2022.S04E01.1080p.WEB.h264-GRACE
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Last.One.Standing.2022.S04E03.1080p.WEB.h264-GRACE
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: Last.One.Standing.2022.S04E02.1080p.WEB.h264-GRACE
+    expect:
+      status: unmatched
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+  - name: "[Moozzi2] Ore dake Level Up na Ken S2 [ x265-10Bit Ver. ]-TV + Tokuten BD"
+    expect:
+      status: ambiguous
+      top: ore-dake-level-up-na-ken-season-2-arise-from-the-shadow
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken-season-2-arise-from-the-shadow at 0.806). Check it, correct it if needed, then set verified: true."
+  - name: "[Moozzi2] Ore dake Level Up na Ken [ x265-10Bit Ver. ]-TV + Tokuten BD"
+    expect:
+      status: ambiguous
+      top: ore-dake-level-up-na-ken-reawakening
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 12 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken-reawakening at 0.714). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E02.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E02.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E01.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E01.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E03.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E04.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E05.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E04.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E03.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E06.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E05.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E06.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E07.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E07.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E08.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E08.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E09.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E09.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E10.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E10.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 9 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E11.720p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 8 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."
+  - name: BOYS.OVER.FLOWERS.2.returns.S01E11.1080p.VIKI.WEB-DL.AAC2.0.H.264-FUZEER
+    expect:
+      status: ambiguous
+      top: hana-yori-dango
+    verified: false
+    source: proxy-unresolved
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 8 time(s) on data 2026.46.1 and got ambiguous (best candidate hana-yori-dango at 0.783). Check it, correct it if needed, then set verified: true."

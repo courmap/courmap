@@ -1,0 +1,11 @@
+id: shaman-king-flowers
+aliases:
+  - Shaman King Flowers S1
+notes: >-
+  Adds "Shaman King Flowers S1", the season-suffixed form the resolver looks up, because the Netflix
+  WEB-DL releases number this work S01E01 to S01E13 ("Shaman.King.Flowers.S01E10", fdx). That is
+  TMDB's numbering (TMDB 232865, its own show, season 1, the seed's mapping from Anime-Lists); TheTVDB
+  keeps it as season 2 of Shaman King (2021), TheTVDB 383837, so the season token alone does not place
+  it. Same approach as "Horimiya S2" (DECISIONS.md, "Proxy export 2026-11-05").
+sources:
+  - https://www.themoviedb.org/tv/232865

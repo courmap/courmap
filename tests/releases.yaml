@@ -17082,46 +17082,53 @@ cases:
     notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: Shaman.King.Flowers.S01E10.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
     expect:
-      status: ambiguous
-      top: shaman-king-flowers
-    verified: false
+      status: ok
+      work: shaman-king-flowers
+      episode: 10
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
   - name: Shaman.King.Flowers.S01E11.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
     expect:
-      status: ambiguous
-      top: shaman-king-flowers
-    verified: false
+      status: ok
+      work: shaman-king-flowers
+      episode: 11
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
   - name: Shaman.King.Flowers.S01E12.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
     expect:
-      status: ambiguous
-      top: shaman-king-flowers
-    verified: false
+      status: ok
+      work: shaman-king-flowers
+      episode: 12
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
   - name: Shaman.King.Flowers.S01E13.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
     expect:
-      status: ambiguous
-      top: shaman-king-flowers
-    verified: false
+      status: ok
+      work: shaman-king-flowers
+      episode: 13
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
   - name: Shaman.King.Flowers.S01.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
     expect:
-      status: ambiguous
-      top: shaman-king-flowers
-    verified: false
+      status: ok
+      work: shaman-king-flowers
+      episode: 1
+      episode_to: 13
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 69 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
   - name: Shaman.King.Flowers.S01E09.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
     expect:
-      status: ambiguous
-      top: shaman-king-flowers
-    verified: false
+      status: ok
+      work: shaman-king-flowers
+      episode: 9
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
   - name: "[Erai-raws].Ore.dake.Level.Up.na.Ken-07.5.[480p][Multiple.Subtitle][F1021D47]"
     expect:
       status: ambiguous
@@ -17351,11 +17358,12 @@ cases:
     notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 58 time(s) on data 2026.46.1 and got ambiguous (best candidate yamato-yo-towa-ni-rebel-3199 at 0.045). Check it, correct it if needed, then set verified: true."
   - name: Shaman.King.Flowers.S01E08.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
     expect:
-      status: ambiguous
-      top: shaman-king-flowers
-    verified: false
+      status: ok
+      work: shaman-king-flowers
+      episode: 8
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 57 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 57 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
   - name: Presence.2025.1080p.AMZN.WEB-DL.AAC2.0.HDR10+.H.265.DUAL-Lup1n
     expect:
       status: unmatched
@@ -18103,11 +18111,12 @@ cases:
     notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: Shaman.King.Flowers.S01E07.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
     expect:
-      status: ambiguous
-      top: shaman-king-flowers
-    verified: false
+      status: ok
+      work: shaman-king-flowers
+      episode: 7
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 34 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 34 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
   - name: Extraordinary.Attorney.Minami.S01E04.1080p.NF.WEB-DL.AAC2.0.H.264-MWeb
     expect:
       status: ambiguous
@@ -18154,46 +18163,52 @@ cases:
     notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 31 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: Shaman.King.Flowers.S01E01.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
     expect:
-      status: ambiguous
-      top: shaman-king-flowers
-    verified: false
+      status: ok
+      work: shaman-king-flowers
+      episode: 1
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
   - name: Shaman.King.Flowers.S01E02.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
     expect:
-      status: ambiguous
-      top: shaman-king-flowers
-    verified: false
+      status: ok
+      work: shaman-king-flowers
+      episode: 2
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 30 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
   - name: Shaman.King.Flowers.S01E03.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
     expect:
-      status: ambiguous
-      top: shaman-king-flowers
-    verified: false
+      status: ok
+      work: shaman-king-flowers
+      episode: 3
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 29 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 29 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
   - name: Shaman.King.Flowers.S01E04.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
     expect:
-      status: ambiguous
-      top: shaman-king-flowers
-    verified: false
+      status: ok
+      work: shaman-king-flowers
+      episode: 4
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 29 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 29 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
   - name: Shaman.King.Flowers.S01E05.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
     expect:
-      status: ambiguous
-      top: shaman-king-flowers
-    verified: false
+      status: ok
+      work: shaman-king-flowers
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 29 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 29 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
   - name: Shaman.King.Flowers.S01E06.1080p.NF.WEB-DL.AAC2.0.H.264-fdx
     expect:
-      status: ambiguous
-      top: shaman-king-flowers
-    verified: false
+      status: ok
+      work: shaman-king-flowers
+      episode: 6
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 29 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 29 time(s) on data 2026.46.1 and got ambiguous (best candidate shaman-king-flowers at 0.05). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: Netflix numbers Shaman King: Flowers as S01E01 to S01E13, TMDB's numbering (TMDB 232865, its own show, 13 episodes in season 1, the seed's mapping); TheTVDB keeps it as season 2 of TheTVDB 383837. The alias override Shaman King Flowers S1 places the season token. https://www.themoviedb.org/tv/232865"
   - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 25 [1080p CR WEBRip HEVC AAC][MultiSub][ADF0D2F4]"
     expect:
       status: ambiguous

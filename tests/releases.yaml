@@ -16932,18 +16932,20 @@ cases:
     notes: "Imported 2026-11-09: this is what the resolver answered then. A proxy saw it 4 time(s) on data 2026.45.1 and got ambiguous (best candidate dragon-ball-z at 0.05). Check it, correct it if needed, then set verified: true."
   - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-08.[WEB.1080p.x265.AAC].[DUAL][48591718]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 8
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 80 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 80 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-06.[WEB.1080p.AV1.AAC.E-AC3].[16056599]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 6
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 80 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 80 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: Hakone.Ekiden.Our.Story.S01E05.1080p.NF.WEB-DL.AAC2.0.H.264-MWeb
     expect:
       status: unmatched
@@ -16952,11 +16954,12 @@ cases:
     notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 74 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-03.[WEB.1080p.x265.AAC].[DUAL][5B4C26F3]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 3
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 72 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 72 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[HnY].BeyWheelz.13-A.New.World.[1080p]"
     expect:
       status: unmatched
@@ -17128,113 +17131,140 @@ cases:
     notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken-reawakening at 0.769). Check it, correct it if needed, then set verified: true."
   - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-01.[WEB.1080p.x265.AAC].[DUAL][C179D3FD]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 1
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-01.x265.10bit.1080p.143.8561fps"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 1
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-02.x265.10bit.1080p.143.8561fps"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 2
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-03.x265.10bit.1080p.143.8561fps"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 3
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-04.x265.10bit.1080p.143.8561fps"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 4
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-05.x265.10bit.1080p.143.8561fps"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-06.x265.10bit.1080p.143.8561fps"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 6
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-07.x265.10bit.1080p.143.8561fps"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 7
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-09.x265.10bit.1080p.143.8561fps"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 9
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-11.x265.10bit.1080p.143.8561fps"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 11
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-12.x265.10bit.1080p.143.8561fps"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 12
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 68 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-12.[WEB.1080p.AV1.AAC.E-AC3].[325A372A]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 12
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-07.[WEB.1080p.AV1.AAC].[4BED222C]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 7
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-11.[WEB.1080p.x265.AAC].[DUAL][1DB520F0]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 11
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-04.[WEB.1080p.x265.AAC].[DUAL][2D19EC3C]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 4
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-01.[WEB.1080p.AV1.E-AC3].[497188F2]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 1
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling.S02E03.[WEB][1080p][AV1][AAC]-b12f89"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken-season-2-arise-from-the-shadow
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken-season-2-arise-from-the-shadow
+      episode: 3
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken-season-2-arise-from-the-shadow at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 60 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken-season-2-arise-from-the-shadow at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title followed by its seed alias Solo Leveling (alias override on ore-dake-level-up-na-ken); S02 is TheTVDB 389597 season 2 (Arise from the Shadow, 13 episodes), the seed's mapping for this work. https://thetvdb.com/series/solo-leveling"
   - name: "[Erai-raws].Yamato.yo.Towa.ni-Rebel.3199-24.[720p.CR.WEB-DL.AVC.AAC][MultiSub][83461BFE]"
     expect:
       status: ambiguous
@@ -17390,10 +17420,12 @@ cases:
     notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.46.1 and got ambiguous (best candidate atlantis at 0.035). Check it, correct it if needed, then set verified: true."
   - name: "[Raze].Solo.Leveling.Ore.dake.Level.Up.na.Ken-08.x265.10bit.1080p.143.8561fps"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 8
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 56 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title Ore dake Level Up na Ken, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: Atlanta.S01E09.1080p.DSNP.WEB-DL.DDP5.1.H.265-NoGroup
     expect:
       status: ambiguous
@@ -17560,17 +17592,20 @@ cases:
     notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 48 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken-reawakening at 0.769). Check it, correct it if needed, then set verified: true."
   - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-12.[WEB.1080p.x265.AAC].[DUAL][11FADF0D]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 12
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 48 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 48 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[NeoLX].Solo.Leveling.Ore.dake.Level.Up.na.Ken-S01E02.[1080p.x264.10bits.AAC][Multiple.Subtitles]"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 2
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 48 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 48 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title (alias override on ore-dake-level-up-na-ken); S01 is TheTVDB 389597 season 1 (12 episodes), the seed's mapping for this work. https://thetvdb.com/series/solo-leveling"
   - name: "[Erai-raws] Yamato yo Towa ni: Rebel 3199 - 24 [480p CR WEB-DL AVC AAC][MultiSub][FCC6D7F4]"
     expect:
       status: ambiguous
@@ -17912,59 +17947,68 @@ cases:
     notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
   - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-10.[WEB.1080p.x265.AAC].[DUAL][9C86127A]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 10
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-11.[WEB.1080p.AV1.AAC].[5BC3E6E0]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 11
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-11.[WEB.1080p.AV1.AAC.E-AC3].[5BC3E6E0]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 11
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[NeoLX].Solo.Leveling.Ore.dake.Level.Up.na.Ken-S01E01.[1080p.x264.10bits.AAC][Multiple.Subtitles]"
     expect:
-      status: unmatched
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 1
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got unmatched (no candidate). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed alias Solo Leveling followed by the seed's romaji title (alias override on ore-dake-level-up-na-ken); S01 is TheTVDB 389597 season 1 (12 episodes), the seed's mapping for this work. https://thetvdb.com/series/solo-leveling"
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-02.[WEB.1080p.AV1.AAC.E-AC3].[9566E557]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 2
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-03.[WEB.1080p.AV1.AAC.E-AC3].[D6C27403]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 3
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-04.[WEB.1080p.AV1.AAC.E-AC3].[A96C7F33]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 4
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-05.[WEB.1080p.AV1.AAC.E-AC3].[3364E7AB]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Erai-raws].Ore.dake.Level.Up.na.Ken-07.5.[1080p][Multiple.Subtitle][B30C0F4F]"
     expect:
       status: ambiguous
@@ -17981,67 +18025,76 @@ cases:
     notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken-reawakening at 0.769). Check it, correct it if needed, then set verified: true."
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-08.[WEB.1080p.AV1.AAC.E-AC3].[97809ADE]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 8
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-09.[WEB.1080p.AV1.AAC].[CA3F426F]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 9
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-01.[WEB.1080p.AV1.AAC.E-AC3].[9F52BF3A]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 1
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-02.[WEB.1080p.AV1.AAC.E-AC3].[70DA89B8]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 2
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-02.[WEB.1080p.x265.AAC].[DUAL][96BCA4CE]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 2
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-05.[WEB.1080p.x265.AAC].[DUAL][7D8CDED0]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 5
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-09.[WEB.1080p.x265.AAC].[DUAL][43AE632B]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 9
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-07.[WEB.1080p.x265.AAC].[DUAL][A455C787]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 7
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Anitsu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-06.[WEB.1080p.x265.AAC].[DUAL][1ABFA28F]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 6
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 36 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[Anime Time] Solo Leveling [Season 02] + NC OP &amp; NC ED + OST [MP3] [Tri Audio] [BD] [1080p][HEVC 10bit x265][AAC][Multi Sub] [Batch] Ore dake Level Up na Ken"
     expect:
       status: unmatched
@@ -18185,18 +18238,20 @@ cases:
     notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 25 time(s) on data 2026.46.1 and got ambiguous (best candidate bleach at 0.05). Check it, correct it if needed, then set verified: true."
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-10.[WEB.1080p.AV1.AAC].[F99E8E69]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 10
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: "[SanKyuu].Ore.dake.Level.Up.na.Ken.Solo.Leveling-10.[WEB.1080p.AV1.AAC.E-AC3].[F99E8E69]"
     expect:
-      status: ambiguous
-      top: ore-dake-level-up-na-ken
-    verified: false
+      status: ok
+      work: ore-dake-level-up-na-ken
+      episode: 10
+    verified: true
     source: proxy-unresolved
-    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true."
+    notes: "Imported 2026-11-12: this is what the resolver answered then. A proxy saw it 24 time(s) on data 2026.46.1 and got ambiguous (best candidate ore-dake-level-up-na-ken at 0.833). Check it, correct it if needed, then set verified: true. Verified 2026-11-12: the title is the seed's romaji title Ore dake Level Up na Ken followed by its seed alias Solo Leveling, now an alias override; no season token and episodes 1 to 12, which is TheTVDB 389597 season 1 (12 episodes; the second cour is season 2 with its own Season 2 titles). https://thetvdb.com/series/solo-leveling"
   - name: BLEACH.Thousand-Year.Blood.War.S17.1080p.DSNP.WEB-DL.AAC2.0.H.264.DUAL-OLYMPUS
     expect:
       status: ambiguous
